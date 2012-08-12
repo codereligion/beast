@@ -1,6 +1,5 @@
 package org.codereligion.test.bean;
 
-import org.codereligion.test.bean.ReflectUtil;
 import org.junit.Test;
 
 /**

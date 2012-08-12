@@ -165,6 +165,7 @@ public class ReflectUtil {
 	 */
 	public static <T> void setValue(final T object, final Method setter, final Object value) {
 		try {
+			System.out.println("Trying to set type: " + setter.getParameterTypes()[0] + " to type: " + value.getClass());
 			setter.invoke(object, value);
 		} catch (final IllegalAccessException e) {
 			// TODO internal problem: the introspector will never return a reference to a method which is not accessible
@@ -232,9 +233,9 @@ public class ReflectUtil {
 		} else if (clazz.equals(BigInteger.class)) {
 			return (T) new BigInteger("" + objectType.getInt());
 		} else if (clazz.equals(String.class)) {
-			return (T)objectType.toString();
+			return (T) objectType.toString();
 		} else if (clazz.isArray()) {
-			return (T)createArray(clazz, objectType);
+			return (T) createArray(clazz.getComponentType(), objectType);
 		} else if (clazz.isEnum()) {
 			return (T) createEnumValue(clazz, objectType);
 		} else if (clazz.isInterface()) {
