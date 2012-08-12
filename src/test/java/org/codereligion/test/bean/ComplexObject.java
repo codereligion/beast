@@ -56,7 +56,7 @@ public class ComplexObject {
 	private long[] longArray;
 	private float[] floatArray;
 
-	private ComplexObject[] complexArray;
+	private AnotherComplexObject[] anotherComplexObjectArray;
 	private Enumeration[] enumerationArray;
 
 //	private Collection<Integer> integerCollection;
@@ -64,10 +64,10 @@ public class ComplexObject {
 //	private Set<Integer> integerSet;
 //	private Map<Integer, Integer> integerMap;
 //
-//	private Collection<ComplexObject> complexObjectCollection;
-//	private List<ComplexObject> complexObjectList;
-//	private Set<ComplexObject> complexObjectSet;
-//	private Map<ComplexObject, ComplexObject> complexObjectMap;
+//	private Collection<AnotherComplexObject> anotherComplexObjectCollection;
+//	private List<AnotherComplexObject> anotherComplexObjectList;
+//	private Set<AnotherComplexObject> anotherComplexObjectSet;
+//	private Map<AnotherComplexObject, ComplexObject> anotherComplexObjectMap;
 
 	public boolean isBooleanPrimitive() {
 		return booleanPrimitive;
@@ -301,12 +301,12 @@ public class ComplexObject {
 		this.floatArray = floatArray;
 	}
 
-	public ComplexObject[] getComplexArray() {
-		return complexArray;
+	public AnotherComplexObject[] getAnotherComplexObjectArray() {
+		return anotherComplexObjectArray;
 	}
 
-	public void setComplexArray(ComplexObject[] complexArray) {
-		this.complexArray = complexArray;
+	public void setAnotherComplexObjectArray(AnotherComplexObject[] anotherComplexObjectArray) {
+		this.anotherComplexObjectArray = anotherComplexObjectArray;
 	}
 
 	public Enumeration[] getEnumerationArray() {
@@ -404,7 +404,7 @@ public class ComplexObject {
 				+ ((charBoxed == null) ? 0 : charBoxed.hashCode());
 		result = prime * result + charPrimitive;
 		result = prime * result + ((anotherComplexObject == null) ? 0 : anotherComplexObject.hashCode());
-		result = prime * result + Arrays.hashCode(complexArray);
+		result = prime * result + Arrays.hashCode(anotherComplexObjectArray);
 //		result = prime
 //				* result
 //				+ ((complexObjectCollection == null) ? 0
@@ -514,7 +514,7 @@ public class ComplexObject {
 				return false;
 		} else if (!anotherComplexObject.equals(other.anotherComplexObject))
 			return false;
-		if (!Arrays.equals(complexArray, other.complexArray))
+		if (!Arrays.equals(anotherComplexObjectArray, other.anotherComplexObjectArray))
 			return false;
 //		if (complexObjectCollection == null) {
 //			if (other.complexObjectCollection != null)
@@ -675,8 +675,8 @@ public class ComplexObject {
 		builder.append(Arrays.toString(longArray));
 		builder.append(", floatArray=");
 		builder.append(Arrays.toString(floatArray));
-		builder.append(", complexArray=");
-		builder.append(Arrays.toString(complexArray));
+		builder.append(", anotherComplexObjectArray=");
+		builder.append(Arrays.toString(anotherComplexObjectArray));
 		builder.append(", enumerationArray=");
 		builder.append(Arrays.toString(enumerationArray));
 //		builder.append(", integerCollection=");

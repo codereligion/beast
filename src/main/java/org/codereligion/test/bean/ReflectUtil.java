@@ -276,11 +276,8 @@ public class ReflectUtil {
 	 */
 	private static Object createArray(final Class<?> clazz, final ObjectType objectType) {
 		final Object array = Array.newInstance(clazz, 1);
-		try {
-			Array.set(array, 0, objectType.getByte());
-		} catch (final IllegalArgumentException e) {
-			System.out.println("Failed to create array of class '" + clazz + "' for objectType '" + objectType + "'.");
-		}
+		final Object value = getValue(clazz, objectType);
+		Array.set(array, 0, value);
 		return array;
 	}
 
