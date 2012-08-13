@@ -1,17 +1,23 @@
 package org.codereligion.test.bean;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.codereligion.test.bean.creation.ObjectFactory;
+import org.codereligion.test.bean.exception.BeanTestException;
+import org.codereligion.test.bean.reflect.ReflectUtil;
+
 
 /**
  * TODO document
  * TODO show usuage
  * TODO test
+ * TODO make null safety optional
  * 
  * @param <T>
  * @author sgroebler
@@ -238,6 +244,10 @@ public final class BeanTester <T> {
 			throw new NullPointerException("clazz must not be null.");
 		}
 		
+		if (!ObjectFactory.isCreateable(clazz)) {
+			throw new IllegalArgumentException("Can not create instances of " + clazz + ". Please use only custom classes.");
+		}
+		
 		this.clazz = clazz;
 	}
 
@@ -253,6 +263,7 @@ public final class BeanTester <T> {
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	private void setExcludesForHashCodeAndEqualsTest(final Set<String> propertyNames) {
+		
 		if (propertyNames == null) {
 			throw new NullPointerException("propertyNames must not be null.");
 		}
@@ -271,6 +282,7 @@ public final class BeanTester <T> {
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	private void setExcludesForToStringTest(final Set<String> propertyNames) {
+		
 		if (propertyNames == null) {
 			throw new NullPointerException("propertyNames must not be null.");
 		}
@@ -289,6 +301,7 @@ public final class BeanTester <T> {
 	 * @param regex the regular expression the toString result should match
 	 */
 	private void setToStringPattern(final String regex) {
+		
 		if (regex == null) {
 			return;
 		}
@@ -308,7 +321,7 @@ public final class BeanTester <T> {
 	 * @throws AssertionError when a property is not checked correctly in the equals implementation
 	 */
 	private void testEquals() {
-		final T defaultObject = ReflectUtil.getDefaultObject(clazz);
+		final T defaultObject = ObjectFactory.newDefaultObject(clazz);
 		final boolean objectIsEqualToItSelf = defaultObject.equals(defaultObject);
 		
 		assertTrue(objectIsEqualToItSelf, EQUALS_NOT_REFLEXIVE_ERROR, clazz.getName());
@@ -324,20 +337,20 @@ public final class BeanTester <T> {
 				continue;
 			}
 	
-			final T dirtyObject = ReflectUtil.getDirtyObject(clazz);
+			final T dirtyObject = ObjectFactory.newDirtyObject(clazz);
 			final Class<?> propertyType = property.getPropertyType();
 			final Method setter = property.getWriteMethod();
-			final Object dirtyValue = ReflectUtil.getDirtyObject(propertyType);
+			final Object dirtyValue = ObjectFactory.newDirtyObject(propertyType);
 			
 			// test with not equal and not null values
-			ReflectUtil.setValue(dirtyObject, setter, dirtyValue);
+			setValue(dirtyObject, setter, dirtyValue);
 			
 			assertFalse(defaultObject.equals(dirtyObject), EQUALS_NOT_NULL_ERROR, propertyName);
 			assertFalse(dirtyObject.equals(defaultObject), EQUALS_NOT_NULL_ERROR, propertyName);
 	
 			// test with with null values on non-primitive types
 			if (!propertyType.isPrimitive()) {
-				ReflectUtil.setValue(dirtyObject, setter, null);
+				setValue(dirtyObject, setter, null);
 				
 				assertFalse(defaultObject.equals(dirtyObject), EQUALS_NULL_ERROR, propertyName);
 				assertFalse(dirtyObject.equals(defaultObject), EQUALS_NULL_ERROR, propertyName);
@@ -358,7 +371,7 @@ public final class BeanTester <T> {
 	 * @throws AssertionError when a property is not checked correctly in the hashCode implementation
 	 */
 	private void testHashCode() {
-		final T defaultObject = ReflectUtil.getDefaultObject(clazz);
+		final T defaultObject = ObjectFactory.newDefaultObject(clazz);
 		
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(clazz);
 		
@@ -368,10 +381,10 @@ public final class BeanTester <T> {
 			final Class<?> propertyType = property.getPropertyType();
 			final Method setter = property.getWriteMethod();
 	
-			final T dirtyObject = ReflectUtil.getDefaultObject(clazz);
-			final Object dirtyValue = ReflectUtil.getDirtyObject(propertyType);
+			final T dirtyObject = ObjectFactory.newDefaultObject(clazz);
+			final Object dirtyValue = ObjectFactory.newDirtyObject(propertyType);
 			
-			ReflectUtil.setValue(dirtyObject, setter, dirtyValue);
+			setValue(dirtyObject, setter, dirtyValue);
 			
 			final boolean areEqual = defaultObject.equals(dirtyObject);
 			final boolean hashCodesAreEqual = defaultObject.hashCode() == dirtyObject.hashCode();
@@ -388,7 +401,7 @@ public final class BeanTester <T> {
 			assertFalse(hashCodesAreEqual, HASH_CODE_EQUALTIY_ERROR, propertyName);
 
 			// test if hashCode is handling null values correctly
-			ReflectUtil.setValue(dirtyObject, setter, null);
+			setValue(dirtyObject, setter, null);
 
 			final boolean hashCodesAreEqualWithNulls = defaultObject.hashCode() == dirtyObject.hashCode();
 			assertFalse(hashCodesAreEqualWithNulls, HASH_CODE_NULL_ERROR, propertyName);
@@ -408,7 +421,7 @@ public final class BeanTester <T> {
 	 * @throws AssertionError when a property is not included in the toString implementation
 	 */
 	private void testToString() {
-		final T defaultObject = ReflectUtil.getDefaultObject(clazz);
+		final T defaultObject = ObjectFactory.newDefaultObject(clazz);
 		final String defaultToStringResult  = defaultObject.toString();
 		
 		// test pattern
@@ -427,27 +440,46 @@ public final class BeanTester <T> {
 				continue;
 			}
 	
-			final T dirtyObject = ReflectUtil.getDefaultObject(clazz);
+			final T dirtyObject = ObjectFactory.newDefaultObject(clazz);
 			final Class<?> propertyType = property.getPropertyType();
 			final Method setter = property.getWriteMethod();
-			final Object dirtyValue = ReflectUtil.getDirtyObject(propertyType);
+			final Object dirtyValue = ObjectFactory.newDirtyObject(propertyType);
 			
-			ReflectUtil.setValue(dirtyObject, setter, dirtyValue);
+			setValue(dirtyObject, setter, dirtyValue);
 			
 			final boolean areEqual = defaultToStringResult.equals(dirtyObject.toString());
 			
 			assertFalse(areEqual, TO_STRING_EQUALITY_ERROR, propertyName);
 
 			// test if hashCode is handling null values correctly
-			ReflectUtil.setValue(dirtyObject, setter, null);
+			setValue(dirtyObject, setter, null);
 
 			final boolean areEqualWithNulls = defaultToStringResult.equals(dirtyObject.toString());
 			assertFalse(areEqualWithNulls, TO_STRING_NULL_ERROR, propertyName);
 		}
 	}
+	
 
 	/**
-	 * Convenience method to throw an formatted {@link AssertionError} if the given condition is not {@code false}.
+	 * TODO
+	 * 
+	 * @param object
+	 * @param property
+	 * @param value
+	 */
+	public void setValue(final T object, final Method setter, final Object value) {
+		try {
+			setter.invoke(object, value);
+		} catch (final IllegalAccessException e) {
+			throw new BeanTestException("Tried to set '" + value + "' on '" + object + "' with setter '" + setter + "'.", e);
+		} catch (final InvocationTargetException e) {
+			throw new BeanTestException("Tried to set '" + value + "' on '" + object + "' with setter '" + setter + "'.", e);
+		}
+	}
+
+
+	/**
+	 * Convenience method to throw a formatted {@link AssertionError} if the given condition is not {@code false}.
 	 * 
 	 * @param condition the boolean condition to be checked
 	 * @param message the message to be formatted in cases an {@link AssertionError} is thrown
@@ -461,7 +493,7 @@ public final class BeanTester <T> {
 	}
 
 	/**
-	 * Convenience method to throw an formatted {@link AssertionError} if the given condition is not {@code true}.
+	 * Convenience method to throw a formatted {@link AssertionError} if the given condition is not {@code true}.
 	 * 
 	 * @param condition the boolean condition to be checked
 	 * @param message the message to be formatted in cases an {@link AssertionError} is thrown

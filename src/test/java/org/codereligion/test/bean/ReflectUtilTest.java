@@ -1,5 +1,14 @@
 package org.codereligion.test.bean;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+
+import java.beans.PropertyDescriptor;
+import java.util.Set;
+
+import org.codereligion.test.bean.object.ComplexObject;
+import org.codereligion.test.bean.object.User;
+import org.codereligion.test.bean.reflect.ReflectUtil;
 import org.junit.Test;
 
 /**
@@ -12,27 +21,26 @@ import org.junit.Test;
 public class ReflectUtilTest {
 
 	@Test
-	public void testCreateDefaultObject() {
-		final ComplexObject object = ReflectUtil.getDefaultObject(ComplexObject.class);
+	public void testGetSelectableProperties() {
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(ComplexObject.class);
+		
+		assertNotNull(properties);
+		assertFalse(properties.isEmpty());
+		
+		for (final PropertyDescriptor property : properties) {
+			assertNotNull(property.getWriteMethod());
+		}
 	}
 	
-//	@Test
-//	public void testCreateDirtyObject() {
-//		ReflectUtil.getDirtyObject(null);
-//	}
-//	
-//	@Test
-//	public void testGetSelectableProperties() {
-//		ReflectUtil.getSetableProperties(null);
-//	}
-//	
-//	@Test
-//	public void testIntrospectorBugInGetSelectableProperties() {
-//		ReflectUtil.getSetableProperties(null);
-//	}
-//	
-//	@Test
-//	public void testSetValue() {
-//		ReflectUtil.setValue(null, null, null);
-//	}
+	@Test
+	public void testIntrospectorBugInGetSelectableProperties() {
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(User.class);
+		
+		assertNotNull(properties);
+		assertFalse(properties.isEmpty());
+		
+		for (final PropertyDescriptor property : properties) {
+			assertNotNull(property.getWriteMethod());
+		}
+	}
 }

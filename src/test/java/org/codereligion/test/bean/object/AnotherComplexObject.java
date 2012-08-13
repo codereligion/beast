@@ -1,6 +1,5 @@
-package org.codereligion.test.bean;
+package org.codereligion.test.bean.object;
 
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -11,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author sgroebler
  * @since 12.08.2012
  */
-public class ComplexObject {
+public class AnotherComplexObject {
 
 	public enum Enumeration {
 		FOO, BAR
@@ -45,29 +44,28 @@ public class ComplexObject {
 	private Double doubleBoxed;
 
 	private Enumeration enumeration;
-	private AnotherComplexObject anotherComplexObject;
 	private String string;
 
-	private boolean[] booleanArray;
-	private byte[] byteArray;
-	private char[] charArray;
-	private short[] shortArray;
-	private int[] intArray;
-	private long[] longArray;
-	private float[] floatArray;
-
-	private AnotherComplexObject[] anotherComplexObjectArray;
-	private Enumeration[] enumerationArray;
-
+//	private boolean[] booleanArray;
+//	private byte[] byteArray;
+//	private char[] charArray;
+//	private short[] shortArray;
+//	private int[] intArray;
+//	private long[] longArray;
+//	private float[] floatArray;
+//
+//	private ComplexObject[] complexArray;
+//	private Enumeration[] enumerationArray;
+//
 //	private Collection<Integer> integerCollection;
 //	private List<Integer> integerList;
 //	private Set<Integer> integerSet;
 //	private Map<Integer, Integer> integerMap;
 //
-//	private Collection<AnotherComplexObject> anotherComplexObjectCollection;
-//	private List<AnotherComplexObject> anotherComplexObjectList;
-//	private Set<AnotherComplexObject> anotherComplexObjectSet;
-//	private Map<AnotherComplexObject, ComplexObject> anotherComplexObjectMap;
+//	private Collection<ComplexObject> complexObjectCollection;
+//	private List<ComplexObject> complexObjectList;
+//	private Set<ComplexObject> complexObjectSet;
+//	private Map<ComplexObject, ComplexObject> complexObjectMap;
 
 	public boolean isBooleanPrimitive() {
 		return booleanPrimitive;
@@ -229,14 +227,6 @@ public class ComplexObject {
 		this.enumeration = enumeration;
 	}
 
-	public AnotherComplexObject getAnotherComplexObject() {
-		return anotherComplexObject;
-	}
-
-	public void setComplex(AnotherComplexObject anotherComplexObject) {
-		this.anotherComplexObject = anotherComplexObject;
-	}
-
 	public String getString() {
 		return string;
 	}
@@ -244,78 +234,78 @@ public class ComplexObject {
 	public void setString(String string) {
 		this.string = string;
 	}
-
-	public boolean[] getBooleanArray() {
-		return booleanArray;
-	}
-
-	public void setBooleanArray(boolean[] booleanArray) {
-		this.booleanArray = booleanArray;
-	}
-
-	public byte[] getByteArray() {
-		return byteArray;
-	}
-
-	public void setByteArray(byte[] byteArray) {
-		this.byteArray = byteArray;
-	}
-
-	public char[] getCharArray() {
-		return charArray;
-	}
-
-	public void setCharArray(char[] charArray) {
-		this.charArray = charArray;
-	}
-
-	public short[] getShortArray() {
-		return shortArray;
-	}
-
-	public void setShortArray(short[] shortArray) {
-		this.shortArray = shortArray;
-	}
-
-	public int[] getIntArray() {
-		return intArray;
-	}
-
-	public void setIntArray(int[] intArray) {
-		this.intArray = intArray;
-	}
-
-	public long[] getLongArray() {
-		return longArray;
-	}
-
-	public void setLongArray(long[] longArray) {
-		this.longArray = longArray;
-	}
-
-	public float[] getFloatArray() {
-		return floatArray;
-	}
-
-	public void setFloatArray(float[] floatArray) {
-		this.floatArray = floatArray;
-	}
-
-	public AnotherComplexObject[] getAnotherComplexObjectArray() {
-		return anotherComplexObjectArray;
-	}
-
-	public void setAnotherComplexObjectArray(AnotherComplexObject[] anotherComplexObjectArray) {
-		this.anotherComplexObjectArray = anotherComplexObjectArray;
-	}
-
-	public Enumeration[] getEnumerationArray() {
-		return enumerationArray;
-	}
-
-	public void setEnumerationArray(Enumeration[] enumerationArray) {
-		this.enumerationArray = enumerationArray;
-	}
+//
+//	public boolean[] getBooleanArray() {
+//		return booleanArray;
+//	}
+//
+//	public void setBooleanArray(boolean[] booleanArray) {
+//		this.booleanArray = booleanArray;
+//	}
+//
+//	public byte[] getByteArray() {
+//		return byteArray;
+//	}
+//
+//	public void setByteArray(byte[] byteArray) {
+//		this.byteArray = byteArray;
+//	}
+//
+//	public char[] getCharArray() {
+//		return charArray;
+//	}
+//
+//	public void setCharArray(char[] charArray) {
+//		this.charArray = charArray;
+//	}
+//
+//	public short[] getShortArray() {
+//		return shortArray;
+//	}
+//
+//	public void setShortArray(short[] shortArray) {
+//		this.shortArray = shortArray;
+//	}
+//
+//	public int[] getIntArray() {
+//		return intArray;
+//	}
+//
+//	public void setIntArray(int[] intArray) {
+//		this.intArray = intArray;
+//	}
+//
+//	public long[] getLongArray() {
+//		return longArray;
+//	}
+//
+//	public void setLongArray(long[] longArray) {
+//		this.longArray = longArray;
+//	}
+//
+//	public float[] getFloatArray() {
+//		return floatArray;
+//	}
+//
+//	public void setFloatArray(float[] floatArray) {
+//		this.floatArray = floatArray;
+//	}
+//
+//	public ComplexObject[] getComplexArray() {
+//		return complexArray;
+//	}
+//
+//	public void setComplexArray(ComplexObject[] complexArray) {
+//		this.complexArray = complexArray;
+//	}
+//
+//	public Enumeration[] getEnumerationArray() {
+//		return enumerationArray;
+//	}
+//
+//	public void setEnumerationArray(Enumeration[] enumerationArray) {
+//		this.enumerationArray = enumerationArray;
+//	}
 
 //	public Collection<Integer> getIntegerCollection() {
 //		return integerCollection;
@@ -391,20 +381,19 @@ public class ComplexObject {
 				+ ((atomicInteger == null) ? 0 : atomicInteger.hashCode());
 		result = prime * result
 				+ ((atomicLong == null) ? 0 : atomicLong.hashCode());
-		result = prime * result + Arrays.hashCode(booleanArray);
+//		result = prime * result + Arrays.hashCode(booleanArray);
 		result = prime * result
 				+ ((booleanBoxed == null) ? 0 : booleanBoxed.hashCode());
 		result = prime * result + (booleanPrimitive ? 1231 : 1237);
-		result = prime * result + Arrays.hashCode(byteArray);
+//		result = prime * result + Arrays.hashCode(byteArray);
 		result = prime * result
 				+ ((byteBoxed == null) ? 0 : byteBoxed.hashCode());
 		result = prime * result + bytePrimitive;
-		result = prime * result + Arrays.hashCode(charArray);
+//		result = prime * result + Arrays.hashCode(charArray);
 		result = prime * result
 				+ ((charBoxed == null) ? 0 : charBoxed.hashCode());
 		result = prime * result + charPrimitive;
-		result = prime * result + ((anotherComplexObject == null) ? 0 : anotherComplexObject.hashCode());
-		result = prime * result + Arrays.hashCode(anotherComplexObjectArray);
+//		result = prime * result + Arrays.hashCode(complexArray);
 //		result = prime
 //				* result
 //				+ ((complexObjectCollection == null) ? 0
@@ -426,12 +415,12 @@ public class ComplexObject {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result
 				+ ((enumeration == null) ? 0 : enumeration.hashCode());
-		result = prime * result + Arrays.hashCode(enumerationArray);
-		result = prime * result + Arrays.hashCode(floatArray);
+//		result = prime * result + Arrays.hashCode(enumerationArray);
+//		result = prime * result + Arrays.hashCode(floatArray);
 		result = prime * result
 				+ ((floatBoxed == null) ? 0 : floatBoxed.hashCode());
 		result = prime * result + Float.floatToIntBits(floatPrimitive);
-		result = prime * result + Arrays.hashCode(intArray);
+//		result = prime * result + Arrays.hashCode(intArray);
 		result = prime * result
 				+ ((intBoxed == null) ? 0 : intBoxed.hashCode());
 		result = prime * result + intPrimitive;
@@ -445,12 +434,12 @@ public class ComplexObject {
 //				+ ((integerMap == null) ? 0 : integerMap.hashCode());
 //		result = prime * result
 //				+ ((integerSet == null) ? 0 : integerSet.hashCode());
-		result = prime * result + Arrays.hashCode(longArray);
+//		result = prime * result + Arrays.hashCode(longArray);
 		result = prime * result
 				+ ((longBoxed == null) ? 0 : longBoxed.hashCode());
 		result = prime * result
 				+ (int) (longPrimitive ^ (longPrimitive >>> 32));
-		result = prime * result + Arrays.hashCode(shortArray);
+//		result = prime * result + Arrays.hashCode(shortArray);
 		result = prime * result
 				+ ((shortBoxed == null) ? 0 : shortBoxed.hashCode());
 		result = prime * result + shortPrimitive;
@@ -466,7 +455,7 @@ public class ComplexObject {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ComplexObject other = (ComplexObject) obj;
+		AnotherComplexObject other = (AnotherComplexObject) obj;
 		if (atomicBoolean == null) {
 			if (other.atomicBoolean != null)
 				return false;
@@ -482,8 +471,8 @@ public class ComplexObject {
 				return false;
 		} else if (!atomicLong.equals(other.atomicLong))
 			return false;
-		if (!Arrays.equals(booleanArray, other.booleanArray))
-			return false;
+//		if (!Arrays.equals(booleanArray, other.booleanArray))
+//			return false;
 		if (booleanBoxed == null) {
 			if (other.booleanBoxed != null)
 				return false;
@@ -491,8 +480,8 @@ public class ComplexObject {
 			return false;
 		if (booleanPrimitive != other.booleanPrimitive)
 			return false;
-		if (!Arrays.equals(byteArray, other.byteArray))
-			return false;
+//		if (!Arrays.equals(byteArray, other.byteArray))
+//			return false;
 		if (byteBoxed == null) {
 			if (other.byteBoxed != null)
 				return false;
@@ -500,8 +489,8 @@ public class ComplexObject {
 			return false;
 		if (bytePrimitive != other.bytePrimitive)
 			return false;
-		if (!Arrays.equals(charArray, other.charArray))
-			return false;
+//		if (!Arrays.equals(charArray, other.charArray))
+//			return false;
 		if (charBoxed == null) {
 			if (other.charBoxed != null)
 				return false;
@@ -509,13 +498,8 @@ public class ComplexObject {
 			return false;
 		if (charPrimitive != other.charPrimitive)
 			return false;
-		if (anotherComplexObject == null) {
-			if (other.anotherComplexObject != null)
-				return false;
-		} else if (!anotherComplexObject.equals(other.anotherComplexObject))
-			return false;
-		if (!Arrays.equals(anotherComplexObjectArray, other.anotherComplexObjectArray))
-			return false;
+//		if (!Arrays.equals(complexArray, other.complexArray))
+//			return false;
 //		if (complexObjectCollection == null) {
 //			if (other.complexObjectCollection != null)
 //				return false;
@@ -547,10 +531,10 @@ public class ComplexObject {
 			return false;
 		if (enumeration != other.enumeration)
 			return false;
-		if (!Arrays.equals(enumerationArray, other.enumerationArray))
-			return false;
-		if (!Arrays.equals(floatArray, other.floatArray))
-			return false;
+//		if (!Arrays.equals(enumerationArray, other.enumerationArray))
+//			return false;
+//		if (!Arrays.equals(floatArray, other.floatArray))
+//			return false;
 		if (floatBoxed == null) {
 			if (other.floatBoxed != null)
 				return false;
@@ -559,8 +543,8 @@ public class ComplexObject {
 		if (Float.floatToIntBits(floatPrimitive) != Float
 				.floatToIntBits(other.floatPrimitive))
 			return false;
-		if (!Arrays.equals(intArray, other.intArray))
-			return false;
+//		if (!Arrays.equals(intArray, other.intArray))
+//			return false;
 		if (intBoxed == null) {
 			if (other.intBoxed != null)
 				return false;
@@ -588,8 +572,8 @@ public class ComplexObject {
 //				return false;
 //		} else if (!integerSet.equals(other.integerSet))
 //			return false;
-		if (!Arrays.equals(longArray, other.longArray))
-			return false;
+//		if (!Arrays.equals(longArray, other.longArray))
+//			return false;
 		if (longBoxed == null) {
 			if (other.longBoxed != null)
 				return false;
@@ -597,8 +581,8 @@ public class ComplexObject {
 			return false;
 		if (longPrimitive != other.longPrimitive)
 			return false;
-		if (!Arrays.equals(shortArray, other.shortArray))
-			return false;
+//		if (!Arrays.equals(shortArray, other.shortArray))
+//			return false;
 		if (shortBoxed == null) {
 			if (other.shortBoxed != null)
 				return false;
@@ -657,28 +641,26 @@ public class ComplexObject {
 		builder.append(doubleBoxed);
 		builder.append(", enumeration=");
 		builder.append(enumeration);
-		builder.append(", anotherComplexObject=");
-		builder.append(anotherComplexObject);
 		builder.append(", string=");
 		builder.append(string);
-		builder.append(", booleanArray=");
-		builder.append(Arrays.toString(booleanArray));
-		builder.append(", byteArray=");
-		builder.append(Arrays.toString(byteArray));
-		builder.append(", charArray=");
-		builder.append(Arrays.toString(charArray));
-		builder.append(", shortArray=");
-		builder.append(Arrays.toString(shortArray));
-		builder.append(", intArray=");
-		builder.append(Arrays.toString(intArray));
-		builder.append(", longArray=");
-		builder.append(Arrays.toString(longArray));
-		builder.append(", floatArray=");
-		builder.append(Arrays.toString(floatArray));
-		builder.append(", anotherComplexObjectArray=");
-		builder.append(Arrays.toString(anotherComplexObjectArray));
-		builder.append(", enumerationArray=");
-		builder.append(Arrays.toString(enumerationArray));
+//		builder.append(", booleanArray=");
+//		builder.append(Arrays.toString(booleanArray));
+//		builder.append(", byteArray=");
+//		builder.append(Arrays.toString(byteArray));
+//		builder.append(", charArray=");
+//		builder.append(Arrays.toString(charArray));
+//		builder.append(", shortArray=");
+//		builder.append(Arrays.toString(shortArray));
+//		builder.append(", intArray=");
+//		builder.append(Arrays.toString(intArray));
+//		builder.append(", longArray=");
+//		builder.append(Arrays.toString(longArray));
+//		builder.append(", floatArray=");
+//		builder.append(Arrays.toString(floatArray));
+//		builder.append(", complexArray=");
+//		builder.append(Arrays.toString(complexArray));
+//		builder.append(", enumerationArray=");
+//		builder.append(Arrays.toString(enumerationArray));
 //		builder.append(", integerCollection=");
 //		builder.append(integerCollection);
 //		builder.append(", integerList=");
