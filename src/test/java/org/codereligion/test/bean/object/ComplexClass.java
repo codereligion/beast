@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author sgroebler
  * @since 12.08.2012
  */
-public class ComplexObject {
+public class ComplexClass {
 
 	public enum Enumeration {
 		FOO, BAR
@@ -49,8 +49,8 @@ public class ComplexObject {
 	private Double doubleBoxed;
 
 	private Enumeration enumeration;
-	private ComplexObject complexObject;
-	private AnotherComplexObject anotherComplexObject;
+	private ComplexClass complexObject;
+	private AnotherComplexClass anotherComplexObject;
 	private String string;
 	private Object object;
 
@@ -62,7 +62,7 @@ public class ComplexObject {
 	private long[] longArray;
 	private float[] floatArray;
 
-	private AnotherComplexObject[] anotherComplexObjectArray;
+	private AnotherComplexClass[] anotherComplexObjectArray;
 	private Enumeration[] enumerationArray;
 
 	private Collection<Integer> integerCollection;
@@ -70,10 +70,10 @@ public class ComplexObject {
 	private Set<Integer> integerSet;
 	private Map<Integer, Integer> integerMap;
 
-	private Collection<AnotherComplexObject> anotherComplexObjectCollection;
-	private List<AnotherComplexObject> anotherComplexObjectList;
-	private Set<AnotherComplexObject> anotherComplexObjectSet;
-	private Map<AnotherComplexObject, ComplexObject> anotherComplexObjectMap;
+	private Collection<AnotherComplexClass> anotherComplexObjectCollection;
+	private List<AnotherComplexClass> anotherComplexObjectList;
+	private Set<AnotherComplexClass> anotherComplexObjectSet;
+	private Map<AnotherComplexClass, ComplexClass> anotherComplexObjectMap;
 
 	public boolean isBooleanPrimitive() {
 		return booleanPrimitive;
@@ -235,20 +235,20 @@ public class ComplexObject {
 		this.enumeration = enumeration;
 	}
 
-	public ComplexObject getComplexObject() {
+	public ComplexClass getComplexObject() {
 		return complexObject;
 	}
 
-	public void setComplexObject(ComplexObject complexObject) {
+	public void setComplexObject(ComplexClass complexObject) {
 		this.complexObject = complexObject;
 	}
 
-	public AnotherComplexObject getAnotherComplexObject() {
+	public AnotherComplexClass getAnotherComplexObject() {
 		return anotherComplexObject;
 	}
 
 	public void setAnotherComplexObject(
-			AnotherComplexObject anotherComplexObject) {
+			AnotherComplexClass anotherComplexObject) {
 		this.anotherComplexObject = anotherComplexObject;
 	}
 
@@ -324,12 +324,12 @@ public class ComplexObject {
 		this.floatArray = floatArray;
 	}
 
-	public AnotherComplexObject[] getAnotherComplexObjectArray() {
+	public AnotherComplexClass[] getAnotherComplexObjectArray() {
 		return anotherComplexObjectArray;
 	}
 
 	public void setAnotherComplexObjectArray(
-			AnotherComplexObject[] anotherComplexObjectArray) {
+			AnotherComplexClass[] anotherComplexObjectArray) {
 		this.anotherComplexObjectArray = anotherComplexObjectArray;
 	}
 
@@ -373,39 +373,39 @@ public class ComplexObject {
 		this.integerMap = integerMap;
 	}
 
-	public Collection<AnotherComplexObject> getAnotherComplexObjectCollection() {
+	public Collection<AnotherComplexClass> getAnotherComplexObjectCollection() {
 		return anotherComplexObjectCollection;
 	}
 
 	public void setAnotherComplexObjectCollection(
-			Collection<AnotherComplexObject> anotherComplexObjectCollection) {
+			Collection<AnotherComplexClass> anotherComplexObjectCollection) {
 		this.anotherComplexObjectCollection = anotherComplexObjectCollection;
 	}
 
-	public List<AnotherComplexObject> getAnotherComplexObjectList() {
+	public List<AnotherComplexClass> getAnotherComplexObjectList() {
 		return anotherComplexObjectList;
 	}
 
 	public void setAnotherComplexObjectList(
-			List<AnotherComplexObject> anotherComplexObjectList) {
+			List<AnotherComplexClass> anotherComplexObjectList) {
 		this.anotherComplexObjectList = anotherComplexObjectList;
 	}
 
-	public Set<AnotherComplexObject> getAnotherComplexObjectSet() {
+	public Set<AnotherComplexClass> getAnotherComplexObjectSet() {
 		return anotherComplexObjectSet;
 	}
 
 	public void setAnotherComplexObjectSet(
-			Set<AnotherComplexObject> anotherComplexObjectSet) {
+			Set<AnotherComplexClass> anotherComplexObjectSet) {
 		this.anotherComplexObjectSet = anotherComplexObjectSet;
 	}
 
-	public Map<AnotherComplexObject, ComplexObject> getAnotherComplexObjectMap() {
+	public Map<AnotherComplexClass, ComplexClass> getAnotherComplexObjectMap() {
 		return anotherComplexObjectMap;
 	}
 
 	public void setAnotherComplexObjectMap(
-			Map<AnotherComplexObject, ComplexObject> anotherComplexObjectMap) {
+			Map<AnotherComplexClass, ComplexClass> anotherComplexObjectMap) {
 		this.anotherComplexObjectMap = anotherComplexObjectMap;
 	}
 
@@ -502,7 +502,7 @@ public class ComplexObject {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ComplexObject other = (ComplexObject) obj;
+		ComplexClass other = (ComplexClass) obj;
 		if (anotherComplexObject == null) {
 			if (other.anotherComplexObject != null)
 				return false;

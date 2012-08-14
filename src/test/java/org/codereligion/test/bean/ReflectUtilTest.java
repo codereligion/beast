@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.beans.PropertyDescriptor;
 import java.util.Set;
 
-import org.codereligion.test.bean.object.ComplexObject;
+import org.codereligion.test.bean.object.ComplexClass;
 import org.codereligion.test.bean.object.User;
 import org.codereligion.test.bean.reflect.ReflectUtil;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class ReflectUtilTest {
 
 	@Test
 	public void testGetSelectableProperties() {
-		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(ComplexObject.class);
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(ComplexClass.class);
 		
 		assertNotNull(properties);
 		assertFalse(properties.isEmpty());

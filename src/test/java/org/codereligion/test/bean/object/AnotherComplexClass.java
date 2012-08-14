@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author sgroebler
  * @since 12.08.2012
  */
-public class AnotherComplexObject {
+public class AnotherComplexClass {
 
 	public enum Enumeration {
 		FOO, BAR
@@ -455,7 +455,7 @@ public class AnotherComplexObject {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AnotherComplexObject other = (AnotherComplexObject) obj;
+		AnotherComplexClass other = (AnotherComplexClass) obj;
 		if (atomicBoolean == null) {
 			if (other.atomicBoolean != null)
 				return false;

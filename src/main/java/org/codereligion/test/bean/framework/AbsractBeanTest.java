@@ -16,21 +16,21 @@ import org.codereligion.test.bean.BeanTester;
 public abstract class AbsractBeanTest <T> {
 	
 	/**
-	 * TODO
+	 * Default implementation of the equals test.
 	 */
 	public void testEquals() {
 		BeanTester.testEquals(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
 	}
 	
 	/**
-	 * TODO
+	 * Default implementation of the hashCode test.
 	 */
 	public void testHashCode() {
 		BeanTester.testHashCode(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
 	}
 	
 	/**
-	 * TODO
+	 * Default implementation of the toString test.
 	 */
 	public void testToString() {
 		BeanTester.testToString(getClazz(), getExcludedToStringPropertyNames(), getToStringPattern());

@@ -10,8 +10,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.codereligion.test.bean.creation.ObjectFactory;
-import org.codereligion.test.bean.object.AnotherComplexObject;
-import org.codereligion.test.bean.object.ComplexObject;
+import org.codereligion.test.bean.object.AbstractClass;
+import org.codereligion.test.bean.object.AnotherComplexClass;
+import org.codereligion.test.bean.object.ComplexClass;
 import org.junit.Test;
 
 /**
@@ -23,17 +24,32 @@ import org.junit.Test;
  */
 public class ObjectFactoryTest {
 
+//	@Test
+	public void performanceTest() {
+		final long runs = 10000;
+		
+		final long startTime = System.currentTimeMillis();
+
+		for (long l=0; l<runs; l++) {
+			ObjectFactory.newDefaultObject(ComplexClass.class);
+		}
+		
+		final long endTime = System.currentTimeMillis();
+		
+		System.out.println(runs + " runs to create default object took " + (endTime-startTime) + "ms.");
+	}
+
 	@Test
 	public void testCreateDefaultObject() {
-		final ComplexObject defaultObject = ObjectFactory.newDefaultObject(ComplexObject.class);
+		final ComplexClass defaultObject = ObjectFactory.newDefaultObject(ComplexClass.class);
 		assertNotNull(defaultObject);
 		assertNotNull(defaultObject.toString());
 	}
 	
 	@Test
 	public void testCreateDirtyObject() {
-		final ComplexObject defaultObject = ObjectFactory.newDefaultObject(ComplexObject.class);
-		final ComplexObject dirtyObject = ObjectFactory.newDirtyObject(ComplexObject.class);
+		final ComplexClass defaultObject = ObjectFactory.newDefaultObject(ComplexClass.class);
+		final ComplexClass dirtyObject = ObjectFactory.newDirtyObject(ComplexClass.class);
 		
 		assertNotNull(defaultObject);
 		assertNotNull(dirtyObject);
@@ -53,8 +69,8 @@ public class ObjectFactoryTest {
 	public void testIsCreateable() {
 
 		// check positives
-		assertTrue(ObjectFactory.isCreateable(ComplexObject.class));
-		assertTrue(ObjectFactory.isCreateable(AnotherComplexObject.class));
+		assertTrue(ObjectFactory.isCreateable(ComplexClass.class));
+		assertTrue(ObjectFactory.isCreateable(AnotherComplexClass.class));
 		
 		// check negatives
 		assertFalse(ObjectFactory.isCreateable(Boolean.TYPE));
@@ -80,7 +96,8 @@ public class ObjectFactoryTest {
 		assertFalse(ObjectFactory.isCreateable(Object.class));
 		assertFalse(ObjectFactory.isCreateable(int[].class));
 		assertFalse(ObjectFactory.isCreateable(List.class));
-		assertFalse(ObjectFactory.isCreateable(ComplexObject.Enumeration.class));
-		assertFalse(ObjectFactory.isCreateable(AnotherComplexObject.Enumeration.class));
+		assertFalse(ObjectFactory.isCreateable(ComplexClass.Enumeration.class));
+		assertFalse(ObjectFactory.isCreateable(AnotherComplexClass.Enumeration.class));
+		assertFalse(ObjectFactory.isCreateable(AbstractClass.class));;
 	}
 }

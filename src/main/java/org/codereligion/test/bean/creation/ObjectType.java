@@ -1,96 +1,42 @@
 package org.codereligion.test.bean.creation;
 
 /**
- * TODO
+ * Enumeration of available object types. Default objects contain
+ * values which are equivalent to 0 while dirty objects contain
+ * values which are equivalent to 1 depending on the actual type.
+ * 
+ * <p>
+ * Dirty Example:
+ * 
+ * <pre>
+ * class Foo
+ * 	private boolean foo = true;
+ * 	private int bar = 1;
+ * 	private double baz = 1d;
+ * </pre>
+ * 
+ * <p>
+ * Default Example:
+ * 
+ * <pre>
+ * class Foo
+ * 	private boolean foo = false;
+ * 	private int bar = 0;
+ * 	private double baz = 0d;
+ * </pre>
  * 
  * @author sgroebler
  * @since 13.08.2012
  */
 public enum ObjectType {
 
-	DEFAULT((byte) 0),
-	DIRTY((byte) 1);
-	
-	private final byte bit;
-	
 	/**
-	 * TODO
-	 * 
-	 * @param bit
+	 * Relates to values equivalent to 0.
 	 */
-	private ObjectType(final byte bit) {
-		this.bit = bit;
-	}
+	DEFAULT,
 	
 	/**
-	 * TODO
-	 * 
-	 * @return
+	 * Relates to values equivalent to 1.
 	 */
-	protected boolean getBoolean(){
-		return bit == 1;
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @return
-	 */
-	protected byte getByte() {
-		return bit;
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @return
-	 */
-	protected char getChar() {
-		return (char) bit;
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @return
-	 */
-	protected short getShort() {
-		return bit;
-	}
-
-	/**
-	 * TODO
-	 * 
-	 * @return
-	 */
-	protected int getInt() {
-		return bit;
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @return
-	 */
-	protected long getLong() {
-		return bit;
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @return
-	 */
-	protected float getFloat() {
-		return bit;
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @return
-	 */
-	protected double getDouble() {
-		return bit;
-	}
+	DIRTY;
 }
