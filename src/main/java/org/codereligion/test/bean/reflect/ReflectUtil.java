@@ -52,6 +52,10 @@ public class ReflectUtil {
 		}
 	}
 	
+	public static boolean hasSetableProperties(final Class<?> beanClass) {
+		return !getSetableProperties(beanClass).isEmpty();
+	}
+	
 	/**
 	 * TODO
 	 * 
