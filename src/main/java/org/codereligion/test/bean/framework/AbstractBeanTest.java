@@ -1,9 +1,11 @@
 package org.codereligion.test.bean.framework;
 
+import org.codereligion.test.bean.EqualsTester;
+import org.codereligion.test.bean.HashCodeTester;
+import org.codereligion.test.bean.ToStringTester;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import org.codereligion.test.bean.BeanTester;
 
 /**
  * TODO document
@@ -13,55 +15,55 @@ import org.codereligion.test.bean.BeanTester;
  * @author sgroebler
  * @since 11.08.2012
  */
-public abstract class AbsractBeanTest <T> {
+public abstract class AbstractBeanTest <T> {
 	
 	/**
 	 * Default implementation of the equals test.
 	 */
 	public void testEquals() {
-		BeanTester.testEquals(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
+		EqualsTester.testIntegrity(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
 	}
 	
 	/**
 	 * Default implementation of the equals null-safety test.
 	 */
 	public void testEqualsNullSafety() {
-		BeanTester.testEqualsNullSafety(getClazz());
+		EqualsTester.testNullSafety(getClazz());
 	}
 	
 	/**
 	 * Default implementation of the hashCode test.
 	 */
 	public void testHashCode() {
-		BeanTester.testHashCode(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
+		HashCodeTester.testIntegrity(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
 	}
 	
 	/**
 	 * Default implementation of the hashCode null-safety test.
 	 */
 	public void testHashCodeNullSafety() {
-		BeanTester.testHashCodeNullSafety(getClazz());
+		HashCodeTester.testNullSafety(getClazz());
 	}
 	
 	/**
 	 * Default implementation of the toString test.
 	 */
 	public void testToString() {
-		BeanTester.testToString(getClazz(), getExcludedToStringPropertyNames());
+		ToStringTester.testIntegrity(getClazz(), getExcludedToStringPropertyNames());
 	}
 	
 	/**
 	 * Default implementation of the toString test.
 	 */
 	public void testToStringNullSafety() {
-		BeanTester.testToStringNullSafety(getClazz());
+		ToStringTester.testNullSafety(getClazz());
 	}
 	
 	/**
 	 * Default implementation of the toString format test.
 	 */
 	public void testToStringFormat() {
-		BeanTester.testToStringFormat(getClazz(), getToStringPattern());
+		ToStringTester.testFormat(getClazz(), getToStringPattern());
 	}
 
 	/**
