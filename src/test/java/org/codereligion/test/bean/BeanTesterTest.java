@@ -49,7 +49,7 @@ public class BeanTesterTest {
 	@Test
 	public void testTestEqualsWithMissingPropertyInEqualsWithExcludes() {
 		final Set<String> excludes = new HashSet<String>();
-		excludes.add("bar");
+		excludes.add("complexObject");
 		
 		BeanTester.testEquals(MissingPropertyInEquals.class, excludes);
 	}

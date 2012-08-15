@@ -18,13 +18,18 @@ import org.codereligion.test.bean.reflect.ReflectUtil;
  * TODO document
  * TODO show usuage
  * TODO test
- * TODO reconsider null-safety checks
+ * TODO do null-safety check in different methods
+ * TODO do toString pattern check in different method
  * 
  * @param <T>
  * @author sgroebler
  * @since 11.08.2012
  */
 public final class BeanTester <T> {
+	
+	private static final String NO_SETTER_ERROR				= 	"The given class '%s' does not provide any public setters, only properties " +
+																"which are setable through public setters can be verified to be included in " +
+																"the to be tested method.";
 	
 	private static final String EQUALS_NOT_NULL_ERROR		=	"Property '%s' is not included in the equals method. If this is " +
 													   			"intentional add it to the excludedHashCodeAndEqualsPropertyNames.";
@@ -54,11 +59,6 @@ public final class BeanTester <T> {
 	/**
 	 * Tests that all public setable properties are contained in the equals implementation.
 	 * 
-	 * <p>
-	 * This test will also check if the equals implementation can handle
-	 * {@code null} values correctly.
-	 * 
-	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
@@ -72,15 +72,10 @@ public final class BeanTester <T> {
 	 * Tests that all public setable properties which have not been excluded through
 	 * {@code excludedPropertyNames} are contained in the equals implementation.
 	 * 
-	 * <p>
-	 * This test will also check if the equals implementation can handle
-	 * {@code null} values correctly.
-	 * 
-	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
 	 * @param excludedPropertyNames the names of the properties which should be excluded from the test
 	 * @throws NullPointerException when any of the given parameters are {@code null}
-	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported or not testable
 	 * @throws AssertionError when a property is not checked correctly in the equals implementation
 	 */
 	public static <T> void testEquals(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
@@ -91,6 +86,10 @@ public final class BeanTester <T> {
 		
 		if (!ObjectFactory.isCreateable(beanClass)) {
 			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
+		}
+
+		if (!ReflectUtil.hasSetableProperties(beanClass)) {
+			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
 		}
 		
 		if (excludedPropertyNames == null) {
@@ -103,14 +102,35 @@ public final class BeanTester <T> {
 	}
 
 	/**
+	 * TODO
+	 * 
+	 * @param beanClass
+	 */
+	public static <T> void testEqualsNullSafety(final Class<T> beanClass) {
+		
+		if (beanClass == null) {
+			throw new NullPointerException("beanClass must not be null.");
+		}
+		
+		if (!ObjectFactory.isCreateable(beanClass)) {
+			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
+		}
+
+		if (!ReflectUtil.hasSetableProperties(beanClass)) {
+			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
+		}
+		
+		final BeanTester<T> beanTester = new BeanTester<T>(beanClass);
+		beanTester.testEqualsNullSafety();
+	}
+	
+	/**
 	 * Tests that all public setable properties are contained in the hashCode implementation.
 	 * 
 	 * <p>
-	 * This test will also check if the hashCode implementation can handle
-	 * {@code null} values and it will assert that the hashCode method returns the same
+	 * This test will also check if the hashCode method returns the same
 	 * {@code int} values for two instances which are equal according to the equals implementation.
 	 * 
-	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
@@ -125,15 +145,13 @@ public final class BeanTester <T> {
 	 * {@code excludedPropertyNames} are contained in the hashCode implementation.
 	 * 
 	 * <p>
-	 * This test will also check if the hashCode implementation can handle
-	 * {@code null} values and it will assert that the hashCode method returns the same
+	 * This test will also check if the hashCode method returns the same
 	 * {@code int} values for two instances which are equal according to the equals implementation.
 	 * 
-	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
 	 * @param excludedPropertyNames the names of the properties which should be excluded from the test
 	 * @throws NullPointerException when any of the given parameters are {@code null}
-	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported or not testable
 	 * @throws AssertionError when a property is not checked correctly in the hashCode implementation
 	 */
 	public static <T> void testHashCode(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
@@ -146,6 +164,10 @@ public final class BeanTester <T> {
 			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
 		}
 		
+		if (!ReflectUtil.hasSetableProperties(beanClass)) {
+			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
+		}
+		
 		if (excludedPropertyNames == null) {
 			throw new NullPointerException("excludedPropertyNames must not be null.");
 		}
@@ -156,14 +178,32 @@ public final class BeanTester <T> {
 	}
 	
 	/**
+	 * TODO
+	 * 
+	 * @param beanClass
+	 */
+	public static <T> void testHashCodeNullSafety(final Class<T> beanClass) {
+		
+		if (beanClass == null) {
+			throw new NullPointerException("beanClass must not be null.");
+		}
+		
+		if (!ObjectFactory.isCreateable(beanClass)) {
+			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
+		}
+
+		if (!ReflectUtil.hasSetableProperties(beanClass)) {
+			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
+		}
+		
+		final BeanTester<T> beanTester = new BeanTester<T>(beanClass);
+		beanTester.testHashCodeNullSafety();
+	}
+	
+	/**
 	 * Tests that all public setable properties of the given {@code beanClass}
 	 * are contained in the toString implementation.
 	 * 
-	 * <p>
-	 * This test will also check if the toString implementation can handle
-	 * {@code null} values correctly.
-	 * 
-	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
@@ -178,11 +218,6 @@ public final class BeanTester <T> {
 	 * which have not been excluded through {@code excludedPropertyNames}
 	 * are contained in the toString implementation.
 	 * 
-	 * <p>
-	 * This test will also check if the toString implementation can handle
-	 * {@code null} values correctly.
-	 * 
-	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
 	 * @param excludedPropertyNames the names of the properties which should be excluded from the test
 	 * @throws NullPointerException when any of the given parameters are {@code null}
@@ -190,29 +225,57 @@ public final class BeanTester <T> {
 	 * @throws AssertionError when a property is not included in the toString implementation
 	 */
 	public static <T> void testToString(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
-		testToString(beanClass, excludedPropertyNames, null);
+
+		if (beanClass == null) {
+			throw new NullPointerException("beanClass must not be null.");
+		}
+		
+		if (!ObjectFactory.isCreateable(beanClass)) {
+			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
+		}
+
+		if (!ReflectUtil.hasSetableProperties(beanClass)) {
+			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
+		}
+		
+		final BeanTester<T> beanTester = new BeanTester<T>(beanClass);
+		beanTester.setExcludesForToStringTest(excludedPropertyNames);
+		beanTester.testToString();
 	}
 
 	/**
-	 * Tests that all public setable properties of the given {@code beanClass}
-	 * which have not been excluded through {@code excludedPropertyNames}
-	 * are contained in the toString implementation.
+	 * TODO
+	 * @param beanClass
+	 */
+	public static <T> void testToStringNullSafety(final Class<T> beanClass) {
+		
+		if (beanClass == null) {
+			throw new NullPointerException("beanClass must not be null.");
+		}
+		
+		if (!ObjectFactory.isCreateable(beanClass)) {
+			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
+		}
+
+		if (!ReflectUtil.hasSetableProperties(beanClass)) {
+			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
+		}
+		
+		final BeanTester<T> beanTester = new BeanTester<T>(beanClass);
+		beanTester.testToStringNullSafety();
+	}
+
+	/**
+	 * Tests that the given {@code regex} matches the result of the given
+	 * {@code beanClass}' toString result.
 	 * 
-	 * <p>
-	 * This test will also check if the toString implementation can handle
-	 * {@code null} values correctly and if the given {@code regex}, if not
-	 * {@code null}, is applied correctly.
-	 * 
-	 * 
-	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
-	 * @param excludedPropertyNames the names of the properties which should be excluded from the test
 	 * @param regex the regular expression the toString result should match, is optional and can be {@code null}
 	 * @throws NullPointerException when the given {@code beanClass} or {@code excludedPropertyNames} are {@code null}
 	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
 	 * @throws AssertionError when a property is not included in the toString implementation
 	 */
-	public static <T> void testToString(final Class<T> beanClass, final Set<String> excludedPropertyNames, final String regex) {
+	public static <T> void testToStringFormat(final Class<T> beanClass, final String regex) {
 		
 		if (beanClass == null) {
 			throw new NullPointerException("beanClass must not be null.");
@@ -222,14 +285,9 @@ public final class BeanTester <T> {
 			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
 		}
 		
-		if (excludedPropertyNames == null) {
-			throw new NullPointerException("excludedPropertyNames must not be null.");
-		}
-		
 		final BeanTester<T> beanTester = new BeanTester<T>(beanClass);
-		beanTester.setExcludesForToStringTest(excludedPropertyNames);
 		beanTester.setToStringPattern(regex);
-		beanTester.testToString();
+		beanTester.testToStringFormat();
 	}
 	
 	/**
@@ -341,11 +399,9 @@ public final class BeanTester <T> {
 		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
 		final boolean objectIsEqualToItSelf = defaultObject.equals(defaultObject);
 		
-		assertTrue(objectIsEqualToItSelf, EQUALS_NOT_REFLEXIVE_ERROR, beanClass.getName());
+		assertTrue(objectIsEqualToItSelf, EQUALS_NOT_REFLEXIVE_ERROR, beanClass.getCanonicalName());
 		
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(beanClass);
-		
-		// test each field with unequal not null data
 		for (final PropertyDescriptor property : properties) {
 			
 			final String propertyName = property.getName();
@@ -364,7 +420,27 @@ public final class BeanTester <T> {
 			
 			assertFalse(defaultObject.equals(dirtyObject), EQUALS_NOT_NULL_ERROR, propertyName);
 			assertFalse(dirtyObject.equals(defaultObject), EQUALS_NOT_NULL_ERROR, propertyName);
+		}
+	}
 	
+	/**
+	 * TODO
+	 */
+	private void testEqualsNullSafety() {
+		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
+		final boolean objectIsEqualToItSelf = defaultObject.equals(defaultObject);
+		
+		assertTrue(objectIsEqualToItSelf, EQUALS_NOT_REFLEXIVE_ERROR, beanClass.getCanonicalName());
+		
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(beanClass);
+		for (final PropertyDescriptor property : properties) {
+			
+			final String propertyName = property.getName();
+			final T dirtyObject = ObjectFactory.newBeanObject(beanClass);
+			final Class<?> propertyType = property.getPropertyType();
+			final Method setter = property.getWriteMethod();
+			
+			
 			// test with with null values on non-primitive types
 			if (!propertyType.isPrimitive() && testNullSafetyForEquals) {
 				setValue(dirtyObject, setter, null);
@@ -391,7 +467,6 @@ public final class BeanTester <T> {
 		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
 		
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(beanClass);
-		
 		for (final PropertyDescriptor property : properties) {
 			
 			final String propertyName = property.getName();
@@ -416,7 +491,24 @@ public final class BeanTester <T> {
 			}
 			
 			assertFalse(hashCodesAreEqual, HASH_CODE_EQUALTIY_ERROR, propertyName);
-
+		}
+	}
+	
+	/**
+	 * TODO
+	 */
+	private void testHashCodeNullSafety() {
+		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
+		
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(beanClass);
+		for (final PropertyDescriptor property : properties) {
+			
+			final String propertyName = property.getName();
+			final Class<?> propertyType = property.getPropertyType();
+			final Method setter = property.getWriteMethod();
+			
+			final T dirtyObject = ObjectFactory.newBeanObject(beanClass);
+			
 			// test with with null values on non-primitive types
 			if (!propertyType.isPrimitive() && testNullSafetyForHashCode) {
 				setValue(dirtyObject, setter, null);
@@ -442,13 +534,6 @@ public final class BeanTester <T> {
 		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
 		final String defaultToStringResult  = defaultObject.toString();
 		
-		// test pattern
-		if (toStringPattern != null) {
-			final Matcher matcher = toStringPattern.matcher(defaultToStringResult);
-			final boolean toStringMatchesPattern = matcher.matches();
-			assertTrue(toStringMatchesPattern, TO_STRING_PATTERN_ERROR, toStringPattern.pattern(), defaultToStringResult);
-		}
-		
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(beanClass);
 		for (final PropertyDescriptor property : properties) {
 			
@@ -468,17 +553,49 @@ public final class BeanTester <T> {
 			final boolean areEqual = defaultToStringResult.equals(dirtyObject.toString());
 			
 			assertFalse(areEqual, TO_STRING_EQUALITY_ERROR, propertyName);
-
+		}
+	}
+	
+	/**
+	 * TODO
+	 */
+	private void testToStringNullSafety() {
+		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
+		final String defaultToStringResult  = defaultObject.toString();
+		
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(beanClass);
+		for (final PropertyDescriptor property : properties) {
+			
+			final String propertyName = property.getName();
+			final T dirtyObject = ObjectFactory.newBeanObject(beanClass);
+			final Class<?> propertyType = property.getPropertyType();
+			final Method setter = property.getWriteMethod();
+			
 			// test with with null values on non-primitive types
 			if (!propertyType.isPrimitive() && testNullSafetyForToString) {
 				setValue(dirtyObject, setter, null);
-	
+				
 				final boolean areEqualWithNulls = defaultToStringResult.equals(dirtyObject.toString());
 				assertFalse(areEqualWithNulls, TO_STRING_NULL_ERROR, propertyName);
 			}
 		}
 	}
 	
+	/**
+	 * Tests that the {@link toStringPattern} matches the {@code beanClass}'s
+	 * toString result.
+	 * 
+	 * @throws AssertionError when a the {@link toStringPattern} does not match
+	 */
+	private void testToStringFormat() {
+		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
+		final String defaultToStringResult  = defaultObject.toString();
+		
+		// test pattern
+		final Matcher matcher = toStringPattern.matcher(defaultToStringResult);
+		final boolean toStringMatchesPattern = matcher.matches();
+		assertTrue(toStringMatchesPattern, TO_STRING_PATTERN_ERROR, toStringPattern.pattern(), defaultToStringResult);
+	}
 
 	/**
 	 * TODO document

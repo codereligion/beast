@@ -23,6 +23,13 @@ public abstract class AbsractBeanTest <T> {
 	}
 	
 	/**
+	 * Default implementation of the equals null-safety test.
+	 */
+	public void testEqualsNullSafety() {
+		BeanTester.testEqualsNullSafety(getClazz());
+	}
+	
+	/**
 	 * Default implementation of the hashCode test.
 	 */
 	public void testHashCode() {
@@ -30,10 +37,31 @@ public abstract class AbsractBeanTest <T> {
 	}
 	
 	/**
+	 * Default implementation of the hashCode null-safety test.
+	 */
+	public void testHashCodeNullSafety() {
+		BeanTester.testHashCodeNullSafety(getClazz());
+	}
+	
+	/**
 	 * Default implementation of the toString test.
 	 */
 	public void testToString() {
-		BeanTester.testToString(getClazz(), getExcludedToStringPropertyNames(), getToStringPattern());
+		BeanTester.testToString(getClazz(), getExcludedToStringPropertyNames());
+	}
+	
+	/**
+	 * Default implementation of the toString test.
+	 */
+	public void testToStringNullSafety() {
+		BeanTester.testToStringNullSafety(getClazz());
+	}
+	
+	/**
+	 * Default implementation of the toString format test.
+	 */
+	public void testToStringFormat() {
+		BeanTester.testToStringFormat(getClazz(), getToStringPattern());
 	}
 
 	/**
