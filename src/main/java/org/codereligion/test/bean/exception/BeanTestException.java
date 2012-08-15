@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.codereligion.test.bean.exception;
 
 /**

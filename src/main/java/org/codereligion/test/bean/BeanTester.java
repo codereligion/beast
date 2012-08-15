@@ -3,6 +3,7 @@ package org.codereligion.test.bean;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -60,6 +61,7 @@ public final class BeanTester <T> {
 	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
 	 * @throws NullPointerException when the given parameter is {@code null}
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
 	 * @throws AssertionError when a property is not checked correctly in the equals implementation
 	 */
 	public static <T> void testEquals(final Class<T> beanClass) {
@@ -78,12 +80,17 @@ public final class BeanTester <T> {
 	 * @param beanClass the {@link Class} to be tested
 	 * @param excludedPropertyNames the names of the properties which should be excluded from the test
 	 * @throws NullPointerException when any of the given parameters are {@code null}
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
 	 * @throws AssertionError when a property is not checked correctly in the equals implementation
 	 */
 	public static <T> void testEquals(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
 		
 		if (beanClass == null) {
 			throw new NullPointerException("beanClass must not be null.");
+		}
+		
+		if (!ObjectFactory.isCreateable(beanClass)) {
+			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
 		}
 		
 		if (excludedPropertyNames == null) {
@@ -106,6 +113,7 @@ public final class BeanTester <T> {
 	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
 	 * @throws NullPointerException when the given parameter is {@code null}
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
 	 * @throws AssertionError when a property is not checked correctly in the hashCode implementation
 	 */
 	public static <T> void testHashCode(final Class<T> beanClass) {
@@ -125,12 +133,17 @@ public final class BeanTester <T> {
 	 * @param beanClass the {@link Class} to be tested
 	 * @param excludedPropertyNames the names of the properties which should be excluded from the test
 	 * @throws NullPointerException when any of the given parameters are {@code null}
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
 	 * @throws AssertionError when a property is not checked correctly in the hashCode implementation
 	 */
 	public static <T> void testHashCode(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
 		
 		if (beanClass == null) {
 			throw new NullPointerException("beanClass must not be null.");
+		}
+		
+		if (!ObjectFactory.isCreateable(beanClass)) {
+			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
 		}
 		
 		if (excludedPropertyNames == null) {
@@ -153,6 +166,7 @@ public final class BeanTester <T> {
 	 * @param <T> the type of the given {@code beanClass}
 	 * @param beanClass the {@link Class} to be tested
 	 * @throws NullPointerException when the given parameter is {@code null}
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
 	 * @throws AssertionError when a property is not included in the toString implementation
 	 */
 	public static <T> void testToString(final Class<T> beanClass) {
@@ -172,6 +186,7 @@ public final class BeanTester <T> {
 	 * @param beanClass the {@link Class} to be tested
 	 * @param excludedPropertyNames the names of the properties which should be excluded from the test
 	 * @throws NullPointerException when any of the given parameters are {@code null}
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
 	 * @throws AssertionError when a property is not included in the toString implementation
 	 */
 	public static <T> void testToString(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
@@ -194,12 +209,17 @@ public final class BeanTester <T> {
 	 * @param excludedPropertyNames the names of the properties which should be excluded from the test
 	 * @param regex the regular expression the toString result should match, is optional and can be {@code null}
 	 * @throws NullPointerException when the given {@code beanClass} or {@code excludedPropertyNames} are {@code null}
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
 	 * @throws AssertionError when a property is not included in the toString implementation
 	 */
 	public static <T> void testToString(final Class<T> beanClass, final Set<String> excludedPropertyNames, final String regex) {
 		
 		if (beanClass == null) {
 			throw new NullPointerException("beanClass must not be null.");
+		}
+		
+		if (!ObjectFactory.isCreateable(beanClass)) {
+			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
 		}
 		
 		if (excludedPropertyNames == null) {
@@ -255,15 +275,6 @@ public final class BeanTester <T> {
 	 * @throws IllegalArgumentException when the given {@code beanClass} can not be tested
 	 */
 	private BeanTester(final Class<T> beanClass) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-		
-		if (!ObjectFactory.isCreateable(beanClass)) {
-			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getName());
-		}
-		
 		this.beanClass = beanClass;
 	}
 
@@ -279,12 +290,7 @@ public final class BeanTester <T> {
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	private void setExcludesForHashCodeAndEqualsTest(final Set<String> propertyNames) {
-		
-		if (propertyNames == null) {
-			throw new NullPointerException("propertyNames must not be null.");
-		}
-		
-		this.excludedHashCodeAndEqualsPropertyNames = propertyNames;
+		this.excludedHashCodeAndEqualsPropertyNames = Collections.unmodifiableSet(propertyNames);
 	}
 
 	/**
@@ -298,12 +304,7 @@ public final class BeanTester <T> {
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	private void setExcludesForToStringTest(final Set<String> propertyNames) {
-		
-		if (propertyNames == null) {
-			throw new NullPointerException("propertyNames must not be null.");
-		}
-		
-		this.excludedToStringPropertyNames = propertyNames;
+		this.excludedToStringPropertyNames = Collections.unmodifiableSet(propertyNames);
 	}
 	
 	/**
@@ -337,7 +338,7 @@ public final class BeanTester <T> {
 	 * @throws AssertionError when a property is not checked correctly in the equals implementation
 	 */
 	private void testEquals() {
-		final T defaultObject = ObjectFactory.newDefaultObject(beanClass);
+		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
 		final boolean objectIsEqualToItSelf = defaultObject.equals(defaultObject);
 		
 		assertTrue(objectIsEqualToItSelf, EQUALS_NOT_REFLEXIVE_ERROR, beanClass.getName());
@@ -353,13 +354,13 @@ public final class BeanTester <T> {
 				continue;
 			}
 	
-			final T dirtyObject = ObjectFactory.newDirtyObject(beanClass);
+			final T dirtyObject = ObjectFactory.newBeanObject(beanClass);
 			final Class<?> propertyType = property.getPropertyType();
 			final Method setter = property.getWriteMethod();
-			final Object dirtyValue = ObjectFactory.newDirtyObject(propertyType);
+			final Object dirtyProperty = ObjectFactory.newDirtyProperty(propertyType);
 			
 			// test with not equal and not null values
-			setValue(dirtyObject, setter, dirtyValue);
+			setValue(dirtyObject, setter, dirtyProperty);
 			
 			assertFalse(defaultObject.equals(dirtyObject), EQUALS_NOT_NULL_ERROR, propertyName);
 			assertFalse(dirtyObject.equals(defaultObject), EQUALS_NOT_NULL_ERROR, propertyName);
@@ -387,7 +388,7 @@ public final class BeanTester <T> {
 	 * @throws AssertionError when a property is not checked correctly in the hashCode implementation
 	 */
 	private void testHashCode() {
-		final T defaultObject = ObjectFactory.newDefaultObject(beanClass);
+		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
 		
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(beanClass);
 		
@@ -397,10 +398,10 @@ public final class BeanTester <T> {
 			final Class<?> propertyType = property.getPropertyType();
 			final Method setter = property.getWriteMethod();
 	
-			final T dirtyObject = ObjectFactory.newDefaultObject(beanClass);
-			final Object dirtyValue = ObjectFactory.newDirtyObject(propertyType);
+			final T dirtyObject = ObjectFactory.newBeanObject(beanClass);
+			final Object dirtyProperty = ObjectFactory.newDirtyProperty(propertyType);
 			
-			setValue(dirtyObject, setter, dirtyValue);
+			setValue(dirtyObject, setter, dirtyProperty);
 			
 			final boolean areEqual = defaultObject.equals(dirtyObject);
 			final boolean hashCodesAreEqual = defaultObject.hashCode() == dirtyObject.hashCode();
@@ -438,7 +439,7 @@ public final class BeanTester <T> {
 	 * @throws AssertionError when a property is not included in the toString implementation
 	 */
 	private void testToString() {
-		final T defaultObject = ObjectFactory.newDefaultObject(beanClass);
+		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
 		final String defaultToStringResult  = defaultObject.toString();
 		
 		// test pattern
@@ -457,12 +458,12 @@ public final class BeanTester <T> {
 				continue;
 			}
 	
-			final T dirtyObject = ObjectFactory.newDefaultObject(beanClass);
+			final T dirtyObject = ObjectFactory.newBeanObject(beanClass);
 			final Class<?> propertyType = property.getPropertyType();
 			final Method setter = property.getWriteMethod();
-			final Object dirtyValue = ObjectFactory.newDirtyObject(propertyType);
+			final Object dirtyProperty = ObjectFactory.newDirtyProperty(propertyType);
 			
-			setValue(dirtyObject, setter, dirtyValue);
+			setValue(dirtyObject, setter, dirtyProperty);
 			
 			final boolean areEqual = defaultToStringResult.equals(dirtyObject.toString());
 			
@@ -480,21 +481,21 @@ public final class BeanTester <T> {
 	
 
 	/**
-	 * TODO
+	 * TODO document
 	 * 
 	 * @param object
 	 * @param property
 	 * @param value
 	 */
-	public void setValue(final T object, final Method setter, final Object value) {
+	private void setValue(final T object, final Method setter, final Object value) {
 		try {
 			setter.invoke(object, value);
 		} catch (final IllegalAccessException e) {
-			throw new BeanTestException("Failed to set '" + value + "' on '" + object.getClass().getCanonicalName() + "' with setter '" + setter + "'.", e);
+			throw new BeanTestException("Failed to set '" + value + "' on setter '" + setter + "'.", e);
 		} catch (final InvocationTargetException e) {
-			throw new BeanTestException("Failed to set '" + value + "' on '" + object.getClass().getCanonicalName() + "' with setter '" + setter + "'.", e);
+			throw new BeanTestException("Failed to set '" + value + "' on setter '" + setter + "'.", e);
 		} catch (final IllegalArgumentException e) {
-			throw new BeanTestException("Failed to set '" + value + "' on '" + object.getClass().getCanonicalName() + "' with setter '" + setter + "'.", e);
+			throw new BeanTestException("Failed to set '" + value + "' on setter '" + setter + "'.", e);
 		}
 	}
 

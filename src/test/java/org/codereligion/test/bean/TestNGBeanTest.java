@@ -1,5 +1,6 @@
-package org.codereligion.test.bean.framework;
+package org.codereligion.test.bean;
 
+import org.codereligion.test.bean.framework.AbsractBeanTest;
 import org.testng.annotations.Test;
 
 

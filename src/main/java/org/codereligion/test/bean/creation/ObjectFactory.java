@@ -163,14 +163,13 @@ public class ObjectFactory {
 
 	/**
 	 * Creates a "default" object of the given {@code beanClass}. A default object
-	 * contains values which are equivalent to 0 while dirty objects contain values
-	 * which are equivalent to 1 depending on the actual type.
+	 * contains values which are equivalent to 0 depending on the actual type.
 	 * 
 	 * <p>
-	 * Default Example:
+	 * Example:
 	 * 
 	 * <pre>
-	 * class Foo
+	 * public class Foo
 	 * 	private boolean foo = false;
 	 * 	private int bar = 0;
 	 * 	private double baz = 0d;
@@ -185,7 +184,7 @@ public class ObjectFactory {
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 * @throws IllegalArgumentException when the given {@code beanClass} can not be instantiated
 	 */
-	public static <T> T newDefaultObject(final Class<T> beanClass) {
+	public static <T> T newBeanObject(final Class<T> beanClass) {
 		
 		if (beanClass == null) {
 			throw new NullPointerException("beanClass must not be null.");
@@ -199,53 +198,61 @@ public class ObjectFactory {
 	}
 
 	/**
-	 * Creates a "dirty" object of the given {@code beanClass}. A dirty object
-	 * contains values which are equivalent to 1 while default objects contain
-	 * values which are equivalent to 0 depending on the actual type.
+	 * Retrieves a "dirty" property which is either a cached instance of a common java class
+	 * (e.g. {@link String}) or a newly created proxy of the given {@code beanClass}.
 	 * 
 	 * <p>
-	 * Dirty Example:
+	 * For common java classes the retrieved property will have a value equivalent to 1.
+	 * Proxies will behave on calls to equals, hashCode and toString as if they are of
+	 * value 1.
+	 * 
+	 * <p>
+	 * Example:
 	 * 
 	 * <pre>
-	 * class Foo
-	 * 	private boolean foo = true;
-	 * 	private int bar = 1;
-	 * 	private double baz = 1d;
+	 * public class Foo
+	 * 	public boolean equals(Object object) {
+	 *  	TODO double check
+	 * 		return true;
+	 * 	}
+	 * 	
+	 * 	public int hashCode() {
+	 * 		return 1;
+	 *  }
+	 *  
+	 *  public String toString() {
+	 *  	return "1";
+	 *  }
 	 * </pre>
 	 * 
 	 * <p>
-	 * Default Example:
-	 * 
-	 * <pre>
-	 * class Foo
-	 * 	private boolean foo = false;
-	 * 	private int bar = 0;
-	 * 	private double baz = 0d;
-	 * </pre>
+	 * If the given {@code beanClass} represents an array type, an array of that type will be
+	 * created and returned. The array contains one element which contains a "dirty" value
+	 * for the array's component type.
 	 * 
 	 * <p>
-	 * Note: In order to avoid {@link IllegalArgumentException}s use
-	 * {@link ObjectFactory #isCreateable(Class)} to verify your input.
+	 * If the given {@code beanClass} represents an enumeration the returned object represents 
+	 * the second value of the enumeration or {@code null} if it does not have a second value.
+	 * The order is defined by the enumeration's natural order, see {@link ObjectType #ordinal()}.
+	 * 
+	 * <p>
+	 * If the given {@code beanClass} represents an interface or a regular bean a proxy of that
+	 * interface or bean is created which will not cascade creation of further sub-instances.
+	 * This avoids cycles and out of scope testing of the actual bean under test.
 	 * 
 	 * @param beanClass the {@link Class} to create the dirty object for
 	 * @return an instance of the given {@code beanClass}
 	 * @throws NullPointerException when the given parameter is {@code null}
-	 * @throws IllegalArgumentException when the given {@code beanClass} can not be instantiated
+	 * @throws IllegalArgumentException when no dirty property can be created for the given {@code beanClass}
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T newDirtyObject(final Class<T> beanClass) {
+	public static <T> T newDirtyProperty(final Class<T> beanClass) {
 		
 		if (beanClass == null) {
 			throw new NullPointerException("beanClass must not be null.");
 		}
 		
-		// TODO
 		return (T) getObject(beanClass, ObjectType.DIRTY);
-//		if (!isCreateable(beanClass)) {
-//			throw new IllegalArgumentException("Instantiation of an object for type " + beanClass.getCanonicalName()+ " is not supported.");
-//		}
-//		
-//		return createComplexObject(beanClass, ObjectType.DIRTY);
 	}
 
 	/**
@@ -258,15 +265,6 @@ public class ObjectFactory {
 	 * @throws NullPointerException when any of the given parameters are {@code null}
 	 */
 	private static <T> T createComplexObject(final Class<T> beanClass, final ObjectType objectType) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-
-		if (objectType == null) {
-			throw new NullPointerException("objectType must not be null.");
-		}
-		
 		try {
 			final T object = beanClass.newInstance();
 			final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(beanClass);
@@ -279,11 +277,11 @@ public class ObjectFactory {
 				try {
 					setter.invoke(object, value);
 				} catch (final IllegalAccessException e) {
-					throw new BeanTestException("Failed to set '" + value + "' on '" + beanClass.getCanonicalName() + "' with setter '" + setter + "'.", e);
+					throw new BeanTestException("Failed to set '" + value + "' on setter '" + setter + "'.", e);
 				} catch (final InvocationTargetException e) {
-					throw new BeanTestException("Failed to set '" + value + "' on '" + beanClass.getCanonicalName() + "' with setter '" + setter + "'.", e);
+					throw new BeanTestException("Failed to set '" + value + "' on setter '" + setter + "'.", e);
 				} catch (final IllegalArgumentException e) {
-					throw new BeanTestException("Failed to set '" + value + "' on '" + beanClass.getCanonicalName() + "' with setter '" + setter + "'.", e);
+					throw new BeanTestException("Failed to set '" + value + "' on setter '" + setter + "'.", e);
 				}
 			}
 			
@@ -296,7 +294,7 @@ public class ObjectFactory {
 	}
 	
 	/**
-	 * Returns either an cached instance of a common java class or creates an instance of the
+	 * Returns either a cached instance of a common java class or creates an instance of the
 	 * given {@code beanClass}.
 	 * 
 	 * <p>
@@ -305,13 +303,13 @@ public class ObjectFactory {
 	 * {@code objectType}.
 	 * 
 	 * <p>
-	 * If the given {@code beanClass} represents an enumeration the return object represents 
+	 * If the given {@code beanClass} represents an enumeration the returned object represents 
 	 * a value of that enumeration which is either the first or the second according to the given 
 	 * {@link ObjectType #ordinal()}. If the given enumeration has no first or second value, 
 	 * {@code null} is returned.
 	 * 
 	 * <p>
-	 * If the given {@code beanClass} represents an interface or a regular bean an proxy of that
+	 * If the given {@code beanClass} represents an interface or a regular bean a proxy of that
 	 * interface or bean is created which will not cascade creation of further sub-instances.
 	 * This avoids cycles and out of scope testing of the actual bean under test.
 	 * 
@@ -322,15 +320,6 @@ public class ObjectFactory {
 	 * @throws IllegalArgumentException when no object can be created for the given {@code beanClass}
 	 */
 	private static Object getObject(final Class<?> beanClass, final ObjectType objectType) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-
-		if (objectType == null) {
-			throw new NullPointerException("objectType must not be null.");
-		}
-		
 		final AbstractProvider<?> provider = OBJECT_PROVIDER.get(beanClass.getCanonicalName());
 		
 		//  TODO any important types missing?
@@ -364,15 +353,6 @@ public class ObjectFactory {
 	 * @throws IllegalArgumentException when the given {@code enumClass} is not an enumeration
 	 */
 	private static Object getEnumValue(final Class<?> enumClass, final ObjectType objectType) {
-
-		if (enumClass == null) {
-			throw new NullPointerException("enumClass must not be null.");
-		}
-
-		if (objectType == null) {
-			throw new NullPointerException("objectType must not be null.");
-		}
-		
 		if (!enumClass.isEnum()) {
 			throw new IllegalArgumentException("The given type " + enumClass.getCanonicalName() + " is not an enumeration.");
 		}
@@ -400,22 +380,8 @@ public class ObjectFactory {
 	 * @param objectType the {@link ObjectType} which determines the value of the only element of the array
 	 * @return an instance of the given {@code arrayClass} with one element
 	 * @throws NullPointerException when any of the given parameters are {@code null}
-	 * @throws IllegalArgumentException when the given parameter is not an array
 	 */
 	private static Object createArray(final Class<?> arrayClass, final ObjectType objectType) {
-
-		if (arrayClass == null) {
-			throw new NullPointerException("arrayClass must not be null.");
-		}
-
-		if (objectType == null) {
-			throw new NullPointerException("objectType must not be null.");
-		}
-
-		if (arrayClass.isArray()) {
-			throw new IllegalArgumentException("The given type " + arrayClass.getCanonicalName() + " does not represent an array.");
-		}
-		
 		final Object array = Array.newInstance(arrayClass, 1);
 		final Object value = getObject(arrayClass, objectType);
 		Array.set(array, 0, value);
@@ -435,15 +401,6 @@ public class ObjectFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	private static <T> T createProxy(final Class<T> beanClass, final ObjectType objectType) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-
-		if (objectType == null) {
-			throw new NullPointerException("objectType must not be null.");
-		}
-		
 		if (Modifier.isFinal(beanClass.getModifiers())) {
 			throw new IllegalArgumentException("Can not create proxy for final class " + beanClass.getCanonicalName() + ".");
 		}
@@ -459,6 +416,7 @@ public class ObjectFactory {
 				
 				// TODO maybe always call super to not skip expected side-effects?
 				if (method.getName().equals(EQUALS)) {
+					// TODO is that so clever?, write test
 					return objectType == ObjectType.DIRTY;
 				} else if (method.getName().equals(HASH_CODE)) {
 					return objectType.ordinal();

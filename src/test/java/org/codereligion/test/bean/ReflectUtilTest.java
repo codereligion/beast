@@ -13,12 +13,16 @@ import org.junit.Test;
 
 /**
  * Tests {@link ReflectUtil}.
- * TODO implement parameter check tests
  * 
  * @author sgroebler
  * @since 12.08.2012
  */
 public class ReflectUtilTest {
+	
+	@Test(expected = NullPointerException.class)
+	public void testGetSelectablePropertiesWithNullClass() {
+		ReflectUtil.getSetableProperties(null);
+	}
 
 	@Test
 	public void testGetSelectableProperties() {
