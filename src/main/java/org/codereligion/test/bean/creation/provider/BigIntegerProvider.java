@@ -14,24 +14,14 @@ public class BigIntegerProvider extends AbstractProvider<BigInteger> {
 	 * Instance of this class.
 	 */
 	public static final AbstractProvider<BigInteger> INSTANCE = new BigIntegerProvider();
-	
-	/**
-	 * Cached dirty object.
-	 */
-	private static final BigInteger DIRTY = new BigInteger("1");
-	
-	/**
-	 * Cached default object.
-	 */
-	private static final BigInteger DEFAULT = new BigInteger("0");
 
-	@Override
+    @Override
 	public BigInteger getDirtyObject() {
-		return DIRTY;
+		return BigInteger.ONE;
 	}
 
 	@Override
 	public BigInteger getDefaultObject() {
-		return DEFAULT;
+		return BigInteger.ZERO;
 	}
 }

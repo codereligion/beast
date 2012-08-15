@@ -13,24 +13,14 @@ public class BooleanProvider extends AbstractProvider<Boolean> {
 	 * Instance of this class.
 	 */
 	public static final AbstractProvider<Boolean> INSTANCE = new BooleanProvider();
-	
-	/**
-	 * Cached dirty object.
-	 */
-	private static final Boolean DIRTY = true;
-	
-	/**
-	 * Cached default object.
-	 */
-	private static final Boolean DEFAULT = false;
-	
-	@Override
+
+    @Override
 	public Boolean getDirtyObject() {
-		return DIRTY;
+		return Boolean.TRUE;
 	}
 
 	@Override
 	public Boolean getDefaultObject() {
-		return DEFAULT;
+		return Boolean.FALSE;
 	}
 }

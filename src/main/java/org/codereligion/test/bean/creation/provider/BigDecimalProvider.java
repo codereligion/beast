@@ -15,23 +15,13 @@ public class BigDecimalProvider extends AbstractProvider<BigDecimal> {
 	 */
 	public static final AbstractProvider<BigDecimal> INSTANCE = new BigDecimalProvider();
 	
-	/**
-	 * Cached dirty object.
-	 */
-	private static final BigDecimal DIRTY = new BigDecimal("1");
-	
-	/**
-	 * Cached default object.
-	 */
-	private static final BigDecimal DEFAULT = new BigDecimal("0");
-	
 	@Override
 	public BigDecimal getDirtyObject() {
-		return DIRTY;
+		return BigDecimal.ONE;
 	}
 
 	@Override
 	public BigDecimal getDefaultObject() {
-		return DEFAULT;
+		return BigDecimal.ZERO;
 	}
 }
