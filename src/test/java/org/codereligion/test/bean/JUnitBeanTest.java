@@ -1,6 +1,6 @@
 package org.codereligion.test.bean;
 
-import org.codereligion.test.bean.framework.AbsractBeanTest;
+import org.codereligion.test.bean.framework.AbstractBeanTest;
 import org.junit.Test;
 
 /**
@@ -11,7 +11,7 @@ import org.junit.Test;
  * @author sgroebler
  * @since 11.08.2012
  */
-public abstract class JUnitBeanTest <T> extends AbsractBeanTest<T> {
+public abstract class JUnitBeanTest <T> extends AbstractBeanTest<T> {
 	
 	@Test
 	@Override

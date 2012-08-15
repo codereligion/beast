@@ -1,6 +1,6 @@
 package org.codereligion.test.bean;
 
-import org.codereligion.test.bean.framework.AbsractBeanTest;
+import org.codereligion.test.bean.framework.AbstractBeanTest;
 import org.testng.annotations.Test;
 
 
@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
  * @author sgroebler
  * @since 11.08.2012
  */
-public abstract class TestNGBeanTest <T> extends AbsractBeanTest<T> {
+public abstract class TestNGBeanTest <T> extends AbstractBeanTest<T> {
 	
 	@Test
 	@Override
