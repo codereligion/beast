@@ -20,12 +20,8 @@ import org.codereligion.test.bean.reflect.ReflectUtil;
  */
 public class ToStringTester <T> extends AbstractTester<T> {
 	
-	private static final String NO_SETTER_ERROR				= 	"The given class '%s' does not provide any public setters, only properties " +
-																"which are setable through public setters can be verified to be included in " +
-																"the to be tested method.";
-	
 	private static final String TO_STRING_EQUALITY_ERROR 	=	"Property '%s' is not included in the toString method. If this is " +
-																"intentional add it to the excludedHashCodeAndEqualsPropertyNames.";
+																"intentional add it to the excludedPropertyNames.";
 
 	private static final String TO_STRING_NULL_ERROR 		=	"The toString method can not handle null values of the property '%s' correctly.";
 	
@@ -56,21 +52,7 @@ public class ToStringTester <T> extends AbstractTester<T> {
 	 * @throws AssertionError when a property is not included in the toString implementation
 	 */
 	public static <T> void testIntegrity(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
-
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-		
-		if (!ObjectFactory.isCreateable(beanClass)) {
-			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
-		}
-
-		if (!ReflectUtil.hasSetableProperties(beanClass)) {
-			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
-		}
-		
-		final ToStringTester<T> beanTester = new ToStringTester<T>(beanClass);
-		beanTester.setExcludedPropertyNames(excludedPropertyNames);
+		final ToStringTester<T> beanTester = new ToStringTester<T>(beanClass, excludedPropertyNames);
 		beanTester.testIntegrity();
 	}
 
@@ -79,19 +61,6 @@ public class ToStringTester <T> extends AbstractTester<T> {
 	 * @param beanClass
 	 */
 	public static <T> void testNullSafety(final Class<T> beanClass) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-		
-		if (!ObjectFactory.isCreateable(beanClass)) {
-			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
-		}
-
-		if (!ReflectUtil.hasSetableProperties(beanClass)) {
-			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
-		}
-		
 		final ToStringTester<T> beanTester = new ToStringTester<T>(beanClass);
 		beanTester.testNullSafety();
 	}
@@ -135,6 +104,16 @@ public class ToStringTester <T> extends AbstractTester<T> {
 	 */
 	protected ToStringTester(final Class<T> beanClass) {
 		super(beanClass);
+	}
+	
+	/**
+	 * TODO
+	 * 
+	 * @param beanClass
+	 * @param excludedPropertyNames
+	 */
+	protected ToStringTester(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
+		super(beanClass, excludedPropertyNames);
 	}
 
 	/**

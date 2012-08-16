@@ -36,6 +36,8 @@ import org.codereligion.test.bean.creation.provider.ObjectProvider;
 import org.codereligion.test.bean.creation.provider.ShortProvider;
 import org.codereligion.test.bean.creation.provider.StringProvider;
 import org.codereligion.test.bean.exception.BeanTestException;
+import org.codereligion.test.bean.object.ComplexClass;
+import org.codereligion.test.bean.object.User;
 import org.codereligion.test.bean.reflect.ReflectUtil;
 
 /**
@@ -414,22 +416,28 @@ public class ObjectFactory {
 		final Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(beanClass);
         enhancer.setCallback(new MethodInterceptor() {
+			@SuppressWarnings("boxing")
 			public Object intercept(
-					final Object object,
+					final Object thisObject,
 					final Method method,
 					final Object[] args,
 					final MethodProxy methodProxy) throws Throwable {
 
-				// TODO maybe always call super to not skip expected side-effects?
 				if (method.getName().equals(EQUALS)) {
-					// TODO is that so clever?, write test
-					return objectType == ObjectType.DIRTY;
+					final Object givenObject = args[0];
+					if (givenObject == null)
+						return Boolean.FALSE;
+					if (thisObject == givenObject)
+						return Boolean.TRUE;
+					if (thisObject.getClass().getSuperclass().equals(givenObject.getClass().getSuperclass()))
+						return Boolean.FALSE;
+					return thisObject.hashCode() == thisObject.hashCode();
 				} else if (method.getName().equals(HASH_CODE)) {
 					return objectType.ordinal();
 				} else if (method.getName().equals(TO_STRING)) {
 					return objectType.toString();
 				}
-				return methodProxy.invokeSuper(object, args);
+				return methodProxy.invokeSuper(thisObject, args);
 			}
 		});
         return (T) enhancer.create();

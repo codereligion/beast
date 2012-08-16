@@ -23,7 +23,7 @@ public class EqualsTester <T> extends AbstractTester<T> {
 																"the to be tested method.";
 	
 	private static final String EQUALS_NOT_NULL_ERROR		=	"Property '%s' is not included in the equals method. If this is " +
-													   			"intentional add it to the excludedHashCodeAndEqualsPropertyNames.";
+													   			"intentional add it to the excludedPropertyNames.";
 	
 	private static final String EQUALS_NOT_REFLEXIVE_ERROR	=	"Equals method for instance of '%s' is not reflexive.";
 	
@@ -54,25 +54,7 @@ public class EqualsTester <T> extends AbstractTester<T> {
 	 * @throws AssertionError when a property is not checked correctly in the equals implementation
 	 */
 	public static <T> void testIntegrity(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-		
-		if (!ObjectFactory.isCreateable(beanClass)) {
-			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
-		}
-
-		if (!ReflectUtil.hasSetableProperties(beanClass)) {
-			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
-		}
-		
-		if (excludedPropertyNames == null) {
-			throw new NullPointerException("excludedPropertyNames must not be null.");
-		}
-		
-		final EqualsTester<T> beanTester =  new EqualsTester<T>(beanClass);
-		beanTester.setExcludedPropertyNames(excludedPropertyNames);
+		final EqualsTester<T> beanTester = new EqualsTester<T>(beanClass, excludedPropertyNames);
 		beanTester.testIntegrity();
 	}
 
@@ -108,6 +90,16 @@ public class EqualsTester <T> extends AbstractTester<T> {
 	 */
 	protected EqualsTester(final Class<T> beanClass) {
 		super(beanClass);
+	}
+	
+	/**
+	 * TODO
+	 * 
+	 * @param beanClass
+	 * @param excludedPropertyNames
+	 */
+	protected EqualsTester(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
+		super(beanClass, excludedPropertyNames);
 	}
 
 	/**

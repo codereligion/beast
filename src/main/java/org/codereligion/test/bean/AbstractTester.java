@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.codereligion.test.bean.creation.ObjectFactory;
 import org.codereligion.test.bean.exception.BeanTestException;
+import org.codereligion.test.bean.reflect.ReflectUtil;
 
 
 /**
@@ -16,6 +18,10 @@ import org.codereligion.test.bean.exception.BeanTestException;
  * @since 11.08.2012
  */
 public abstract class AbstractTester <T> {
+
+	private static final String NO_SETTER_ERROR	= 	"The given class '%s' does not provide any public setters, only properties " +
+													"which are setable through public setters can be verified to be included in " +
+													"the to be tested method.";
 	
 	/**
 	 * The {@link Class} of the bean to be tested.
@@ -28,6 +34,7 @@ public abstract class AbstractTester <T> {
 	protected Set<String> excludedPropertyNames = new HashSet<String>();
 	
 	/**
+	 * TODO
 	 * Constructs a new instance for the given {@code beanClass}.
 	 * 
 	 * @param beanClass the {@link Class} to test
@@ -35,7 +42,37 @@ public abstract class AbstractTester <T> {
 	 * @throws IllegalArgumentException when the given {@code beanClass} can not be tested
 	 */
 	protected AbstractTester(final Class<T> beanClass) {
+		this(beanClass, Collections.<String>emptySet());
+	}
+	
+	/**
+	 * TODO
+	 * Constructs a new instance for the given {@code beanClass}.
+	 * 
+	 * @param beanClass the {@link Class} to test
+	 * @throws NullPointerException when the given parameter is {@code null}
+	 * @throws IllegalArgumentException when the given {@code beanClass} can not be tested
+	 */
+	protected AbstractTester(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
+		
+		if (beanClass == null) {
+			throw new NullPointerException("beanClass must not be null.");
+		}
+		
+		if (!ObjectFactory.isCreateable(beanClass)) {
+			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
+		}
+		
+		if (!ReflectUtil.hasSetableProperties(beanClass)) {
+			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
+		}
+
+		if (excludedPropertyNames == null) {
+			throw new NullPointerException("excludedPropertyNames must not be null.");
+		}
+		
 		this.beanClass = beanClass;
+		this.excludedPropertyNames = Collections.unmodifiableSet(excludedPropertyNames);
 	}
 
 	/**
@@ -48,21 +85,23 @@ public abstract class AbstractTester <T> {
 	 */
 	protected abstract void testNullSafety();
 
-	/**
-	 * TODO
-	 * Sets the property names which should be excluded from the hashCode and equals test.
-	 * Per default no properties are excluded.
-	 * 
-	 * <p>
-	 * This setting is <b>optional</b>.
-	 * 
-	 * 
-	 * @param propertyNames a {@link Set} of property names to be excluded
-	 * @throws NullPointerException when the given parameter is {@code null}
-	 */
-	protected void setExcludedPropertyNames(final Set<String> propertyNames) {
-		this.excludedPropertyNames = Collections.unmodifiableSet(propertyNames);
-	}
+//	/**
+//	 * TODO
+//	 * Sets the property names which should be excluded from the hashCode and equals test.
+//	 * Per default no properties are excluded.
+//	 * 
+//	 * <p>
+//	 * This setting is <b>optional</b>.
+//	 * 
+//	 * 
+//	 * @param propertyNames a {@link Set} of property names to be excluded
+//	 * @throws NullPointerException when the given parameter is {@code null}
+//	 */
+//	protected void setExcludedPropertyNames(final Set<String> propertyNames) {
+//		this.excludedPropertyNames = Collections.unmodifiableSet(propertyNames);
+//	}
+	
+	
 	
 	/**
 	 * TODO document

@@ -2,7 +2,7 @@ package org.codereligion.test.bean;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import org.codereligion.test.bean.creation.ObjectFactory;
@@ -18,12 +18,8 @@ import org.codereligion.test.bean.reflect.ReflectUtil;
  */
 public class HashCodeTester <T> extends AbstractTester<T> {
 	
-	private static final String NO_SETTER_ERROR				= 	"The given class '%s' does not provide any public setters, only properties " +
-																"which are setable through public setters can be verified to be included in " +
-																"the to be tested method.";
-	
 	private static final String HASH_CODE_EQUALTIY_ERROR 	=	"Property '%s' is not included in the hashCode method. If this is " +
-																"intentional add it to the excludedHashCodeAndEqualsPropertyNames.";
+																"intentional add it to the excludedPropertyNames.";
 	
 	private static final String HASH_CODE_NULL_ERROR 		=	"The hashCode method can not handle null values of the property '%s' correctly.";
 	
@@ -45,7 +41,7 @@ public class HashCodeTester <T> extends AbstractTester<T> {
 	 * @throws AssertionError when a property is not checked correctly in the hashCode implementation
 	 */
 	public static <T> void testIntegrity(final Class<T> beanClass) {
-		testIntegrity(beanClass, new HashSet<String>());
+		testIntegrity(beanClass, Collections.<String>emptySet());
 	}
 	
 	/**
@@ -63,25 +59,7 @@ public class HashCodeTester <T> extends AbstractTester<T> {
 	 * @throws AssertionError when a property is not checked correctly in the hashCode implementation
 	 */
 	public static <T> void testIntegrity(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-		
-		if (!ObjectFactory.isCreateable(beanClass)) {
-			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
-		}
-		
-		if (!ReflectUtil.hasSetableProperties(beanClass)) {
-			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
-		}
-		
-		if (excludedPropertyNames == null) {
-			throw new NullPointerException("excludedPropertyNames must not be null.");
-		}
-		
-		final HashCodeTester<T> beanTester = new HashCodeTester<T>(beanClass);
-		beanTester.setExcludedPropertyNames(excludedPropertyNames);
+		final HashCodeTester<T> beanTester = new HashCodeTester<T>(beanClass, excludedPropertyNames);
 		beanTester.testIntegrity();
 	}
 	
@@ -91,19 +69,6 @@ public class HashCodeTester <T> extends AbstractTester<T> {
 	 * @param beanClass
 	 */
 	public static <T> void testNullSafety(final Class<T> beanClass) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-		
-		if (!ObjectFactory.isCreateable(beanClass)) {
-			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
-		}
-
-		if (!ReflectUtil.hasSetableProperties(beanClass)) {
-			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
-		}
-		
 		final HashCodeTester<T> beanTester = new HashCodeTester<T>(beanClass);
 		beanTester.testNullSafety();
 	}
@@ -117,6 +82,15 @@ public class HashCodeTester <T> extends AbstractTester<T> {
 	 */
 	protected HashCodeTester(final Class<T> beanClass) {
 		super(beanClass);
+	}
+	
+	/**
+	 * TODO
+	 * 
+	 * @param beanClass
+	 */
+	protected HashCodeTester(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
+		super(beanClass, excludedPropertyNames);
 	}
 
 	/**
