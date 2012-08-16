@@ -1,9 +1,8 @@
 package org.codereligion.test.bean.creation;
 
 /**
- * TODO double check
- * Enumeration of available object types. Default objects contain
- * values which are equivalent to 0 while dirty objects contain
+ * Enumeration of available property states. Default properties contain
+ * values which are equivalent to 0 while dirty properties contain
  * values which are equivalent to 1 depending on the actual type.
  * 
  * <p>
@@ -29,7 +28,7 @@ package org.codereligion.test.bean.creation;
  * @author sgroebler
  * @since 13.08.2012
  */
-public enum ObjectType {
+public enum PropertyState {
 
 	/**
 	 * Relates to values equivalent to 0.

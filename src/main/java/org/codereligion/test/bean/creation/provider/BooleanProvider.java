@@ -7,12 +7,12 @@ package org.codereligion.test.bean.creation.provider;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class BooleanProvider extends AbstractProvider<Boolean> {
+public class BooleanProvider implements Provider<Boolean> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<Boolean> INSTANCE = new BooleanProvider();
+	public static final Provider<Boolean> INSTANCE = new BooleanProvider();
 
     @Override
 	public Boolean getDirtyObject() {

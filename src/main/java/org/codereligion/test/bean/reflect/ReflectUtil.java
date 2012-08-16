@@ -75,7 +75,8 @@ public class ReflectUtil {
 		if (propertyDescriptor.getReadMethod() != null) {
 			final String propertyName = propertyDescriptor.getName();
 			final String getterName = propertyDescriptor.getReadMethod().getName();
-			final String setterName = getterName.replaceAll("get", "set");
+			final String setterName = getterName.replace("get", "set");
+			
 			for (final Method method : clazz.getMethods()) {
 				if (!method.isBridge() && method.getName().equals(setterName)) {
 					return new PropertyDescriptor(propertyName, clazz);

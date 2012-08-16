@@ -8,12 +8,12 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class AtomicLongProvider extends AbstractProvider<AtomicLong> {
+public class AtomicLongProvider implements Provider<AtomicLong> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<AtomicLong> INSTANCE = new AtomicLongProvider();
+	public static final Provider<AtomicLong> INSTANCE = new AtomicLongProvider();
 	
 	/**
 	 * Cached dirty object.

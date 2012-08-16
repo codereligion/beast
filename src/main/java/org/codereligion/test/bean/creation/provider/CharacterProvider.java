@@ -7,22 +7,22 @@ package org.codereligion.test.bean.creation.provider;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class CharacterProvider extends AbstractProvider<Character> {
+public class CharacterProvider implements Provider<Character> {
 	
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<Character> INSTANCE = new CharacterProvider();
+	public static final Provider<Character> INSTANCE = new CharacterProvider();
 	
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Character DIRTY = 1;
+	private static final Character DIRTY =  Character.valueOf((char) 1);
 	
 	/**
 	 * Cached default object.
 	 */
-	private static final Character DEFAULT = 0;
+	private static final Character DEFAULT = Character.valueOf((char) 0);
 	
 	@Override
 	public Character getDirtyObject() {

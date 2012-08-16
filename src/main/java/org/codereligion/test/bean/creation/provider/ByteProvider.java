@@ -7,22 +7,22 @@ package org.codereligion.test.bean.creation.provider;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class ByteProvider extends AbstractProvider<Byte> {
+public class ByteProvider implements Provider<Byte> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<Byte> INSTANCE = new ByteProvider();
+	public static final Provider<Byte> INSTANCE = new ByteProvider();
 	
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Byte DIRTY = 1;
+	private static final Byte DIRTY = new Byte("1");
 	
 	/**
 	 * Cached default object.
 	 */
-	private static final Byte DEFAULT = 0;
+	private static final Byte DEFAULT = new Byte("0");
 	
 	@Override
 	public Byte getDirtyObject() {

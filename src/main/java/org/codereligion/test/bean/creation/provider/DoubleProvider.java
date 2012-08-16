@@ -7,22 +7,22 @@ package org.codereligion.test.bean.creation.provider;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class DoubleProvider extends AbstractProvider<Double> {
+public class DoubleProvider implements Provider<Double> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<Double> INSTANCE = new DoubleProvider();
+	public static final Provider<Double> INSTANCE = new DoubleProvider();
 	
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Double DIRTY = 1D;
+	private static final Double DIRTY = new Double("1");
 	
 	/**
 	 * Cached default object.
 	 */
-	private static final Double DEFAULT = 0D;
+	private static final Double DEFAULT = new Double("0");
 	
 	@Override
 	public Double getDirtyObject() {

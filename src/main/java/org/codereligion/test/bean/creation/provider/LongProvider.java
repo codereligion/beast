@@ -7,22 +7,22 @@ package org.codereligion.test.bean.creation.provider;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class LongProvider extends AbstractProvider<Long> {
+public class LongProvider implements Provider<Long> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<Long> INSTANCE = new LongProvider();
+	public static final Provider<Long> INSTANCE = new LongProvider();
 	
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Long DIRTY = 1L;
+	private static final Long DIRTY = Long.valueOf(1);
 	
 	/**
 	 * Cached default object.
 	 */
-	private static final Long DEFAULT = 0L;
+	private static final Long DEFAULT = Long.valueOf(0);
 	
 	@Override
 	public Long getDirtyObject() {

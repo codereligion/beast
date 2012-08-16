@@ -137,7 +137,12 @@ public class EqualsTester <T> extends AbstractTester<T> {
 			// test with not equal and not null values
 			setValue(dirtyObject, setter, dirtyProperty);
 			
-			assertFalse(defaultObject.equals(dirtyObject), EQUALS_NOT_NULL_ERROR, propertyName);
+			// TODO only for debugging
+			if (defaultObject.equals(dirtyObject)) {
+				
+				assertFalse(defaultObject.equals(dirtyObject), EQUALS_NOT_NULL_ERROR, propertyName);
+			}
+			
 			assertFalse(dirtyObject.equals(defaultObject), EQUALS_NOT_NULL_ERROR, propertyName);
 		}
 	}

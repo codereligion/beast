@@ -8,12 +8,12 @@ import java.math.BigInteger;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class BigIntegerProvider extends AbstractProvider<BigInteger> {
+public class BigIntegerProvider implements Provider<BigInteger> {
 	
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<BigInteger> INSTANCE = new BigIntegerProvider();
+	public static final Provider<BigInteger> INSTANCE = new BigIntegerProvider();
 
     @Override
 	public BigInteger getDirtyObject() {

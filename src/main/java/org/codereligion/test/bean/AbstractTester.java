@@ -84,24 +84,6 @@ public abstract class AbstractTester <T> {
 	 * TODO
 	 */
 	protected abstract void testNullSafety();
-
-//	/**
-//	 * TODO
-//	 * Sets the property names which should be excluded from the hashCode and equals test.
-//	 * Per default no properties are excluded.
-//	 * 
-//	 * <p>
-//	 * This setting is <b>optional</b>.
-//	 * 
-//	 * 
-//	 * @param propertyNames a {@link Set} of property names to be excluded
-//	 * @throws NullPointerException when the given parameter is {@code null}
-//	 */
-//	protected void setExcludedPropertyNames(final Set<String> propertyNames) {
-//		this.excludedPropertyNames = Collections.unmodifiableSet(propertyNames);
-//	}
-	
-	
 	
 	/**
 	 * TODO document

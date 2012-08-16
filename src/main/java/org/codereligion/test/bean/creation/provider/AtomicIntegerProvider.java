@@ -8,12 +8,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class AtomicIntegerProvider extends AbstractProvider<AtomicInteger> {
+public class AtomicIntegerProvider implements Provider<AtomicInteger> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<AtomicInteger> INSTANCE = new AtomicIntegerProvider();
+	public static final Provider<AtomicInteger> INSTANCE = new AtomicIntegerProvider();
 	
 	/**
 	 * Cached dirty object.

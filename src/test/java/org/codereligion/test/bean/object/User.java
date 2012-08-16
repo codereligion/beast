@@ -10,6 +10,7 @@ public class User implements Identifiable<Integer> {
 
 	private Integer id;
 
+	@Override
 	public Integer getId() {
 		return id;
 	}

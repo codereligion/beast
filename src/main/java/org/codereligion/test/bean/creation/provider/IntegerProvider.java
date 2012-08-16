@@ -7,22 +7,22 @@ package org.codereligion.test.bean.creation.provider;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class IntegerProvider extends AbstractProvider<Integer> {
+public class IntegerProvider implements Provider<Integer> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<Integer> INSTANCE = new IntegerProvider();
+	public static final Provider<Integer> INSTANCE = new IntegerProvider();
 	
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Integer DIRTY = 1;
+	private static final Integer DIRTY = Integer.valueOf(1);
 	
 	/**
 	 * Cached default object.
 	 */
-	private static final Integer DEFAULT = 0;
+	private static final Integer DEFAULT = Integer.valueOf(0);
 	
 	@Override
 	public Integer getDirtyObject() {

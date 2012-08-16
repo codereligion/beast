@@ -7,22 +7,22 @@ package org.codereligion.test.bean.creation.provider;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class FloatProvider extends AbstractProvider<Float> {
+public class FloatProvider implements Provider<Float> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<Float> INSTANCE = new FloatProvider();
+	public static final Provider<Float> INSTANCE = new FloatProvider();
 	
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Float DIRTY = 1F;
+	private static final Float DIRTY = new Float("1");
 	
 	/**
 	 * Cached default object.
 	 */
-	private static final Float DEFAULT = 0F;
+	private static final Float DEFAULT = new Float("0");
 	
 	@Override
 	public Float getDirtyObject() {

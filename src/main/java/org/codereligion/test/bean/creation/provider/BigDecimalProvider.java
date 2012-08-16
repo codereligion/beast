@@ -8,12 +8,12 @@ import java.math.BigDecimal;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class BigDecimalProvider extends AbstractProvider<BigDecimal> {
+public class BigDecimalProvider implements Provider<BigDecimal> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<BigDecimal> INSTANCE = new BigDecimalProvider();
+	public static final Provider<BigDecimal> INSTANCE = new BigDecimalProvider();
 	
 	@Override
 	public BigDecimal getDirtyObject() {

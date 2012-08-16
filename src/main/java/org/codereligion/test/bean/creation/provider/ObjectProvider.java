@@ -7,12 +7,12 @@ package org.codereligion.test.bean.creation.provider;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class ObjectProvider extends AbstractProvider<Object> {
+public class ObjectProvider implements Provider<Object> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<Object> INSTANCE = new ObjectProvider();
+	public static final Provider<Object> INSTANCE = new ObjectProvider();
 	
 	/**
 	 * Cached dirty object.

@@ -7,22 +7,22 @@ package org.codereligion.test.bean.creation.provider;
  * @author sgroebler
  * @since 14.08.2012
  */
-public class ShortProvider extends AbstractProvider<Short> {
+public class ShortProvider implements Provider<Short> {
 
 	/**
 	 * Instance of this class.
 	 */
-	public static final AbstractProvider<Short> INSTANCE = new ShortProvider();
+	public static final Provider<Short> INSTANCE = new ShortProvider();
 	
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Short DIRTY = 1;
+	private static final Short DIRTY = new Short("1");
 	
 	/**
 	 * Cached default object.
 	 */
-	private static final Short DEFAULT = 0;
+	private static final Short DEFAULT = new Short("0");
 	
 	@Override
 	public Short getDirtyObject() {
