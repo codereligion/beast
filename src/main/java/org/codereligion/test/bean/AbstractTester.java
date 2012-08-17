@@ -107,21 +107,25 @@ abstract class AbstractTester <T> {
 		}
 	}
 
+    private void fail(String message, Object... messageArgs) {
+        final String formattedMessage = String.format(message, messageArgs);
+        throw new AssertionError(formattedMessage);
+    }
+
 	/**
 	 * Convenience method to throw a formatted {@link AssertionError} if the given condition is not {@code false}.
-	 * 
+	 *
 	 * @param condition the boolean condition to be checked
 	 * @param message the message to be formatted in cases an {@link AssertionError} is thrown
 	 * @param messageArgs the arguments to be used in message formatting
 	 */
 	protected void assertFalse(final boolean condition, final String message, final Object... messageArgs) {
 		if (condition) {
-			final String formattedMessage = String.format(message, messageArgs);
-			throw new AssertionError(formattedMessage);
+            fail(message, messageArgs);
 		}
 	}
 
-	/**
+    /**
 	 * Convenience method to throw a formatted {@link AssertionError} if the given condition is not {@code true}.
 	 * 
 	 * @param condition the boolean condition to be checked
@@ -130,7 +134,7 @@ abstract class AbstractTester <T> {
 	 */
 	protected void assertTrue(final boolean condition, final String message, final Object... messageArgs) {
 		if (!condition) {
-			assertFalse(condition, message, messageArgs);
+            fail(message, messageArgs);
 		}
 	}
 }
