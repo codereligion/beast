@@ -82,13 +82,14 @@ public final class ToStringTester <T> extends AbstractTester<T> {
 	 * Tests that the given {@code regex} matches the result of the given
 	 * {@code beanClass}' toString result.
 	 * 
-	 * @param beanClass the {@link Class} to be tested
-	 * @param regex the regular expression the toString result should match, is optional and can be {@code null}
-	 * @throws NullPointerException when any of the given parameters are {@code null}
+	 *
+     * @param beanClass the {@link Class} to be tested
+     * @param pattern
+     * @throws NullPointerException when any of the given parameters are {@code null}
 	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported
 	 */
-	public static <T> void testFormat(final Class<T> beanClass, final String regex) {
-		final ToStringTester<T> beanTester = new ToStringTester<T>(beanClass, regex);
+	public static <T> void testFormat(final Class<T> beanClass, final Pattern pattern) {
+		final ToStringTester<T> beanTester = new ToStringTester<T>(beanClass, pattern);
 		beanTester.testFormat();
 	}
 	
@@ -105,14 +106,14 @@ public final class ToStringTester <T> extends AbstractTester<T> {
 		super(beanClass, excludedPropertyNames);
 	}
 	
-	private ToStringTester(final Class<T> beanClass, final String regex) {
+	private ToStringTester(final Class<T> beanClass, final Pattern pattern) {
 		super(beanClass);
 		
-		if (regex == null) {
-			throw new NullPointerException("regex must not be null.");
+		if (pattern == null) {
+			throw new NullPointerException("pattern must not be null.");
 		}
 		
-		toStringPattern = Pattern.compile(regex);
+		this.toStringPattern = pattern;
 	}
 
 	@Override
@@ -176,7 +177,7 @@ public final class ToStringTester <T> extends AbstractTester<T> {
 	private void testFormat() {
 		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
 		final String defaultToStringResult  = defaultObject.toString();
-		
+
 		final Matcher matcher = toStringPattern.matcher(defaultToStringResult);
 		final boolean toStringMatchesPattern = matcher.matches();
 		assertTrue(toStringMatchesPattern, TO_STRING_PATTERN_ERROR, toStringPattern.pattern(), defaultToStringResult);

@@ -1,12 +1,13 @@
 package org.codereligion.test.bean;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.codereligion.test.bean.object.MissingPropertyInToString;
 import org.codereligion.test.bean.object.NullPointerInToString;
 import org.codereligion.test.bean.object.WrongFormatInToString;
 import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Tests {@link ToStringTester}.
@@ -15,7 +16,7 @@ import org.junit.Test;
  * TODO test format
  * 
  * @author sgroebler
- * @siince 14.08.2012
+ * @since 14.08.2012
  */
 public class ToStringTesterTest {
 	
@@ -69,18 +70,17 @@ public class ToStringTesterTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testTestFormatWithNullClass() {
-		ToStringTester.testFormat(null, ".*");	
+		ToStringTester.testFormat(null, Pattern.compile(".*"));
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void testTestFormatWithNullRegex() {
 		ToStringTester.testFormat(WrongFormatInToString.class, null);	
 	}
-	
-//	@Test(expected = AssertionError.class)
+
+	@Test(expected = AssertionError.class)
 	public void testTestFormat() {
-		// TODO
-		// ".+ \[(.+=(.+))*, (.+=(.+))+\]"
-//		ToStringTester.testFormat(WrongFormatInToString.class, ".+=.+");	
+        final Pattern pattern = Pattern.compile(".+ \\[(.+=.+, )*(.+=.+)?\\]");
+        ToStringTester.testFormat(WrongFormatInToString.class, pattern);
 	}
 }

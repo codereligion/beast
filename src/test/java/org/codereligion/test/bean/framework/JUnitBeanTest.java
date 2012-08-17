@@ -2,6 +2,8 @@ package org.codereligion.test.bean.framework;
 
 import org.junit.Test;
 
+import java.util.regex.Pattern;
+
 /**
  * JUnit specific implementation of the {@link AbstractBeanTest}.
  * 
@@ -53,8 +55,8 @@ public abstract class JUnitBeanTest <T> extends AbstractBeanTest<T> {
 	}
 	
 	@Override
-	protected String getToStringRegex() {
+	protected Pattern getToStringPattern() {
 		// TODO improve to reflect standard eclipse pattern
-		return ".*";
+		return Pattern.compile(".*");
 	}
 }

@@ -2,6 +2,7 @@ package org.codereligion.test.bean.framework;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.codereligion.test.bean.EqualsTester;
 import org.codereligion.test.bean.HashCodeTester;
@@ -68,14 +69,15 @@ public abstract class AbstractBeanTest <T> {
 	 */
 	public void testToStringFormat() {
 		
-		final String regex = getToStringRegex();
+		final Pattern pattern = getToStringPattern();
 		
-		if (regex == null) {
-			throw new NullPointerException("Calling the testToStringFormat method requires setting a regex. Override the ");
+		if (pattern == null) {
+			throw new NullPointerException(
+                "Calling the testToStringFormat method requires setting a pattern. Override the getToStringPattern method.");
 		}
 		
 		
-		ToStringTester.testFormat(getClazz(), regex);
+		ToStringTester.testFormat(getClazz(), pattern);
 	}
 
 	/**
@@ -126,7 +128,7 @@ public abstract class AbstractBeanTest <T> {
 	 * 
 	 * @return the regular expression to be applied, or {@code null} if the pattern should not be checked
 	 */
-	protected String getToStringRegex() {
+	protected Pattern getToStringPattern() {
 		return null;
 	}
 }

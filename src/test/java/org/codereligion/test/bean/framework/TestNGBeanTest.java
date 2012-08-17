@@ -1,7 +1,8 @@
 package org.codereligion.test.bean.framework;
 
-import org.codereligion.test.bean.framework.AbstractBeanTest;
 import org.testng.annotations.Test;
+
+import java.util.regex.Pattern;
 
 
 /**
@@ -55,8 +56,8 @@ public abstract class TestNGBeanTest <T> extends AbstractBeanTest<T> {
 	}
 	
 	@Override
-	protected String getToStringRegex() {
+	protected Pattern getToStringPattern() {
 		// TODO improve to reflect standard eclipse pattern
-		return ".*";
+		return Pattern.compile(".*");
 	}
 }
