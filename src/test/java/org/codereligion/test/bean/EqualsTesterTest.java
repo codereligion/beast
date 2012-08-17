@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.codereligion.test.bean.object.MissingPropertyInEquals;
+import org.codereligion.test.bean.object.NonReflexiveEqualsClass;
 import org.codereligion.test.bean.object.NullPointerInEquals;
 import org.junit.Test;
 
@@ -55,13 +56,19 @@ public class EqualsTesterTest {
 		EqualsTester.testIntegrity(MissingPropertyInEquals.class, excludes);
 	}
 
+    @Test(expected = AssertionError.class)
+    public void testTestIntegrityNonReflexive() {
+        EqualsTester.testIntegrity(NonReflexiveEqualsClass.class);
+    }
+
 	@Test(expected = NullPointerException.class)
 	public void testTestNullSafetyWithNullClass() {
 		EqualsTester.testNullSafety(null);
 	}
-	
+
 	@Test(expected = AssertionError.class)
 	public void testTestNullSafety() {
 		EqualsTester.testNullSafety(NullPointerInEquals.class);
 	}
+
 }
