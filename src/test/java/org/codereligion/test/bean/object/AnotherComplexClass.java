@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * TODO
+ * Test complex class.
  * 
  * @author sgroebler
  * @since 12.08.2012

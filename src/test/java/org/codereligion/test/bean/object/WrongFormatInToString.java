@@ -1,5 +1,11 @@
 package org.codereligion.test.bean.object;
 
+/**
+ * Test class with wrong format in toString implementation.
+ *
+ * @author sgroebler
+ * @since 16.08.2012
+ */
 public class WrongFormatInToString {
 	private int foo;
 	private boolean bar;
@@ -48,7 +54,7 @@ public class WrongFormatInToString {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("MissingPropertyInEquals [foo=");
+		builder.append("MissingPropertyInEquals[foo=");
 		builder.append(foo);
 		builder.append(bar);
 		builder.append("]");

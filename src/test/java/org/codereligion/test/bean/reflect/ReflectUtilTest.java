@@ -1,4 +1,4 @@
-package org.codereligion.test.bean;
+package org.codereligion.test.bean.reflect;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

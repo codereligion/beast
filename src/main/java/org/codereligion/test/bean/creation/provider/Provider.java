@@ -1,7 +1,6 @@
 package org.codereligion.test.bean.creation.provider;
 
 /**
- * TODO implement tests for provider that verifies that dirty and default objects are not equal
  * Provides a "dirty" and a "default" instance of the class specified by type {@code T}.
  * 
  * @param <T> the type to provide the dirty and default object for

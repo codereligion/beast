@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * TODO
+ * Text complex class.
  * 
  * @author sgroebler
  * @since 12.08.2012

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.codereligion.test.bean.object.MissingPropertyInEquals;
 import org.codereligion.test.bean.object.MissingPropertyInHashCode;
+import org.codereligion.test.bean.object.NullPointerInHashCode;
 import org.junit.Test;
 
 /**
@@ -57,5 +58,15 @@ public class HashCodeTesterTest {
 		excludes.add("bar");
 
 		HashCodeTester.testIntegrity(MissingPropertyInHashCode.class, excludes);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testTestNullSafetyWithNullClass() {
+		HashCodeTester.testNullSafety(null);
+	}
+
+	@Test(expected = AssertionError.class)
+	public void testTestNullSafety() {
+		HashCodeTester.testNullSafety(NullPointerInHashCode.class);
 	}
 }

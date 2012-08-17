@@ -12,12 +12,12 @@ import org.codereligion.test.bean.reflect.ReflectUtil;
 
 
 /**
- * TODO document
+ * Abstract tester which provides the basic functionality for all bean testers.
  * 
  * @author sgroebler
  * @since 11.08.2012
  */
-public abstract class AbstractTester <T> {
+abstract class AbstractTester <T> {
 
 	private static final String NO_SETTER_ERROR	= 	"The given class '%s' does not provide any public setters, only properties " +
 													"which are setable through public setters can be verified to be included in " +
@@ -34,7 +34,6 @@ public abstract class AbstractTester <T> {
 	protected Set<String> excludedPropertyNames = new HashSet<String>();
 	
 	/**
-	 * TODO
 	 * Constructs a new instance for the given {@code beanClass}.
 	 * 
 	 * @param beanClass the {@link Class} to test
@@ -46,11 +45,11 @@ public abstract class AbstractTester <T> {
 	}
 	
 	/**
-	 * TODO
 	 * Constructs a new instance for the given {@code beanClass}.
 	 * 
 	 * @param beanClass the {@link Class} to test
-	 * @throws NullPointerException when the given parameter is {@code null}
+	 * @param excludedPropertyNames the names of the properties to exclude from the test
+	 * @throws NullPointerException when any of the given parameters are {@code null}
 	 * @throws IllegalArgumentException when the given {@code beanClass} can not be tested
 	 */
 	protected AbstractTester(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
@@ -60,10 +59,12 @@ public abstract class AbstractTester <T> {
 		}
 		
 		if (!ObjectFactory.isCreateable(beanClass)) {
-			throw new IllegalArgumentException("BeanTester does not support the given class " + beanClass.getCanonicalName());
+			throw new IllegalArgumentException("The given class: " + beanClass.getCanonicalName() + " is not supported.");
 		}
 		
-		if (!ReflectUtil.hasSetableProperties(beanClass)) {
+		final boolean hasNoSetableProperties = ReflectUtil.getSetableProperties(beanClass).isEmpty();
+		
+		if (hasNoSetableProperties) {
 			throw new IllegalArgumentException(String.format(NO_SETTER_ERROR, beanClass.getCanonicalName()));
 		}
 
@@ -76,31 +77,33 @@ public abstract class AbstractTester <T> {
 	}
 
 	/**
-	 * TODO
+	 * Tests if all not excluded properties are considered in the method this class is testing.
 	 */
 	protected abstract void testIntegrity();
 	
 	/**
-	 * TODO
+	 * Tests if the method this class is testing can handle null values it is properties.
 	 */
 	protected abstract void testNullSafety();
 	
 	/**
-	 * TODO document
+	 * Sets the given {@code value} with the given {@code setter} to the given {@code object}.
 	 * 
-	 * @param object
-	 * @param property
-	 * @param value
+	 * @param object the object to set the value on
+	 * @param setter the {@link Method} to set the given {@code value} with
+	 * @param value the value to be set
+	 * @throws BeanTestException when setting the given {@code value} with the given {@code setter}
+	 * was not possible
 	 */
 	protected void setValue(final T object, final Method setter, final Object value) {
 		try {
 			setter.invoke(object, value);
 		} catch (final IllegalAccessException e) {
-			throw new BeanTestException("Failed to set '" + value + "' on setter '" + setter + "'.", e);
+			throw new BeanTestException("The method: " + setter + " is inaccessable, thus can not be used to set test values.", e);
 		} catch (final InvocationTargetException e) {
-			throw new BeanTestException("Failed to set '" + value + "' on setter '" + setter + "'.", e);
+			throw new BeanTestException("The method: " + setter + " threw an exception on setting test values.", e);
 		} catch (final IllegalArgumentException e) {
-			throw new BeanTestException("Failed to set '" + value + "' on setter '" + setter + "'.", e);
+			throw new BeanTestException("Failed to set '" + value + "' on setter: " + setter + ".", e);
 		}
 	}
 

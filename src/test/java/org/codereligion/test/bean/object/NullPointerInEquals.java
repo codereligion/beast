@@ -6,7 +6,7 @@ package org.codereligion.test.bean.object;
  * @author sgroebler
  * @since 16.08.2012
  */
-public class MissingPropertyInEquals {
+public class NullPointerInEquals {
 
 	private int foo;
 	private boolean bar;
@@ -55,20 +55,16 @@ public class MissingPropertyInEquals {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof MissingPropertyInEquals)) {
+		if (!(obj instanceof NullPointerInEquals)) {
 			return false;
 		}
-		MissingPropertyInEquals other = (MissingPropertyInEquals) obj;
+		NullPointerInEquals other = (NullPointerInEquals) obj;
 		if (bar != other.bar) {
 			return false;
 		}
-//		if (complexObject == null) {
-//			if (other.complexObject != null) {
-//				return false;
-//			}
-//		} else if (!complexObject.equals(other.complexObject)) {
-//			return false;
-//		}
+		if (!complexObject.equals(other.complexObject)) {
+			return false;
+		}
 		if (foo != other.foo) {
 			return false;
 		}

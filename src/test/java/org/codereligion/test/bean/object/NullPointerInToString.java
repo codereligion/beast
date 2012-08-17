@@ -1,18 +1,17 @@
 package org.codereligion.test.bean.object;
 
 /**
- * Test class with missing property in equals implemetation
- *
+ * Test class with missing property in toString implementation.
+ * 
  * @author sgroebler
  * @since 16.08.2012
  */
-public class MissingPropertyInEquals {
+public class NullPointerInToString {
 
 	private int foo;
 	private boolean bar;
 	private ComplexClass complexObject;
-	
-	
+
 	public int getFoo() {
 		return foo;
 	}
@@ -42,49 +41,44 @@ public class MissingPropertyInEquals {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (bar ? 1231 : 1237);
-		result = prime * result + ((complexObject == null) ? 0 : complexObject.hashCode());
+		result = prime * result
+				+ ((complexObject == null) ? 0 : complexObject.hashCode());
 		result = prime * result + foo;
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (!(obj instanceof MissingPropertyInEquals)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		MissingPropertyInEquals other = (MissingPropertyInEquals) obj;
-		if (bar != other.bar) {
+		NullPointerInToString other = (NullPointerInToString) obj;
+		if (bar != other.bar)
 			return false;
-		}
-//		if (complexObject == null) {
-//			if (other.complexObject != null) {
-//				return false;
-//			}
-//		} else if (!complexObject.equals(other.complexObject)) {
-//			return false;
-//		}
-		if (foo != other.foo) {
+		if (complexObject == null) {
+			if (other.complexObject != null)
+				return false;
+		} else if (!complexObject.equals(other.complexObject))
 			return false;
-		}
+		if (foo != other.foo)
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("MissingPropertyInEquals [foo=");
+		builder.append("NullPointerInToString [foo=");
 		builder.append(foo);
 		builder.append(", bar=");
 		builder.append(bar);
 		builder.append(", complexObject=");
-		builder.append(complexObject);
+		builder.append(complexObject.toString());
 		builder.append("]");
 		return builder.toString();
 	}
+
 }

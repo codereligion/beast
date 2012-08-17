@@ -1,5 +1,7 @@
 package org.codereligion.test.bean.creation.provider;
 
+import java.math.BigInteger;
+
 
 /**
  * Provider for dirty and default objects of class {@link Object}.
@@ -17,12 +19,12 @@ public class ObjectProvider implements Provider<Object> {
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Object DIRTY = 1;
+	private static final Object DIRTY = BigInteger.ONE;
 	
 	/**
 	 * Cached default object.
 	 */
-	private static final Object DEFAULT = 0;
+	private static final Object DEFAULT = BigInteger.ZERO;
 	
 	@Override
 	public Object getDirtyObject() {

@@ -1,7 +1,7 @@
 package org.codereligion.test.bean.object;
 
 /**
- * TODO
+ * Test final class.
  * 
  * @author sgroebler
  * @since 12.08.2012

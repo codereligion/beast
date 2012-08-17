@@ -1,7 +1,7 @@
 package org.codereligion.test.bean.object;
 
 /**
- * TODO
+ * Test abstract class.
  * 
  * @author sgroebler
  * @since 12.08.2012

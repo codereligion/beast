@@ -10,18 +10,18 @@ import org.codereligion.test.bean.reflect.ReflectUtil;
 
 
 /**
- * TODO document
- * TODO show usuage
+ * Tests the hashCode implementation of a java bean.
  * 
  * @author sgroebler
  * @since 11.08.2012
  */
-public class HashCodeTester <T> extends AbstractTester<T> {
+public final class HashCodeTester <T> extends AbstractTester<T> {
 	
 	private static final String HASH_CODE_EQUALTIY_ERROR 	=	"Property '%s' is not included in the hashCode method. If this is " +
 																"intentional add it to the excludedPropertyNames.";
 	
-	private static final String HASH_CODE_NULL_ERROR 		=	"The hashCode method can not handle null values of the property '%s' correctly.";
+	private static final String HASH_CODE_NPE_ERROR 		=	"If the property '%s' is null, calling the hashCode method throws a " +
+																"NullPointerException.";
 	
 	private static final String EQUALS_HASH_CODE_VIOLATION	=	"If the property '%s' is different in two instances, these two " +
 																"instances are equal according to the equals method, but their hashCodes " +
@@ -64,47 +64,27 @@ public class HashCodeTester <T> extends AbstractTester<T> {
 	}
 	
 	/**
-	 * TODO
+	 * Tests that the hashCode implementation can handle {@code null} values on all public setable
+	 * properties.
 	 * 
-	 * @param beanClass
+	 * @param beanClass the {@link Class} to be tested
+	 * @throws NullPointerException when the given parameter is {@code null}
+	 * @throws IllegalArgumentException when the given {@code beanClass} is not supported or not testable
+	 * @throws AssertionError when a property is not checked correctly in the hashCode implementation
 	 */
 	public static <T> void testNullSafety(final Class<T> beanClass) {
 		final HashCodeTester<T> beanTester = new HashCodeTester<T>(beanClass);
 		beanTester.testNullSafety();
 	}
 	
-	/**
-	 * Constructs a new instance for the given {@code beanClass}.
-	 * 
-	 * @param beanClass the {@link Class} to test
-	 * @throws NullPointerException when the given parameter is {@code null}
-	 * @throws IllegalArgumentException when the given {@code beanClass} can not be tested
-	 */
-	protected HashCodeTester(final Class<T> beanClass) {
+	private HashCodeTester(final Class<T> beanClass) {
 		super(beanClass);
 	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @param beanClass
-	 */
-	protected HashCodeTester(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
+
+	private HashCodeTester(final Class<T> beanClass, final Set<String> excludedPropertyNames) {
 		super(beanClass, excludedPropertyNames);
 	}
 
-	/**
-	 * Tests that all public setable properties which have not been excluded through
-	 * {@link #setExcludedPropertyNames(Set)} are considered correctly
-	 * in the hashCode implementation.
-	 * 
-	 * <p>
-	 * This test will also check if the hashCode implementation can handle
-	 * {@code null} values and it will assert that the hashCode method returns the same
-	 * {@code int} values for two instances which are equal according to the equals implementation.
-	 * 
-	 * @throws AssertionError when a property is not checked correctly in the hashCode implementation
-	 */
 	@Override
 	protected void testIntegrity() {
 		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
@@ -115,7 +95,6 @@ public class HashCodeTester <T> extends AbstractTester<T> {
 			final String propertyName = property.getName();
 			final Class<?> propertyType = property.getPropertyType();
 			final Method setter = property.getWriteMethod();
-	
 			final T dirtyObject = ObjectFactory.newBeanObject(beanClass);
 			final Object dirtyProperty = ObjectFactory.newDirtyProperty(propertyType);
 			
@@ -125,11 +104,10 @@ public class HashCodeTester <T> extends AbstractTester<T> {
 			final boolean hashCodesAreEqual = defaultObject.hashCode() == dirtyObject.hashCode();
 			final boolean isEqualsHashCodeContractViolated = areEqual == true && hashCodesAreEqual == false;
 			
-			// hashCode and equals contract must not be violated
+			// hashCode and equals contract must not be violated, disregarding excludes
 			assertFalse(isEqualsHashCodeContractViolated, EQUALS_HASH_CODE_VIOLATION, propertyName);
 			
 			if (excludedPropertyNames.contains(propertyName)) {
-				// property is excluded intentionally so we skip it
 				continue;
 			}
 			
@@ -137,27 +115,25 @@ public class HashCodeTester <T> extends AbstractTester<T> {
 		}
 	}
 	
-	/**
-	 * TODO
-	 */
 	@Override
 	protected void testNullSafety() {
-		final T defaultObject = ObjectFactory.newBeanObject(beanClass);
-		
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(beanClass);
 		for (final PropertyDescriptor property : properties) {
 			
-			final String propertyName = property.getName();
 			final Class<?> propertyType = property.getPropertyType();
-			final Method setter = property.getWriteMethod();
 			
-			final T dirtyObject = ObjectFactory.newBeanObject(beanClass);
-			
-			// test with with null values on non-primitive types
 			if (!propertyType.isPrimitive()) {
+				
+				final Method setter = property.getWriteMethod();
+				final T dirtyObject = ObjectFactory.newBeanObject(beanClass);
+				
 				setValue(dirtyObject, setter, null);
-				final boolean hashCodesAreEqualWithNulls = defaultObject.hashCode() == dirtyObject.hashCode();
-				assertFalse(hashCodesAreEqualWithNulls, HASH_CODE_NULL_ERROR, propertyName);
+				
+				try {
+					dirtyObject.hashCode();
+				} catch (final NullPointerException e) {
+					throw new AssertionError(String.format(HASH_CODE_NPE_ERROR, property.getName()));
+				}
 			}
 		}
 	}

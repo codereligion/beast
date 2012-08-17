@@ -9,26 +9,28 @@ package org.codereligion.test.bean.creation;
  * Dirty Example:
  * 
  * <pre>
- * public class Foo
+ * public class Foo {
  * 	private boolean foo = true;
  * 	private int bar = 1;
  * 	private double baz = 1d;
+ * }
  * </pre>
  * 
  * <p>
  * Default Example:
  * 
  * <pre>
- * public class Foo
+ * public class Foo {
  * 	private boolean foo = false;
  * 	private int bar = 0;
  * 	private double baz = 0d;
+ * }
  * </pre>
  * 
  * @author sgroebler
  * @since 13.08.2012
  */
-public enum PropertyState {
+enum PropertyState {
 
 	/**
 	 * Relates to values equivalent to 0.

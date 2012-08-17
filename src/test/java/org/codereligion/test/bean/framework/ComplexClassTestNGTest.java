@@ -1,14 +1,14 @@
-package org.codereligion.test.bean;
+package org.codereligion.test.bean.framework;
 
 import org.codereligion.test.bean.object.ComplexClass;
 
 /**
- * Tests {@link ComplexClass}.
+ * Tests {@link ComplexClass} with the TestNG implementation.
  * 
  * @author sgroebler
  * @since 15.08.2012
  */
-public class ComplexClassJUnitTest extends JUnitBeanTest<ComplexClass>{
+public class ComplexClassTestNGTest extends TestNGBeanTest<ComplexClass>{
 
 	@Override
 	protected Class<ComplexClass> getClazz() {

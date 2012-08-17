@@ -1,7 +1,7 @@
 package org.codereligion.test.bean.object;
 
 /**
- * TODO
+ * Test class for java introspector bug.
  * 
  * @author sgroebler
  * @since 12.08.2012

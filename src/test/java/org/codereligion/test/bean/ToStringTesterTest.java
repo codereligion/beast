@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.codereligion.test.bean.object.MissingPropertyInToString;
+import org.codereligion.test.bean.object.NullPointerInToString;
+import org.codereligion.test.bean.object.WrongFormatInToString;
 import org.junit.Test;
 
 /**
@@ -53,5 +55,32 @@ public class ToStringTesterTest {
 		excludes.add("bar");
 		
 		ToStringTester.testIntegrity(MissingPropertyInToString.class, excludes);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void testTestNullSafetyWithNullClass() {
+		ToStringTester.testNullSafety(null);
+	}
+	
+	@Test(expected = AssertionError.class)
+	public void testTestNullSafety() {
+		ToStringTester.testNullSafety(NullPointerInToString.class);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testTestFormatWithNullClass() {
+		ToStringTester.testFormat(null, ".*");	
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testTestFormatWithNullRegex() {
+		ToStringTester.testFormat(WrongFormatInToString.class, null);	
+	}
+	
+//	@Test(expected = AssertionError.class)
+	public void testTestFormat() {
+		// TODO
+		// ".+ \[(.+=(.+))*, (.+=(.+))+\]"
+//		ToStringTester.testFormat(WrongFormatInToString.class, ".+=.+");	
 	}
 }

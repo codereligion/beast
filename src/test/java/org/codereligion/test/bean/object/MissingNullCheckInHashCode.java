@@ -1,5 +1,11 @@
 package org.codereligion.test.bean.object;
 
+/**
+ * Test class with missing null check in hashCode implementation.
+ *
+ * @author sgroebler
+ * @since 16.08.2012
+ */
 public class MissingNullCheckInHashCode {
 
 	private int foo;

@@ -1,16 +1,17 @@
 package org.codereligion.test.bean.framework;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.codereligion.test.bean.EqualsTester;
 import org.codereligion.test.bean.HashCodeTester;
 import org.codereligion.test.bean.ToStringTester;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * TODO document
- * TODO test
- * TODO usuage
+ * Abstract implementation of a bean test which can be used to build an
+ * abstract or concrete class for the testing framework of choice by
+ * extending the provided implementations and annotating them with the 
+ * framework specific test run annotation.
  * 
  * @author sgroebler
  * @since 11.08.2012
@@ -18,9 +19,9 @@ import java.util.Set;
 public abstract class AbstractBeanTest <T> {
 	
 	/**
-	 * Default implementation of the equals test.
+	 * Default implementation of the equals integrity test.
 	 */
-	public void testEquals() {
+	public void testEqualsIntegrity() {
 		EqualsTester.testIntegrity(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
 	}
 	
@@ -32,9 +33,9 @@ public abstract class AbstractBeanTest <T> {
 	}
 	
 	/**
-	 * Default implementation of the hashCode test.
+	 * Default implementation of the hashCode integrity test.
 	 */
-	public void testHashCode() {
+	public void testHashCodeIntegrity() {
 		HashCodeTester.testIntegrity(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
 	}
 	
@@ -46,14 +47,14 @@ public abstract class AbstractBeanTest <T> {
 	}
 	
 	/**
-	 * Default implementation of the toString test.
+	 * Default implementation of the toString integrity test.
 	 */
-	public void testToString() {
+	public void testToStringIntegrity() {
 		ToStringTester.testIntegrity(getClazz(), getExcludedToStringPropertyNames());
 	}
 	
 	/**
-	 * Default implementation of the toString test.
+	 * Default implementation of the toString null-safety test.
 	 */
 	public void testToStringNullSafety() {
 		ToStringTester.testNullSafety(getClazz());
@@ -61,9 +62,20 @@ public abstract class AbstractBeanTest <T> {
 	
 	/**
 	 * Default implementation of the toString format test.
+	 * 
+	 * @throws NullPointerException when the {@link AbstractBeanTest #getToStringRegex()} 
+	 * is not overridden by a sub-class and does not provide a non-null value
 	 */
 	public void testToStringFormat() {
-		ToStringTester.testFormat(getClazz(), getToStringPattern());
+		
+		final String regex = getToStringRegex();
+		
+		if (regex == null) {
+			throw new NullPointerException("Calling the testToStringFormat method requires setting a regex. Override the ");
+		}
+		
+		
+		ToStringTester.testFormat(getClazz(), regex);
 	}
 
 	/**
@@ -110,14 +122,11 @@ public abstract class AbstractBeanTest <T> {
 	 * Optional regular expression to which the toString result should be checked against.
 	 * 
 	 * <p>
-	 * The default implementation return null, meaning no regular expression is applied.
-	 * 
-	 * <p>
-	 * Sub-classes should override this method, if necessary.
+	 * Sub-classes should override this method, if necessary they want to execute testToStringFormat.
 	 * 
 	 * @return the regular expression to be applied, or {@code null} if the pattern should not be checked
 	 */
-	protected String getToStringPattern() {
+	protected String getToStringRegex() {
 		return null;
 	}
 }

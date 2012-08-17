@@ -1,5 +1,11 @@
 package org.codereligion.test.bean.object;
 
+/**
+ * Test class with missing property in toString implementation.
+ *
+ * @author sgroebler
+ * @since 16.08.2012
+ */
 public class MissingPropertyInToString {
 	private int foo;
 	private boolean bar;

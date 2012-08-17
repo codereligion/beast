@@ -1,5 +1,11 @@
 package org.codereligion.test.bean.object;
 
+/**
+ * Test class with missing null check in equals implementation.
+ *
+ * @author sgroebler
+ * @since 16.08.2012
+ */
 public class MissingNullCheckInEquals {
 
 	private int foo;

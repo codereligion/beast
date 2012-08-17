@@ -1,5 +1,11 @@
 package org.codereligion.test.bean.object;
 
+/**
+ * Test class with missing property in hashCode implementation.
+ *
+ * @author sgroebler
+ * @since 16.08.2012
+ */
 public class MissingPropertyInHashCode {
 	
 	private int foo;
