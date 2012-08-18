@@ -14,26 +14,26 @@ public class NullPointerInEquals {
 	
 	
 	public int getFoo() {
-		return foo;
+		return this.foo;
 	}
 
-	public void setFoo(int foo) {
+	public void setFoo(final int foo) {
 		this.foo = foo;
 	}
 
 	public boolean isBar() {
-		return bar;
+		return this.bar;
 	}
 
-	public void setBar(boolean bar) {
+	public void setBar(final boolean bar) {
 		this.bar = bar;
 	}
 
 	public ComplexClass getComplexObject() {
-		return complexObject;
+		return this.complexObject;
 	}
 
-	public void setComplexObject(ComplexClass complexObject) {
+	public void setComplexObject(final ComplexClass complexObject) {
 		this.complexObject = complexObject;
 	}
 
@@ -41,14 +41,14 @@ public class NullPointerInEquals {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (bar ? 1231 : 1237);
-		result = prime * result + ((complexObject == null) ? 0 : complexObject.hashCode());
-		result = prime * result + foo;
+		result = prime * result + (this.bar ? 1231 : 1237);
+		result = prime * result + ((this.complexObject == null) ? 0 : this.complexObject.hashCode());
+		result = prime * result + this.foo;
 		return result;
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -58,14 +58,14 @@ public class NullPointerInEquals {
 		if (!(obj instanceof NullPointerInEquals)) {
 			return false;
 		}
-		NullPointerInEquals other = (NullPointerInEquals) obj;
-		if (bar != other.bar) {
+		final NullPointerInEquals other = (NullPointerInEquals) obj;
+		if (this.bar != other.bar) {
 			return false;
 		}
-		if (!complexObject.equals(other.complexObject)) {
+		if (!this.complexObject.equals(other.complexObject)) {
 			return false;
 		}
-		if (foo != other.foo) {
+		if (this.foo != other.foo) {
 			return false;
 		}
 		return true;
@@ -73,13 +73,13 @@ public class NullPointerInEquals {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("MissingPropertyInEquals [foo=");
-		builder.append(foo);
+		builder.append(this.foo);
 		builder.append(", bar=");
-		builder.append(bar);
+		builder.append(this.bar);
 		builder.append(", complexObject=");
-		builder.append(complexObject);
+		builder.append(this.complexObject);
 		builder.append("]");
 		return builder.toString();
 	}

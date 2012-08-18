@@ -12,18 +12,18 @@ public class MissingNullCheckInEquals {
 	private ComplexClass bar;
 
 	public int getFoo() {
-		return foo;
+		return this.foo;
 	}
 
-	public void setFoo(int foo) {
+	public void setFoo(final int foo) {
 		this.foo = foo;
 	}
 
 	public ComplexClass getBar() {
-		return bar;
+		return this.bar;
 	}
 
-	public void setBar(ComplexClass bar) {
+	public void setBar(final ComplexClass bar) {
 		this.bar = bar;
 	}
 
@@ -31,34 +31,34 @@ public class MissingNullCheckInEquals {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((bar == null) ? 0 : bar.hashCode());
-		result = prime * result + foo;
+		result = prime * result + ((this.bar == null) ? 0 : this.bar.hashCode());
+		result = prime * result + this.foo;
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MissingNullCheckInEquals other = (MissingNullCheckInEquals) obj;
-		if (!bar.equals(other.bar))
+		final MissingNullCheckInEquals other = (MissingNullCheckInEquals) obj;
+		if (!this.bar.equals(other.bar))
 			return false;
-		if (foo != other.foo)
+		if (this.foo != other.foo)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("MissingNullCheckInEquals [foo=");
-		builder.append(foo);
+		builder.append(this.foo);
 		builder.append(", bar=");
-		builder.append(bar);
+		builder.append(this.bar);
 		builder.append("]");
 		return builder.toString();
 	}

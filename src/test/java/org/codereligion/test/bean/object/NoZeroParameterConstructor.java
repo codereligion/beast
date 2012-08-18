@@ -15,6 +15,6 @@ public class NoZeroParameterConstructor {
 	}
 	
 	public int getFoo() {
-		return foo;
+		return this.foo;
 	}
 }

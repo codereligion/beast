@@ -10,11 +10,11 @@ public final class FinalClass {
 
 	private int foo;
 	
-	public void set(int foo) {
+	public void set(final int foo) {
 		this.foo = foo;
 	}
 	
 	public int get() {
-		return foo;
+		return this.foo;
 	}
 }

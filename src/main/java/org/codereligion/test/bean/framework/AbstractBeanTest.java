@@ -1,12 +1,12 @@
 package org.codereligion.test.bean.framework;
 
+import org.codereligion.test.bean.tester.Equals;
+import org.codereligion.test.bean.tester.HashCode;
+import org.codereligion.test.bean.tester.ToString;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
-
-import org.codereligion.test.bean.EqualsTester;
-import org.codereligion.test.bean.HashCodeTester;
-import org.codereligion.test.bean.ToStringTester;
 
 /**
  * Abstract implementation of a bean test which can be used to build an
@@ -23,48 +23,48 @@ public abstract class AbstractBeanTest <T> {
 	 * Default implementation of the equals integrity test.
 	 */
 	public void testEqualsIntegrity() {
-		EqualsTester.testIntegrity(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
+		Equals.testIntegrity(getClazz(), getExcludesForEqualsIntegrity());
 	}
 	
 	/**
 	 * Default implementation of the equals null-safety test.
 	 */
 	public void testEqualsNullSafety() {
-		EqualsTester.testNullSafety(getClazz());
+		Equals.testNullSafety(getClazz(), getExcludesForEqualsNullSafety());
 	}
 	
 	/**
 	 * Default implementation of the hashCode integrity test.
 	 */
 	public void testHashCodeIntegrity() {
-		HashCodeTester.testIntegrity(getClazz(), getExcludedHashCodeAndEqualsPropertyNames());
+		HashCode.testIntegrity(getClazz(), getExcludesForHashCodeIntegrity());
 	}
 	
 	/**
 	 * Default implementation of the hashCode null-safety test.
 	 */
 	public void testHashCodeNullSafety() {
-		HashCodeTester.testNullSafety(getClazz());
+		HashCode.testNullSafety(getClazz(), getExcludesForHashCodeNullSafety());
 	}
 	
 	/**
 	 * Default implementation of the toString integrity test.
 	 */
 	public void testToStringIntegrity() {
-		ToStringTester.testIntegrity(getClazz(), getExcludedToStringPropertyNames());
+		ToString.testIntegrity(getClazz(), getExcludesToStringIntegrity());
 	}
 	
 	/**
 	 * Default implementation of the toString null-safety test.
 	 */
 	public void testToStringNullSafety() {
-		ToStringTester.testNullSafety(getClazz());
+		ToString.testNullSafety(getClazz(), getExcludesToStringNullSafety());
 	}
 	
 	/**
 	 * Default implementation of the toString format test.
 	 * 
-	 * @throws NullPointerException when the {@link AbstractBeanTest #getToStringRegex()} 
+	 * @throws NullPointerException when the {@link AbstractBeanTest #getToStringPattern()} 
 	 * is not overridden by a sub-class and does not provide a non-null value
 	 */
 	public void testToStringFormat() {
@@ -77,7 +77,7 @@ public abstract class AbstractBeanTest <T> {
 		}
 		
 		
-		ToStringTester.testFormat(getClazz(), pattern);
+		ToString.testFormat(getClazz(), pattern);
 	}
 
 	/**
@@ -88,6 +88,7 @@ public abstract class AbstractBeanTest <T> {
 	protected abstract Class<T> getClazz();
 	
 	/**
+	 * TODO update
 	 * Optional {@link Set} of to be excluded property names from the
 	 * hashCode and equals test.
 	 * 
@@ -100,27 +101,58 @@ public abstract class AbstractBeanTest <T> {
 	 * 
 	 * @return a {@link Set} of property names, must not be {@code null}
 	 */
-	protected Set<String> getExcludedHashCodeAndEqualsPropertyNames() {
+	protected Set<String> getExcludesForHashCodeIntegrity() {
 		return new HashSet<String>();
 	}
 	
 	/**
-	 * Optional {@link Set} of to be excluded property names from the toString test.
-	 * 
-	 * <p>
-	 * The default implementation returns an empty {@link Set}, meaning
-	 * nothing is excluded by default.
-	 * 
-	 * <p>
-	 * Sub-classes should override this method, if necessary.
-	 * 
-	 * @return a {@link Set} of property names, must not be {@code null}
+	 * TODO
+	 *
+	 * @return
 	 */
-	protected Set<String> getExcludedToStringPropertyNames() {
+	protected Set<String> getExcludesForHashCodeNullSafety() {
 		return new HashSet<String>();
 	}
 	
 	/**
+	 * TODO
+	 *
+	 * @return
+	 */
+	protected Set<String> getExcludesForEqualsIntegrity() {
+		return new HashSet<String>();
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @return
+	 */
+	protected Set<String> getExcludesForEqualsNullSafety() {
+		return new HashSet<String>();
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @return
+	 */
+	protected Set<String> getExcludesToStringIntegrity() {
+		return new HashSet<String>();
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @return
+	 */
+	protected Set<String> getExcludesToStringNullSafety() {
+		return new HashSet<String>();
+	}
+	
+	
+	/**
+	 * TODO maybe throw a NotImplementedException???
 	 * Optional regular expression to which the toString result should be checked against.
 	 * 
 	 * <p>

@@ -12,7 +12,7 @@ public class User implements Identifiable<Integer> {
 
 	@Override
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(final Integer id) {

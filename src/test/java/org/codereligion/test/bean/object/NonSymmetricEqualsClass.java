@@ -6,7 +6,7 @@ package org.codereligion.test.bean.object;
  * @author sgroebler
  * @since 17.08.2012
  */
-public class NonReflexiveEqualsClass {
+public class NonSymmetricEqualsClass {
 
     private String foo;
 
@@ -26,8 +26,20 @@ public class NonReflexiveEqualsClass {
 		return result;
 	}
 
-    @Override
-    public boolean equals(final Object that) {
-        return that != this && super.equals(that);
-    }
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final NonSymmetricEqualsClass other = (NonSymmetricEqualsClass) obj;
+		if (this.foo == null) {
+			if (other.foo != null)
+				return false;
+		} else if (!this.foo.equals("1")) // dirty value
+			return false;
+		return true;
+	}
 }

@@ -5,6 +5,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ import java.util.Set;
 public final class ReflectUtil {
 	
 	/**
-	 * Constructs an instance.
+	 * No public constructor for this utility class.
 	 */
 	private ReflectUtil() {
 		throw new IllegalAccessError("This is an utility class which must not be instantiated.");
@@ -71,7 +72,7 @@ public final class ReflectUtil {
 			final Class<?> beanClass,
 			final PropertyDescriptor propertyDescriptor) throws IntrospectionException {
 		
-		// has a non-null write method, so the bug did not occure
+		// has a non-null write method, so the bug did not occur
 		if (propertyDescriptor.getWriteMethod() != null) {
     		return propertyDescriptor;
 		}
@@ -87,8 +88,11 @@ public final class ReflectUtil {
 			// try to find the method matching the name
 			for (final Method method : beanClass.getMethods()) {
 				
-				// method must match the name and must not be a synthetic bridge method
-				if (!method.isBridge() && method.getName().equals(setterName)) {
+				final boolean isMatchingName = method.getName().equals(setterName);
+				final boolean isNotBridge = !method.isBridge();
+				final boolean isPublic = Modifier.isPublic(method.getModifiers());
+				
+				if (isMatchingName && isNotBridge && isPublic) {
 					return new PropertyDescriptor(propertyName, beanClass);
 				}
 			}

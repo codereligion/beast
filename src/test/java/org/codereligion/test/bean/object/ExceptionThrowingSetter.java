@@ -1,29 +1,26 @@
 package org.codereligion.test.bean.object;
 
-/**
- * Test class with missing null check in hashCode implementation.
- *
- * @author sgroebler
- * @since 16.08.2012
- */
-public class MissingNullCheckInHashCode {
+public class ExceptionThrowingSetter {
 
-	private int foo;
-	private ComplexClass bar;
-
-	public int getFoo() {
+	private Integer foo;
+	private Boolean bar;
+	
+	public Integer getFoo() {
 		return this.foo;
 	}
 
-	public void setFoo(final int foo) {
+	public void setFoo(final Integer foo) {
+		if (foo == null) {
+			throw new UnsupportedOperationException();
+		}
 		this.foo = foo;
 	}
 
-	public ComplexClass getBar() {
+	public Boolean getBar() {
 		return this.bar;
 	}
 
-	public void setBar(final ComplexClass bar) {
+	public void setBar(final Boolean bar) {
 		this.bar = bar;
 	}
 
@@ -31,11 +28,11 @@ public class MissingNullCheckInHashCode {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + this.bar.hashCode();
-		result = prime * result + this.foo;
+		result = prime * result + ((this.bar == null) ? 0 : this.bar.hashCode());
+		result = prime * result + ((this.foo == null) ? 0 : this.foo.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj)
@@ -44,13 +41,16 @@ public class MissingNullCheckInHashCode {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final MissingNullCheckInHashCode other = (MissingNullCheckInHashCode) obj;
+		final ExceptionThrowingSetter other = (ExceptionThrowingSetter) obj;
 		if (this.bar == null) {
 			if (other.bar != null)
 				return false;
 		} else if (!this.bar.equals(other.bar))
 			return false;
-		if (this.foo != other.foo)
+		if (this.foo == null) {
+			if (other.foo != null)
+				return false;
+		} else if (!this.foo.equals(other.foo))
 			return false;
 		return true;
 	}
@@ -58,12 +58,11 @@ public class MissingNullCheckInHashCode {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("MissingNullCheckInEquals [foo=");
+		builder.append("ExceptionThrowingSetter [foo=");
 		builder.append(this.foo);
 		builder.append(", bar=");
 		builder.append(this.bar);
 		builder.append("]");
 		return builder.toString();
 	}
-
 }

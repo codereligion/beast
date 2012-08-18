@@ -57,7 +57,6 @@ public abstract class TestNGBeanTest <T> extends AbstractBeanTest<T> {
 	
 	@Override
 	protected Pattern getToStringPattern() {
-		// TODO improve to reflect standard eclipse pattern
-		return Pattern.compile(".*");
+		return Pattern.compile(".+ \\[(.+=.+, )*(.+=.+)?\\]");
 	}
 }

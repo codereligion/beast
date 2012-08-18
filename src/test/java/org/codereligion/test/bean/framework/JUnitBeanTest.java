@@ -56,7 +56,6 @@ public abstract class JUnitBeanTest <T> extends AbstractBeanTest<T> {
 	
 	@Override
 	protected Pattern getToStringPattern() {
-		// TODO improve to reflect standard eclipse pattern
-		return Pattern.compile(".*");
+		return Pattern.compile(".+ \\[(.+=.+, )*(.+=.+)?\\]");
 	}
 }

@@ -11,18 +11,18 @@ public class WrongFormatInToString {
 	private boolean bar;
 
 	public int getFoo() {
-		return foo;
+		return this.foo;
 	}
 
-	public void setFoo(int foo) {
+	public void setFoo(final int foo) {
 		this.foo = foo;
 	}
 
 	public boolean isBar() {
-		return bar;
+		return this.bar;
 	}
 
-	public void setBar(boolean bar) {
+	public void setBar(final boolean bar) {
 		this.bar = bar;
 	}
 
@@ -30,33 +30,33 @@ public class WrongFormatInToString {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (bar ? 1231 : 1237);
-		result = prime * result + foo;
+		result = prime * result + (this.bar ? 1231 : 1237);
+		result = prime * result + this.foo;
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		WrongFormatInToString other = (WrongFormatInToString) obj;
-		if (bar != other.bar)
+		final WrongFormatInToString other = (WrongFormatInToString) obj;
+		if (this.bar != other.bar)
 			return false;
-		if (foo != other.foo)
+		if (this.foo != other.foo)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("MissingPropertyInEquals[foo=");
-		builder.append(foo);
-		builder.append(bar);
+		builder.append(this.foo);
+		builder.append(this.bar);
 		builder.append("]");
 		return builder.toString();
 	}
