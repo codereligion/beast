@@ -1,14 +1,15 @@
-package org.codereligion.test.bean.reflect;
+package org.codereligion.test.bean.tester;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+
+import org.codereligion.test.bean.tester.ReflectUtil;
 
 import java.beans.PropertyDescriptor;
 import java.util.Set;
 
 import org.codereligion.test.bean.object.ComplexClass;
 import org.codereligion.test.bean.object.User;
-import org.codereligion.test.bean.reflect.ReflectUtil;
 import org.junit.Test;
 
 /**

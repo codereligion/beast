@@ -8,7 +8,6 @@ import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Set;
 import org.codereligion.test.bean.creation.ObjectFactory;
-import org.codereligion.test.bean.reflect.ReflectUtil;
 
 
 /**

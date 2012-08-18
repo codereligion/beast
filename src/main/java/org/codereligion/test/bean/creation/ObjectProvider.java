@@ -9,7 +9,7 @@ import java.math.BigInteger;
  * @author sgroebler
  * @since 14.08.2012
  */
-public final class ObjectProvider implements Provider<Object> {
+final class ObjectProvider implements Provider<Object> {
 
 	/**
 	 * Instance of this class.

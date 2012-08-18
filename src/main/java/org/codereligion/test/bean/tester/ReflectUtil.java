@@ -1,4 +1,4 @@
-package org.codereligion.test.bean.reflect;
+package org.codereligion.test.bean.tester;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -15,7 +15,7 @@ import java.util.Set;
  * @author sgroebler
  * @since 11.08.2012
  */
-public final class ReflectUtil {
+final class ReflectUtil {
 	
 	/**
 	 * No public constructor for this utility class.
