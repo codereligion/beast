@@ -1,18 +1,11 @@
 package org.codereligion.test.bean.tester;
 
-import org.codereligion.test.bean.tester.ToStringNullSafetyTester;
-
-import org.codereligion.test.bean.object.User;
-
 import com.google.common.collect.Sets;
-import org.codereligion.test.bean.object.NullPointerInHashCode;
-
-import org.codereligion.test.bean.object.ComplexClass;
-
 import java.util.Collections;
-
+import org.codereligion.test.bean.object.ComplexClass;
 import org.codereligion.test.bean.object.ExceptionThrowingSetter;
-
+import org.codereligion.test.bean.object.MissingToStringImplementation;
+import org.codereligion.test.bean.object.NullPointerInHashCode;
 import org.codereligion.test.bean.object.NullPointerInToString;
 import org.junit.Test;
 
@@ -35,8 +28,8 @@ public class ToStringNullSafetyTesterTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testNonImplementingClass() {
-		ToString.testNullSafety(User.class);
+	public void testMissingImplementingClass() {
+		ToString.testNullSafety(MissingToStringImplementation.class);
 	}
 	
 	@Test(expected = AssertionError.class)

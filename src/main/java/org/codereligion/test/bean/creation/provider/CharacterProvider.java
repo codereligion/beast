@@ -1,4 +1,5 @@
-package org.codereligion.test.bean.creation;
+package org.codereligion.test.bean.creation.provider;
+
 
 
 /**
@@ -7,7 +8,7 @@ package org.codereligion.test.bean.creation;
  * @author sgroebler
  * @since 14.08.2012
  */
-final class CharacterProvider implements Provider<Character> {
+public final class CharacterProvider implements Provider<Character> {
 	
 	/**
 	 * Instance of this class.
@@ -17,7 +18,7 @@ final class CharacterProvider implements Provider<Character> {
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Character DIRTY =  Character.valueOf((char) 1);
+	private static final Character DIRTY = Character.valueOf((char) 1);
 	
 	/**
 	 * Cached default object.

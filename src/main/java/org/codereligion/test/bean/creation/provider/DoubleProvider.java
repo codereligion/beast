@@ -1,4 +1,5 @@
-package org.codereligion.test.bean.creation;
+package org.codereligion.test.bean.creation.provider;
+
 
 
 /**
@@ -7,7 +8,7 @@ package org.codereligion.test.bean.creation;
  * @author sgroebler
  * @since 14.08.2012
  */
-final class DoubleProvider implements Provider<Double> {
+public final class DoubleProvider implements Provider<Double> {
 
 	/**
 	 * Instance of this class.

@@ -4,8 +4,8 @@ import com.google.common.collect.Sets;
 import java.util.Collections;
 import org.codereligion.test.bean.object.ComplexClass;
 import org.codereligion.test.bean.object.ExceptionThrowingSetter;
+import org.codereligion.test.bean.object.MissingHashCodeImplementation;
 import org.codereligion.test.bean.object.NullPointerInHashCode;
-import org.codereligion.test.bean.object.User;
 import org.junit.Test;
 
 /**
@@ -27,8 +27,8 @@ public class HashCodeNullSafetyTesterTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testNonImplementingClass() {
-		HashCode.testNullSafety(User.class);
+	public void testMissingImplementingClass() {
+		HashCode.testNullSafety(MissingHashCodeImplementation.class);
 	}
 
 	@Test(expected = AssertionError.class)

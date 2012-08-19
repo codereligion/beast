@@ -1,13 +1,14 @@
-package org.codereligion.test.bean.creation;
+package org.codereligion.test.bean.creation.provider;
 
 /**
+ * TODO mostly used for providing instances of final classes or classes without a default constructor which can not be proxied
  * Provides a "dirty" and a "default" instance of the class specified by type {@code T}.
  * 
  * @param <T> the type to provide the dirty and default object for
  * @author sgroebler
  * @since 15.08.2012
  */
-interface Provider<T> {
+public interface Provider<T> {
 	
 	/**
 	 * Returns a dirty version of the object specified by type {@code T}.

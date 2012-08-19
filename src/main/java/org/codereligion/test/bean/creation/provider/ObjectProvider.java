@@ -1,6 +1,4 @@
-package org.codereligion.test.bean.creation;
-
-import java.math.BigInteger;
+package org.codereligion.test.bean.creation.provider;
 
 
 /**
@@ -9,7 +7,7 @@ import java.math.BigInteger;
  * @author sgroebler
  * @since 14.08.2012
  */
-final class ObjectProvider implements Provider<Object> {
+public final class ObjectProvider implements Provider<Object> {
 
 	/**
 	 * Instance of this class.
@@ -19,12 +17,19 @@ final class ObjectProvider implements Provider<Object> {
 	/**
 	 * Cached dirty object.
 	 */
-	private static final Object DIRTY = BigInteger.ONE;
+	private static final Object DIRTY = new Short("1");
 	
 	/**
 	 * Cached default object.
 	 */
-	private static final Object DEFAULT = BigInteger.ZERO;
+	private static final Object DEFAULT = new Short("0");
+	
+	/**
+	 * This is a singleton class which must not be instantiated from outside.
+	 */
+	private ObjectProvider() {
+		// nothing to do
+	}
 	
 	@Override
 	public Object getDirtyObject() {

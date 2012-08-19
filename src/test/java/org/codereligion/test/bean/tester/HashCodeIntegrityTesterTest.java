@@ -4,9 +4,9 @@ import com.google.common.collect.Sets;
 import java.util.Collections;
 import java.util.HashSet;
 import org.codereligion.test.bean.object.ComplexClass;
+import org.codereligion.test.bean.object.MissingHashCodeImplementation;
 import org.codereligion.test.bean.object.MissingPropertyInEquals;
 import org.codereligion.test.bean.object.MissingPropertyInHashCode;
-import org.codereligion.test.bean.object.User;
 import org.junit.Test;
 
 /**
@@ -28,8 +28,8 @@ public class HashCodeIntegrityTesterTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testNonImplementingClass() {
-		HashCode.testIntegrity(User.class);
+	public void testMissingImplementingClass() {
+		HashCode.testIntegrity(MissingHashCodeImplementation.class);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

@@ -2,7 +2,7 @@ package org.codereligion.test.bean.tester;
 
 import java.util.regex.Pattern;
 import org.codereligion.test.bean.object.ComplexClass;
-import org.codereligion.test.bean.object.User;
+import org.codereligion.test.bean.object.MissingToStringImplementation;
 import org.codereligion.test.bean.object.WrongFormatInToString;
 import org.junit.Test;
 
@@ -32,8 +32,8 @@ public class ToStringFormatTesterTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testNonImplementingClass() {
-		ToString.testFormat(User.class, ECLIPSE_TO_STRING_PATTERN);
+	public void testMissingImplementingClass() {
+		ToString.testFormat(MissingToStringImplementation.class, ECLIPSE_TO_STRING_PATTERN);
 	}
 
 	@Test(expected = AssertionError.class)

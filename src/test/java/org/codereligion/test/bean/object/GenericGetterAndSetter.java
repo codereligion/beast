@@ -1,12 +1,12 @@
 package org.codereligion.test.bean.object;
 
 /**
- * Test class for java introspector bug.
- * 
+ * TODO
+ *
  * @author sgroebler
- * @since 12.08.2012
+ * @since 19.08.2012
  */
-public class User implements Identifiable<Integer> {
+public class GenericGetterAndSetter implements GenericGetterAndSetterInterface<Integer> {
 
 	private Integer id;
 
@@ -15,6 +15,7 @@ public class User implements Identifiable<Integer> {
 		return this.id;
 	}
 
+	@Override
 	public void setId(final Integer id) {
 		this.id = id;
 	}
@@ -35,7 +36,7 @@ public class User implements Identifiable<Integer> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final User other = (User) obj;
+		final GenericGetterAndSetter other = (GenericGetterAndSetter) obj;
 		if (this.id == null) {
 			if (other.id != null)
 				return false;

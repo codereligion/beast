@@ -1,4 +1,4 @@
-package org.codereligion.test.bean.creation;
+package org.codereligion.test.bean.creation.provider;
 
 
 /**
@@ -7,7 +7,7 @@ package org.codereligion.test.bean.creation;
  * @author sgroebler
  * @since 14.08.2012
  */
-final class StringProvider implements Provider<String> {
+public final class StringProvider implements Provider<String> {
 
 	/**
 	 * Instance of this class.

@@ -1,19 +1,27 @@
 package org.codereligion.test.bean.creation;
 
+import java.lang.reflect.Constructor;
+
+import org.codereligion.test.bean.creation.provider.ObjectProvider;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import org.codereligion.test.bean.creation.provider.BooleanProvider;
+import org.codereligion.test.bean.creation.provider.ByteProvider;
+import org.codereligion.test.bean.creation.provider.CharacterProvider;
+import org.codereligion.test.bean.creation.provider.DoubleProvider;
+import org.codereligion.test.bean.creation.provider.FloatProvider;
+import org.codereligion.test.bean.creation.provider.IntegerProvider;
+import org.codereligion.test.bean.creation.provider.LongProvider;
+import org.codereligion.test.bean.creation.provider.Provider;
+import org.codereligion.test.bean.creation.provider.ShortProvider;
+import org.codereligion.test.bean.creation.provider.StringProvider;
 
 
 /**
@@ -56,11 +64,6 @@ public final class ObjectFactory {
 		OBJECT_PROVIDER.put(Double.class.getCanonicalName(), DoubleProvider.INSTANCE);
 		OBJECT_PROVIDER.put(String.class.getCanonicalName(), StringProvider.INSTANCE);
 		OBJECT_PROVIDER.put(Object.class.getCanonicalName(), ObjectProvider.INSTANCE);
-		OBJECT_PROVIDER.put(BigInteger.class.getCanonicalName(), BigIntegerProvider.INSTANCE);
-		OBJECT_PROVIDER.put(BigDecimal.class.getCanonicalName(), BigDecimalProvider.INSTANCE);
-		OBJECT_PROVIDER.put(AtomicLong.class.getCanonicalName(), AtomicLongProvider.INSTANCE);
-		OBJECT_PROVIDER.put(AtomicInteger.class.getCanonicalName(), AtomicIntegerProvider.INSTANCE);
-		OBJECT_PROVIDER.put(AtomicBoolean.class.getCanonicalName(), AtomicBooleanProvider.INSTANCE);
 	}
 
 	/**
@@ -122,9 +125,8 @@ public final class ObjectFactory {
 			return createArray(beanClass.getComponentType(), propertyState);
 		} else if (beanClass.isEnum()) {
 			return getEnumValue(beanClass, propertyState);
-		} else if (beanClass.isInterface()) {
-			return createProxy(beanClass, propertyState);
 		} else {
+			// interfaces, abstract classes and concrete classes
 			return createProxy(beanClass, propertyState);
 		}
 	}
@@ -186,6 +188,15 @@ public final class ObjectFactory {
 		if (Modifier.isFinal(beanClass.getModifiers())) {
 			throw new IllegalArgumentException("Can not create proxy for final class " + beanClass.getCanonicalName() + ".");
 		}
+		
+		final boolean isConcreteClass = !beanClass.isInterface() && !Modifier.isAbstract(beanClass.getModifiers());
+		
+		if (isConcreteClass && !hasDefaultConstructor(beanClass)) {
+			throw new IllegalArgumentException(
+					"Can not create proxy for property class " + beanClass.getCanonicalName() +
+					" because of missing default constructor. Either provide a default constructor " +
+					" or add a Provider implementation for that class which will be used instead of a proxy.");
+		}
 
 		final Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(beanClass);
@@ -234,5 +245,27 @@ public final class ObjectFactory {
 			}
 		});
         return (T) enhancer.create();
+	}
+	
+
+	/**
+	 * TODO update documentation
+	 * TODO duplicate with AbstractTester
+	 * Determines whether the given {@code beanClass} has a zero argument constructor.
+	 *
+	 * @param beanClass the {@link Class} to check
+	 * @return true if the given {@code beanClass} as a zero argument constructor, false otherwise
+	 */
+	private static boolean hasDefaultConstructor(final Class<?> beanClass) {
+		
+		final Constructor<?>[] constructors = beanClass.getConstructors();
+		for (final Constructor<?> constructor : constructors) {
+			
+			final boolean hasZeroArguments = constructor.getParameterTypes().length == 0;
+			if (hasZeroArguments) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

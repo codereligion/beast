@@ -1,15 +1,11 @@
 package org.codereligion.test.bean.tester;
 
-import org.codereligion.test.bean.tester.ToStringIntegrityTester;
-
-import org.codereligion.test.bean.object.User;
-
-import java.util.Collections;
-import org.codereligion.test.bean.object.ComplexClass;
-
 import com.google.common.collect.Sets;
+import java.util.Collections;
 import java.util.HashSet;
+import org.codereligion.test.bean.object.ComplexClass;
 import org.codereligion.test.bean.object.MissingPropertyInToString;
+import org.codereligion.test.bean.object.MissingToStringImplementation;
 import org.junit.Test;
 
 /**
@@ -31,8 +27,8 @@ public class ToStringIntegrityTesterTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testNonImplementingClass() {
-		ToString.testIntegrity(User.class);
+	public void testMissingImplementingClass() {
+		ToString.testIntegrity(MissingToStringImplementation.class);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

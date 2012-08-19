@@ -2,11 +2,7 @@ package org.codereligion.test.bean.tester;
 
 import static org.junit.Assert.fail;
 
-import org.codereligion.test.bean.tester.Equals;
-
-import org.codereligion.test.bean.object.User;
-
-import org.codereligion.test.bean.object.NonSymmetricEqualsClass;
+import org.codereligion.test.bean.object.WithPropertyWhichHasNoDefaultConstructor;
 
 import com.google.common.collect.Sets;
 import java.math.BigDecimal;
@@ -19,9 +15,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import org.codereligion.test.bean.object.AbstractClass;
+import org.codereligion.test.bean.object.AsymmetricGettersAndSetters;
 import org.codereligion.test.bean.object.ComplexClass;
+import org.codereligion.test.bean.object.GenericGetterAndSetter;
+import org.codereligion.test.bean.object.MissingEqualsImplementation;
 import org.codereligion.test.bean.object.MissingPropertyInEquals;
+import org.codereligion.test.bean.object.NoDefaultConstructor;
 import org.codereligion.test.bean.object.NonReflexiveEqualsClass;
+import org.codereligion.test.bean.object.NonSymmetricEqualsClass;
 import org.junit.Test;
 
 /**
@@ -69,6 +70,11 @@ public class EqualsIntegrityTesterTest {
         UNSUPPORTED_CLASSES.add(ComplexClass.Enumeration.class);
         UNSUPPORTED_CLASSES.add(List.class);
         UNSUPPORTED_CLASSES.add(AbstractClass.class);
+        
+        // invalid implementations
+        UNSUPPORTED_CLASSES.add(NoDefaultConstructor.class);
+        UNSUPPORTED_CLASSES.add(MissingEqualsImplementation.class);
+        UNSUPPORTED_CLASSES.add(WithPropertyWhichHasNoDefaultConstructor.class);
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -81,9 +87,14 @@ public class EqualsIntegrityTesterTest {
 		Equals.testIntegrity(ComplexClass.class);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNonImplementingClass() {
-		Equals.testIntegrity(User.class);
+	@Test
+	public void testWithAsymmetricGetterSetters() {
+		Equals.testIntegrity(AsymmetricGettersAndSetters.class);
+	}
+	
+	@Test
+	public void testWithGenericClass() {
+		Equals.testIntegrity(GenericGetterAndSetter.class);
 	}
 	
 	@Test(expected = AssertionError.class)
@@ -133,13 +144,20 @@ public class EqualsIntegrityTesterTest {
 		Equals.testIntegrity(ComplexClass.class, Sets.newHashSet("anotherComplexObject"));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testWithExcludesWithUnsupportedClass() {
-		Equals.testIntegrity(String.class, new HashSet<String>());
-	}
-	
 	@Test
 	public void testWithMissingPropertyInEqualsWithExcludes() {
 		Equals.testIntegrity(MissingPropertyInEquals.class, Sets.newHashSet("complexObject"));
+	}
+
+	@Test
+	public void testWithExcludesWithUnsupportedClass() {
+		for (final Class<?> type : UNSUPPORTED_CLASSES) {
+			try {
+				Equals.testIntegrity(type, new HashSet<String>());
+				fail();
+			} catch (IllegalArgumentException e) {
+				// success
+			}
+		}
 	}
 }

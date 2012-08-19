@@ -1,7 +1,10 @@
 package org.codereligion.test.bean.object;
 
 import java.util.Arrays;
+
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,6 +56,9 @@ public class ComplexClass {
 	private AnotherComplexClass anotherComplexObject;
 	private String string;
 	private Object object;
+
+	private Calendar calendar;
+	private Date date;
 
 	private boolean[] booleanArray;
 	private byte[] byteArray;
@@ -247,8 +253,7 @@ public class ComplexClass {
 		return this.anotherComplexObject;
 	}
 
-	public void setAnotherComplexObject(
-			final AnotherComplexClass anotherComplexObject) {
+	public void setAnotherComplexObject(final AnotherComplexClass anotherComplexObject) {
 		this.anotherComplexObject = anotherComplexObject;
 	}
 
@@ -266,6 +271,22 @@ public class ComplexClass {
 
 	public void setObject(final Object object) {
 		this.object = object;
+	}
+
+	public Calendar getCalendar() {
+		return this.calendar;
+	}
+
+	public void setCalendar(final Calendar calendar) {
+		this.calendar = calendar;
+	}
+
+	public Date getDate() {
+		return this.date;
+	}
+
+	public void setDate(final Date date) {
+		this.date = date;
 	}
 
 	public boolean[] getBooleanArray() {
@@ -448,12 +469,15 @@ public class ComplexClass {
 		result = prime * result
 				+ ((this.byteBoxed == null) ? 0 : this.byteBoxed.hashCode());
 		result = prime * result + this.bytePrimitive;
+		result = prime * result
+				+ ((this.calendar == null) ? 0 : this.calendar.hashCode());
 		result = prime * result + Arrays.hashCode(this.charArray);
 		result = prime * result
 				+ ((this.charBoxed == null) ? 0 : this.charBoxed.hashCode());
 		result = prime * result + this.charPrimitive;
 		result = prime * result
 				+ ((this.complexObject == null) ? 0 : this.complexObject.hashCode());
+		result = prime * result + ((this.date == null) ? 0 : this.date.hashCode());
 		result = prime * result
 				+ ((this.doubleBoxed == null) ? 0 : this.doubleBoxed.hashCode());
 		long temp;
@@ -568,6 +592,11 @@ public class ComplexClass {
 			return false;
 		if (this.bytePrimitive != other.bytePrimitive)
 			return false;
+		if (this.calendar == null) {
+			if (other.calendar != null)
+				return false;
+		} else if (!this.calendar.equals(other.calendar))
+			return false;
 		if (!Arrays.equals(this.charArray, other.charArray))
 			return false;
 		if (this.charBoxed == null) {
@@ -581,6 +610,11 @@ public class ComplexClass {
 			if (other.complexObject != null)
 				return false;
 		} else if (!this.complexObject.equals(other.complexObject))
+			return false;
+		if (this.date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!this.date.equals(other.date))
 			return false;
 		if (this.doubleBoxed == null) {
 			if (other.doubleBoxed != null)
@@ -667,7 +701,7 @@ public class ComplexClass {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("ComplexObject [booleanPrimitive=");
+		builder.append("ComplexClass [booleanPrimitive=");
 		builder.append(this.booleanPrimitive);
 		builder.append(", booleanBoxed=");
 		builder.append(this.booleanBoxed);
@@ -715,6 +749,10 @@ public class ComplexClass {
 		builder.append(this.string);
 		builder.append(", object=");
 		builder.append(this.object);
+		builder.append(", calendar=");
+		builder.append(this.calendar);
+		builder.append(", date=");
+		builder.append(this.date);
 		builder.append(", booleanArray=");
 		builder.append(Arrays.toString(this.booleanArray));
 		builder.append(", byteArray=");

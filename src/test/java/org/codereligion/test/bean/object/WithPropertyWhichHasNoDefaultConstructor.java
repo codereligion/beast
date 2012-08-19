@@ -1,35 +1,27 @@
 package org.codereligion.test.bean.object;
 
 /**
- * TODO
+ * Test class a property without a default constructor.
  *
  * @author sgroebler
- * @since 19.08.2012
+ * @since 16.08.2012
  */
-public class ExceptionThrowingSetter {
+public class WithPropertyWhichHasNoDefaultConstructor {
 
-	private Integer foo;
-	private Boolean bar;
-	
-	public Integer getFoo() {
+	private String foo;
+	private NoDefaultConstructor bar;
+	public String getFoo() {
 		return this.foo;
 	}
-
-	public void setFoo(final Integer foo) {
-		if (foo == null) {
-			throw new UnsupportedOperationException();
-		}
+	public void setFoo(final String foo) {
 		this.foo = foo;
 	}
-
-	public Boolean getBar() {
+	public NoDefaultConstructor getBar() {
 		return this.bar;
 	}
-
-	public void setBar(final Boolean bar) {
+	public void setBar(final NoDefaultConstructor bar) {
 		this.bar = bar;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -38,7 +30,6 @@ public class ExceptionThrowingSetter {
 		result = prime * result + ((this.foo == null) ? 0 : this.foo.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj)
@@ -47,7 +38,7 @@ public class ExceptionThrowingSetter {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final ExceptionThrowingSetter other = (ExceptionThrowingSetter) obj;
+		final WithPropertyWhichHasNoDefaultConstructor other = (WithPropertyWhichHasNoDefaultConstructor) obj;
 		if (this.bar == null) {
 			if (other.bar != null)
 				return false;
@@ -60,15 +51,16 @@ public class ExceptionThrowingSetter {
 			return false;
 		return true;
 	}
-
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("ExceptionThrowingSetter [foo=");
+		builder.append("WithPropertyWhichHasNoDefaultConstructor [foo=");
 		builder.append(this.foo);
 		builder.append(", bar=");
 		builder.append(this.bar);
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
 }

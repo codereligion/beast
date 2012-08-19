@@ -72,7 +72,7 @@ abstract class AbstractTester <T> {
 		this.beanClassCanonicalName = beanClass.getCanonicalName();
 		
 		if (!isTestable()) {
-			throw new IllegalArgumentException("The given clas " + this.beanClassCanonicalName + " is not supported for testing.");
+			throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " is not supported for testing.");
 		}
 		
 		this.setableProperties = ReflectUtil.getSetableProperties(beanClass);
@@ -135,7 +135,7 @@ abstract class AbstractTester <T> {
 			   !this.beanClass.isEnum() &&
 			   !this.beanClass.isInterface() &&
 			   !Modifier.isAbstract(this.beanClass.getModifiers()) &&
-			   hasZeroParameterConstructor();
+			   hasDefaultConstructor();
 	}
 
 	/**
@@ -224,12 +224,12 @@ abstract class AbstractTester <T> {
 
 	/**
 	 * TODO update documentation
-	 * Determines whether the given {@code beanClass} has a zero argument constructor.
+	 * Determines whether the given {@code beanClass} has a default constructor.
 	 *
 	 * @param beanClass the {@link Class} to check
-	 * @return true if the given {@code beanClass} as a zero argument constructor, false otherwise
+	 * @return true if the given {@code beanClass} as a default constructor, false otherwise
 	 */
-	private boolean hasZeroParameterConstructor() {
+	private boolean hasDefaultConstructor() {
 		
 		final Constructor<?>[] constructors = this.beanClass.getConstructors();
 		for (final Constructor<?> constructor : constructors) {
