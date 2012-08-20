@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.codereligion</groupId>
-    <artifactId>codereligion-test-bean</artifactId>
+    <artifactId>codereligion-beast</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>BeanTest</name>
+    <name>Beast</name>
 
-    <description>Provides utilities for testing java bean.</description>
+    <description>Provides utilities for testing java beans.</description>
 
     <prerequisites>
         <maven>3.0</maven>
