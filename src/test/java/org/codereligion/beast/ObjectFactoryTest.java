@@ -28,47 +28,52 @@ public class ObjectFactoryTest {
 
 	private static ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider<?>>emptySet());
 	
+	@Test(expected = NullPointerException.class)
+	public void testGetDefaultObjectWithNullClass() {
+		objectFactory.getDefaultObject(null);
+	}
+	
 	@Test
-	public void testNewBeanObject() {
+	public void testGetDefaultObject() {
 		final ComplexClass defaultObject = objectFactory.getDefaultObject(ComplexClass.class);
 		assertNotNull(defaultObject);
 		assertNotNull(defaultObject.toString());
 	}
 	
 	@Test(expected = NullPointerException.class)
-	public void testNewDirtyPropertyWithNullClass() {
+	public void testGetDirtyObjectWithNullClass() {
 		objectFactory.getDirtyObject(null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testNewDirtyPropertyWithFinalClass() {
+	public void testGetDirtyObjectWithFinalClass() {
 		objectFactory.getDirtyObject(FinalClass.class);
 	}
 	
 	@Test
-	public void testNewDirtyPropertyWithAbstractClass() {
+	public void testGetDirtyObjectWithAbstractClass() {
 		objectFactory.getDirtyObject(AbstractClass.class);
 	}
 	
 	@Test
-	public void testNewDirtyPropertyWithInterface() {
+	public void testGetDirtyObjectWithInterface() {
 		objectFactory.getDirtyObject(List.class);
 	}
 	
 	@Test
-	public void testNewDirtyPropertyWithEmptyEnum() {
+	public void testGetDirtyObjectWithEmptyEnum() {
 		final EmptyEnum emptyEnum = objectFactory.getDirtyObject(EmptyEnum.class);
 		assertNull(emptyEnum);
 	}
 	
 	@Test
-	public void testNewDirtyPropertyWithOneElementEnum() {
+	public void testGetDirtyObjectWithOneElementEnum() {
 		final OneElementEnum oneElementEnum = objectFactory.getDirtyObject(OneElementEnum.class);
 		assertNull(oneElementEnum);
 	}
 	
 	@Test
-	public void testNewDirtyPropertyWithString() {
+	public void testGetDirtyObjectWithString() {
 		final String string = objectFactory.getDirtyObject(String.class);
 
 		assertNotNull(string);
@@ -76,7 +81,7 @@ public class ObjectFactoryTest {
 	}
 	
 	@Test
-	public void testNewDirtyPropertyWithArray() {
+	public void testGetDirtyObjectWithArray() {
 		final Integer[] intArray = objectFactory.getDirtyObject(Integer[].class);
 
 		assertNotNull(intArray);
@@ -85,7 +90,7 @@ public class ObjectFactoryTest {
 	}
 	
 	@Test
-	public void testNewDirtyPropertyWithEnum() {
+	public void testGetDirtyObjectWithEnum() {
 		final ComplexClass.Enumeration enumeration = objectFactory.getDirtyObject(ComplexClass.Enumeration.class);
 		
 		assertNotNull(enumeration);
@@ -93,7 +98,7 @@ public class ObjectFactoryTest {
 	}
 	
 	@Test
-	public void testNewDirtyPropertyWithComplexClass() {
+	public void testGetDirtyObjectWithComplexClass() {
 		final ComplexClass dirtyComplexObject1 = objectFactory.getDirtyObject(ComplexClass.class);
 		
 		assertNotNull(dirtyComplexObject1);

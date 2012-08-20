@@ -2,9 +2,9 @@ package org.codereligion.beast;
 
 import static org.junit.Assert.assertNotNull;
 
+import com.google.common.collect.Sets;
 import org.codereligion.beast.object.ComplexClass;
 import org.junit.Test;
-import org.testng.collections.Sets;
 
 /**
  * Tests helper methods of the {@link AbstractTest}.

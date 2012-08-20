@@ -2,7 +2,6 @@ package org.codereligion.beast;
 
 /**
  * TODO mostly used for providing instances of final classes or classes without a default constructor which can not be proxied
- * TODO maybe provide a factory for creating InstanceProviders and remove them from public interface again
  * 
  * Provides a "dirty" and a "default" instance of the class specified by type {@code T}.
  * 

@@ -8,7 +8,7 @@ import org.codereligion.beast.object.ComplexClass;
  * @author sgroebler
  * @since 15.08.2012
  */
-public class ComplexClassJUnitTest extends JUnitBeanTest<ComplexClass>{
+public class ComplexClassJUnitTest extends JUnitBeast<ComplexClass>{
 
 	@Override
 	protected Class<ComplexClass> getClazz() {

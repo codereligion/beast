@@ -1,5 +1,7 @@
 package org.codereligion.beast.framework;
 
+import org.junit.Test;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -13,19 +15,14 @@ import org.codereligion.beast.ToStringIntegrityTestBuilder;
 import org.codereligion.beast.ToStringNullSafetyTestBuilder;
 
 /**
- * Abstract implementation of a bean test which can be used to build an
- * abstract or concrete class for the testing framework of choice by
- * extending the provided implementations and annotating them with the 
- * framework specific test run annotation.
+ * Example implementation of the "beast" for JUnit.
  * 
  * @author sgroebler
  * @since 11.08.2012
  */
-public abstract class AbstractBeanTest <T> {
+public abstract class JUnitBeast <T> {
 	
-	/**
-	 * Default implementation of the equals integrity test.
-	 */
+	@Test
 	public void testEqualsIntegrity() {
 		new EqualsIntegrityTestBuilder()
 			.addExcludedPropertyNames(getExcludesForEqualsIntegrity())
@@ -34,9 +31,7 @@ public abstract class AbstractBeanTest <T> {
 			.run();
 	}
 	
-	/**
-	 * Default implementation of the equals null-safety test.
-	 */
+	@Test
 	public void testEqualsNullSafety() {
 		new EqualsNullSafetyTestBuilder()
 			.addExcludedPropertyNames(getExcludesForEqualsNullSafety())
@@ -45,9 +40,7 @@ public abstract class AbstractBeanTest <T> {
 			.run();
 	}
 	
-	/**
-	 * Default implementation of the hashCode integrity test.
-	 */
+	@Test
 	public void testHashCodeIntegrity() {
 		new HashCodeIntegrityTestBuilder()
 			.addExcludedPropertyNames(getExcludesForHashCodeIntegrity())
@@ -56,9 +49,7 @@ public abstract class AbstractBeanTest <T> {
 			.run();
 	}
 	
-	/**
-	 * Default implementation of the hashCode null-safety test.
-	 */
+	@Test
 	public void testHashCodeNullSafety() {
 		new HashCodeNullSafetyTestBuilder()
 			.addExcludedPropertyNames(getExcludesForEqualsNullSafety())
@@ -67,9 +58,7 @@ public abstract class AbstractBeanTest <T> {
 			.run();
 	}
 	
-	/**
-	 * Default implementation of the toString integrity test.
-	 */
+	@Test
 	public void testToStringIntegrity() {
 		new ToStringIntegrityTestBuilder()
 			.addExcludedPropertyNames(getExcludesToStringIntegrity())
@@ -78,9 +67,7 @@ public abstract class AbstractBeanTest <T> {
 			.run();
 	}
 	
-	/**
-	 * Default implementation of the toString null-safety test.
-	 */
+	@Test
 	public void testToStringNullSafety() {
 		new ToStringNullSafetyTestBuilder()
 			.addExcludedPropertyNames(getExcludesToStringNullSafety())
@@ -89,25 +76,12 @@ public abstract class AbstractBeanTest <T> {
 			.run();
 	}
 	
-	/**
-	 * Default implementation of the toString format test.
-	 * 
-	 * @throws NullPointerException when the {@link AbstractBeanTest #getToStringPattern()} 
-	 * is not overridden by a sub-class and does not provide a non-null value
-	 */
+	@Test
 	public void testToStringFormat() {
-		
-		final Pattern pattern = getToStringPattern();
-		
-		if (pattern == null) {
-			throw new NullPointerException(
-                "Calling the testToStringFormat method requires setting a pattern. Override the getToStringPattern method.");
-		}
-		
 		new ToStringFormatTestBuilder()
 			.addExcludedPropertyNames(getExcludesForToStringFormatTest())
 			.addCustomInstanceProviders(getInstanceProviders())
-			.create(getClazz(), pattern)
+			.create(getClazz(), getToStringPattern())
 			.run();
 	}
 
@@ -209,6 +183,6 @@ public abstract class AbstractBeanTest <T> {
 	 * @return the regular expression to be applied, or {@code null} if the pattern should not be checked
 	 */
 	protected Pattern getToStringPattern() {
-		return null;
+		return Pattern.compile(".+ \\[(.+=.+, )*(.+=.+)?\\]");
 	}
 }

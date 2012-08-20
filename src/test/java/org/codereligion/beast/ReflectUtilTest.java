@@ -1,5 +1,6 @@
 package org.codereligion.beast;
 
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
@@ -36,6 +37,7 @@ public class ReflectUtilTest {
 		
 		for (final PropertyDescriptor property : properties) {
 			assertNotNull(property.getWriteMethod());
+			assertNotNull(property.getReadMethod());
 		}
 	}
 	
@@ -47,7 +49,9 @@ public class ReflectUtilTest {
 		assertFalse(properties.isEmpty());
 		
 		for (final PropertyDescriptor property : properties) {
+			assertEquals(Integer.class, property.getPropertyType());
 			assertNotNull(property.getWriteMethod());
+			assertNotNull(property.getReadMethod());
 		}
 	}
 }
