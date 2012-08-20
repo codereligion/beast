@@ -29,15 +29,15 @@ final class ReflectUtil {
 	}
 
 	/**
-	 * Retrieve a {@link Set} of setable properties for the given {@code beanClass}.
+	 * Retrieves a {@link Set} of settable properties for the given {@code beanClass}.
 	 * This includes all properties which have a public setter.
 	 * 
-	 * @param beanClass the {@link Class} to get the setable properties for
+	 * @param beanClass the {@link Class} to get the settable properties for
 	 * @return a {@link Set} of {@link PropertyDescriptor}s
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 * @throws IllegalArgumentException when the given {@code beanClass} can not be introspected
 	 */
-	static Set<PropertyDescriptor> getSetableProperties(final Class<?> beanClass) {
+	static Set<PropertyDescriptor> getSettableProperties(final Class<?> beanClass) {
 		
 		if (beanClass == null) {
 			throw new NullPointerException("beanClass must not be null.");
@@ -47,29 +47,28 @@ final class ReflectUtil {
 			final BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
 		    final PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 		    
-		    final Set<PropertyDescriptor> setableProperties = new HashSet<PropertyDescriptor>();
+		    final Set<PropertyDescriptor> settableProperties = new HashSet<PropertyDescriptor>();
 		        
 		    for (final PropertyDescriptor propertyDescriptor : propertyDescriptors) {
 		    	
 		    	final PropertyDescriptor genericTypeAware = getGenericTypeAwarePropertyDescriptor(beanClass, propertyDescriptor);
 		    	if (genericTypeAware.getWriteMethod() != null) {
-		    		setableProperties.add(genericTypeAware);
+		    		settableProperties.add(genericTypeAware);
 		    	}
 		    }
 		    
-		    return setableProperties;
+		    return settableProperties;
 		} catch (final IntrospectionException e) {
 			throw new IllegalArgumentException("The given class " + beanClass.getCanonicalName() + " can not be introspected because: " + e.getMessage(), e);
 		}
 	}
-	
+
 	/**
-	 * This method provides a workaround for the java bug documented here:
-	 * http://bugs.sun.com/view_bug.do?bug_id=6528714 
+	 * This method provides a workaround for the java bug documented here: http://bugs.sun.com/view_bug.do?bug_id=6528714
 	 * 
 	 * @param beanClass the {@link Class} to which the given {@code propertyDescriptor} belongs
-	 * @param propertyDescriptor the {@link PropertyDescriptor} 
-	 * @return 
+	 * @param propertyDescriptor the {@link PropertyDescriptor} to potentially workaround
+	 * @return either the given {@code propertyDescriptor} or a new one which reflects the underlying property correctly
 	 * @throws IntrospectionException when instantiation of a new {@link PropertyDescriptor} failed
 	 */
 	private static PropertyDescriptor getGenericTypeAwarePropertyDescriptor (
@@ -103,9 +102,7 @@ final class ReflectUtil {
 		} else if (getterName.contains(BOOLEAN_GETTER_PREFIX)) {
 			setterName = getterName.replace(BOOLEAN_GETTER_PREFIX, SETTER_PREFIX);
 		} else {
-			// TODO can this actually happen???, this would mean that there is
-			// a getter which does not comply with java beans rules
-			return propertyDescriptor;
+			throw new IllegalStateException("Method " + readMethod + " does not comply to java beans conventions.");
 		}
 		
 		// try to find public, non bridged write method matching the name
@@ -131,18 +128,18 @@ final class ReflectUtil {
 			return new PropertyDescriptor(propertyName, potentialReadMethod, potentialWriteMethod);
 		}
 
-		// TODO can this actually happen???, this would mean that there is a bridged read method
-		// which has no method it bridges to, but on the other hand there is write method with a 
-		// bridge and a bridged method...
-		return propertyDescriptor;
+		throw new IllegalStateException(
+				"PropertyDescriptor for property '" + propertyDescriptor.getName() + "' references " +
+				"a bridged readMethod which does not seam to have a public method to bridge to.");
 	}
 	
 	/**
-	 * TODO
+	 * Tries to find a public non-bridged method in the given {@code beanClass} which matches
+	 * the given {@code methodName}.
 	 *
-	 * @param methodName
-	 * @param beanClass
-	 * @return
+	 * @param methodName the name of the {@link Method} to find
+	 * @param beanClass the {@link Class} in which the {@link Method} is expected
+	 * @return the matching {@link Method} or {@code null} if it could not be found
 	 */
 	private static Method getMatchingNonBridgedPublicMethod(final String methodName, final Class<?> beanClass) {
 		for (final Method method : beanClass.getMethods()) {

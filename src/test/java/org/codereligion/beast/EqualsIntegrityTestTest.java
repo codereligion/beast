@@ -2,6 +2,14 @@ package org.codereligion.beast;
 
 import static org.junit.Assert.fail;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import org.codereligion.beast.object.AbstractClass;
 import org.codereligion.beast.object.AsymmetricGettersAndSetters;
 import org.codereligion.beast.object.ComplexClass;
@@ -12,19 +20,6 @@ import org.codereligion.beast.object.NoDefaultConstructor;
 import org.codereligion.beast.object.NonReflexiveEqualsClass;
 import org.codereligion.beast.object.NonSymmetricEqualsClass;
 import org.codereligion.beast.object.PropertyWhichHasNoDefaultConstructor;
-
-import org.codereligion.beast.EqualsIntegrityTest;
-import org.codereligion.beast.EqualsIntegrityTestBuilder;
-
-import com.google.common.collect.Sets;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 import org.junit.Test;
 
 /**

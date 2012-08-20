@@ -38,7 +38,7 @@ public final class HashCodeIntegrityTest <T> extends AbstractTest<T> {
 	public void run() {
 		final T defaultObject = newBeanObject();
 		
-		for (final PropertyDescriptor property : this.setableProperties) {
+		for (final PropertyDescriptor property : this.settableProperties) {
 			
 			final String propertyName = property.getName();
 			final Class<?> propertyType = property.getPropertyType();

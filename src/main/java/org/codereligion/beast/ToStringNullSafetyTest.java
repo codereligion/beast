@@ -36,7 +36,7 @@ public final class ToStringNullSafetyTest <T> extends AbstractTest<T> {
 	
 	@Override
 	public void run() {
-		for (final PropertyDescriptor property : this.setableProperties) {
+		for (final PropertyDescriptor property : this.settableProperties) {
 			
 			final Class<?> propertyType = property.getPropertyType();
 			

@@ -41,7 +41,7 @@ public final class EqualsNullSafetyTest<T> extends AbstractTest<T> {
 
         assertTrue(objectIsEqualToItSelf, "Equals method for instance of '%s' is not reflexive.", this.beanClassCanonicalName);
 
-        for (final PropertyDescriptor property : this.setableProperties) {
+        for (final PropertyDescriptor property : this.settableProperties) {
 
             final Class<?> propertyType = property.getPropertyType();
             final String propertyName = property.getName();

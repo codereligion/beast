@@ -4,15 +4,12 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-import org.codereligion.beast.object.ComplexClass;
-import org.codereligion.beast.object.User;
-
-import org.codereligion.beast.ReflectUtil;
-
-
 import java.beans.PropertyDescriptor;
 import java.util.Set;
-
+import org.codereligion.beast.object.ApiUser;
+import org.codereligion.beast.object.ComplexClass;
+import org.codereligion.beast.object.RestApi;
+import org.codereligion.beast.object.User;
 import org.junit.Test;
 
 /**
@@ -25,12 +22,12 @@ public class ReflectUtilTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testGetSelectablePropertiesWithNullClass() {
-		ReflectUtil.getSetableProperties(null);
+		ReflectUtil.getSettableProperties(null);
 	}
 
 	@Test
 	public void testGetSelectableProperties() {
-		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(ComplexClass.class);
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSettableProperties(ComplexClass.class);
 		
 		assertNotNull(properties);
 		assertFalse(properties.isEmpty());
@@ -42,16 +39,30 @@ public class ReflectUtilTest {
 	}
 	
 	@Test
-	public void testIntrospectorBugInGetSelectableProperties() {
-		final Set<PropertyDescriptor> properties = ReflectUtil.getSetableProperties(User.class);
+	public void testIntrospectorBugWithUnboundGenerics() {
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSettableProperties(User.class);
 		
 		assertNotNull(properties);
 		assertFalse(properties.isEmpty());
+		assertEquals(1, properties.size());
 		
-		for (final PropertyDescriptor property : properties) {
-			assertEquals(Integer.class, property.getPropertyType());
-			assertNotNull(property.getWriteMethod());
-			assertNotNull(property.getReadMethod());
-		}
+		final PropertyDescriptor property = properties.iterator().next();
+		assertEquals(Integer.class, property.getPropertyType());
+		assertNotNull(property.getWriteMethod());
+		assertNotNull(property.getReadMethod());
+	}
+	
+	@Test
+	public void testIntrospectorBugWithBoundGenerics() {
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSettableProperties(RestApi.class);
+		
+		assertNotNull(properties);
+		assertFalse(properties.isEmpty());
+		assertEquals(1, properties.size());
+		
+		final PropertyDescriptor property = properties.iterator().next();
+		assertEquals(ApiUser.class, property.getPropertyType());
+		assertNotNull(property.getWriteMethod());
+		assertNotNull(property.getReadMethod());
 	}
 }

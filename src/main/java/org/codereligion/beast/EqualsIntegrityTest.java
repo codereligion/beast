@@ -46,7 +46,7 @@ public final class EqualsIntegrityTest<T> extends AbstractTest<T> {
         		"Equals method for instances of %s is not reflexive.",
         		this.beanClassCanonicalName);
 
-        for (final PropertyDescriptor property : this.setableProperties) {
+        for (final PropertyDescriptor property : this.settableProperties) {
 
             final String propertyName = property.getName();
             final T dirtyObject = newBeanObject();
@@ -56,7 +56,6 @@ public final class EqualsIntegrityTest<T> extends AbstractTest<T> {
 
             setValue(dirtyObject, setter, dirtyProperty);
             
-            final boolean isExcluded = this.excludedPropertyNames.contains(propertyName);
             final boolean defaultObjectEqualsDirtyObject = defaultObject.equals(dirtyObject);
             final boolean dirtyObjectEqualsDefaultObject = dirtyObject.equals(defaultObject);
             final boolean isNotSymmetric = defaultObjectEqualsDirtyObject != dirtyObjectEqualsDefaultObject;
@@ -66,6 +65,7 @@ public final class EqualsIntegrityTest<T> extends AbstractTest<T> {
             			this.beanClassCanonicalName,
             			propertyName);
             
+            final boolean isExcluded = this.excludedPropertyNames.contains(propertyName);
             final boolean isUnecessarilyExcluded = !defaultObjectEqualsDirtyObject && isExcluded;
             
         	assertFalse(isUnecessarilyExcluded,

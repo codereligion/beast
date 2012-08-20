@@ -227,7 +227,7 @@ final class ObjectFactory {
 			throw new IllegalArgumentException(
 					"Can not create proxy for property class " + beanClass.getCanonicalName() +
 					" because of missing default constructor. Either provide a default constructor " +
-					" or add a Provider implementation for that class which will be used instead of a proxy.");
+					" or add a CustomInstanceProvider for that class.");
 		}
 
 		final Enhancer enhancer = new Enhancer();
