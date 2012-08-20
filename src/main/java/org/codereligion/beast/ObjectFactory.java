@@ -62,12 +62,12 @@ final class ObjectFactory {
 		
 		// add default instance providers
 		for (final Map.Entry<String, InstanceProvider<?>> entry : DEFAULT_INSTANCE_PROVIDER_MAP.entrySet()) {
-			instanceProviderMap.put(entry.getKey(), entry.getValue());
+			this.instanceProviderMap.put(entry.getKey(), entry.getValue());
 		}
 		
 		// add custom instance providers
 		for (final InstanceProvider<?> instanceProvider : customInstanceProviders) {
-			instanceProviderMap.put(instanceProvider.getInstanceClass().getCanonicalName(), instanceProvider);
+			this.instanceProviderMap.put(instanceProvider.getInstanceClass().getCanonicalName(), instanceProvider);
 		}
 	}
 
@@ -145,7 +145,7 @@ final class ObjectFactory {
 	 * @throws IllegalArgumentException when no object can be created for the given {@code beanClass}
 	 */
 	private Object getObject(final Class<?> beanClass, final PropertyState propertyState) {
-		final InstanceProvider<?> provider = instanceProviderMap.get(beanClass.getCanonicalName());
+		final InstanceProvider<?> provider = this.instanceProviderMap.get(beanClass.getCanonicalName());
 
 		if (provider != null) {
 			switch (propertyState) {

@@ -45,7 +45,7 @@ public final class ToStringIntegrityTest <T> extends AbstractTest<T> {
 			final T dirtyObject = newBeanObject();
 			final Class<?> propertyType = property.getPropertyType();
 			final Method setter = property.getWriteMethod();
-			final Object dirtyProperty = objectFactory.getDirtyObject(propertyType);
+			final Object dirtyProperty = this.objectFactory.getDirtyObject(propertyType);
 			
 			setValue(dirtyObject, setter, dirtyProperty);
 			

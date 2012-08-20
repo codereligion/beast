@@ -1,10 +1,5 @@
 package org.codereligion.beast;
 
-
-
-
-
-import java.util.HashSet;
 import java.util.Set;
 
 
@@ -16,49 +11,26 @@ import java.util.Set;
  * @author sgroebler
  * @since 11.08.2012
  */
-public final class EqualsIntegrityTestBuilder {
+public final class EqualsIntegrityTestBuilder extends AbstractTestBuilder {
 	
-	private Set<String> excludedPropertyNames = new HashSet<String>();
-	private Set<InstanceProvider<?>> customInstanceProviders = new HashSet<InstanceProvider<?>>();
-	
+	@Override
 	public EqualsIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
-		
-		if (propertyName == null) {
-			throw new NullPointerException("propertyName must not be null.");
-		}
-		
-		this.excludedPropertyNames.add(propertyName);
-		return this;
+		return (EqualsIntegrityTestBuilder) super.addExcludedPropertyName(propertyName);
 	}
 	
+	@Override
 	public EqualsIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		
-		if (propertyNames == null) {
-			throw new NullPointerException("propertyNames must not be null.");
-		}
-		
-		this.excludedPropertyNames.addAll(propertyNames);
-		return this;
+		return (EqualsIntegrityTestBuilder) super.addExcludedPropertyNames(propertyNames);
 	}
 	
-	public EqualsIntegrityTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> customInstanceProvider) {
-		
-		if (customInstanceProvider == null) {
-			throw new NullPointerException("customInstanceProvider must not be null.");
-		}
-		
-		this.customInstanceProviders.add(customInstanceProvider);
-		return this;
+	@Override
+	public EqualsIntegrityTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+		return (EqualsIntegrityTestBuilder) super.addCustomInstanceProvider(instanceProvider);
 	}
 	
-	public EqualsIntegrityTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> customInstanceProviders) {
-
-		if (customInstanceProviders == null) {
-			throw new NullPointerException("customInstanceProviders must not be null.");
-		}
-		
-		this.customInstanceProviders.addAll(customInstanceProviders);
-		return this;
+	@Override
+	public EqualsIntegrityTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+		return (EqualsIntegrityTestBuilder) super.addCustomInstanceProviders(instanceProviders);
 	}
 	
 	public <T> EqualsIntegrityTest<T> create(final Class<T> beanClass) {

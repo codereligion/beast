@@ -3,10 +3,8 @@ package org.codereligion.beast;
 
 
 
-import java.util.regex.Pattern;
-
-import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 
 
@@ -17,49 +15,26 @@ import java.util.Set;
  * @author sgroebler
  * @since 11.08.2012
  */
-public final class ToStringFormatTestBuilder {
+public final class ToStringFormatTestBuilder extends AbstractTestBuilder {
 	
-	private Set<String> excludedPropertyNames = new HashSet<String>();
-	private Set<InstanceProvider<?>> customInstanceProviders = new HashSet<InstanceProvider<?>>();
-	
+	@Override
 	public ToStringFormatTestBuilder addExcludedPropertyName(final String propertyName) {
-		
-		if (propertyName == null) {
-			throw new NullPointerException("propertyName must not be null.");
-		}
-		
-		this.excludedPropertyNames.add(propertyName);
-		return this;
+		return (ToStringFormatTestBuilder) super.addExcludedPropertyName(propertyName);
 	}
 	
+	@Override
 	public ToStringFormatTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		
-		if (propertyNames == null) {
-			throw new NullPointerException("propertyNames must not be null.");
-		}
-		
-		this.excludedPropertyNames.addAll(propertyNames);
-		return this;
+		return (ToStringFormatTestBuilder) super.addExcludedPropertyNames(propertyNames);
 	}
 	
-	public ToStringFormatTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> customInstanceProvider) {
-		
-		if (customInstanceProvider == null) {
-			throw new NullPointerException("customInstanceProvider must not be null.");
-		}
-		
-		this.customInstanceProviders.add(customInstanceProvider);
-		return this;
+	@Override
+	public ToStringFormatTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+		return (ToStringFormatTestBuilder) super.addCustomInstanceProvider(instanceProvider);
 	}
 	
-	public ToStringFormatTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> customInstanceProviders) {
-
-		if (customInstanceProviders == null) {
-			throw new NullPointerException("customInstanceProviders must not be null.");
-		}
-		
-		this.customInstanceProviders.addAll(customInstanceProviders);
-		return this;
+	@Override
+	public ToStringFormatTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+		return (ToStringFormatTestBuilder) super.addCustomInstanceProviders(instanceProviders);
 	}
 	
 	public <T> ToStringFormatTest<T> create(final Class<T> beanClass, final Pattern pattern) {

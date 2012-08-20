@@ -3,7 +3,6 @@ package org.codereligion.beast;
 
 
 
-import java.util.HashSet;
 import java.util.Set;
 
 
@@ -15,50 +14,26 @@ import java.util.Set;
  * @author sgroebler
  * @since 11.08.2012
  */
-public final class ToStringNullSafetyTestBuilder {
-	
-	private Set<String> excludedPropertyNames = new HashSet<String>();
-	private Set<InstanceProvider<?>> customInstanceProviders = new HashSet<InstanceProvider<?>>();
-	
-	
-	public ToStringNullSafetyTestBuilder addExcludedPropertyName(final String propertyName) {
-		
-		if (propertyName == null) {
-			throw new NullPointerException("propertyName must not be null.");
-		}
-		
-		this.excludedPropertyNames.add(propertyName);
-		return this;
-	}
-	
-	public ToStringNullSafetyTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		
-		if (propertyNames == null) {
-			throw new NullPointerException("propertyNames must not be null.");
-		}
-		
-		this.excludedPropertyNames.addAll(propertyNames);
-		return this;
-	}
-	
-	public ToStringNullSafetyTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> customInstanceProvider) {
-		
-		if (customInstanceProvider == null) {
-			throw new NullPointerException("customInstanceProvider must not be null.");
-		}
-		
-		this.customInstanceProviders.add(customInstanceProvider);
-		return this;
-	}
-	
-	public ToStringNullSafetyTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> customInstanceProviders) {
+public final class ToStringNullSafetyTestBuilder extends AbstractTestBuilder {
 
-		if (customInstanceProviders == null) {
-			throw new NullPointerException("customInstanceProviders must not be null.");
-		}
-		
-		this.customInstanceProviders.addAll(customInstanceProviders);
-		return this;
+	@Override
+	public ToStringNullSafetyTestBuilder addExcludedPropertyName(final String propertyName) {
+		return (ToStringNullSafetyTestBuilder) super.addExcludedPropertyName(propertyName);
+	}
+	
+	@Override
+	public ToStringNullSafetyTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
+		return (ToStringNullSafetyTestBuilder) super.addExcludedPropertyNames(propertyNames);
+	}
+	
+	@Override
+	public ToStringNullSafetyTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+		return (ToStringNullSafetyTestBuilder) super.addCustomInstanceProvider(instanceProvider);
+	}
+	
+	@Override
+	public ToStringNullSafetyTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+		return (ToStringNullSafetyTestBuilder) super.addCustomInstanceProviders(instanceProviders);
 	}
 	
 	public <T> ToStringNullSafetyTest<T> create(final Class<T> beanClass) {

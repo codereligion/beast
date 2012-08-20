@@ -174,7 +174,7 @@ abstract class AbstractTest <T> {
 			for (final PropertyDescriptor property : this.setableProperties) {
 				final Class<?> propertyType = property.getPropertyType();
 				final Method setter = property.getWriteMethod();
-				final Object value = objectFactory.getDefaultObject(propertyType);
+				final Object value = this.objectFactory.getDefaultObject(propertyType);
 
 				setValue(object, setter, value);
 			}

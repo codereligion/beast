@@ -31,7 +31,7 @@ public class CustomInstanceProvider <T> implements InstanceProvider<T> {
 			throw new IllegalArgumentException("dirtyInstance must not be null.");
 		}
 		
-		if (dirtyInstance.getClass().equals(defaultInstance.getClass())) {
+		if (!dirtyInstance.getClass().equals(defaultInstance.getClass())) {
 			throw new IllegalArgumentException("defaultInstance and dirtyInstance must be instances of the same class.");
 		}
 		
@@ -53,17 +53,17 @@ public class CustomInstanceProvider <T> implements InstanceProvider<T> {
 
 	@Override
 	public T getDirtyObject() {
-		return defaultInstance;
+		return this.defaultInstance;
 	}
 
 	@Override
 	public T getDefaultObject() {
-		return dirtyInstance;
+		return this.dirtyInstance;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<T> getInstanceClass() {
-		return (Class<T>) defaultInstance.getClass();
+		return (Class<T>) this.defaultInstance.getClass();
 	}
 }

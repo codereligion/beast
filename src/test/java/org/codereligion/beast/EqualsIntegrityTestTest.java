@@ -11,7 +11,7 @@ import org.codereligion.beast.object.MissingPropertyInEquals;
 import org.codereligion.beast.object.NoDefaultConstructor;
 import org.codereligion.beast.object.NonReflexiveEqualsClass;
 import org.codereligion.beast.object.NonSymmetricEqualsClass;
-import org.codereligion.beast.object.WithPropertyWhichHasNoDefaultConstructor;
+import org.codereligion.beast.object.PropertyWhichHasNoDefaultConstructor;
 
 import org.codereligion.beast.EqualsIntegrityTest;
 import org.codereligion.beast.EqualsIntegrityTestBuilder;
@@ -76,7 +76,7 @@ public class EqualsIntegrityTestTest {
         // invalid implementations
         UNSUPPORTED_CLASSES.add(NoDefaultConstructor.class);
         UNSUPPORTED_CLASSES.add(MissingEqualsImplementation.class);
-        UNSUPPORTED_CLASSES.add(WithPropertyWhichHasNoDefaultConstructor.class);
+        UNSUPPORTED_CLASSES.add(PropertyWhichHasNoDefaultConstructor.class);
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -146,7 +146,7 @@ public class EqualsIntegrityTestTest {
 	@Test(expected = AssertionError.class)
 	public void testValidClassWithUnnecessaryExclude() {
 		new EqualsIntegrityTestBuilder()
-			.addExcludedPropertyNames(Sets.newHashSet("anotherComplexObject"))
+			.addExcludedPropertyName("anotherComplexObject")
 			.create(ComplexClass.class)
 			.run();
 	}
@@ -154,7 +154,7 @@ public class EqualsIntegrityTestTest {
 	@Test
 	public void testWithMissingPropertyInEqualsWithExcludes() {
 		new EqualsIntegrityTestBuilder()
-			.addExcludedPropertyNames(Sets.newHashSet("complexObject"))
+			.addExcludedPropertyName("complexObject")
 			.create(MissingPropertyInEquals.class)
 			.run();
 	}

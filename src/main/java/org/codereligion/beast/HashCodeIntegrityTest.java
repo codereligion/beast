@@ -44,7 +44,7 @@ public final class HashCodeIntegrityTest <T> extends AbstractTest<T> {
 			final Class<?> propertyType = property.getPropertyType();
 			final Method setter = property.getWriteMethod();
 			final T dirtyObject = newBeanObject();
-			final Object dirtyProperty = objectFactory.getDirtyObject(propertyType);
+			final Object dirtyProperty = this.objectFactory.getDirtyObject(propertyType);
 			
 			setValue(dirtyObject, setter, dirtyProperty);
 			
