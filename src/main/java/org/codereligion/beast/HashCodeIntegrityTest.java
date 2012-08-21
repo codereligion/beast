@@ -10,7 +10,7 @@ import java.util.Set;
  * TODO update documentation
  * Tests the hashCode implementation of a java bean.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 public final class HashCodeIntegrityTest <T> extends AbstractTest<T> {

@@ -3,7 +3,7 @@ package org.codereligion.beast.object;
 /**
  * TODO
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 19.08.2012
  */
 public class GenericGetterAndSetter implements GenericGetterAndSetterInterface<Integer> {

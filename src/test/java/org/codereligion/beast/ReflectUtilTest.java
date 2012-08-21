@@ -15,7 +15,7 @@ import org.junit.Test;
 /**
  * Tests {@link ReflectUtil}.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 12.08.2012
  */
 public class ReflectUtilTest {

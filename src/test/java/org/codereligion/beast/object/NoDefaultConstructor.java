@@ -3,7 +3,7 @@ package org.codereligion.beast.object;
 /**
  * Test class without a default constructor.
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 16.08.2012
  */
 public class NoDefaultConstructor {

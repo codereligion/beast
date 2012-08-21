@@ -9,7 +9,7 @@ import java.util.Set;
  * TODO document
  * TODO test null check
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 abstract class AbstractTestBuilder {

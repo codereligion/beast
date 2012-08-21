@@ -5,7 +5,7 @@ package org.codereligion.beast;
  * TODO test
  *
  * @param <T>
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @author 20.08.2012
  */
 public class CustomInstanceProvider <T> implements InstanceProvider<T> {

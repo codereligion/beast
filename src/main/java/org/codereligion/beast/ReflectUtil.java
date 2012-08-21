@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * Reflection utility class.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 final class ReflectUtil {

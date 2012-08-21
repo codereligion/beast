@@ -3,7 +3,7 @@ package org.codereligion.beast.object;
 /**
  * Test class with missing property in toString implementation.
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 16.08.2012
  */
 public class MissingPropertyInToString {

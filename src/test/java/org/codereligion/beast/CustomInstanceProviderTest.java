@@ -1,5 +1,6 @@
 package org.codereligion.beast;
 
+import static junit.framework.Assert.assertEquals;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import java.util.Collection;
@@ -10,7 +11,7 @@ import org.junit.Test;
 /**
  * Tests {@link CustomInstanceProvider}.
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 20.08.2012
  */
 @SuppressWarnings("unused")

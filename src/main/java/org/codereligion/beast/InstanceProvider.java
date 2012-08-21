@@ -6,7 +6,7 @@ package org.codereligion.beast;
  * Provides a "dirty" and a "default" instance of the class specified by type {@code T}.
  * 
  * @param <T> the type to provide the dirty and default object for
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 15.08.2012
  */
 interface InstanceProvider<T> {

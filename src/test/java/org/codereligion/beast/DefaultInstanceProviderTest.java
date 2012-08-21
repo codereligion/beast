@@ -12,7 +12,7 @@ import org.junit.Test;
  * Tests if all {@link InstanceProvider} implementations provide non-equal results for their
  * implementations of {@link InstanceProvider #getDefaultObject()} and {@link InstanceProvider #getDirtyObject()}.  
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 16.08.2012
  */
 public class DefaultInstanceProviderTest {

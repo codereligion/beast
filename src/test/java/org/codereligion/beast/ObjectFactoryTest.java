@@ -21,7 +21,7 @@ import org.junit.Test;
  * 
  * TODO extend test
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 18.08.2012
  */
 public class ObjectFactoryTest {

@@ -14,7 +14,7 @@ import org.junit.Test;
 /**
  * Tests {@link HashCode}.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 14.08.2012
  */
 public class HashCodeNullSafetyTesterTest {

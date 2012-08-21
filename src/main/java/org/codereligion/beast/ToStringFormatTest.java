@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * TODO update documentation
  * Tests the toString implementation of a java bean.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 public final class ToStringFormatTest <T> extends AbstractTest<T> {

@@ -3,7 +3,7 @@ package org.codereligion.beast;
 /**
  * TODO
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 18.08.2012
  */
 final class ObjectMethodNames {

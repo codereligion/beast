@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Text complex class.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 12.08.2012
  */
 public class ComplexClass {

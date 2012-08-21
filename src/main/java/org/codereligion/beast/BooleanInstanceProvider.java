@@ -5,7 +5,7 @@ package org.codereligion.beast;
 /**
  * Provider for dirty and default objects of {@link Boolean}.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 14.08.2012
  */
 final class BooleanInstanceProvider implements InstanceProvider<Boolean> {

@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * Abstract tester which provides the basic functionality for all bean tests.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 abstract class AbstractTest <T> {

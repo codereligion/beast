@@ -17,7 +17,7 @@ import org.codereligion.beast.ToStringNullSafetyTestBuilder;
 /**
  * Example implementation of the "beast" for JUnit.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 public abstract class JUnitBeast <T> {

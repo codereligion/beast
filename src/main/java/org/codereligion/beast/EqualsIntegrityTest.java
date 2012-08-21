@@ -10,7 +10,7 @@ import java.util.Set;
  * TODO update documentation
  * Tests the equals implementation of a java bean.
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 public final class EqualsIntegrityTest<T> extends AbstractTest<T> {

@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Test complex class.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 12.08.2012
  */
 public class AnotherComplexClass {

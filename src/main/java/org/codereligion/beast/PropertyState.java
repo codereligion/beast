@@ -27,7 +27,7 @@ package org.codereligion.beast;
  * }
  * </pre>
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 13.08.2012
  */
 enum PropertyState {

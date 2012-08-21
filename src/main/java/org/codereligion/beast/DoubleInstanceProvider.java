@@ -5,7 +5,7 @@ package org.codereligion.beast;
 /**
  * Provider for dirty and default objects of class {@link Double}.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 14.08.2012
  */
 final class DoubleInstanceProvider implements InstanceProvider<Double> {

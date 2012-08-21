@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * Tests {@link ToString}.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 14.08.2012
  */
 public class ToStringFormatTesterTest {

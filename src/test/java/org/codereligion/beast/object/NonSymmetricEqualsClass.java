@@ -3,7 +3,7 @@ package org.codereligion.beast.object;
 /**
  * Test non reflexive class.
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 17.08.2012
  */
 public class NonSymmetricEqualsClass {

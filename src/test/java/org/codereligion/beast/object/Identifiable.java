@@ -3,7 +3,7 @@ package org.codereligion.beast.object;
 /**
  * Test class for java introspector bug.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 13.08.2012
  */
 public interface Identifiable<T> {

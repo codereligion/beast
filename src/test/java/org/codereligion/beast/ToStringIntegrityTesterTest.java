@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * Tests {@link ToStringIntegrityTest}.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 14.08.2012
  */
 public class ToStringIntegrityTesterTest {

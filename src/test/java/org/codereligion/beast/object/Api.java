@@ -3,7 +3,7 @@ package org.codereligion.beast.object;
 /**
  * TODO
  *
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 20.08.2012
  * @param <T>
  */

@@ -3,7 +3,7 @@ package org.codereligion.beast.object;
 /**
  * Test final class.
  * 
- * @author sgroebler
+ * @author Sebastian Gröbler
  * @since 12.08.2012
  */
 public final class FinalClass {
