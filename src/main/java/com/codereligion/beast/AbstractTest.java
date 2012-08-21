@@ -2,7 +2,6 @@ package com.codereligion.beast;
 
 
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -122,7 +121,7 @@ abstract class AbstractTest <T> {
 			   !this.beanClass.isEnum() &&
 			   !this.beanClass.isInterface() &&
 			   !Modifier.isAbstract(this.beanClass.getModifiers()) &&
-			   hasDefaultConstructor();
+			   ReflectUtil.hasDefaultConstructor(beanClass);
 	}
 
 	/**
@@ -158,24 +157,6 @@ abstract class AbstractTest <T> {
 		} catch (final InstantiationException e) {
 			throw new IllegalArgumentException("Could not instantiate object of class " + this.beanClassCanonicalName, e);
 		}
-	}
-
-	/**
-	 * Determines whether the {@code beanClass} has a default constructor.
-	 *
-	 * @return true if the {@code beanClass} as a default constructor, false otherwise
-	 */
-	private boolean hasDefaultConstructor() {
-		
-		final Constructor<?>[] constructors = this.beanClass.getConstructors();
-		for (final Constructor<?> constructor : constructors) {
-			
-			final boolean hasZeroParameter = constructor.getParameterTypes().length == 0;
-			if (hasZeroParameter) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	/**

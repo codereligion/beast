@@ -1,5 +1,7 @@
 package com.codereligion.beast;
 
+import java.lang.reflect.Constructor;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -26,6 +28,25 @@ final class ReflectUtil {
 	 */
 	private ReflectUtil() {
 		throw new IllegalAccessError("This is an utility class which must not be instantiated.");
+	}
+	
+	/**
+	 * Determines whether the given {@code beanClass} has a default constructor.
+	 *
+	 * @param beanClass the {@link Class} to check
+	 * @return true if the given {@code beanClass} as a zero argument constructor, false otherwise
+	 */
+	static boolean hasDefaultConstructor(final Class<?> beanClass) {
+		
+		final Constructor<?>[] constructors = beanClass.getConstructors();
+		for (final Constructor<?> constructor : constructors) {
+			
+			final boolean hasZeroArguments = constructor.getParameterTypes().length == 0;
+			if (hasZeroArguments) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
