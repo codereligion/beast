@@ -30,5 +30,5 @@ interface InstanceProvider<T> {
 	 * 
 	 * @return the {@link Class}, must not be {@code null}
 	 */
-	Class<T> getInstanceClass();
+	Class<? extends T> getInstanceClass();
 }

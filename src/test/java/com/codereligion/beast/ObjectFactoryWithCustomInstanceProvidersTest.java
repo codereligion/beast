@@ -28,7 +28,7 @@ import org.junit.Test;
  * @author Sebastian Gröbler
  * @since 18.08.2012
  */
-public class ObjectFactoryTest {
+public class ObjectFactoryWithCustomInstanceProvidersTest {
 
 	private static ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider<?>>emptySet());
 	

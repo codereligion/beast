@@ -17,6 +17,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 /**
+ * TODO implement more tests for  new constructor
  * Tests {@link CustomInstanceProvider}.
  *
  * @author Sebastian Gröbler

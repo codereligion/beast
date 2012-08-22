@@ -62,15 +62,23 @@ final class ObjectFactory {
 	
 	/**
 	 * Constructs a new instance.
+	 */
+	ObjectFactory() {
+		// add default instance providers
+		for (final InstanceProvider<?> instanceProvider : DEFAULT_INSTANCE_PROVIDERS) {
+			addInstanceProviderMapping(instanceProvider);
+		}
+	}
+	
+	/**
+	 * Constructs a new instance.
 	 *
 	 * @param customInstanceProviders
 	 */
 	ObjectFactory(final Set<InstanceProvider<?>> customInstanceProviders) {
 		
 		// add default instance providers
-		for (final InstanceProvider<?> instanceProvider : DEFAULT_INSTANCE_PROVIDERS) {
-			addInstanceProviderMapping(instanceProvider);
-		}
+		this();
 		
 		// add custom instance providers
 		for (final InstanceProvider<?> instanceProvider : customInstanceProviders) {
@@ -330,7 +338,14 @@ final class ObjectFactory {
 				} else if (method.getName().equals(ObjectMethodNames.TO_STRING)) {
 					return this.propertyStateFlagAsString;
 				}
-				return methodProxy.invokeSuper(thisObject, args);
+				
+				try {
+					return methodProxy.invokeSuper(thisObject, args);
+				} catch (final NoSuchMethodError e) {
+					throw new IllegalArgumentException("The method under test is internally calling method '" + method.getName() + "' for " +
+													   "property of type " + beanClass.getCanonicalName() + ". " + 
+													   "This method is not proxied. Provide a CustomInstanceProvider for that class.");
+				}
 			}
 		});
         return (T) enhancer.create();
