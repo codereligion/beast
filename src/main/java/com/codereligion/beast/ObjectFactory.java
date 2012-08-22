@@ -102,9 +102,8 @@ final class ObjectFactory {
 		this.instanceProviderMap.put(instanceClass.getCanonicalName(), instanceProvider);
 		
 		final Class<?> primitiveInstanceClass = BOXED_TO_PRIMITIVE_MAPPING.get(instanceClass);
-		final boolean isPrimitiveType = primitiveInstanceClass != null;
 		
-		if (isPrimitiveType) {
+		if (primitiveInstanceClass != null) {
 			// add also a mapping for the primitive type to this instanceProvider
 			this.instanceProviderMap.put(primitiveInstanceClass.getCanonicalName(), instanceProvider);
 		}

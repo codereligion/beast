@@ -1,11 +1,10 @@
 package com.codereligion.beast;
 
-import java.lang.reflect.Constructor;
-
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
@@ -90,11 +89,12 @@ final class ReflectUtil {
 	 * @param beanClass the {@link Class} to which the given {@code propertyDescriptor} belongs
 	 * @param propertyDescriptor the {@link PropertyDescriptor} to potentially workaround
 	 * @return either the given {@code propertyDescriptor} or a new one which reflects the underlying property correctly
+	 * TODO update exception documentation
 	 * @throws IntrospectionException when instantiation of a new {@link PropertyDescriptor} failed
 	 */
 	private static PropertyDescriptor getGenericTypeAwarePropertyDescriptor (
 			final Class<?> beanClass,
-			final PropertyDescriptor propertyDescriptor) throws IntrospectionException {
+			final PropertyDescriptor propertyDescriptor) {
 		
 		final Method writeMethod = propertyDescriptor.getWriteMethod();
 		final Method readMethod = propertyDescriptor.getReadMethod();
@@ -127,7 +127,7 @@ final class ReflectUtil {
 		}
 		
 		// try to find public, non bridged write method matching the name
-		final Method potentialWriteMethod = getMatchingNonBridgedPublicMethod(setterName, beanClass);
+		final Method potentialWriteMethod = getMatchingNonBridgedPublicReadMethod(setterName, beanClass);
 		
 		if (potentialWriteMethod == null) {
 			// did not find a write method so there is actually none
@@ -136,17 +136,22 @@ final class ReflectUtil {
 		
 		// almost done, but still the damn read method could still be broken
 		
-		if (!readMethod.isBridge()) {
-			// so now we have the write method and the read method is also not bridged
-			return new PropertyDescriptor(propertyName, readMethod, potentialWriteMethod);
-		}
+		try {
 
-		// yuck, even the bloody read method was wrong, try to get the right one
-		final Method potentialReadMethod = getMatchingNonBridgedPublicMethod(getterName, beanClass);
-		
-		if (potentialReadMethod != null) {
-			// now we have the write method and the read method, hurrah!!! 
-			return new PropertyDescriptor(propertyName, potentialReadMethod, potentialWriteMethod);
+			if (!readMethod.isBridge()) {
+				// so now we have the write method and the read method is also not bridged
+				return new PropertyDescriptor(propertyName, readMethod, potentialWriteMethod);
+			}
+	
+			// yuck, even the bloody read method was wrong, try to get the right one
+			final Method potentialReadMethod = getMatchingNonBridgedPublicReadMethod(getterName, beanClass);
+			
+			if (potentialReadMethod != null) {
+				// now we have the write method and the read method, hurrah!!! 
+				return new PropertyDescriptor(propertyName, potentialReadMethod, potentialWriteMethod);
+			}
+		} catch (final IntrospectionException e) {
+			throw new IllegalArgumentException("Could not instrospect property: '" + propertyName + "' because: " + e.getMessage(), e);
 		}
 
 		throw new IllegalStateException(
@@ -162,7 +167,7 @@ final class ReflectUtil {
 	 * @param beanClass the {@link Class} in which the {@link Method} is expected
 	 * @return the matching {@link Method} or {@code null} if it could not be found
 	 */
-	private static Method getMatchingNonBridgedPublicMethod(final String methodName, final Class<?> beanClass) {
+	private static Method getMatchingNonBridgedPublicReadMethod(final String methodName, final Class<?> beanClass) {
 		for (final Method method : beanClass.getMethods()) {
 			final boolean isMatchingName = method.getName().equals(methodName);
 			final boolean isNotBridge = !method.isBridge();

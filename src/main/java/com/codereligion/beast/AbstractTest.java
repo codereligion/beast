@@ -121,7 +121,7 @@ abstract class AbstractTest <T> {
 			   !this.beanClass.isEnum() &&
 			   !this.beanClass.isInterface() &&
 			   !Modifier.isAbstract(this.beanClass.getModifiers()) &&
-			   ReflectUtil.hasDefaultConstructor(beanClass);
+			   ReflectUtil.hasDefaultConstructor(this.beanClass);
 	}
 
 	/**

@@ -7,11 +7,10 @@ import static org.junit.Assert.assertNotNull;
 import com.codereligion.beast.object.ApiUser;
 import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.RestApi;
+import com.codereligion.beast.object.TypeMissmatchBetweenReadAndWriteMethods;
 import com.codereligion.beast.object.User;
-
-import com.codereligion.beast.ReflectUtil;
-
 import java.beans.PropertyDescriptor;
+import java.util.Date;
 import java.util.Set;
 import org.junit.Test;
 
@@ -65,6 +64,19 @@ public class ReflectUtilTest {
 		
 		final PropertyDescriptor property = properties.iterator().next();
 		assertEquals(ApiUser.class, property.getPropertyType());
+		assertNotNull(property.getWriteMethod());
+		assertNotNull(property.getReadMethod());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testTypeMissmatchBetweenReadAndWriteMethods() {
+		final Set<PropertyDescriptor> properties = ReflectUtil.getSettableProperties(TypeMissmatchBetweenReadAndWriteMethods.class);
+		assertNotNull(properties);
+		assertFalse(properties.isEmpty());
+		assertEquals(1, properties.size());
+		
+		final PropertyDescriptor property = properties.iterator().next();
+		assertEquals(Date.class, property.getPropertyType());
 		assertNotNull(property.getWriteMethod());
 		assertNotNull(property.getReadMethod());
 	}
