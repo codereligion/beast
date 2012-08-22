@@ -35,6 +35,11 @@ public class CustomInstanceProvider <T> implements InstanceProvider<T> {
 			throw new IllegalArgumentException("defaultInstance and dirtyInstance must be instances of the same class.");
 		}
 		
+		if (defaultInstance.getClass().isArray() || defaultInstance.getClass().isArray()) {
+			throw new IllegalArgumentException("Arrays are not supported for custom instances. " +
+											   "Provide a custom instance for the arrays component type instead.");
+		}
+		
 		if (dirtyInstance.equals(defaultInstance)) {
 			throw new IllegalArgumentException("defaultInstance and dirtyInstance must not be equal.");
 		}

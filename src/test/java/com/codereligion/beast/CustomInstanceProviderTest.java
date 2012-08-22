@@ -1,6 +1,10 @@
 package com.codereligion.beast;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
+
+import java.util.Set;
+import org.junit.Ignore;
 
 import com.codereligion.beast.object.ConstantHashCodeResult;
 import com.codereligion.beast.object.ConstantToStringResult;
@@ -49,5 +53,12 @@ public class CustomInstanceProviderTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithEqualHashCode() {
 		new CustomInstanceProvider<ConstantHashCodeResult>(new ConstantHashCodeResult(0), new ConstantHashCodeResult(1));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testWithArray() {
+		final Integer[] defaultObject = new Integer[]{Integer.valueOf(21)};
+		final Integer[] dirtyObject = new Integer[]{Integer.valueOf(42)};
+		new CustomInstanceProvider<Integer[]>(defaultObject, dirtyObject);
 	}
 }
