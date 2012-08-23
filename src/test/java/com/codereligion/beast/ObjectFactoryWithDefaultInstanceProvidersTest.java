@@ -11,10 +11,11 @@ import org.junit.Test;
  * Tests helper methods of the {@link ObjectFactory}.
  * 
  * TODO extend test with custom intance providers
- * * overriding: object, string, boxed and unboxed primitive types
- * * adding: additional providers custom providers
- * * test with enums
- * * test with arrays
+ * - overriding: object, string, boxed and unboxed primitive types
+ * - adding: additional providers custom providers
+ * - test with enums
+ * - test with arrays
+ * - test with propertyNames
  *
  * @author Sebastian Gröbler
  * @since 18.08.2012
@@ -32,7 +33,7 @@ public class ObjectFactoryWithDefaultInstanceProvidersTest {
 		final ObjectFactory objectFactory = new ObjectFactory(providers);
 		
 		@SuppressWarnings("unchecked")
-        final Set<Integer> result = objectFactory.getDefaultObject(Set.class);
+        final Set<Integer> result = objectFactory.getDefaultObject(Set.class, null);
 		
 		assertNotNull(result);
 		assertEquals(Integer.valueOf(21), result.iterator().next());

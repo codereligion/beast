@@ -20,10 +20,11 @@ import org.junit.Test;
  * Tests helper methods of the {@link ObjectFactory}.
  * 
  * TODO extend test with custom intance providers
- * * overriding: object, string, boxed and unboxed primitive types
- * * adding: additional providers custom providers
- * * test with enums
- * * test with arrays
+ * - overriding: object, string, boxed and unboxed primitive types
+ * - adding: additional providers custom providers
+ * - test with enums
+ * - test with arrays
+ * - test with propertyNames
  *
  * @author Sebastian Gröbler
  * @since 18.08.2012
@@ -34,51 +35,51 @@ public class ObjectFactoryWithCustomInstanceProvidersTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testGetDefaultObjectWithNullClass() {
-		objectFactory.getDefaultObject(null);
+		objectFactory.getDefaultObject(null, null);
 	}
 	
 	@Test
 	public void testGetDefaultObject() {
-		final ComplexClass defaultObject = objectFactory.getDefaultObject(ComplexClass.class);
+		final ComplexClass defaultObject = objectFactory.getDefaultObject(ComplexClass.class, null);
 		assertNotNull(defaultObject);
 		assertNotNull(defaultObject.toString());
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void testGetDirtyObjectWithNullClass() {
-		objectFactory.getDirtyObject(null);
+		objectFactory.getDirtyObject(null, null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetDirtyObjectWithFinalClass() {
-		objectFactory.getDirtyObject(FinalClass.class);
+		objectFactory.getDirtyObject(FinalClass.class, null);
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithAbstractClass() {
-		objectFactory.getDirtyObject(AbstractClass.class);
+		objectFactory.getDirtyObject(AbstractClass.class, null);
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithInterface() {
-		objectFactory.getDirtyObject(List.class);
+		objectFactory.getDirtyObject(List.class, null);
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithEmptyEnum() {
-		final EmptyEnum emptyEnum = objectFactory.getDirtyObject(EmptyEnum.class);
+		final EmptyEnum emptyEnum = objectFactory.getDirtyObject(EmptyEnum.class, null);
 		assertNull(emptyEnum);
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithOneElementEnum() {
-		final OneElementEnum oneElementEnum = objectFactory.getDirtyObject(OneElementEnum.class);
+		final OneElementEnum oneElementEnum = objectFactory.getDirtyObject(OneElementEnum.class, null);
 		assertNull(oneElementEnum);
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithString() {
-		final String string = objectFactory.getDirtyObject(String.class);
+		final String string = objectFactory.getDirtyObject(String.class, null);
 
 		assertNotNull(string);
 		assertEquals("1", string);
@@ -86,7 +87,7 @@ public class ObjectFactoryWithCustomInstanceProvidersTest {
 	
 	@Test
 	public void testGetDirtyObjectWithArray() {
-		final Integer[] intArray = objectFactory.getDirtyObject(Integer[].class);
+		final Integer[] intArray = objectFactory.getDirtyObject(Integer[].class, null);
 
 		assertNotNull(intArray);
 		assertEquals(1, intArray.length);
@@ -95,7 +96,7 @@ public class ObjectFactoryWithCustomInstanceProvidersTest {
 	
 	@Test
 	public void testGetDirtyObjectWithEnum() {
-		final ComplexClass.Enumeration enumeration = objectFactory.getDirtyObject(ComplexClass.Enumeration.class);
+		final ComplexClass.Enumeration enumeration = objectFactory.getDirtyObject(ComplexClass.Enumeration.class, null);
 		
 		assertNotNull(enumeration);
 		assertEquals(1, enumeration.ordinal());
@@ -103,14 +104,14 @@ public class ObjectFactoryWithCustomInstanceProvidersTest {
 	
 	@Test
 	public void testGetDirtyObjectWithComplexClass() {
-		final ComplexClass dirtyComplexObject1 = objectFactory.getDirtyObject(ComplexClass.class);
+		final ComplexClass dirtyComplexObject1 = objectFactory.getDirtyObject(ComplexClass.class, null);
 		
 		assertNotNull(dirtyComplexObject1);
 		assertEquals(1, dirtyComplexObject1.hashCode());
 		assertEquals("1", dirtyComplexObject1.toString());
 
-		final ComplexClass dirtyComplexObject2 = objectFactory.getDirtyObject(ComplexClass.class);
-		final AnotherComplexClass anotherDirtyComplexObject = objectFactory.getDirtyObject(AnotherComplexClass.class);
+		final ComplexClass dirtyComplexObject2 = objectFactory.getDirtyObject(ComplexClass.class, null);
+		final AnotherComplexClass anotherDirtyComplexObject = objectFactory.getDirtyObject(AnotherComplexClass.class, null);
 
 		// test equals
 		assertFalse(dirtyComplexObject1.equals(null));
@@ -123,7 +124,7 @@ public class ObjectFactoryWithCustomInstanceProvidersTest {
 		assertFalse(dirtyComplexObject1.equals(anotherDirtyComplexObject));
 		assertFalse(anotherDirtyComplexObject.equals(dirtyComplexObject1));
 		
-		final ComplexClass defaultObject = objectFactory.getDefaultObject(ComplexClass.class);
+		final ComplexClass defaultObject = objectFactory.getDefaultObject(ComplexClass.class, null);
 		assertFalse(defaultObject.equals(dirtyComplexObject1));
 		assertFalse(dirtyComplexObject1.equals(defaultObject));
 	}

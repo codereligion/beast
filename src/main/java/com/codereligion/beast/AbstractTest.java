@@ -144,9 +144,10 @@ abstract class AbstractTest <T> {
 			final T object = this.beanClass.newInstance();
 			
 			for (final PropertyDescriptor property : this.settableProperties) {
+				final String propertyName = property.getName();
 				final Class<?> propertyType = property.getPropertyType();
 				final Method setter = property.getWriteMethod();
-				final Object value = this.objectFactory.getDefaultObject(propertyType);
+				final Object value = this.objectFactory.getDefaultObject(propertyType, propertyName);
 
 				setValue(object, setter, value);
 			}

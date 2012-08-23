@@ -2,6 +2,10 @@ package com.codereligion.beast;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.HashSet;
 
 import java.util.Set;
 import org.junit.Ignore;
@@ -24,7 +28,7 @@ import org.junit.Test;
  * @since 20.08.2012
  */
 @SuppressWarnings("unused")
-public class CustomInstanceProviderTest {
+public class InstanceProviderTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithNullDefaultInstance() {
@@ -61,5 +65,17 @@ public class CustomInstanceProviderTest {
 		final Integer[] defaultObject = new Integer[]{Integer.valueOf(21)};
 		final Integer[] dirtyObject = new Integer[]{Integer.valueOf(42)};
 		new InstanceProvider<Integer[]>(defaultObject, dirtyObject);
+	}
+	
+	/**
+	 * Generics are not known at runtime anymore so two different hashSets will be considered equal.
+	 */
+	@Test
+	public void testWithTwoDifferentGenericHashSets() {
+		final InstanceProvider<HashSet<Integer>> integerHashSetProvider = new InstanceProvider<HashSet<Integer>>(Sets.newHashSet(Integer.valueOf(0)), Sets.newHashSet(Integer.valueOf(1)));
+		final InstanceProvider<HashSet<String>> stringHashSetProvider = new InstanceProvider<HashSet<String>>(Sets.newHashSet("0"), Sets.newHashSet("1"));
+		
+		assertTrue(integerHashSetProvider.equals(stringHashSetProvider));
+		assertFalse(integerHashSetProvider.getDefaultObject().equals(stringHashSetProvider.getDefaultObject()));
 	}
 }

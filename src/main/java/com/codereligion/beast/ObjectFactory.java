@@ -22,6 +22,11 @@ import net.sf.cglib.proxy.MethodProxy;
 final class ObjectFactory {
 	
 	/**
+	 * Serves as placeholder for general type mappings which are not specific to a {@code propertyName}.
+	 */
+	private static final String NO_NAME = "This is not a propertyName.";
+	
+	/**
 	 * Stores a mapping of primitive boxed types to their primitive types.
 	 */
 	private static final Map<Class<?>, Class<?>> BOXED_TO_PRIMITIVE_MAPPING = new HashMap<Class<?>, Class<?>>();
@@ -56,9 +61,9 @@ final class ObjectFactory {
 	}
 	
 	/**
-	 * Maps the canonical name of a {@link Class} to its instance provider.
+	 * Maps the canonical name of a {@link Class} to a map which maps a property name to an instance provider.
 	 */
-	private final Map<String, InstanceProvider<?>> instanceProviderMap = new HashMap<String, InstanceProvider<?>>();
+	private final Map<String, Map<String, InstanceProvider<?>>> instanceProviderMap = new HashMap<String, Map<String, InstanceProvider<?>>>();
 	
 	/**
 	 * Constructs a new instance.
@@ -66,7 +71,7 @@ final class ObjectFactory {
 	ObjectFactory() {
 		// add default instance providers
 		for (final InstanceProvider<?> instanceProvider : DEFAULT_INSTANCE_PROVIDERS) {
-			addInstanceProviderMapping(instanceProvider);
+			createMapping(instanceProvider);
 		}
 	}
 	
@@ -82,7 +87,7 @@ final class ObjectFactory {
 		
 		// add custom instance providers
 		for (final InstanceProvider<?> instanceProvider : customInstanceProviders) {
-			addInstanceProviderMapping(instanceProvider);
+			createMapping(instanceProvider);
 		}
 	}
 	
@@ -102,23 +107,100 @@ final class ObjectFactory {
 	 * 
 	 * @param instanceProvider the {@code InstanceProvider} to add
 	 */
-	private void addInstanceProviderMapping(final InstanceProvider<?> instanceProvider) {
+	private void createMapping(final InstanceProvider<?> instanceProvider) {
 		
 		final Class<?> instanceClass = instanceProvider.getInstanceClass();
 
 		// add mapping for the given instanceClass to its instanceProvider
-		this.instanceProviderMap.put(instanceClass.getCanonicalName(), instanceProvider);
+		createMapping(instanceClass.getCanonicalName(), instanceProvider);
 		
 		final Class<?> primitiveInstanceClass = BOXED_TO_PRIMITIVE_MAPPING.get(instanceClass);
 		
 		if (primitiveInstanceClass != null) {
 			// add also a mapping for the primitive type to this instanceProvider
-			this.instanceProviderMap.put(primitiveInstanceClass.getCanonicalName(), instanceProvider);
+			createMapping(primitiveInstanceClass.getCanonicalName(), instanceProvider);
 		}
 	}
+	
+	/**
+	 * TODO document
+	 *
+	 * @param canonicalName
+	 * @param instanceProvider
+	 */
+	private void createMapping(final String canonicalName, final InstanceProvider<?> instanceProvider) {
+		
+		final Map<String, InstanceProvider<?>> propertyNameToInstanceProvider = this.instanceProviderMap.get(canonicalName);
+		
+		if (propertyNameToInstanceProvider == null) {
+			
+			final String propertyName = getPropertyNameOrPlaceholder(instanceProvider);
+			
+			// create new mapping for propertyName to instanceProvider
+			final Map<String, InstanceProvider<?>> newPropertyNameToInstanceProviderMap = new HashMap<String, InstanceProvider<?>>();
+			
+			// add new entry to mapping
+			newPropertyNameToInstanceProviderMap.put(propertyName, instanceProvider);
+			
+			// add new mapping for the instance class' canonicalName to it's map of propertyName to instanceProvider
+			this.instanceProviderMap.put(canonicalName, newPropertyNameToInstanceProviderMap);
+		} else {
+			final String propertyName = getPropertyNameOrPlaceholder(instanceProvider);
+			
+			// add new entry to mapping
+			propertyNameToInstanceProvider.put(propertyName, instanceProvider);
+		}
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @param instanceProvider
+	 * @return
+	 */
+	private String getPropertyNameOrPlaceholder(final InstanceProvider<?> instanceProvider) {
+		if (instanceProvider.getPropertyName() == null) {
+			return NO_NAME;
+		}
+		return instanceProvider.getPropertyName();
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @param instanceClass
+	 * @param propertyName
+	 * @return
+	 */
+	private InstanceProvider<?> getInstanceProvider(final Class<?> instanceClass, final String propertyName) {
 
+		final String canonicalName = instanceClass.getCanonicalName();
+		final Map<String, InstanceProvider<?>> propertyNameToInstanceProvider = this.instanceProviderMap.get(canonicalName);
+		
+		final boolean couldNotAnyMappingForInstanceClass = propertyNameToInstanceProvider == null;
+		if (couldNotAnyMappingForInstanceClass) {
+			return null;
+		}
+		
+		final InstanceProvider<?> propertyNameSpecificInstanceProvider = propertyNameToInstanceProvider.get(propertyName);
+		
+		final boolean foundPropertyNameSpecificInstanceProvider = propertyNameSpecificInstanceProvider != null;
+		if (foundPropertyNameSpecificInstanceProvider) {
+			return propertyNameSpecificInstanceProvider;
+		}
+		
+		final InstanceProvider<?> propertyTypeSpecificInstanceProvider = propertyNameToInstanceProvider.get(NO_NAME);
+		
+		final boolean foundPropertyTypeSpecificInstanceProvider = propertyTypeSpecificInstanceProvider != null;
+		if (foundPropertyTypeSpecificInstanceProvider) {
+			return propertyTypeSpecificInstanceProvider;
+		}
+
+		throw new IllegalStateException("There is an empty mapping for class: " + canonicalName);
+	}
 
 	/**
+	 * TODO update documentation for propertyName
 	 * Retrieves a "dirty" object.
 	 * 
 	 * <p>
@@ -146,12 +228,16 @@ final class ObjectFactory {
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
 	 */
-	@SuppressWarnings("unchecked")
-	<T> T getDirtyObject(final Class<T> beanClass) {
-		return (T) getObject(beanClass, PropertyState.DIRTY);
+	<T> T getDirtyObject(final Class<T> beanClass, final String propertyName) {
+		
+		@SuppressWarnings("unchecked")
+		final T object = (T) getObject(beanClass, propertyName, PropertyState.DIRTY);
+		
+		return object;
 	}
 	
 	/**
+	 * TODO update documentation for propertyName
 	 * Retrieves a "default" object.
 	 * 
 	 * <p>
@@ -179,12 +265,16 @@ final class ObjectFactory {
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
 	 */
-	@SuppressWarnings("unchecked")
-	<T> T getDefaultObject(final Class<T> beanClass) {
-		return (T) getObject(beanClass, PropertyState.DEFAULT);
+	<T> T getDefaultObject(final Class<T> beanClass, final String propertyName) {
+		
+		@SuppressWarnings("unchecked")
+		final T object = (T) getObject(beanClass, propertyName, PropertyState.DEFAULT);
+		
+		return object;
 	}
 	
 	/**
+	 * TODO update documentation for propertyName
 	 * Returns either a cached instance of a common java class or creates an instance of the
 	 * given {@code beanClass}.
 	 *
@@ -209,8 +299,16 @@ final class ObjectFactory {
 	 * @return an object of the given {@code beanClass}
 	 * @throws IllegalArgumentException when no object can be created for the given {@code beanClass}
 	 */
-	private Object getObject(final Class<?> beanClass, final PropertyState propertyState) {
-		final InstanceProvider<?> provider = this.instanceProviderMap.get(beanClass.getCanonicalName());
+	private Object getObject(final Class<?> beanClass, final String propertyName, final PropertyState propertyState) {
+		
+		final String propertyNameOrFallback;
+		if (propertyName == null) {
+			propertyNameOrFallback = NO_NAME;
+		} else {
+			propertyNameOrFallback = propertyName;
+		}
+		
+		final InstanceProvider<?> provider = getInstanceProvider(beanClass, propertyNameOrFallback);
 
 		if (provider != null) {
 			switch (propertyState) {
@@ -263,8 +361,11 @@ final class ObjectFactory {
 	 * @return an instance of the given {@code arrayClass} with one element
 	 */
 	private Object createArray(final Class<?> arrayClass, final PropertyState propertyState) {
+		
+		// inner array types do not have a propertyName, so null is passed
+		final Object value = getObject(arrayClass, null, propertyState);
+		
 		final Object array = Array.newInstance(arrayClass, 1);
-		final Object value = getObject(arrayClass, propertyState);
 		Array.set(array, 0, value);
 		return array;
 	}
