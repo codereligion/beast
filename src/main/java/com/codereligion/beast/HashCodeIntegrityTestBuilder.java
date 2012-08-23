@@ -27,12 +27,12 @@ public final class HashCodeIntegrityTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public HashCodeIntegrityTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+	public HashCodeIntegrityTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		return (HashCodeIntegrityTestBuilder) super.addCustomInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public HashCodeIntegrityTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+	public HashCodeIntegrityTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 		return (HashCodeIntegrityTestBuilder) super.addCustomInstanceProviders(instanceProviders);
 	}
 	

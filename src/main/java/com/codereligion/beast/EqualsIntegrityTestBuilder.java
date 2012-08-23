@@ -24,12 +24,12 @@ public final class EqualsIntegrityTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public EqualsIntegrityTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+	public EqualsIntegrityTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		return (EqualsIntegrityTestBuilder) super.addCustomInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public EqualsIntegrityTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+	public EqualsIntegrityTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 		return (EqualsIntegrityTestBuilder) super.addCustomInstanceProviders(instanceProviders);
 	}
 	

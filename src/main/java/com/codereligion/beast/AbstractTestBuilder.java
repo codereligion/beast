@@ -37,7 +37,7 @@ abstract class AbstractTestBuilder {
 		return this;
 	}
 	
-	protected AbstractTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+	protected AbstractTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		
 		if (instanceProvider == null) {
 			throw new NullPointerException("instanceProvider must not be null.");
@@ -47,7 +47,7 @@ abstract class AbstractTestBuilder {
 		return this;
 	}
 	
-	protected AbstractTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+	protected AbstractTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 
 		if (instanceProviders == null) {
 			throw new NullPointerException("instanceProviders must not be null.");

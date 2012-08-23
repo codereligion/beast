@@ -26,7 +26,7 @@ public class ObjectFactoryWithDefaultInstanceProvidersTest {
 		
 		final Set<Integer> defaultInstance = Sets.newHashSet(Integer.valueOf(21));
 		final Set<Integer> dirtyInstance = Sets.newHashSet(Integer.valueOf(42));
-		final InstanceProvider<?> provider = new CustomInstanceProvider<Set<Integer>>(defaultInstance, dirtyInstance, Set.class);
+		final InstanceProvider<?> provider = new InstanceProvider<Set<Integer>>(defaultInstance, dirtyInstance, Set.class);
 		final Set<InstanceProvider<?>> providers = Sets.<InstanceProvider<?>>newHashSet(provider);
 		
 		final ObjectFactory objectFactory = new ObjectFactory(providers);

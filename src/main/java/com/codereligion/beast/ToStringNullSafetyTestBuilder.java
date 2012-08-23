@@ -27,12 +27,12 @@ public final class ToStringNullSafetyTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public ToStringNullSafetyTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+	public ToStringNullSafetyTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		return (ToStringNullSafetyTestBuilder) super.addCustomInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public ToStringNullSafetyTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+	public ToStringNullSafetyTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 		return (ToStringNullSafetyTestBuilder) super.addCustomInstanceProviders(instanceProviders);
 	}
 	

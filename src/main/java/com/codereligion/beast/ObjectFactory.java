@@ -43,16 +43,16 @@ final class ObjectFactory {
 		BOXED_TO_PRIMITIVE_MAPPING.put(Double.class, Double.TYPE);
 
 		// adding default instance providers
-		DEFAULT_INSTANCE_PROVIDERS.add(ByteInstanceProvider.INSTANCE);
-		DEFAULT_INSTANCE_PROVIDERS.add(CharacterInstanceProvider.INSTANCE);
-		DEFAULT_INSTANCE_PROVIDERS.add(BooleanInstanceProvider.INSTANCE);
-		DEFAULT_INSTANCE_PROVIDERS.add(ShortInstanceProvider.INSTANCE);
-		DEFAULT_INSTANCE_PROVIDERS.add(IntegerInstanceProvider.INSTANCE);
-		DEFAULT_INSTANCE_PROVIDERS.add(LongInstanceProvider.INSTANCE);
-		DEFAULT_INSTANCE_PROVIDERS.add(FloatInstanceProvider.INSTANCE);
-		DEFAULT_INSTANCE_PROVIDERS.add(DoubleInstanceProvider.INSTANCE);
-		DEFAULT_INSTANCE_PROVIDERS.add(StringInstanceProvider.INSTANCE);
-		DEFAULT_INSTANCE_PROVIDERS.add(ObjectInstanceProvider.INSTANCE);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.BOOLEAN);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.BYTE);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.CHARACTER);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.DOUBLE);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.FLOAT);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.INTEGER);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.LONG);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.OBJECT);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.SHORT);
+		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.STRING);
 	}
 	
 	/**

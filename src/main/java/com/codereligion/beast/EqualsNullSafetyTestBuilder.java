@@ -27,12 +27,12 @@ public final class EqualsNullSafetyTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public EqualsNullSafetyTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+	public EqualsNullSafetyTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		return (EqualsNullSafetyTestBuilder) super.addCustomInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public EqualsNullSafetyTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+	public EqualsNullSafetyTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 		return (EqualsNullSafetyTestBuilder) super.addCustomInstanceProviders(instanceProviders);
 	}
 	

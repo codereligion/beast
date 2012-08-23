@@ -3,11 +3,6 @@ package com.codereligion.beast;
 import static org.junit.Assert.assertNotNull;
 
 import com.codereligion.beast.object.ComplexClass;
-
-import com.codereligion.beast.AbstractTest;
-import com.codereligion.beast.InstanceProvider;
-import com.codereligion.beast.ObjectFactory;
-
 import com.google.common.collect.Sets;
 import org.junit.Test;
 

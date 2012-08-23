@@ -28,12 +28,12 @@ public final class ToStringFormatTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public ToStringFormatTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+	public ToStringFormatTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		return (ToStringFormatTestBuilder) super.addCustomInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public ToStringFormatTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+	public ToStringFormatTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 		return (ToStringFormatTestBuilder) super.addCustomInstanceProviders(instanceProviders);
 	}
 	

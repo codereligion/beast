@@ -27,12 +27,12 @@ public final class ToStringIntegrityTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public ToStringIntegrityTestBuilder addCustomInstanceProvider(final CustomInstanceProvider<?> instanceProvider) {
+	public ToStringIntegrityTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		return (ToStringIntegrityTestBuilder) super.addCustomInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public ToStringIntegrityTestBuilder addCustomInstanceProviders(final Set<CustomInstanceProvider<?>> instanceProviders) {
+	public ToStringIntegrityTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 		return (ToStringIntegrityTestBuilder) super.addCustomInstanceProviders(instanceProviders);
 	}
 	

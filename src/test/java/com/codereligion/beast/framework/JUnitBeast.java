@@ -1,6 +1,6 @@
 package com.codereligion.beast.framework;
 
-import com.codereligion.beast.CustomInstanceProvider;
+import com.codereligion.beast.InstanceProvider;
 import com.codereligion.beast.EqualsIntegrityTestBuilder;
 import com.codereligion.beast.EqualsNullSafetyTestBuilder;
 import com.codereligion.beast.HashCodeIntegrityTestBuilder;
@@ -170,8 +170,8 @@ public abstract class JUnitBeast <T> {
 	 * 
 	 * @return
 	 */
-	protected Set<CustomInstanceProvider<?>> getInstanceProviders() {
-		return new HashSet<CustomInstanceProvider<?>>();
+	protected Set<InstanceProvider<?>> getInstanceProviders() {
+		return new HashSet<InstanceProvider<?>>();
 	}
 	
 	/**
