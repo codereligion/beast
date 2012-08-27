@@ -24,16 +24,16 @@ public final class EqualsIntegrityTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public EqualsIntegrityTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
-		return (EqualsIntegrityTestBuilder) super.addCustomInstanceProvider(instanceProvider);
+	public EqualsIntegrityTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+		return (EqualsIntegrityTestBuilder) super.addInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public EqualsIntegrityTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
-		return (EqualsIntegrityTestBuilder) super.addCustomInstanceProviders(instanceProviders);
+	public EqualsIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+		return (EqualsIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
 	public <T> EqualsIntegrityTest<T> create(final Class<T> beanClass) {
-		return new EqualsIntegrityTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.customInstanceProviders));
+		return new EqualsIntegrityTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
 	}
 }

@@ -17,9 +17,6 @@ public final class InstanceProvider <T> {
 	
 	/**
 	 * TODO document
-	 * TODO what about enums with just one enumeration value?
-	 * TODO what about interfaces?
-	 * TODO what about abstract classes?
 	 * 
 	 * Constructs a new instance.
 	 *
@@ -31,6 +28,14 @@ public final class InstanceProvider <T> {
 		this(defaultInstance, dirtyInstance, (String) null);
 	}
     
+    /**
+     * TODO document
+     * Constructs a new instance.
+     *
+     * @param defaultInstance
+     * @param dirtyInstance
+     * @param propertyName
+     */
     public InstanceProvider(final T defaultInstance, final T dirtyInstance, final String propertyName) {
     	if (defaultInstance == null) {
     		throw new IllegalArgumentException("defaultInstance must not be null.");
@@ -185,8 +190,6 @@ public final class InstanceProvider <T> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.defaultInstance == null) ? 0 : this.defaultInstance.hashCode());
-		result = prime * result + ((this.dirtyInstance == null) ? 0 : this.dirtyInstance.hashCode());
 		result = prime * result + ((this.instanceClass == null) ? 0 : this.instanceClass.hashCode());
 		result = prime * result + ((this.propertyName == null) ? 0 : this.propertyName.hashCode());
 		return result;
@@ -208,7 +211,7 @@ public final class InstanceProvider <T> {
 		    return false;
 	    
 	    @SuppressWarnings("unchecked")
-        InstanceProvider<T> other = (InstanceProvider<T>) obj;
+        final InstanceProvider<T> other = (InstanceProvider<T>) obj;
 	    if (this.instanceClass == null) {
 		    if (other.instanceClass != null)
 			    return false;
@@ -224,7 +227,7 @@ public final class InstanceProvider <T> {
 	
 	@Override
     public String toString() {
-	    StringBuilder builder = new StringBuilder();
+	    final StringBuilder builder = new StringBuilder();
 	    builder.append("CustomInstanceProvider [defaultInstance=");
 	    builder.append(this.defaultInstance);
 	    builder.append(", dirtyInstance=");

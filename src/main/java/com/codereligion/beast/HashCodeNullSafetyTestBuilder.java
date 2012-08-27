@@ -27,16 +27,16 @@ public final class HashCodeNullSafetyTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public HashCodeNullSafetyTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
-		return (HashCodeNullSafetyTestBuilder) super.addCustomInstanceProvider(instanceProvider);
+	public HashCodeNullSafetyTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+		return (HashCodeNullSafetyTestBuilder) super.addInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public HashCodeNullSafetyTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
-		return (HashCodeNullSafetyTestBuilder) super.addCustomInstanceProviders(instanceProviders);
+	public HashCodeNullSafetyTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+		return (HashCodeNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
 	public <T> HashCodeNullSafetyTest<T> create(final Class<T> beanClass) {
-		return new HashCodeNullSafetyTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.customInstanceProviders));
+		return new HashCodeNullSafetyTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
 	}
 }

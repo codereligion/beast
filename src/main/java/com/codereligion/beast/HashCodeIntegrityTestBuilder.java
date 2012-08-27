@@ -27,16 +27,16 @@ public final class HashCodeIntegrityTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public HashCodeIntegrityTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
-		return (HashCodeIntegrityTestBuilder) super.addCustomInstanceProvider(instanceProvider);
+	public HashCodeIntegrityTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+		return (HashCodeIntegrityTestBuilder) super.addInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public HashCodeIntegrityTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
-		return (HashCodeIntegrityTestBuilder) super.addCustomInstanceProviders(instanceProviders);
+	public HashCodeIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+		return (HashCodeIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
 	public <T> HashCodeIntegrityTest<T> create(final Class<T> beanClass) {
-		return new HashCodeIntegrityTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.customInstanceProviders));
+		return new HashCodeIntegrityTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
 	}
 }

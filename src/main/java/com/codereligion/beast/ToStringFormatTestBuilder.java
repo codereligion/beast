@@ -28,16 +28,16 @@ public final class ToStringFormatTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public ToStringFormatTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
-		return (ToStringFormatTestBuilder) super.addCustomInstanceProvider(instanceProvider);
+	public ToStringFormatTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+		return (ToStringFormatTestBuilder) super.addInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public ToStringFormatTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
-		return (ToStringFormatTestBuilder) super.addCustomInstanceProviders(instanceProviders);
+	public ToStringFormatTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+		return (ToStringFormatTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
 	public <T> ToStringFormatTest<T> create(final Class<T> beanClass, final Pattern pattern) {
-		return new ToStringFormatTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.customInstanceProviders), pattern);
+		return new ToStringFormatTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders), pattern);
 	}
 }

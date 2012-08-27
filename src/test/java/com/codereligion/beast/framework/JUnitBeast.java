@@ -27,7 +27,7 @@ public abstract class JUnitBeast <T> {
 	public void testEqualsIntegrity() {
 		new EqualsIntegrityTestBuilder()
 			.addExcludedPropertyNames(getExcludesForEqualsIntegrity())
-			.addCustomInstanceProviders(getInstanceProviders())
+			.addInstanceProviders(getInstanceProviders())
 			.create(getClazz())
 			.run();
 	}
@@ -36,7 +36,7 @@ public abstract class JUnitBeast <T> {
 	public void testEqualsNullSafety() {
 		new EqualsNullSafetyTestBuilder()
 			.addExcludedPropertyNames(getExcludesForEqualsNullSafety())
-			.addCustomInstanceProviders(getInstanceProviders())
+			.addInstanceProviders(getInstanceProviders())
 			.create(getClazz())
 			.run();
 	}
@@ -45,7 +45,7 @@ public abstract class JUnitBeast <T> {
 	public void testHashCodeIntegrity() {
 		new HashCodeIntegrityTestBuilder()
 			.addExcludedPropertyNames(getExcludesForHashCodeIntegrity())
-			.addCustomInstanceProviders(getInstanceProviders())
+			.addInstanceProviders(getInstanceProviders())
 			.create(getClazz())
 			.run();
 	}
@@ -54,7 +54,7 @@ public abstract class JUnitBeast <T> {
 	public void testHashCodeNullSafety() {
 		new HashCodeNullSafetyTestBuilder()
 			.addExcludedPropertyNames(getExcludesForEqualsNullSafety())
-			.addCustomInstanceProviders(getInstanceProviders())
+			.addInstanceProviders(getInstanceProviders())
 			.create(getClazz())
 			.run();
 	}
@@ -63,7 +63,7 @@ public abstract class JUnitBeast <T> {
 	public void testToStringIntegrity() {
 		new ToStringIntegrityTestBuilder()
 			.addExcludedPropertyNames(getExcludesToStringIntegrity())
-			.addCustomInstanceProviders(getInstanceProviders())
+			.addInstanceProviders(getInstanceProviders())
 			.create(getClazz())
 			.run();
 	}
@@ -72,7 +72,7 @@ public abstract class JUnitBeast <T> {
 	public void testToStringNullSafety() {
 		new ToStringNullSafetyTestBuilder()
 			.addExcludedPropertyNames(getExcludesToStringNullSafety())
-			.addCustomInstanceProviders(getInstanceProviders())
+			.addInstanceProviders(getInstanceProviders())
 			.create(getClazz())
 			.run();
 	}
@@ -81,7 +81,7 @@ public abstract class JUnitBeast <T> {
 	public void testToStringFormat() {
 		new ToStringFormatTestBuilder()
 			.addExcludedPropertyNames(getExcludesForToStringFormatTest())
-			.addCustomInstanceProviders(getInstanceProviders())
+			.addInstanceProviders(getInstanceProviders())
 			.create(getClazz(), getToStringPattern())
 			.run();
 	}

@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 /**
- * Tests {@link ToString}.
+ * Tests {@link ToStringFormatTestBuilder}.
  * 
  * @author Sebastian Gröbler
  * @since 14.08.2012

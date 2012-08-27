@@ -27,16 +27,16 @@ public final class EqualsNullSafetyTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public EqualsNullSafetyTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
-		return (EqualsNullSafetyTestBuilder) super.addCustomInstanceProvider(instanceProvider);
+	public EqualsNullSafetyTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+		return (EqualsNullSafetyTestBuilder) super.addInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public EqualsNullSafetyTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
-		return (EqualsNullSafetyTestBuilder) super.addCustomInstanceProviders(instanceProviders);
+	public EqualsNullSafetyTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+		return (EqualsNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
 	public <T> EqualsNullSafetyTest<T> create(final Class<T> beanClass) {
-		return new EqualsNullSafetyTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.customInstanceProviders));
+		return new EqualsNullSafetyTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
 	}
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 abstract class AbstractTestBuilder {
 	
 	protected Set<String> excludedPropertyNames = new HashSet<String>();
-	protected Set<InstanceProvider<?>> customInstanceProviders = new HashSet<InstanceProvider<?>>();
+	protected Set<InstanceProvider<?>> instanceProviders = new HashSet<InstanceProvider<?>>();
 	
 	protected AbstractTestBuilder addExcludedPropertyName(final String propertyName) {
 		
@@ -37,23 +37,23 @@ abstract class AbstractTestBuilder {
 		return this;
 	}
 	
-	protected AbstractTestBuilder addCustomInstanceProvider(final InstanceProvider<?> instanceProvider) {
+	protected AbstractTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		
 		if (instanceProvider == null) {
 			throw new NullPointerException("instanceProvider must not be null.");
 		}
 		
-		this.customInstanceProviders.add(instanceProvider);
+		this.instanceProviders.add(instanceProvider);
 		return this;
 	}
 	
-	protected AbstractTestBuilder addCustomInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+	protected AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 
 		if (instanceProviders == null) {
 			throw new NullPointerException("instanceProviders must not be null.");
 		}
 		
-		this.customInstanceProviders.addAll(instanceProviders);
+		this.instanceProviders.addAll(instanceProviders);
 		return this;
 	}
 }
