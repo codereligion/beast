@@ -34,6 +34,7 @@ public final class EqualsNullSafetyTest<T> extends AbstractTest<T> {
         }
     }
 
+    // TODO alert when property is excluded from null safety but is actually null safe
     @Override
     public void run() {
         final T defaultObject = newBeanObject();

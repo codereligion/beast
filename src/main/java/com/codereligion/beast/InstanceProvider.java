@@ -16,27 +16,71 @@ public final class InstanceProvider <T> {
 	private final String propertyName;
 	
 	/**
-	 * TODO document
-	 * 
-	 * Constructs a new instance.
+	 * TODO
 	 *
+	 * @param <T>
 	 * @param defaultInstance
 	 * @param dirtyInstance
-	 * @throws IllegalArgumentException
+	 * @return
 	 */
-    public InstanceProvider(final T defaultInstance, final T dirtyInstance) {
+	public static <T> InstanceProvider<T> create(final T defaultInstance, final T dirtyInstance) {
+		return new InstanceProvider<T>(defaultInstance, dirtyInstance);
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @param <T>
+	 * @param defaultInstance
+	 * @param dirtyInstance
+	 * @param instanceClass
+	 * @return
+	 */
+	public static <T> InstanceProvider<T> create(
+			final T defaultInstance,
+			final T dirtyInstance, 
+			final Class<T> instanceClass) {
+		
+		return new InstanceProvider<T>(defaultInstance, dirtyInstance, instanceClass);
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @param <T>
+	 * @param defaultInstance
+	 * @param dirtyInstance
+	 * @param propertyName
+	 * @return
+	 */
+	public static <T> InstanceProvider<T> create(final T defaultInstance, final T dirtyInstance, final String propertyName) {
+		return new InstanceProvider<T>(defaultInstance, dirtyInstance, propertyName);
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @param <T>
+	 * @param defaultInstance
+	 * @param dirtyInstance
+	 * @param instanceClass
+	 * @param propertyName
+	 * @return
+	 */
+	public static <T> InstanceProvider<T> create(
+			final T defaultInstance,
+			final T dirtyInstance,
+			final Class<T> instanceClass,
+			final String propertyName) {
+		return new InstanceProvider<T>(defaultInstance, dirtyInstance, instanceClass, propertyName);
+	}
+
+	
+    InstanceProvider(final T defaultInstance, final T dirtyInstance) {
 		this(defaultInstance, dirtyInstance, (String) null);
 	}
-    
-    /**
-     * TODO document
-     * Constructs a new instance.
-     *
-     * @param defaultInstance
-     * @param dirtyInstance
-     * @param propertyName
-     */
-    public InstanceProvider(final T defaultInstance, final T dirtyInstance, final String propertyName) {
+
+    InstanceProvider(final T defaultInstance, final T dirtyInstance, final String propertyName) {
     	if (defaultInstance == null) {
     		throw new IllegalArgumentException("defaultInstance must not be null.");
     	}
@@ -72,30 +116,11 @@ public final class InstanceProvider <T> {
     	this.propertyName = propertyName;
     }
 
-    /**
-     * TODO document
-     * Constructs an instance.
-     * 
-     * supports setting default values for an abstract class or interface
-     *
-     * @param defaultInstance
-     * @param dirtyInstance
-     * @param instanceClass
-     */
-    public InstanceProvider(final T defaultInstance, final T dirtyInstance, final Class<?> instanceClass) {
+    InstanceProvider(final T defaultInstance, final T dirtyInstance, final Class<T> instanceClass) {
     	this(defaultInstance, dirtyInstance, instanceClass, null);
     }
     
-    /**
-     * TODO document
-     * Constructs a new instance.
-     *
-     * @param defaultInstance
-     * @param dirtyInstance
-     * @param instanceClass
-     * @param propertyName
-     */
-    public InstanceProvider(final T defaultInstance, final T dirtyInstance, final Class<?> instanceClass, final String propertyName) {
+    InstanceProvider(final T defaultInstance, final T dirtyInstance, final Class<T> instanceClass, final String propertyName) {
     	if (defaultInstance == null) {
     		throw new IllegalArgumentException("defaultInstance must not be null.");
     	}
