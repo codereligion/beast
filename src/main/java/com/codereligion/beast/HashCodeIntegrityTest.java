@@ -65,7 +65,7 @@ public final class HashCodeIntegrityTest <T> extends AbstractTest<T> {
 			
 			final boolean areEqual = defaultObject.equals(dirtyObject);
 			final boolean hashCodesAreEqual = defaultObject.hashCode() == dirtyObject.hashCode();
-			final boolean isEqualsHashCodeContractViolated = areEqual == true && hashCodesAreEqual == false;
+			final boolean isEqualsHashCodeContractViolated = areEqual && !hashCodesAreEqual;
 			
 			// hashCode and equals contract must not be violated, disregarding excludes
 			assertFalse(isEqualsHashCodeContractViolated,

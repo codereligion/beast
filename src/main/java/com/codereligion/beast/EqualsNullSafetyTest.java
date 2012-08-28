@@ -53,10 +53,6 @@ public final class EqualsNullSafetyTest<T> extends AbstractTest<T> {
     @Override
     public void run() {
         final T defaultObject = newBeanObject();
-        final boolean objectIsEqualToItSelf = defaultObject.equals(defaultObject);
-
-        assertTrue(objectIsEqualToItSelf, "Equals method for instance of '%s' is not reflexive.", this.beanClassCanonicalName);
-
         for (final PropertyDescriptor property : this.settableProperties) {
 
             final Class<?> propertyType = property.getPropertyType();
