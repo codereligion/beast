@@ -1,40 +1,23 @@
-/*
- * Copyright 2012 The Beast Authors (www.codereligion.com)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.codereligion.beast.framework;
 
-import com.codereligion.beast.InstanceProvider;
 import com.codereligion.beast.EqualsIntegrityTestBuilder;
 import com.codereligion.beast.EqualsNullSafetyTestBuilder;
 import com.codereligion.beast.HashCodeIntegrityTestBuilder;
 import com.codereligion.beast.HashCodeNullSafetyTestBuilder;
+import com.codereligion.beast.InstanceProvider;
 import com.codereligion.beast.ToStringFormatTestBuilder;
 import com.codereligion.beast.ToStringIntegrityTestBuilder;
 import com.codereligion.beast.ToStringNullSafetyTestBuilder;
-
-import org.junit.Test;
-
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.junit.Test;
 
 /**
+ * TODO document
  * Example implementation of the "beast" for JUnit.
  * 
- * @author Sebastian Gröbler
+ * @author sgroebler
  * @since 11.08.2012
  */
 public abstract class JUnitBeast <T> {
@@ -42,55 +25,49 @@ public abstract class JUnitBeast <T> {
 	@Test
 	public void testEqualsIntegrity() {
 		new EqualsIntegrityTestBuilder()
-			.addExcludedPropertyNames(getExcludesForEqualsIntegrity())
+			.addExcludedPropertyNames(getExcludesForEqualsIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
-			.run();
+			.createAndRun(getClazz());
 	}
 	
 	@Test
 	public void testEqualsNullSafety() {
 		new EqualsNullSafetyTestBuilder()
-			.addExcludedPropertyNames(getExcludesForEqualsNullSafety())
+			.addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
-			.run();
+			.createAndRun(getClazz());
 	}
 	
 	@Test
 	public void testHashCodeIntegrity() {
 		new HashCodeIntegrityTestBuilder()
-			.addExcludedPropertyNames(getExcludesForHashCodeIntegrity())
+			.addExcludedPropertyNames(getExcludesForHashCodeIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
-			.run();
+			.createAndRun(getClazz());
 	}
 	
 	@Test
 	public void testHashCodeNullSafety() {
 		new HashCodeNullSafetyTestBuilder()
-			.addExcludedPropertyNames(getExcludesForEqualsNullSafety())
+			.addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
-			.run();
+			.createAndRun(getClazz());
 	}
 	
 	@Test
 	public void testToStringIntegrity() {
 		new ToStringIntegrityTestBuilder()
-			.addExcludedPropertyNames(getExcludesToStringIntegrity())
+			.addExcludedPropertyNames(getExcludesForToStringIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
-			.run();
+			.createAndRun(getClazz());
 	}
 	
 	@Test
 	public void testToStringNullSafety() {
 		new ToStringNullSafetyTestBuilder()
-			.addExcludedPropertyNames(getExcludesToStringNullSafety())
+			.addExcludedPropertyNames(getExcludesForToStringNullSafetyTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
-			.run();
+			.createAndRun(getClazz());
 	}
 	
 	@Test
@@ -98,8 +75,7 @@ public abstract class JUnitBeast <T> {
 		new ToStringFormatTestBuilder()
 			.addExcludedPropertyNames(getExcludesForToStringFormatTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz(), getToStringPattern())
-			.run();
+			.createAndRun(getClazz(), getToStringPattern());
 	}
 
 	/**
@@ -123,8 +99,8 @@ public abstract class JUnitBeast <T> {
 	 * 
 	 * @return a {@link Set} of property names, must not be {@code null}
 	 */
-	protected Set<String> getExcludesForHashCodeIntegrity() {
-		return new HashSet<String>();
+	protected Set<String> getExcludesForHashCodeIntegrityTest() {
+		return Collections.emptySet();
 	}
 	
 	/**
@@ -132,8 +108,16 @@ public abstract class JUnitBeast <T> {
 	 *
 	 * @return
 	 */
-	protected Set<String> getExcludesForHashCodeNullSafety() {
-		return new HashSet<String>();
+	protected Set<String> getExcludesForEqualsIntegrityTest() {
+		return Collections.emptySet();
+	}
+	/**
+	 * TODO
+	 *
+	 * @return
+	 */
+	protected Set<String> getExcludesForToStringIntegrityTest() {
+		return Collections.emptySet();
 	}
 	
 	/**
@@ -141,8 +125,8 @@ public abstract class JUnitBeast <T> {
 	 *
 	 * @return
 	 */
-	protected Set<String> getExcludesForEqualsIntegrity() {
-		return new HashSet<String>();
+	protected Set<String> getExcludesForHashCodeNullSafetyTest() {
+		return Collections.emptySet();
 	}
 	
 	/**
@@ -150,8 +134,8 @@ public abstract class JUnitBeast <T> {
 	 *
 	 * @return
 	 */
-	protected Set<String> getExcludesForEqualsNullSafety() {
-		return new HashSet<String>();
+	protected Set<String> getExcludesForEqualsNullSafetyTest() {
+		return Collections.emptySet();
 	}
 	
 	/**
@@ -159,17 +143,8 @@ public abstract class JUnitBeast <T> {
 	 *
 	 * @return
 	 */
-	protected Set<String> getExcludesToStringIntegrity() {
-		return new HashSet<String>();
-	}
-	
-	/**
-	 * TODO
-	 *
-	 * @return
-	 */
-	protected Set<String> getExcludesToStringNullSafety() {
-		return new HashSet<String>();
+	protected Set<String> getExcludesForToStringNullSafetyTest() {
+		return Collections.emptySet();
 	}
 	
 	/**
@@ -178,7 +153,7 @@ public abstract class JUnitBeast <T> {
 	 * @return
 	 */
 	protected Set<String> getExcludesForToStringFormatTest() {
-		return new HashSet<String>();
+		return Collections.emptySet();
 	}
 	
 	/**
@@ -187,7 +162,7 @@ public abstract class JUnitBeast <T> {
 	 * @return
 	 */
 	protected Set<InstanceProvider<?>> getInstanceProviders() {
-		return new HashSet<InstanceProvider<?>>();
+		return Collections.emptySet();
 	}
 	
 	/**
@@ -200,6 +175,8 @@ public abstract class JUnitBeast <T> {
 	 * @return the regular expression to be applied, or {@code null} if the pattern should not be checked
 	 */
 	protected Pattern getToStringPattern() {
-		return Pattern.compile(".+ \\[(.+=.+, )*(.+=.+)?\\]");
+		// TODO does not reflect nested toString calls, e.g. for collections etc.
+//		return Pattern.compile(".+\\{(.+=.+, )*(.+=.+)?\\}");
+		return Pattern.compile(".*");
 	}
 }

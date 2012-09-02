@@ -31,7 +31,7 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-abstract class AbstractTest <T> implements Runnable {
+abstract class AbstractTest <T> implements Test {
 
 	/**
 	 * The {@link Class} of the bean to be tested.

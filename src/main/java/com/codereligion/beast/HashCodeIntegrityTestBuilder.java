@@ -49,7 +49,8 @@ public final class HashCodeIntegrityTestBuilder extends AbstractTestBuilder {
 		return (HashCodeIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
-	public <T> Runnable create(final Class<T> beanClass) {
+	@Override
+	public <T> Test create(final Class<T> beanClass) {
 		return new HashCodeIntegrityTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
 	}
 }

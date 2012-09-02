@@ -33,6 +33,12 @@ abstract class AbstractTestBuilder {
 	protected Set<String> excludedPropertyNames = new HashSet<String>();
 	protected Set<InstanceProvider<?>> instanceProviders = new HashSet<InstanceProvider<?>>();
 	
+	/**
+	 * TODO
+	 *
+	 * @param propertyName
+	 * @return
+	 */
 	protected AbstractTestBuilder addExcludedPropertyName(final String propertyName) {
 		
 		if (propertyName == null) {
@@ -43,6 +49,12 @@ abstract class AbstractTestBuilder {
 		return this;
 	}
 	
+	/**
+	 * TODO
+	 *
+	 * @param propertyNames
+	 * @return
+	 */
 	protected AbstractTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
 		
 		if (propertyNames == null) {
@@ -53,6 +65,12 @@ abstract class AbstractTestBuilder {
 		return this;
 	}
 	
+	/**
+	 * TODO
+	 *
+	 * @param instanceProvider
+	 * @return
+	 */
 	protected AbstractTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		
 		if (instanceProvider == null) {
@@ -63,6 +81,12 @@ abstract class AbstractTestBuilder {
 		return this;
 	}
 	
+	/**
+	 * TODO
+	 *
+	 * @param instanceProviders
+	 * @return
+	 */
 	protected AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 
 		if (instanceProviders == null) {
@@ -71,5 +95,22 @@ abstract class AbstractTestBuilder {
 		
 		this.instanceProviders.addAll(instanceProviders);
 		return this;
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @param beanClass
+	 * @return
+	 */
+	public abstract <T> Test create(Class<T> beanClass);
+	
+	/**
+	 * TODO
+	 *
+	 * @param beanClass
+	 */
+	public <T> void createAndRun(Class<T> beanClass) {
+		create(beanClass).run();
 	}
 }

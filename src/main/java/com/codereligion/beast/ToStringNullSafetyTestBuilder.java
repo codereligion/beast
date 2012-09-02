@@ -47,7 +47,8 @@ public final class ToStringNullSafetyTestBuilder extends AbstractTestBuilder {
 		return (ToStringNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
-	public <T> Runnable create(final Class<T> beanClass) {
+	@Override
+	public <T> Test create(final Class<T> beanClass) {
 		return new ToStringNullSafetyTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
 	}
 }
