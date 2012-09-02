@@ -49,7 +49,7 @@ public final class ToStringFormatTestBuilder extends AbstractTestBuilder {
 		return (ToStringFormatTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
-	public <T> ToStringFormatTest<T> create(final Class<T> beanClass, final Pattern pattern) {
+	public <T> Runnable create(final Class<T> beanClass, final Pattern pattern) {
 		return new ToStringFormatTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders), pattern);
 	}
 }

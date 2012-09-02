@@ -28,7 +28,7 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class HashCodeIntegrityTest <T> extends AbstractTest<T> {
+final class HashCodeIntegrityTest <T> extends AbstractTest<T> {
 	
 	/**
 	 * TODO

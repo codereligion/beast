@@ -409,7 +409,7 @@ final class ObjectFactory {
 			throw new IllegalArgumentException(
 					"Can not create proxy for property class " + beanClass.getCanonicalName() +
 					" because of missing default constructor. Either provide a default constructor " +
-					" or add a CustomInstanceProvider for that class.");
+					"or add a CustomInstanceProvider for that class.");
 		}
 
 		final Enhancer enhancer = new Enhancer();
@@ -459,9 +459,10 @@ final class ObjectFactory {
 				try {
 					return methodProxy.invokeSuper(thisObject, args);
 				} catch (final NoSuchMethodError e) {
-					throw new IllegalArgumentException("The method under test is internally calling method '" + method.getName() + "' for " +
-													   "property of type " + beanClass.getCanonicalName() + ". " + 
-													   "This method is not proxied. Provide a CustomInstanceProvider for that class.");
+					throw new IllegalArgumentException(
+							"The method under test is internally calling method '" + method.getName() + "' for " +
+						    "property of type " + beanClass.getCanonicalName() + ". " + 
+						    "This method is not proxied. Provide a CustomInstanceProvider for that class.");
 				}
 			}
 		});

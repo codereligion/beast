@@ -47,7 +47,7 @@ public final class HashCodeNullSafetyTestBuilder extends AbstractTestBuilder {
 		return (HashCodeNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
-	public <T> HashCodeNullSafetyTest<T> create(final Class<T> beanClass) {
+	public <T> Runnable create(final Class<T> beanClass) {
 		return new HashCodeNullSafetyTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
 	}
 }

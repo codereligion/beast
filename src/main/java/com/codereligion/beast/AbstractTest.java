@@ -26,12 +26,12 @@ import java.util.Set;
 
 
 /**
- * Abstract tester which provides the basic functionality for all bean tests.
+ * Abstract test which provides the basic functionality for all bean tests.
  * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-abstract class AbstractTest <T> {
+abstract class AbstractTest <T> implements Runnable {
 
 	/**
 	 * The {@link Class} of the bean to be tested.
@@ -110,7 +110,8 @@ abstract class AbstractTest <T> {
 	/**
 	 * Executes this test.
 	 */
-	protected abstract void run();
+	@Override
+    public abstract void run();
 	
 	/**
 	 * Determines if the {@code beanClass} can be instantiated.

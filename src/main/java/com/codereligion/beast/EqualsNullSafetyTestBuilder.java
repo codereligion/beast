@@ -49,7 +49,7 @@ public final class EqualsNullSafetyTestBuilder extends AbstractTestBuilder {
 		return (EqualsNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
-	public <T> EqualsNullSafetyTest<T> create(final Class<T> beanClass) {
+	public <T> Runnable create(final Class<T> beanClass) {
 		return new EqualsNullSafetyTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
 	}
 }

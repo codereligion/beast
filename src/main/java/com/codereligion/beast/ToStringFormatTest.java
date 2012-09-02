@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class ToStringFormatTest <T> extends AbstractTest<T> {
+final class ToStringFormatTest <T> extends AbstractTest<T> {
 	
 	/**
 	 * The compiled regular expression the toString result should match.

@@ -47,7 +47,7 @@ public final class ToStringIntegrityTestBuilder extends AbstractTestBuilder {
 		return (ToStringIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 	
-	public <T> ToStringIntegrityTest<T> create(final Class<T> beanClass) {
+	public <T> Runnable create(final Class<T> beanClass) {
 		return new ToStringIntegrityTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
 	}
 }

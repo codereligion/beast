@@ -37,7 +37,7 @@ public class AbstractTesterTest {
 		}
 
 		@Override
-		protected void run() {
+		public void run() {
 			// just a stub and not part of this test
 		}
 	}
