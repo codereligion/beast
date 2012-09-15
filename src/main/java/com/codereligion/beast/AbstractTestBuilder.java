@@ -16,6 +16,8 @@
 
 package com.codereligion.beast;
 
+import com.codereligion.beast.internal.test.Test;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,46 +26,14 @@ import java.util.Set;
 /**
  * TODO document
  * TODO test null check
+ * TODO pull up exclude methods and make format test also use this class as super class
  *
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 abstract class AbstractTestBuilder {
 	
-	protected Set<String> excludedPropertyNames = new HashSet<String>();
 	protected Set<InstanceProvider<?>> instanceProviders = new HashSet<InstanceProvider<?>>();
-	
-	/**
-	 * TODO
-	 *
-	 * @param propertyName
-	 * @return
-	 */
-	protected AbstractTestBuilder addExcludedPropertyName(final String propertyName) {
-		
-		if (propertyName == null) {
-			throw new NullPointerException("propertyName must not be null.");
-		}
-		
-		this.excludedPropertyNames.add(propertyName);
-		return this;
-	}
-	
-	/**
-	 * TODO
-	 *
-	 * @param propertyNames
-	 * @return
-	 */
-	protected AbstractTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		
-		if (propertyNames == null) {
-			throw new NullPointerException("propertyNames must not be null.");
-		}
-		
-		this.excludedPropertyNames.addAll(propertyNames);
-		return this;
-	}
 	
 	/**
 	 * TODO

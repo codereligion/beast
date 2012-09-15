@@ -26,6 +26,7 @@ public abstract class JUnitBeast <T> {
 	public void testEqualsIntegrity() {
 		new EqualsIntegrityTestBuilder()
 			.addExcludedPropertyNames(getExcludesForEqualsIntegrityTest())
+			.addIncludedPropertyNames(getIncludesForEqualsIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
 			.createAndRun(getClazz());
 	}
@@ -42,6 +43,7 @@ public abstract class JUnitBeast <T> {
 	public void testHashCodeIntegrity() {
 		new HashCodeIntegrityTestBuilder()
 			.addExcludedPropertyNames(getExcludesForHashCodeIntegrityTest())
+			.addIncludedPropertyNames(getIncludesForHashCodeIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
 			.createAndRun(getClazz());
 	}
@@ -58,6 +60,7 @@ public abstract class JUnitBeast <T> {
 	public void testToStringIntegrity() {
 		new ToStringIntegrityTestBuilder()
 			.addExcludedPropertyNames(getExcludesForToStringIntegrityTest())
+			.addIncludedPropertyNames(getIncludesForToStringIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
 			.createAndRun(getClazz());
 	}
@@ -73,7 +76,6 @@ public abstract class JUnitBeast <T> {
 	@Test
 	public void testToStringFormat() {
 		new ToStringFormatTestBuilder()
-			.addExcludedPropertyNames(getExcludesForToStringFormatTest())
 			.addInstanceProviders(getInstanceProviders())
 			.createAndRun(getClazz(), getToStringPattern());
 	}
@@ -108,15 +110,43 @@ public abstract class JUnitBeast <T> {
 	 *
 	 * @return
 	 */
+	protected Set<String> getIncludesForHashCodeIntegrityTest() {
+		return Collections.emptySet();
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @return
+	 */
 	protected Set<String> getExcludesForEqualsIntegrityTest() {
 		return Collections.emptySet();
 	}
+	
+	/**
+	 * TODO
+	 *
+	 * @return
+	 */
+	protected Set<String> getIncludesForEqualsIntegrityTest() {
+		return Collections.emptySet();
+	}
+	
 	/**
 	 * TODO
 	 *
 	 * @return
 	 */
 	protected Set<String> getExcludesForToStringIntegrityTest() {
+		return Collections.emptySet();
+	}
+	
+	/**
+	 * TODO
+	 *
+	 * @return
+	 */
+	protected Set<String> getIncludesForToStringIntegrityTest() {
 		return Collections.emptySet();
 	}
 	
@@ -144,15 +174,6 @@ public abstract class JUnitBeast <T> {
 	 * @return
 	 */
 	protected Set<String> getExcludesForToStringNullSafetyTest() {
-		return Collections.emptySet();
-	}
-	
-	/**
-	 * TODO
-	 *
-	 * @return
-	 */
-	protected Set<String> getExcludesForToStringFormatTest() {
 		return Collections.emptySet();
 	}
 	

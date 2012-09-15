@@ -16,6 +16,15 @@
 
 package com.codereligion.beast;
 
+import com.codereligion.beast.internal.creation.ObjectFactory;
+
+import com.codereligion.beast.internal.test.Test;
+
+import com.codereligion.beast.internal.test.ToStringNullSafetyTest;
+
+
+import java.util.HashSet;
+
 import java.util.Set;
 
 /**
@@ -27,14 +36,11 @@ import java.util.Set;
  */
 public final class ToStringNullSafetyTestBuilder extends AbstractTestBuilder {
 
-	@Override
-	public ToStringNullSafetyTestBuilder addExcludedPropertyName(final String propertyName) {
-		return (ToStringNullSafetyTestBuilder) super.addExcludedPropertyName(propertyName);
-	}
+	private Set<String> excludedPropertyNames = new HashSet<String>();
 	
 	@Override
-	public ToStringNullSafetyTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		return (ToStringNullSafetyTestBuilder) super.addExcludedPropertyNames(propertyNames);
+	public <T> Test create(final Class<T> beanClass) {
+		return new ToStringNullSafetyTest<T>(beanClass, new ObjectFactory(this.instanceProviders), this.excludedPropertyNames);
 	}
 	
 	@Override
@@ -46,9 +52,36 @@ public final class ToStringNullSafetyTestBuilder extends AbstractTestBuilder {
 	public ToStringNullSafetyTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 		return (ToStringNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
-	
-	@Override
-	public <T> Test create(final Class<T> beanClass) {
-		return new ToStringNullSafetyTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
-	}
+
+	/**
+     * TODO
+     *
+     * @param propertyName
+     * @return
+     */
+	public ToStringNullSafetyTestBuilder addExcludedPropertyName(final String propertyName) {
+    	
+    	if (propertyName == null) {
+    		throw new NullPointerException("propertyName must not be null.");
+    	}
+    	
+    	this.excludedPropertyNames.add(propertyName);
+    	return this;
+    }
+
+	/**
+     * TODO
+     *
+     * @param propertyNames
+     * @return
+     */
+	public ToStringNullSafetyTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
+    	
+    	if (propertyNames == null) {
+    		throw new NullPointerException("propertyNames must not be null.");
+    	}
+    	
+    	this.excludedPropertyNames.addAll(propertyNames);
+    	return this;
+    }
 }

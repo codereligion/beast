@@ -16,6 +16,13 @@
 
 package com.codereligion.beast;
 
+import com.codereligion.beast.internal.creation.ObjectFactory;
+import com.codereligion.beast.internal.test.HashCodeIntegrityTest;
+import com.codereligion.beast.internal.test.Test;
+import com.codereligion.beast.internal.test.strategy.HashCodeIntegrityExcludeStrategy;
+import com.codereligion.beast.internal.test.strategy.HashCodeIntegrityIncludeStrategy;
+import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -29,16 +36,35 @@ import java.util.Set;
  */
 public final class HashCodeIntegrityTestBuilder extends AbstractTestBuilder {
 
-	@Override
-	public HashCodeIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
-		return (HashCodeIntegrityTestBuilder) super.addExcludedPropertyName(propertyName);
-	}
+	/**
+	 * TODO
+	 */
+	private Set<String> excludedPropertyNames = new HashSet<String>();
+	
+	/**
+	 * TODO
+	 */
+	private Set<String> includedPropertyNames = new HashSet<String>();
 	
 	@Override
-	public HashCodeIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		return (HashCodeIntegrityTestBuilder) super.addExcludedPropertyNames(propertyNames);
+	public <T> Test create(final Class<T> beanClass) {
+		
+		if (beanClass == null) {
+			throw new NullPointerException("beanClass must not be null.");
+		}
+		
+		final IntegrityStrategy integrityStrategy; 
+		
+		if (!this.includedPropertyNames.isEmpty()) {
+			integrityStrategy = new HashCodeIntegrityIncludeStrategy(this.includedPropertyNames);
+		} else {
+			// default strategy
+			integrityStrategy = new HashCodeIntegrityExcludeStrategy(this.excludedPropertyNames);
+		}
+		
+		return new HashCodeIntegrityTest<T>(beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
 	}
-	
+
 	@Override
 	public HashCodeIntegrityTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		return (HashCodeIntegrityTestBuilder) super.addInstanceProvider(instanceProvider);
@@ -48,9 +74,84 @@ public final class HashCodeIntegrityTestBuilder extends AbstractTestBuilder {
 	public HashCodeIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 		return (HashCodeIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
-	
-	@Override
-	public <T> Test create(final Class<T> beanClass) {
-		return new HashCodeIntegrityTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders));
-	}
+
+	/**
+     * TODO
+     *
+     * @param propertyName
+     * @return
+     */
+    public HashCodeIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
+    	
+    	if (propertyName == null) {
+    		throw new NullPointerException("propertyName must not be null.");
+    	}
+
+    	if (!this.excludedPropertyNames.isEmpty()) {
+    		throw new IllegalStateException("Adding an excludedPropertyName is not allowed, when includedPropertyNames where already provided.");
+    	}
+    	
+    	this.excludedPropertyNames.add(propertyName);
+    	return this;
+    }
+
+	/**
+     * TODO
+     *
+     * @param propertyNames
+     * @return
+     */
+    public HashCodeIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
+    	
+    	if (propertyNames == null) {
+    		throw new NullPointerException("propertyNames must not be null.");
+    	}
+    	
+    	if (!this.includedPropertyNames.isEmpty()) {
+    		throw new IllegalStateException("Adding excludedPropertyNames is not allowed, when includedPropertyNames where already provided.");
+    	}
+    	
+    	this.excludedPropertyNames.addAll(propertyNames);
+    	return this;
+    }
+    
+    /**
+     * TODO
+     *
+     * @param propertyName
+     * @return
+     */
+    public HashCodeIntegrityTestBuilder addIncludedPropertyName(final String propertyName) {
+    	
+    	if (propertyName == null) {
+    		throw new NullPointerException("propertyName must not be null.");
+    	}
+
+    	if (!this.includedPropertyNames.isEmpty()) {
+    		throw new IllegalStateException("Adding an includedPropertyName is not allowed, when excludedPropertyNames where already provided.");
+    	}
+    	
+    	this.includedPropertyNames.add(propertyName);
+    	return this;
+    }
+    
+    /**
+     * TODO
+     *
+     * @param propertyNames
+     * @return
+     */
+    public HashCodeIntegrityTestBuilder addIncludedPropertyNames(final Set<String> propertyNames) {
+    	
+    	if (propertyNames == null) {
+    		throw new NullPointerException("propertyNames must not be null.");
+    	}
+    	
+    	if (!this.excludedPropertyNames.isEmpty()) {
+    		throw new IllegalStateException("Adding includedPropertyNames is not allowed, when excludedPropertyNames where already provided.");
+    	}
+    	
+    	this.includedPropertyNames.addAll(propertyNames);
+    	return this;
+    }
 }

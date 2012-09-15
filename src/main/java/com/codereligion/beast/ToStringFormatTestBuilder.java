@@ -16,8 +16,9 @@
 
 package com.codereligion.beast;
 
-import java.util.HashSet;
-
+import com.codereligion.beast.internal.creation.ObjectFactory;
+import com.codereligion.beast.internal.test.Test;
+import com.codereligion.beast.internal.test.ToStringFormatTest;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -29,73 +30,19 @@ import java.util.regex.Pattern;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class ToStringFormatTestBuilder {
+public final class ToStringFormatTestBuilder extends AbstractTestBuilder {
 	
-	protected Set<String> excludedPropertyNames = new HashSet<String>();
-	protected Set<InstanceProvider<?>> instanceProviders = new HashSet<InstanceProvider<?>>();
+	// TODO extend to be able to cover lists and array and other complex objects as values
+	private static Pattern DEFAULT_PATTERN = Pattern.compile(".+\\{(.+=.+, )*(.+=.+)?\\}");
 	
-	/**
-	 * TODO
-	 *
-	 * @param propertyName
-	 * @return
-	 */
-	public ToStringFormatTestBuilder addExcludedPropertyName(final String propertyName) {
-		
-		if (propertyName == null) {
-			throw new NullPointerException("propertyName must not be null.");
-		}
-		
-		this.excludedPropertyNames.add(propertyName);
-		return this;
-	}
+	private Pattern pattern = DEFAULT_PATTERN;
 	
 	/**
 	 * TODO
-	 *
-	 * @param propertyNames
-	 * @return
 	 */
-	public ToStringFormatTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		
-		if (propertyNames == null) {
-			throw new NullPointerException("propertyNames must not be null.");
-		}
-		
-		this.excludedPropertyNames.addAll(propertyNames);
-		return this;
-	}
-	
-	/**
-	 * TODO
-	 *
-	 * @param instanceProvider
-	 * @return
-	 */
-	public ToStringFormatTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
-		
-		if (instanceProvider == null) {
-			throw new NullPointerException("instanceProvider must not be null.");
-		}
-		
-		this.instanceProviders.add(instanceProvider);
-		return this;
-	}
-	
-	/**
-	 * TODO
-	 *
-	 * @param instanceProviders
-	 * @return
-	 */
-	public ToStringFormatTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
-
-		if (instanceProviders == null) {
-			throw new NullPointerException("instanceProviders must not be null.");
-		}
-		
-		this.instanceProviders.addAll(instanceProviders);
-		return this;
+	@Override
+	public <T> Test create(final Class<T> beanClass) {
+		return create(beanClass, this.pattern);
 	}
 	
 	/**
@@ -106,7 +53,7 @@ public final class ToStringFormatTestBuilder {
 	 * @return
 	 */
 	public <T> Test create(final Class<T> beanClass, final Pattern pattern) {
-		return new ToStringFormatTest<T>(beanClass, this.excludedPropertyNames, new ObjectFactory(this.instanceProviders), pattern);
+		return new ToStringFormatTest<T>(beanClass, new ObjectFactory(this.instanceProviders), pattern);
 	}
 	
 	/**
@@ -117,5 +64,15 @@ public final class ToStringFormatTestBuilder {
 	 */
 	public <T> void createAndRun(final Class<T> beanClass, final Pattern pattern) {
 		create(beanClass, pattern).run();
+	}
+
+	@Override
+	public ToStringFormatTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+		return (ToStringFormatTestBuilder) super.addInstanceProvider(instanceProvider);
+	}
+	
+	@Override
+	public ToStringFormatTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+		return (ToStringFormatTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 }
