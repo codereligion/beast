@@ -14,70 +14,70 @@
  * limitations under the License.
  */
 
-package com.codereligion.beast.internal.test;
+package com.codereligion.beast;
+
+import com.codereligion.beast.internal.test.ToStringNullSafetyTest;
 
 import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.ExceptionThrowingSetter;
-import com.codereligion.beast.object.MissingHashCodeImplementation;
-import com.codereligion.beast.object.NullPointerInHashCode;
+import com.codereligion.beast.object.MissingToStringImplementation;
+import com.codereligion.beast.object.MissingNullCheckInToString;
 
-import com.codereligion.beast.HashCodeNullSafetyTestBuilder;
+import com.codereligion.beast.ToStringNullSafetyTestBuilder;
 
 
 
 import com.google.common.collect.Sets;
-import com.google.common.hash.HashCode;
 import org.junit.Test;
 
 /**
- * Tests {@link HashCode}.
+ * Tests {@link ToStringNullSafetyTest}.
  * 
  * @author Sebastian Gröbler
  * @since 14.08.2012
  */
-public class HashCodeNullSafetyTesterTest {
-	
+public class ToStringNullSafetyTestIntegrationTest {
+
 	@Test(expected = NullPointerException.class)
 	public void testWithNullClass() {
-		new HashCodeNullSafetyTestBuilder()
+		new ToStringNullSafetyTestBuilder()
 			.create(null)
 			.run();
 	}
-
+	
 	@Test
 	public void testValidClass() {
-		new HashCodeNullSafetyTestBuilder()
+		new ToStringNullSafetyTestBuilder()
 			.create(ComplexClass.class)
 			.run();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testMissingImplementingClass() {
-		new HashCodeNullSafetyTestBuilder()
-			.create(MissingHashCodeImplementation.class)
-			.run();
-	}
-
-	@Test(expected = AssertionError.class)
-	public void testWithNullPointerInHashCode() {
-		new HashCodeNullSafetyTestBuilder()
-			.create(NullPointerInHashCode.class)
+		new ToStringNullSafetyTestBuilder()
+			.create(MissingToStringImplementation.class)
 			.run();
 	}
 	
+	@Test(expected = AssertionError.class)
+	public void testWithNullPointerInToString() {
+		new ToStringNullSafetyTestBuilder()
+			.create(MissingNullCheckInToString.class)
+			.run();
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithExceptionThrowingSetter() {
-		new HashCodeNullSafetyTestBuilder()
+		new ToStringNullSafetyTestBuilder()
 			.create(ExceptionThrowingSetter.class)
 			.run();
 	}
 	
-	
 	@Test
-	public void testWithNullPointerInHashCodeWithExcludes() {
-		new HashCodeNullSafetyTestBuilder()
+	public void testWithExceptionThrowingSetterForExcludedProperty() {
+		new ToStringNullSafetyTestBuilder()
 			.addExcludedPropertyNames(Sets.newHashSet("complexObject"))
-			.create(NullPointerInHashCode.class)
+			.create(MissingNullCheckInToString.class)
 			.run();
 	}
 }

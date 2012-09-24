@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.codereligion.beast.internal.test;
+package com.codereligion.beast;
+
+import com.codereligion.beast.object.ExceptionThrowingSetter;
 
 import com.codereligion.beast.internal.test.ToStringIntegrityTest;
 
@@ -35,7 +37,7 @@ import org.junit.Test;
  * @author Sebastian Gröbler
  * @since 14.08.2012
  */
-public class ToStringIntegrityTesterTest {
+public class ToStringIntegrityTestIntegrationTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testWithNullClass() {
@@ -85,6 +87,37 @@ public class ToStringIntegrityTesterTest {
 		new ToStringIntegrityTestBuilder()
 			.addExcludedPropertyNames(Sets.newHashSet("bar"))
 			.create(MissingPropertyInToString.class)
+			.run();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testWithExceptionThrowingSetter() {
+		new ToStringIntegrityTestBuilder()
+			.create(ExceptionThrowingSetter.class)
+			.run();
+	}
+
+	@Test
+	public void testWithExceptionThrowingSetterForExcludedProperty() {
+		new ToStringIntegrityTestBuilder()
+			.addExcludedPropertyNames(Sets.newHashSet("foo"))
+			.create(ExceptionThrowingSetter.class)
+			.run();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testWithExceptionThrowingSetterForIncludedProperty() {
+		new ToStringIntegrityTestBuilder()
+			.addIncludedPropertyNames(Sets.newHashSet("foo"))
+			.create(ExceptionThrowingSetter.class)
+			.run();
+	}
+	
+	@Test
+	public void testWithExceptionThrowingSetterForNonIncludedProperty() {
+		new ToStringIntegrityTestBuilder()
+			.addIncludedPropertyNames(Sets.newHashSet("bar"))
+			.create(ExceptionThrowingSetter.class)
 			.run();
 	}
 }

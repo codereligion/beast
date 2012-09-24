@@ -20,7 +20,7 @@ package com.codereligion.beast.internal.test;
 
 
 /**
- * TODO
+ * Common interface for a test.
  * 
  * @author Sebastian Gröbler
  * @since 11.08.2012

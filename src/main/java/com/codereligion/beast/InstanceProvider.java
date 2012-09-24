@@ -231,7 +231,7 @@ public final class InstanceProvider <T> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.instanceClass == null) ? 0 : this.instanceClass.hashCode());
+		result = prime * result + this.instanceClass.hashCode();
 		result = prime * result + ((this.propertyName == null) ? 0 : this.propertyName.hashCode());
 		return result;
 	}
@@ -253,10 +253,7 @@ public final class InstanceProvider <T> {
 	    
 	    @SuppressWarnings("unchecked")
         final InstanceProvider<T> other = (InstanceProvider<T>) obj;
-	    if (this.instanceClass == null) {
-		    if (other.instanceClass != null)
-			    return false;
-	    } else if (!this.instanceClass.equals(other.instanceClass))
+	    if (!this.instanceClass.equals(other.instanceClass))
 		    return false;
 	    if (this.propertyName == null) {
 		    if (other.propertyName != null)

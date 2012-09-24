@@ -32,6 +32,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 
 /**
+ * TODO update documentations
  * Factory for creating test objects.
  *
  * @author Sebastian Gröbler
@@ -85,23 +86,15 @@ public final class ObjectFactory {
 	
 	/**
 	 * Constructs a new instance.
-	 */
-	public ObjectFactory() {
-		// add default instance providers
-		for (final InstanceProvider<?> instanceProvider : DEFAULT_INSTANCE_PROVIDERS) {
-			createMapping(instanceProvider);
-		}
-	}
-	
-	/**
-	 * Constructs a new instance.
 	 *
 	 * @param customInstanceProviders
 	 */
 	public ObjectFactory(final Set<InstanceProvider<?>> customInstanceProviders) {
 		
 		// add default instance providers
-		this();
+		for (final InstanceProvider<?> instanceProvider : DEFAULT_INSTANCE_PROVIDERS) {
+			createMapping(instanceProvider);
+		}
 		
 		// add custom instance providers
 		for (final InstanceProvider<?> instanceProvider : customInstanceProviders) {
@@ -470,4 +463,39 @@ public final class ObjectFactory {
 		});
         return (T) enhancer.create();
 	}
+
+	@Override
+    public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + this.instanceProviderMap.hashCode();
+	    return result;
+    }
+
+	@Override
+    public boolean equals(Object obj) {
+	    if (this == obj) {
+	    	return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (getClass() != obj.getClass()) {
+		    return false;
+	    }
+	    final ObjectFactory other = (ObjectFactory) obj;
+	    if (!this.instanceProviderMap.equals(other.instanceProviderMap)) {
+		    return false;
+	    }
+	    return true;
+    }
+
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append("ObjectFactory [instanceProviderMap=");
+	    builder.append(this.instanceProviderMap);
+	    builder.append("]");
+	    return builder.toString();
+    }
 }

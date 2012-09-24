@@ -22,7 +22,7 @@ package com.codereligion.beast.object;
  * @author Sebastian Gröbler
  * @since 16.08.2012
  */
-public class NullPointerInEquals {
+public class MissingNullCheckForGivenInEquals {
 
 	private int foo;
 	private boolean bar;
@@ -52,40 +52,34 @@ public class NullPointerInEquals {
 	public void setComplexObject(final ComplexClass complexObject) {
 		this.complexObject = complexObject;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (this.bar ? 1231 : 1237);
-		result = prime * result + ((this.complexObject == null) ? 0 : this.complexObject.hashCode());
-		result = prime * result + this.foo;
-		return result;
-	}
 	
 	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof NullPointerInEquals)) {
-			return false;
-		}
-		final NullPointerInEquals other = (NullPointerInEquals) obj;
-		if (this.bar != other.bar) {
-			return false;
-		}
-		if (!this.complexObject.equals(other.complexObject)) {
-			return false;
-		}
-		if (this.foo != other.foo) {
-			return false;
-		}
-		return true;
-	}
+    public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + (this.bar ? 1231 : 1237);
+	    result = prime * result + ((this.complexObject == null) ? 0 : this.complexObject.hashCode());
+	    result = prime * result + this.foo;
+	    return result;
+    }
+
+	@Override
+    public boolean equals(Object obj) {
+	    if (this == obj)
+		    return true;
+	    if (obj == null)
+		    return false;
+	    if (getClass() != obj.getClass())
+		    return false;
+	    MissingNullCheckForGivenInEquals other = (MissingNullCheckForGivenInEquals) obj;
+	    if (this.bar != other.bar)
+		    return false;
+	    if (!other.complexObject.equals(this.complexObject))
+		    return false;
+	    if (this.foo != other.foo)
+		    return false;
+	    return true;
+    }
 
 	@Override
 	public String toString() {

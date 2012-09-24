@@ -17,6 +17,7 @@
 package com.codereligion.beast;
 
 import com.codereligion.beast.internal.creation.ObjectFactory;
+import com.codereligion.beast.internal.test.AbstractTestBuilder;
 import com.codereligion.beast.internal.test.HashCodeIntegrityTest;
 import com.codereligion.beast.internal.test.Test;
 import com.codereligion.beast.internal.test.strategy.HashCodeIntegrityExcludeStrategy;

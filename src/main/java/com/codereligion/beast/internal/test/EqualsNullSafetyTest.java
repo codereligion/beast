@@ -18,12 +18,11 @@ package com.codereligion.beast.internal.test;
 
 import static com.codereligion.beast.internal.util.Assert.fail;
 
-import java.util.Collections;
+import java.lang.reflect.InvocationTargetException;
 
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.creation.ObjectMethodNames;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 import java.util.Set;
 
 
@@ -34,13 +33,8 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class EqualsNullSafetyTest<T> extends AbstractTest<T> {
+public final class EqualsNullSafetyTest<T> extends AbstractNullSafetyTest<T> {
 	
-	/**
-	 * TODO
-	 */
-	private final Set<String> excludedPropertyNames;
-
     /**
      * TODO
 	 * Constructs a new instance.
@@ -54,20 +48,13 @@ public final class EqualsNullSafetyTest<T> extends AbstractTest<T> {
     		final ObjectFactory objectFactory,
     		final Set<String> excludedPropertyNames) {
     	
-        super(beanClass, objectFactory);
+        super(beanClass, objectFactory, excludedPropertyNames);
         
         if (!isMethodImplemented(ObjectMethodNames.EQUALS)) {
         	throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " does not implement equals.");
         }
-        
-        if (excludedPropertyNames == null) {
-    		throw new NullPointerException("excludedPropertyNames must not be null.");
-    	}
-    	
-    	this.excludedPropertyNames = Collections.unmodifiableSet(excludedPropertyNames);
     }
 
-    // TODO alert when property is excluded from null safety but is actually null safe
     @Override
     public void run() {
         final T defaultObject = newBeanObject();
@@ -79,35 +66,87 @@ public final class EqualsNullSafetyTest<T> extends AbstractTest<T> {
             if (propertyType.isPrimitive()) {
             	continue;
             }
-            
-            if (this.excludedPropertyNames.contains(propertyName)) {
-            	continue;
-            }
 
             final T dirtyObject = newBeanObject();
-            final Method setter = property.getWriteMethod();
 
-            setValue(dirtyObject, setter, null);
-
-            // TODO maybe split in two try catches to give better message what the problem is
             try {
-            	defaultObject.equals(dirtyObject);
-            	dirtyObject.equals(defaultObject);
-            	// TODO should this not better be in another test?
-//                assertFalse(defaultObject.equals(dirtyObject),
-//                		"If the property '%s' is null on one instance and not null on another " +
-//                		"instance the equals method should return false when applied to those instances.",
-//                		propertyName);
-//                
-//                assertFalse(dirtyObject.equals(defaultObject),
-//                		"If the property '%s' is null on one instance and not null on another " +
-//				    	"instance the equals method should return false when applied to those instances.",
-//				    	propertyName);
-                
-            } catch (final NullPointerException e) {
-            	fail("If the property '%s' is null, calling the equals method throws a NullPointerException. " +
-            		 "If the property can never be null add it to the excludedPropertyNames.", propertyName);
+	            setValue(dirtyObject, property, null);
+	            boolean equalsThrowsNullPointerException = false;
+	            
+	            try {
+	            	defaultObject.equals(dirtyObject);
+	            	dirtyObject.equals(defaultObject);
+	            } catch (final NullPointerException e) {
+	            	equalsThrowsNullPointerException = true;
+	            }
+	            
+	            final boolean isExcluded = this.excludedPropertyNames.contains(propertyName);
+	            final boolean equalsThrowsUnexpectedNullPointerException = !isExcluded && equalsThrowsNullPointerException;
+	            if (equalsThrowsUnexpectedNullPointerException) {
+	            	fail("If the property '%s' is null, calling the equals method throws a NullPointerException. " +
+	            			"Add the property name to the excludedPropertyNames, if it can never be null.", propertyName);
+	            }
+	            
+	            final boolean unnecessarilyExcluded = isExcluded && !equalsThrowsNullPointerException;
+	            if (unnecessarilyExcluded) {
+	            	fail("The property '%s' is contained the excludedPropertyNames, but is actually handled null-safe. " +
+	            			"Remove the property from the excludedPropertyNames.", propertyName);
+	            }
+            } catch (final InvocationTargetException e) {
+            	handlePropertySetterExcetion(property, e);
             }
+            
         }
+    }
+    
+
+	@Override
+    public boolean equals(final Object obj) {
+		if (this == obj) {
+		    return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (getClass() != obj.getClass()) {
+		    return false;
+	    }
+	    
+	    @SuppressWarnings("rawtypes")
+        final EqualsNullSafetyTest other = (EqualsNullSafetyTest) obj;
+	    
+	    if (!this.beanClass.equals(other.beanClass)) {
+		    return false;
+	    } 
+	    if (!this.excludedPropertyNames.equals(other.excludedPropertyNames)) {
+		    return false;
+	    } 
+	    if (!this.beanClassCanonicalName.equals(other.beanClassCanonicalName)) {
+	    	return false;
+	    } 
+	    if (!this.objectFactory.equals(other.objectFactory)) {
+		    return false;
+	    } 
+	    if (!this.settableProperties.equals(other.settableProperties)) {
+		    return false;
+	    }
+    	return true;
+    }
+
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append("EqualsNullSafetyTest [beanClass=");
+	    builder.append(this.beanClass);
+	    builder.append(", excludedPropertyNames=");
+	    builder.append(this.excludedPropertyNames);
+	    builder.append(", beanClassCanonicalName=");
+	    builder.append(this.beanClassCanonicalName);
+	    builder.append(", settableProperties=");
+	    builder.append(this.settableProperties);
+	    builder.append(", objectFactory=");
+	    builder.append(this.objectFactory);
+	    builder.append("]");
+	    return builder.toString();
     }
 }

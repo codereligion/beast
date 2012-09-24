@@ -18,7 +18,7 @@
 package com.codereligion.beast.internal.util;
 
 /**
- * TODO
+ * Utility class for handling and throwing of {@link AssertionError}s.
  *
  * @author Sebastian Gröbler
  * @since 11.09.2012

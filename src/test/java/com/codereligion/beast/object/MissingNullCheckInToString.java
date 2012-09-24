@@ -17,15 +17,16 @@
 package com.codereligion.beast.object;
 
 /**
- * Test class with missing null check in equals implementation.
- *
+ * Test class with missing property in toString implementation.
+ * 
  * @author Sebastian Gröbler
  * @since 16.08.2012
  */
-public class MissingNullCheckInEquals {
+public class MissingNullCheckInToString {
 
 	private int foo;
-	private ComplexClass bar;
+	private boolean bar;
+	private ComplexClass complexObject;
 
 	public int getFoo() {
 		return this.foo;
@@ -35,19 +36,29 @@ public class MissingNullCheckInEquals {
 		this.foo = foo;
 	}
 
-	public ComplexClass getBar() {
+	public boolean isBar() {
 		return this.bar;
 	}
 
-	public void setBar(final ComplexClass bar) {
+	public void setBar(final boolean bar) {
 		this.bar = bar;
+	}
+
+	public ComplexClass getComplexObject() {
+		return this.complexObject;
+	}
+
+	public void setComplexObject(final ComplexClass complexObject) {
+		this.complexObject = complexObject;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.bar == null) ? 0 : this.bar.hashCode());
+		result = prime * result + (this.bar ? 1231 : 1237);
+		result = prime * result
+				+ ((this.complexObject == null) ? 0 : this.complexObject.hashCode());
 		result = prime * result + this.foo;
 		return result;
 	}
@@ -60,8 +71,13 @@ public class MissingNullCheckInEquals {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final MissingNullCheckInEquals other = (MissingNullCheckInEquals) obj;
-		if (!this.bar.equals(other.bar))
+		final MissingNullCheckInToString other = (MissingNullCheckInToString) obj;
+		if (this.bar != other.bar)
+			return false;
+		if (this.complexObject == null) {
+			if (other.complexObject != null)
+				return false;
+		} else if (!this.complexObject.equals(other.complexObject))
 			return false;
 		if (this.foo != other.foo)
 			return false;
@@ -71,10 +87,12 @@ public class MissingNullCheckInEquals {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("MissingNullCheckInEquals [foo=");
+		builder.append("MissingNullCheckInToString [foo=");
 		builder.append(this.foo);
 		builder.append(", bar=");
 		builder.append(this.bar);
+		builder.append(", complexObject=");
+		builder.append(this.complexObject.toString());
 		builder.append("]");
 		return builder.toString();
 	}

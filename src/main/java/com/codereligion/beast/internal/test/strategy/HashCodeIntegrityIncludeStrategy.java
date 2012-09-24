@@ -23,18 +23,31 @@ import java.util.Set;
 
 
 /**
- * TODO update documentation
- *
+ * Tests the integrity of the hashCode implementation by using an include strategy. This means the user can provide
+ * included properties which must be included in the hashCode implementation. This approach is specifically
+ * useful when the class under test has properties of which only one or a few properties must be considered in 
+ * the hashCode implementation e.g. for performance reasons. Good include candidates may be primary keys, foreign keys
+ * and alike properties.
+ * 
+ * <p>
+ * This strategy will throw an {@link AssertionError} if it finds a property which has not been included by the user
+ * and is included in the hashCode implementation.
+ * 
+ * <p>
+ * Furthermore it will throw an {@link AssertionError} if it finds a property which has been included by the user
+ * but is excluded in the hashCode implementation, thus has been included unnecessarily .
+ * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
+ * @see HashCodeIntegrityExcludeStrategy
  */
-public final class HashCodeIntegrityIncludeStrategy extends IntegrityStrategy {
+public final class HashCodeIntegrityIncludeStrategy extends AbstractIntegrityIncludeStrategy {
 	
-    /**
-     * TODO
-     * Constructs an instance.
+	/**
+     * Constructs an instance with the given {@code propertyNames} to be included.
      *
-     * @param propertyNames
+     * @param propertyNames the names of the properties which should be included
+     * @throws NullPointerException when the given parameter is {@code null}
      */
     public HashCodeIntegrityIncludeStrategy(final Set<String> propertyNames) {
     	super(propertyNames);
@@ -45,21 +58,49 @@ public final class HashCodeIntegrityIncludeStrategy extends IntegrityStrategy {
     	
     	final boolean hashCodesAreEqual = defaultObject.hashCode() == dirtyObject.hashCode();
     	final boolean isIncluded = this.propertyNames.contains(propertyName);
-		final boolean isUnnecessarilyIncluded = hashCodesAreEqual && isIncluded;
-		
-		assertFalse(isUnnecessarilyIncluded,
-				"The property '%s' was specified as includedProperty, but may not be supported by the hash code " +
-				"implementation or the generated hashCode may be to weak to reflect changes in this property. " +
-				"Either remove it from the includedProperties, or add it to the implementation of the hash code method. " +
-				"In case the property is already added try to increase the strength of the generated hash code.",
-				propertyName);
-		
 		final boolean isUnintentionallyMissing = !hashCodesAreEqual && !isIncluded;
 		
 		assertFalse(isUnintentionallyMissing,
 					"The property '%s' is supported by the hashCode implementation, but is not specified " +
 					"as includedProperty. Either add it to the includedProperties, or remove it " +
-					"from the implementation of the equals method.",
+					"from the implementation of the hashCode method.",
 					propertyName);
+
+		final boolean isUnnecessarilyIncluded = hashCodesAreEqual && isIncluded;
+    	
+    	assertFalse(isUnnecessarilyIncluded,
+    			"The property '%s' was specified as includedProperty, but may not be supported by the hash code " +
+    			"implementation or the generated hashCode may be to weak to reflect changes in this property. " +
+    			"Either remove it from the includedProperties, or add it to the implementation of the hash code method. " +
+    			"In case the property is already added try to increase the strength of the generated hash code.",
+    			propertyName);
+    }
+
+	@Override
+    public boolean equals(final Object obj) {
+		if (this == obj) {
+		    return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (getClass() != obj.getClass()) {
+		    return false;
+	    }
+	    
+	    final HashCodeIntegrityIncludeStrategy other = (HashCodeIntegrityIncludeStrategy) obj;
+	    if (!this.propertyNames.equals(other.propertyNames)) {
+	    	return false;
+	    }
+	    return true;
+    }
+
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append("HashCodeIntegrityIncludeStrategy [propertyNames=");
+	    builder.append(this.propertyNames);
+	    builder.append("]");
+	    return builder.toString();
     }
 }

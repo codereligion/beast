@@ -32,10 +32,7 @@ public class ExceptionThrowingSetter {
 	}
 
 	public void setFoo(final Integer foo) {
-		if (foo == null) {
-			throw new UnsupportedOperationException();
-		}
-		this.foo = foo;
+		throw new UnsupportedOperationException();
 	}
 
 	public Boolean getBar() {

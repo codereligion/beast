@@ -23,18 +23,30 @@ import java.util.Set;
 
 
 /**
- * TODO update documentation
- *
+ * Tests the integrity of the hashCode implementation by using an exclude strategy. This means the user can provide
+ * excluded properties which must not be included in the hashCode implementation. This approach is specifically
+ * useful when the class under test has properties of which the majority must be considered in the 
+ * hashCode implementation. 
+ * 
+ * <p>
+ * This strategy will throw an {@link AssertionError} if it finds a property which has not been excluded by the user
+ * and is not included in the hashCode implementation.
+ * 
+ * <p>
+ * Furthermore it will throw an {@link AssertionError} if it finds a property which has been excluded by the user
+ * but is included in the hashCode implementation, thus has been excluded unnecessarily .
+ * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
+ * @see HashCodeIntegrityIncludeStrategy
  */
-public final class HashCodeIntegrityExcludeStrategy extends IntegrityStrategy {
+public final class HashCodeIntegrityExcludeStrategy extends AbstractIntegrityExcludeStrategy {
 	
-    /**
-     * TODO
-     * Constructs an instance.
+	/**
+     * Constructs an instance with the given {@code propertyNames} to be excluded.
      *
-     * @param propertyNames
+     * @param propertyNames the names of the properties which should be excluded
+     * @throws NullPointerException when the given parameter is {@code null}
      */
     public HashCodeIntegrityExcludeStrategy(final Set<String> propertyNames) {
     	super(propertyNames);
@@ -45,14 +57,6 @@ public final class HashCodeIntegrityExcludeStrategy extends IntegrityStrategy {
     	
     	final boolean hashCodesAreEqual = defaultObject.hashCode() == dirtyObject.hashCode();
     	final boolean isExcluded = this.propertyNames.contains(propertyName);
-		final boolean isUnnecessarilyExcluded = !hashCodesAreEqual && isExcluded;
-		
-		assertFalse(isUnnecessarilyExcluded,
-					"The property '%s' is contained the excludedPropertyNames, but is actually " +
-					"supported by the hashCode implementation. Either remove it from the " +
-					"excludedPropertyNames or the hashCode implementation.",
-					propertyName);
-		
 		final boolean isUnintentionallyMissing = hashCodesAreEqual && !isExcluded;
 		
 		assertFalse(isUnintentionallyMissing,
@@ -60,5 +64,41 @@ public final class HashCodeIntegrityExcludeStrategy extends IntegrityStrategy {
 					"may be to weak to reflect changes in this property. If the property is not included and this is " +
 					"intentional add it to the excludedPropertyNames.",
 					propertyName);
+    	
+    	final boolean isUnnecessarilyExcluded = !hashCodesAreEqual && isExcluded;
+    	
+    	assertFalse(isUnnecessarilyExcluded,
+    			"The property '%s' is contained the excludedPropertyNames, but is actually " +
+    			"supported by the hashCode implementation. Either remove it from the " +
+    			"excludedPropertyNames or the hashCode implementation.",
+    			propertyName);
+    }
+
+	@Override
+    public boolean equals(final Object obj) {
+		if (this == obj) {
+		    return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (getClass() != obj.getClass()) {
+		    return false;
+	    }
+	    
+	    final HashCodeIntegrityExcludeStrategy other = (HashCodeIntegrityExcludeStrategy) obj;
+	    if (!this.propertyNames.equals(other.propertyNames)) {
+		    return false;
+	    }
+	    return true;
+    }
+
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append("HashCodeIntegrityExcludeStrategy [propertyNames=");
+	    builder.append(this.propertyNames);
+	    builder.append("]");
+	    return builder.toString();
     }
 }

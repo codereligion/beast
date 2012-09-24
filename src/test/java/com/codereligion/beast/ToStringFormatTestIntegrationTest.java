@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package com.codereligion.beast.internal.test;
+package com.codereligion.beast;
+
+import com.codereligion.beast.object.ExceptionThrowingSetter;
+import com.google.common.collect.Sets;
 
 import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.MissingToStringImplementation;
@@ -33,7 +36,7 @@ import org.junit.Test;
  * @author Sebastian Gröbler
  * @since 14.08.2012
  */
-public class ToStringFormatTesterTest {
+public class ToStringFormatTestIntegrationTest {
 
 	private static final Pattern ECLIPSE_TO_STRING_PATTERN = Pattern.compile(".+ \\[(.+=.+, )*(.+=.+)?\\]");
 	
@@ -69,6 +72,22 @@ public class ToStringFormatTesterTest {
 	public void testWithWrongFormat() {
 		new ToStringFormatTestBuilder()
 			.create(WrongFormatInToString.class, ECLIPSE_TO_STRING_PATTERN)
+			.run();
+	}
+	
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testWithExceptionThrowingSetter() {
+		new EqualsNullSafetyTestBuilder()
+			.create(ExceptionThrowingSetter.class)
+			.run();
+	}
+	
+	@Test
+	public void testWithExceptionThrowingSetterForExcludedProperty() {
+		new EqualsNullSafetyTestBuilder()
+			.addExcludedPropertyNames(Sets.newHashSet("foo"))
+			.create(ExceptionThrowingSetter.class)
 			.run();
 	}
 }

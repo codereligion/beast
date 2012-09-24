@@ -100,12 +100,12 @@ public final class ReflectUtil {
 	}
 
 	/**
+	 * TODO update exception documentation
 	 * This method provides a workaround for the java bug documented here: http://bugs.sun.com/view_bug.do?bug_id=6528714
 	 * 
 	 * @param beanClass the {@link Class} to which the given {@code propertyDescriptor} belongs
 	 * @param propertyDescriptor the {@link PropertyDescriptor} to potentially workaround
 	 * @return either the given {@code propertyDescriptor} or a new one which reflects the underlying property correctly
-	 * TODO update exception documentation
 	 * @throws IntrospectionException when instantiation of a new {@link PropertyDescriptor} failed
 	 */
 	private static PropertyDescriptor getGenericTypeAwarePropertyDescriptor (

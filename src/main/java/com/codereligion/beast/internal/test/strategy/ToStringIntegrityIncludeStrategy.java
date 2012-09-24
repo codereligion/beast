@@ -23,19 +23,31 @@ import java.util.Set;
 
 
 /**
- * TODO update documentation
- * Tests the equals implementation of a java bean.
- *
+ * Tests the integrity of the toString implementation by using an include strategy. This means the user can provide
+ * included properties which must be included in the toString implementation. This approach is specifically
+ * useful when the class under test has properties of which only one or a few properties must be considered in 
+ * the toString implementation e.g. for performance reasons. Good include candidates may be primary keys, foreign keys
+ * and alike properties.
+ * 
+ * <p>
+ * This strategy will throw an {@link AssertionError} if it finds a property which has not been included by the user
+ * and is included in the toString implementation.
+ * 
+ * <p>
+ * Furthermore it will throw an {@link AssertionError} if it finds a property which has been included by the user
+ * but is excluded in the toString implementation, thus has been included unnecessarily .
+ * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
+ * @see ToStringIntegrityExcludeStrategy
  */
-public final class ToStringIntegrityIncludeStrategy extends IntegrityStrategy {
+public final class ToStringIntegrityIncludeStrategy extends AbstractIntegrityIncludeStrategy {
 	
-    /**
-     * TODO
-     * Constructs an instance.
+	/**
+     * Constructs an instance with the given {@code propertyNames} to be included.
      *
-     * @param propertyNames
+     * @param propertyNames the names of the properties which should be included
+     * @throws NullPointerException when the given parameter is {@code null}
      */
     public ToStringIntegrityIncludeStrategy(final Set<String> propertyNames) {
     	super(propertyNames);
@@ -45,14 +57,6 @@ public final class ToStringIntegrityIncludeStrategy extends IntegrityStrategy {
     public void apply(final Object defaultObject, final Object dirtyObject, final String propertyName) {
 		final boolean areEqual = defaultObject.toString().equals(dirtyObject.toString());
 		final boolean isIncluded = this.propertyNames.contains(propertyName);
-		final boolean isUnnecessarilyIncluded = areEqual && isIncluded;
-		
-		assertFalse(isUnnecessarilyIncluded,
-					"The property '%s' is not supported by the toString implementation, but was specified as " +
-					"includedProperty. Either remove it from the includedProperties, or add it " +
-					"to the implementation of the toString method.",
-					propertyName);
-		
 		final boolean isUnintentionallyMissing = !areEqual && !isIncluded;
 		
 		assertFalse(isUnintentionallyMissing,
@@ -60,5 +64,41 @@ public final class ToStringIntegrityIncludeStrategy extends IntegrityStrategy {
 					"as includedProperty. Either add it to the includedProperties, or remove it " +
 					"from the implementation of the toString method.",
 					propertyName);
+
+		final boolean isUnnecessarilyIncluded = areEqual && isIncluded;
+    	
+    	assertFalse(isUnnecessarilyIncluded,
+    			"The property '%s' is not supported by the toString implementation, but was specified as " +
+    			"includedProperty. Either remove it from the includedProperties, or add it " +
+    			"to the implementation of the toString method.",
+    			propertyName);
+    }
+
+	@Override
+    public boolean equals(final Object obj) {
+		if (this == obj) {
+		    return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (getClass() != obj.getClass()) {
+		    return false;
+	    }
+	    
+	    final ToStringIntegrityIncludeStrategy other = (ToStringIntegrityIncludeStrategy) obj;
+	    if (!this.propertyNames.equals(other.propertyNames)) {
+		    return false;
+		}
+	    return true;
+    }
+
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append("ToStringIntegrityIncludeStrategy [propertyNames=");
+	    builder.append(this.propertyNames);
+	    builder.append("]");
+	    return builder.toString();
     }
 }

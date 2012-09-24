@@ -28,7 +28,8 @@ public abstract class JUnitBeast <T> {
 			.addExcludedPropertyNames(getExcludesForEqualsIntegrityTest())
 			.addIncludedPropertyNames(getIncludesForEqualsIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
-			.createAndRun(getClazz());
+			.create(getClazz())
+			.run();
 	}
 	
 	@Test
@@ -36,7 +37,8 @@ public abstract class JUnitBeast <T> {
 		new EqualsNullSafetyTestBuilder()
 			.addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
 			.addInstanceProviders(getInstanceProviders())
-			.createAndRun(getClazz());
+			.create(getClazz())
+		.run();
 	}
 	
 	@Test
@@ -45,7 +47,8 @@ public abstract class JUnitBeast <T> {
 			.addExcludedPropertyNames(getExcludesForHashCodeIntegrityTest())
 			.addIncludedPropertyNames(getIncludesForHashCodeIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
-			.createAndRun(getClazz());
+			.create(getClazz())
+			.run();
 	}
 	
 	@Test
@@ -53,7 +56,8 @@ public abstract class JUnitBeast <T> {
 		new HashCodeNullSafetyTestBuilder()
 			.addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
 			.addInstanceProviders(getInstanceProviders())
-			.createAndRun(getClazz());
+			.create(getClazz())
+			.run();
 	}
 	
 	@Test
@@ -62,7 +66,8 @@ public abstract class JUnitBeast <T> {
 			.addExcludedPropertyNames(getExcludesForToStringIntegrityTest())
 			.addIncludedPropertyNames(getIncludesForToStringIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
-			.createAndRun(getClazz());
+			.create(getClazz())
+			.run();
 	}
 	
 	@Test
@@ -70,14 +75,16 @@ public abstract class JUnitBeast <T> {
 		new ToStringNullSafetyTestBuilder()
 			.addExcludedPropertyNames(getExcludesForToStringNullSafetyTest())
 			.addInstanceProviders(getInstanceProviders())
-			.createAndRun(getClazz());
+			.create(getClazz())
+			.run();
 	}
 	
 	@Test
 	public void testToStringFormat() {
 		new ToStringFormatTestBuilder()
 			.addInstanceProviders(getInstanceProviders())
-			.createAndRun(getClazz(), getToStringPattern());
+			.create(getClazz(), getToStringPattern())
+			.run();
 	}
 
 	/**

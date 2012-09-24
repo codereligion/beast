@@ -27,9 +27,7 @@ import java.util.Set;
 
 
 /**
- * TODO maybe pull out some logic to a static utility class
- * 
- * Abstract test which provides the basic functionality for all bean tests.
+ * Abstract test which provides the basic functionality for a test.
  * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
@@ -96,12 +94,13 @@ abstract class AbstractTest <T> implements Test {
 					"the to be tested method.", this.beanClassCanonicalName));
 		}
 	}
-
+	
 	/**
-	 * Executes this test.
+	 * TODO
+	 *
+	 * @param propertyName
 	 */
-	@Override
-    public abstract void run();
+	protected abstract void handlePropertySetterExcetion(PropertyDescriptor property, Throwable e);
 	
 	/**
 	 * Determines if the {@code beanClass} can be instantiated.
@@ -153,10 +152,13 @@ abstract class AbstractTest <T> implements Test {
 			for (final PropertyDescriptor property : this.settableProperties) {
 				final String propertyName = property.getName();
 				final Class<?> propertyType = property.getPropertyType();
-				final Method setter = property.getWriteMethod();
 				final Object value = this.objectFactory.getDefaultObject(propertyType, propertyName);
 
-				setValue(object, setter, value);
+				try {
+					setValue(object, property, value);
+				} catch (final InvocationTargetException e) {
+					handlePropertySetterExcetion(property, e);
+				}
 			}
 
 			return object;
@@ -190,20 +192,21 @@ abstract class AbstractTest <T> implements Test {
 	 * @param object the object to set the value on
 	 * @param setter the {@link Method} to set the given {@code value} with
 	 * @param value the value to be set
-	 * @throws IllegalArgumentException when the {@code setter} threw an exception
+	 * @throws IllegalStateException when the setter is not accessible or the {@code value} can not be set
+	 * @throws InvocationTargetException when the setter threw an exception
 	 */
-	protected void setValue(final T object, final Method setter, final Object value) {
+	protected void setValue(final T object, final PropertyDescriptor property, final Object value) throws InvocationTargetException {
+		
+		final Method setter = property.getWriteMethod();
+
 		try {
 			setter.invoke(object, value);
 		} catch (final IllegalAccessException e) {
-			throw new IllegalStateException(
-					"The method " + setter + " is inaccessable, thus can not be used to set test values.", e);
-		} catch (final InvocationTargetException e) {
-			throw new IllegalArgumentException(
-					"The method " + setter + " threw an exception on setting test values. " +
-					"If this property should not be tested add it to the excludedPropertyNames.", e);
+			// this should never happen
+			throw new IllegalStateException("The method " + setter + " is inaccessable, thus can not be used to set test values.", e);
 		} catch (final IllegalArgumentException e) {
+			// this should never happen
 			throw new IllegalStateException("Failed to set '" + value + "' on setter: " + setter + ".", e);
-		}
+        }
 	}
 }

@@ -14,32 +14,29 @@
  * limitations under the License.
  */
 
-package com.codereligion.beast;
+package com.codereligion.beast.internal.test;
 
-import com.codereligion.beast.internal.test.Test;
+import com.codereligion.beast.InstanceProvider;
 
 import java.util.HashSet;
 import java.util.Set;
 
-
-
 /**
- * TODO document
- * TODO test null check
- * TODO pull up exclude methods and make format test also use this class as super class
- *
+ * Abstract implementation which provides basic functionalities for a test builder.
+ * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-abstract class AbstractTestBuilder {
+public abstract class AbstractTestBuilder {
 	
 	protected Set<InstanceProvider<?>> instanceProviders = new HashSet<InstanceProvider<?>>();
 	
 	/**
-	 * TODO
+	 * Adds an {@link InstanceProvider}.
 	 *
-	 * @param instanceProvider
-	 * @return
+	 * @param instanceProvider the {@link InstanceProvider} to add
+	 * @return a reference of this instance
+	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	protected AbstractTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
 		
@@ -52,10 +49,11 @@ abstract class AbstractTestBuilder {
 	}
 	
 	/**
-	 * TODO
+	 * Adds a {@link Set} of {@link InstanceProvider}s.
 	 *
-	 * @param instanceProviders
-	 * @return
+	 * @param instanceProviders a {@link Set} of {@link InstanceProvider}s
+	 * @return a reference of this instance
+	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	protected AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
 
@@ -68,19 +66,12 @@ abstract class AbstractTestBuilder {
 	}
 	
 	/**
-	 * TODO
+	 * Creates the concrete {@link Test} for the given {@code beanClass} applying the
+	 * specified configurations.
 	 *
-	 * @param beanClass
-	 * @return
+	 * @param beanClass the {@link Class} to generate the test for
+	 * @return the instance of the created test
+	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	public abstract <T> Test create(Class<T> beanClass);
-	
-	/**
-	 * TODO
-	 *
-	 * @param beanClass
-	 */
-	public <T> void createAndRun(Class<T> beanClass) {
-		create(beanClass).run();
-	}
 }

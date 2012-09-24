@@ -18,14 +18,11 @@ package com.codereligion.beast.internal.test;
 
 import static com.codereligion.beast.internal.util.Assert.fail;
 
-import java.util.Collections;
+import java.lang.reflect.InvocationTargetException;
 
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.creation.ObjectMethodNames;
-
-
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 import java.util.Set;
 
 
@@ -36,13 +33,8 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class HashCodeNullSafetyTest <T> extends AbstractTest<T> {
+public final class HashCodeNullSafetyTest <T> extends AbstractNullSafetyTest<T> {
 	
-	/**
-	 * TODO
-	 */
-	private final Set<String> excludedPropertyNames;
-
 	/**
 	 * TODO
 	 * Constructs a new instance.
@@ -56,20 +48,14 @@ public final class HashCodeNullSafetyTest <T> extends AbstractTest<T> {
 			final ObjectFactory objectFactory,
 			final Set<String> excludedPropertyNames) {
 		
-		super(beanClass, objectFactory);
+		super(beanClass, objectFactory, excludedPropertyNames);
 
         if (!isMethodImplemented(ObjectMethodNames.HASH_CODE)) {
         	throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " does not implement hashCode.");
         }
-        
-
-        if (excludedPropertyNames == null) {
-    		throw new NullPointerException("excludedPropertyNames must not be null.");
-    	}
-    	
-    	this.excludedPropertyNames = Collections.unmodifiableSet(excludedPropertyNames);
 	}
 
+	// TODO assert when there is an unnecessarily excluded property
 	@Override
 	public void run() {
 		for (final PropertyDescriptor property : this.settableProperties) {
@@ -86,17 +72,69 @@ public final class HashCodeNullSafetyTest <T> extends AbstractTest<T> {
             	continue;
             }
 				
-			final Method setter = property.getWriteMethod();
 			final T dirtyObject = newBeanObject();
 			
-			setValue(dirtyObject, setter, null);
-			
 			try {
-				dirtyObject.hashCode();
-			} catch (final NullPointerException e) {
-				fail("If the property '%s' is null, calling the hashCode method throws a NullPointerException. " +
-            		 "If the property can never be null add it to the excludedPropertyNames.", propertyName);
-			}
+	            setValue(dirtyObject, property, null);
+	            try {
+	            	dirtyObject.hashCode();
+	            } catch (final NullPointerException e) {
+	            	fail("If the property '%s' is null, calling the hashCode method throws a NullPointerException. " +
+	            			"If the property can never be null add it to the excludedPropertyNames.", propertyName);
+	            }
+            } catch (final InvocationTargetException e) {
+            	handlePropertySetterExcetion(property, e);
+            }
 		}
 	}
+
+	@Override
+    public boolean equals(final Object obj) {
+		if (this == obj) {
+		    return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (getClass() != obj.getClass()) {
+		    return false;
+	    }
+	    
+	    @SuppressWarnings("rawtypes")
+        final HashCodeNullSafetyTest other = (HashCodeNullSafetyTest) obj;
+	    
+	    if (!this.beanClass.equals(other.beanClass)) {
+		    return false;
+	    } 
+	    if (!this.excludedPropertyNames.equals(other.excludedPropertyNames)) {
+		    return false;
+	    } 
+	    if (!this.beanClassCanonicalName.equals(other.beanClassCanonicalName)) {
+	    	return false;
+	    } 
+	    if (!this.objectFactory.equals(other.objectFactory)) {
+		    return false;
+	    } 
+	    if (!this.settableProperties.equals(other.settableProperties)) {
+		    return false;
+	    }
+    	return true;
+    }
+
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append("HashCodeNullSafetyTest [beanClass=");
+	    builder.append(this.beanClass);
+	    builder.append(", excludedPropertyNames=");
+	    builder.append(this.excludedPropertyNames);
+	    builder.append(", beanClassCanonicalName=");
+	    builder.append(this.beanClassCanonicalName);
+	    builder.append(", settableProperties=");
+	    builder.append(this.settableProperties);
+	    builder.append(", objectFactory=");
+	    builder.append(this.objectFactory);
+	    builder.append("]");
+	    return builder.toString();
+    }
 }

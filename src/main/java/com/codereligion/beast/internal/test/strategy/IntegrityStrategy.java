@@ -16,43 +16,32 @@
 
 package com.codereligion.beast.internal.test.strategy;
 
-
-import java.util.Collections;
-
-import java.util.Set;
-
+import java.beans.PropertyDescriptor;
 
 /**
- * TODO update documentation
+ * Common interface for an integrity test.
  *
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public abstract class IntegrityStrategy {
+public interface IntegrityStrategy {
 	
-	protected final Set<String> propertyNames;
-
     /**
-     * TODO
-     * Constructs an instance.
+     * Applies this strategy on the given {@code defaultObject} and {@code dirtyObject} expecting
+     * that the property specified by the given {@code propertyName} has been altered on the given
+     * {@code dirtyObject}
      *
-     * @param propertyNames
+     * @param defaultObject the default object to check against the dirty one
+     * @param dirtyObject the dirty object on which the property was altered
+     * @param propertyName the name of the property which was altered on the {@code dirtyObject} 
      */
-    public IntegrityStrategy(final Set<String> propertyNames) {
-    	
-    	if (propertyNames == null) {
-    		throw new NullPointerException("propertyNames must not be null.");
-    	}
-    	
-    	this.propertyNames = Collections.unmodifiableSet(propertyNames);
-    }
-
+    public void apply(Object defaultObject, Object dirtyObject, String propertyName);
+    
     /**
      * TODO
      *
-     * @param defaultObject
-     * @param dirtyObject
-     * @param propertyName
+     * @param property
+     * @param e
      */
-    public abstract void apply(Object defaultObject, Object dirtyObject, String propertyName);
+    public void handlePropertySetterException(PropertyDescriptor property, Throwable e);
 }

@@ -21,21 +21,31 @@ import static com.codereligion.beast.internal.util.Assert.assertFalse;
 
 import java.util.Set;
 
-
 /**
- * TODO update documentation
- * Tests the equals implementation of a java bean.
- *
+ * Tests the integrity of the equals implementation by using an exclude strategy. This means the user can provide
+ * excluded properties which must not be included in the equals implementation. This approach is specifically
+ * useful when the class under test has properties of which the majority must be considered in the 
+ * equals implementation. 
+ * 
+ * <p>
+ * This strategy will throw an {@link AssertionError} if it finds a property which has not been excluded by the user
+ * and is not included in the equals implementation.
+ * 
+ * <p>
+ * Furthermore it will throw an {@link AssertionError} if it finds a property which has been excluded by the user
+ * but is included in the equals implementation, thus has been excluded unnecessarily .
+ * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
+ * @see EqualsIntegrityIncludeStrategy
  */
-public final class EqualsIntegrityExcludeStrategy extends IntegrityStrategy {
+public final class EqualsIntegrityExcludeStrategy extends AbstractIntegrityExcludeStrategy {
 	
     /**
-     * TODO
-     * Constructs an instance.
+     * Constructs an instance with the given {@code propertyNames} to be excluded.
      *
-     * @param propertyNames
+     * @param propertyNames the names of the properties which should be excluded
+     * @throws NullPointerException when the given parameter is {@code null}
      */
     public EqualsIntegrityExcludeStrategy(final Set<String> propertyNames) {
     	super(propertyNames);
@@ -43,22 +53,50 @@ public final class EqualsIntegrityExcludeStrategy extends IntegrityStrategy {
 
     @Override
     public void apply(final Object defaultObject, final Object dirtyObject, final String propertyName) {
-            
-        final boolean defaultObjectEqualsDirtyObject = defaultObject.equals(dirtyObject);
-        final boolean isExcluded = this.propertyNames.contains(propertyName);
-        final boolean isUnecessarilyExcluded = !defaultObjectEqualsDirtyObject && isExcluded;
-        
-    	assertFalse(isUnecessarilyExcluded,
-    				"The property '%s' is contained the propertyNames, but is actually " +
-    				"supported by the equals implementation. Either remove it from the " +
-    				"propertyNames or the equals implementation.",
-    				propertyName);
 
-        final boolean isUnintentionallyMissing = defaultObjectEqualsDirtyObject && !isExcluded;
-        
-        assertFalse(isUnintentionallyMissing, 
-    				"The property '%s' is not supported by the equals method. If this is " +
-    				"intentional add it to the propertyNames.",
-    				propertyName);
+    	final boolean defaultObjectEqualsDirtyObject = defaultObject.equals(dirtyObject);
+    	final boolean isExcluded = this.propertyNames.contains(propertyName);
+    	final boolean isUnintentionallyMissing = defaultObjectEqualsDirtyObject && !isExcluded;
+    	
+    	assertFalse(isUnintentionallyMissing, 
+    			"The property '%s' is not supported by the equals method. If this is " +
+    			"intentional add it to the propertyNames.",
+    			propertyName);
+    	
+    	final boolean isUnnecessarilyExcluded = !defaultObjectEqualsDirtyObject && isExcluded;
+    	
+    	assertFalse(isUnnecessarilyExcluded,
+    			"The property '%s' is contained the excludedPropertyNames, but is actually " +
+    			"supported by the equals implementation. Either remove it from the " +
+    			"propertyNames or the equals implementation.",
+    			propertyName);
+    }
+
+	@Override
+    public boolean equals(final Object obj) {
+		if (this == obj) {
+		    return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (getClass() != obj.getClass()) {
+		    return false;
+	    }
+	    
+	    final EqualsIntegrityExcludeStrategy other = (EqualsIntegrityExcludeStrategy) obj;
+	    if (!this.propertyNames.equals(other.propertyNames)) {
+		    return false;
+	    }
+	    return true;
+    }
+
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append("EqualsIntegrityExcludeStrategy [propertyNames=");
+	    builder.append(this.propertyNames);
+	    builder.append("]");
+	    return builder.toString();
     }
 }
