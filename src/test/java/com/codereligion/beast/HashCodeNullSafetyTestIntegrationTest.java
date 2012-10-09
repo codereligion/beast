@@ -39,44 +39,44 @@ public class HashCodeNullSafetyTestIntegrationTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testWithNullClass() {
-		new HashCodeNullSafetyTestBuilder()
-			.create(null)
+		new HashCodeNullSafetyTestBuilder(null)
+			.create()
 			.run();
 	}
 
 	@Test
 	public void testValidClass() {
-		new HashCodeNullSafetyTestBuilder()
-			.create(ComplexClass.class)
+		new HashCodeNullSafetyTestBuilder(ComplexClass.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testMissingImplementingClass() {
-		new HashCodeNullSafetyTestBuilder()
-			.create(MissingHashCodeImplementation.class)
+		new HashCodeNullSafetyTestBuilder(MissingHashCodeImplementation.class)
+			.create()
 			.run();
 	}
 
 	@Test(expected = AssertionError.class)
 	public void testWithNullPointerInHashCode() {
-		new HashCodeNullSafetyTestBuilder()
-			.create(MissingNullCheckInHashCode.class)
+		new HashCodeNullSafetyTestBuilder(MissingNullCheckInHashCode.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithExceptionThrowingSetter() {
-		new HashCodeNullSafetyTestBuilder()
-			.create(ExceptionThrowingSetter.class)
+		new HashCodeNullSafetyTestBuilder(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new HashCodeNullSafetyTestBuilder()
+		new HashCodeNullSafetyTestBuilder(MissingNullCheckInHashCode.class)
 			.addExcludedPropertyNames(Sets.newHashSet("complexObject"))
-			.create(MissingNullCheckInHashCode.class)
+			.create()
 			.run();
 	}
 }

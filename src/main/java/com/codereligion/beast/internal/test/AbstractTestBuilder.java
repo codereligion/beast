@@ -17,7 +17,6 @@
 package com.codereligion.beast.internal.test;
 
 import com.codereligion.beast.InstanceProvider;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +28,25 @@ import java.util.Set;
  */
 public abstract class AbstractTestBuilder {
 	
+	protected Class<?> beanClass;
 	protected Set<InstanceProvider<?>> instanceProviders = new HashSet<InstanceProvider<?>>();
+	
+
+	/**
+	 * Creates the concrete {@link AbstractTestBuilder} for the given {@code beanClass}.
+	 *
+	 * @param beanClass the {@link Class} to generate the test for
+	 * @return the instance of the created test
+	 * @throws NullPointerException when the given parameter is {@code null}
+	 */
+	public AbstractTestBuilder(final Class<?> beanClass) {
+		
+		if (beanClass == null) {
+            throw new NullPointerException("beanClass must not be null.");
+        }
+		
+		this.beanClass = beanClass;
+	}
 	
 	/**
 	 * Adds an {@link InstanceProvider}.
@@ -66,12 +83,10 @@ public abstract class AbstractTestBuilder {
 	}
 	
 	/**
-	 * Creates the concrete {@link Test} for the given {@code beanClass} applying the
+	 * Creates the concrete {@link Test} for the specified {@code beanClass} applying the
 	 * specified configurations.
 	 *
-	 * @param beanClass the {@link Class} to generate the test for
 	 * @return the instance of the created test
-	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
-	public abstract <T> Test create(Class<T> beanClass);
+	public abstract Test create();
 }

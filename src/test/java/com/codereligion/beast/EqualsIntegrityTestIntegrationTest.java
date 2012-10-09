@@ -101,50 +101,50 @@ public class EqualsIntegrityTestIntegrationTest {
 
 	@Test(expected = NullPointerException.class)
 	public void testWithNullClass() {
-		new EqualsIntegrityTestBuilder()
-			.create(null)
+		new EqualsIntegrityTestBuilder(null)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testValidClass() {
-		new EqualsIntegrityTestBuilder()
-			.create(ComplexClass.class)
+		new EqualsIntegrityTestBuilder(ComplexClass.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithAsymmetricGetterSetters() {
-		new EqualsIntegrityTestBuilder()
-			.create(AsymmetricGettersAndSetters.class)
+		new EqualsIntegrityTestBuilder(AsymmetricGettersAndSetters.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithGenericClass() {
-		new EqualsIntegrityTestBuilder()
-			.create(GenericGetterAndSetter.class)
+		new EqualsIntegrityTestBuilder(GenericGetterAndSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = AssertionError.class)
 	public void testWithMissingPropertyInEquals() {
-		new EqualsIntegrityTestBuilder()
-			.create(MissingPropertyInEquals.class)
+		new EqualsIntegrityTestBuilder(MissingPropertyInEquals.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = AssertionError.class)
 	public void testWithNonReflexiveClass() {
-		new EqualsIntegrityTestBuilder()
-			.create(NonReflexiveEqualsClass.class)
+		new EqualsIntegrityTestBuilder(NonReflexiveEqualsClass.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = AssertionError.class)
 	public void testWithNonSymmetricEqualsClass() {
-		new EqualsIntegrityTestBuilder()
-			.create(NonSymmetricEqualsClass.class)
+		new EqualsIntegrityTestBuilder(NonSymmetricEqualsClass.class)
+			.create()
 			.run();
 	}
 	
@@ -152,8 +152,8 @@ public class EqualsIntegrityTestIntegrationTest {
 	public void testWithUnsupportedClass() {
 		for (final Class<?> type : UNSUPPORTED_CLASSES) {
 			try {
-				new EqualsIntegrityTestBuilder()
-					.create(type)
+				new EqualsIntegrityTestBuilder(type)
+					.create()
 					.run();
 				
 				fail();
@@ -165,48 +165,48 @@ public class EqualsIntegrityTestIntegrationTest {
 	
 	@Test(expected = AssertionError.class)
 	public void testValidClassWithUnnecessaryExclude() {
-		new EqualsIntegrityTestBuilder()
+		new EqualsIntegrityTestBuilder(ComplexClass.class)
 			.addExcludedPropertyName("anotherComplexObject")
-			.create(ComplexClass.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithMissingPropertyInEqualsWithExcludes() {
-		new EqualsIntegrityTestBuilder()
+		new EqualsIntegrityTestBuilder(MissingPropertyInEquals.class)
 			.addExcludedPropertyName("complexObject")
-			.create(MissingPropertyInEquals.class)
+			.create()
 			.run();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithExceptionThrowingSetter() {
-		new EqualsIntegrityTestBuilder()
-			.create(ExceptionThrowingSetter.class)
+		new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new EqualsIntegrityTestBuilder()
+		new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class)
 			.addExcludedPropertyNames(Sets.newHashSet("foo"))
-			.create(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithExceptionThrowingSetterForIncludedProperty() {
-		new EqualsIntegrityTestBuilder()
+		new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class)
 			.addIncludedPropertyNames(Sets.newHashSet("foo"))
-			.create(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithExceptionThrowingSetterForNonIncludedProperty() {
-		new EqualsIntegrityTestBuilder()
+		new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class)
 			.addIncludedPropertyNames(Sets.newHashSet("bar"))
-			.create(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 }

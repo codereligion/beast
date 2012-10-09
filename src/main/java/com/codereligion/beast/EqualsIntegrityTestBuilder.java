@@ -37,6 +37,10 @@ import java.util.Set;
  */
 public final class EqualsIntegrityTestBuilder extends AbstractTestBuilder {
 	
+	public EqualsIntegrityTestBuilder(final Class<?> beanClass) {
+	    super(beanClass);
+    }
+
 	/**
 	 * TODO
 	 */
@@ -48,12 +52,7 @@ public final class EqualsIntegrityTestBuilder extends AbstractTestBuilder {
 	private Set<String> includedPropertyNames = new HashSet<String>();
 	
 	@Override
-	public <T> Test create(final Class<T> beanClass) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-		
+	public Test create() {
 		final IntegrityStrategy integrityStrategy; 
 		
 		if (!this.includedPropertyNames.isEmpty()) {
@@ -63,7 +62,7 @@ public final class EqualsIntegrityTestBuilder extends AbstractTestBuilder {
 			integrityStrategy = new EqualsIntegrityExcludeStrategy(this.excludedPropertyNames);
 		}
 		
-		return new EqualsIntegrityTest<T>(beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
+		return new EqualsIntegrityTest(this.beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
 	}
 
 	@Override

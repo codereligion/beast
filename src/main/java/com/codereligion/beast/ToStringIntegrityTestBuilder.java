@@ -45,13 +45,17 @@ public final class ToStringIntegrityTestBuilder extends AbstractTestBuilder {
 	 */
 	private Set<String> includedPropertyNames = new HashSet<String>();
 	
+	/**
+	 * Constructs a new instance.
+	 *
+	 * @param beanClass
+	 */
+	public ToStringIntegrityTestBuilder(final Class<?> beanClass) {
+		super(beanClass);
+	}
+	
 	@Override
-	public <T> Test create(final Class<T> beanClass) {
-
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
-		
+	public Test create() {
 		final IntegrityStrategy integrityStrategy; 
 		
 		if (!this.includedPropertyNames.isEmpty()) {
@@ -61,7 +65,7 @@ public final class ToStringIntegrityTestBuilder extends AbstractTestBuilder {
 			integrityStrategy = new ToStringIntegrityExcludeStrategy(this.excludedPropertyNames);
 		}
 		
-		return new ToStringIntegrityTest<T>(beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
+		return new ToStringIntegrityTest(this.beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
 	}
 
 	@Override

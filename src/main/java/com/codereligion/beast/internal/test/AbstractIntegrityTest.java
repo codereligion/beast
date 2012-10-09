@@ -28,7 +28,7 @@ import java.beans.PropertyDescriptor;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-abstract class AbstractIntegrityTest <T> extends AbstractTest<T> {
+abstract class AbstractIntegrityTest extends AbstractTest {
 	
 	/**
 	 * The integrity strategy to be applied by this test.
@@ -45,7 +45,7 @@ abstract class AbstractIntegrityTest <T> extends AbstractTest<T> {
 	 * @throws NullPointerException when any of the given parameters are {@code null}
 	 */
 	public AbstractIntegrityTest(
-    		final Class<T> beanClass,
+    		final Class<?> beanClass,
     		final ObjectFactory objectFactory,
     		final IntegrityStrategy integrityStrategy) {
     	

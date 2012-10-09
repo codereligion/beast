@@ -40,44 +40,44 @@ public class ToStringNullSafetyTestIntegrationTest {
 
 	@Test(expected = NullPointerException.class)
 	public void testWithNullClass() {
-		new ToStringNullSafetyTestBuilder()
-			.create(null)
+		new ToStringNullSafetyTestBuilder(null)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testValidClass() {
-		new ToStringNullSafetyTestBuilder()
-			.create(ComplexClass.class)
+		new ToStringNullSafetyTestBuilder(ComplexClass.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testMissingImplementingClass() {
-		new ToStringNullSafetyTestBuilder()
-			.create(MissingToStringImplementation.class)
+		new ToStringNullSafetyTestBuilder(MissingToStringImplementation.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = AssertionError.class)
 	public void testWithNullPointerInToString() {
-		new ToStringNullSafetyTestBuilder()
-			.create(MissingNullCheckInToString.class)
+		new ToStringNullSafetyTestBuilder(MissingNullCheckInToString.class)
+			.create()
 			.run();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithExceptionThrowingSetter() {
-		new ToStringNullSafetyTestBuilder()
-			.create(ExceptionThrowingSetter.class)
+		new ToStringNullSafetyTestBuilder(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new ToStringNullSafetyTestBuilder()
+		new ToStringNullSafetyTestBuilder(MissingNullCheckInToString.class)
 			.addExcludedPropertyNames(Sets.newHashSet("complexObject"))
-			.create(MissingNullCheckInToString.class)
+			.create()
 			.run();
 	}
 }

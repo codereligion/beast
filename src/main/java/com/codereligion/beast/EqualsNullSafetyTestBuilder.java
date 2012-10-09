@@ -39,12 +39,22 @@ import java.util.Set;
  * @since 11.08.2012
  */
 public final class EqualsNullSafetyTestBuilder extends AbstractTestBuilder {
-	
+
 	private Set<String> excludedPropertyNames = new HashSet<String>();
 	
+	/**
+	 * TODO
+	 * Constructs a new instance.
+	 *
+	 * @param beanClass
+	 */
+	public EqualsNullSafetyTestBuilder(final Class<?> beanClass) {
+		super(beanClass);
+	}
+	
 	@Override
-	public <T> Test create(final Class<T> beanClass) {
-		return new EqualsNullSafetyTest<T>(beanClass, new ObjectFactory(this.instanceProviders), this.excludedPropertyNames);
+	public Test create() {
+		return new EqualsNullSafetyTest(this.beanClass, new ObjectFactory(this.instanceProviders), this.excludedPropertyNames);
 	}
 
 	@Override

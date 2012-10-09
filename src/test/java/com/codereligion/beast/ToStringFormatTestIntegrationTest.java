@@ -42,52 +42,52 @@ public class ToStringFormatTestIntegrationTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testWithNullClass() {
-		new ToStringFormatTestBuilder()
-			.create(null, Pattern.compile(".*"))
+		new ToStringFormatTestBuilder(null, Pattern.compile(".*"))
+			.create()
 			.run();
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void testWithNullPattern() {
-		new ToStringFormatTestBuilder()
-			.create(WrongFormatInToString.class, null)
+		new ToStringFormatTestBuilder(WrongFormatInToString.class, null)
+			.create()
 			.run();	
 	}
 	
 	@Test
 	public void testValidClass() {
-		new ToStringFormatTestBuilder()
-			.create(ComplexClass.class, ECLIPSE_TO_STRING_PATTERN)
+		new ToStringFormatTestBuilder(ComplexClass.class, ECLIPSE_TO_STRING_PATTERN)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testMissingImplementingClass() {
-		new ToStringFormatTestBuilder()
-			.create(MissingToStringImplementation.class, ECLIPSE_TO_STRING_PATTERN)
+		new ToStringFormatTestBuilder(MissingToStringImplementation.class, ECLIPSE_TO_STRING_PATTERN)
+			.create()
 			.run();
 	}
 
 	@Test(expected = AssertionError.class)
 	public void testWithWrongFormat() {
-		new ToStringFormatTestBuilder()
-			.create(WrongFormatInToString.class, ECLIPSE_TO_STRING_PATTERN)
+		new ToStringFormatTestBuilder(WrongFormatInToString.class, ECLIPSE_TO_STRING_PATTERN)
+			.create()
 			.run();
 	}
 	
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithExceptionThrowingSetter() {
-		new EqualsNullSafetyTestBuilder()
-			.create(ExceptionThrowingSetter.class)
+		new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new EqualsNullSafetyTestBuilder()
+		new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class)
 			.addExcludedPropertyNames(Sets.newHashSet("foo"))
-			.create(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 }

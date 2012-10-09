@@ -32,12 +32,12 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-abstract class AbstractTest <T> implements Test {
+abstract class AbstractTest implements Test {
 
 	/**
 	 * The {@link Class} of the bean to be tested.
 	 */
-	protected final Class<T> beanClass;
+	protected final Class<?> beanClass;
 	
 	/**
 	 * The canonical name of the {@link Class} to be tested.
@@ -63,7 +63,7 @@ abstract class AbstractTest <T> implements Test {
 	 * @throws IllegalArgumentException when the given {@code beanClass} can not be tested
 	 */
 	protected AbstractTest(
-			final Class<T> beanClass,
+			final Class<?> beanClass,
 			final ObjectFactory objectFactory) {
 		
 		if (beanClass == null) {
@@ -145,9 +145,9 @@ abstract class AbstractTest <T> implements Test {
 	 * @return an instance of the {@code beanClass}
 	 * @throws IllegalArgumentException when the given {@code beanClass} can not be instantiated
 	 */
-	protected T newBeanObject() {
+	protected Object newBeanObject() {
 		try {
-			final T object = this.beanClass.newInstance();
+			final Object object = this.beanClass.newInstance();
 			
 			for (final PropertyDescriptor property : this.settableProperties) {
 				final String propertyName = property.getName();
@@ -195,7 +195,7 @@ abstract class AbstractTest <T> implements Test {
 	 * @throws IllegalStateException when the setter is not accessible or the {@code value} can not be set
 	 * @throws InvocationTargetException when the setter threw an exception
 	 */
-	protected void setValue(final T object, final PropertyDescriptor property, final Object value) throws InvocationTargetException {
+	protected void setValue(final Object object, final PropertyDescriptor property, final Object value) throws InvocationTargetException {
 		
 		final Method setter = property.getWriteMethod();
 

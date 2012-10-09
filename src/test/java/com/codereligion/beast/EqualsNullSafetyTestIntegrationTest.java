@@ -42,59 +42,59 @@ public class EqualsNullSafetyTestIntegrationTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testWithNullClass() {
-		new EqualsNullSafetyTestBuilder()
-			.create(null)
+		new EqualsNullSafetyTestBuilder(null)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testValidClass() {
-		new EqualsNullSafetyTestBuilder()
-			.create(ComplexClass.class)
+		new EqualsNullSafetyTestBuilder(ComplexClass.class)
+			.create()
 			.run();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testMissingImplementingClass() {
-		new EqualsNullSafetyTestBuilder()
-			.create(MissingEqualsImplementation.class)
+		new EqualsNullSafetyTestBuilder(MissingEqualsImplementation.class)
+			.create()
 			.run();
 	}
 
 	@Test(expected = AssertionError.class)
 	public void testNullPointerOnGivenInEquals() {
-		new EqualsNullSafetyTestBuilder()
-			.create(MissingNullCheckForGivenInEquals.class)
+		new EqualsNullSafetyTestBuilder(MissingNullCheckForGivenInEquals.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = AssertionError.class)
 	public void testNullPointerOnThisInEquals() {
-		new EqualsNullSafetyTestBuilder()
-			.create(MissingNullCheckForThisInEquals.class)
+		new EqualsNullSafetyTestBuilder(MissingNullCheckForThisInEquals.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithExceptionThrowingSetter() {
-		new EqualsNullSafetyTestBuilder()
-			.create(ExceptionThrowingSetter.class)
+		new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithExceptionThrowingSetterWithExcludes() {
-		new EqualsNullSafetyTestBuilder()
+		new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class)
 			.addExcludedPropertyNames(Sets.newHashSet("foo"))
-			.create(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new EqualsNullSafetyTestBuilder()
+		new EqualsNullSafetyTestBuilder(MissingNullCheckForGivenInEquals.class)
 			.addExcludedPropertyNames(Sets.newHashSet("complexObject"))
-			.create(MissingNullCheckForGivenInEquals.class)
+			.create()
 			.run();
 	}
 }

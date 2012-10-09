@@ -47,12 +47,18 @@ public final class HashCodeIntegrityTestBuilder extends AbstractTestBuilder {
 	 */
 	private Set<String> includedPropertyNames = new HashSet<String>();
 	
+	/**
+	 * TODO
+	 * Constructs a new instance.
+	 *
+	 * @param beanClass
+	 */
+	public HashCodeIntegrityTestBuilder(final Class<?> beanClass) {
+		super(beanClass);
+	}
+	
 	@Override
-	public <T> Test create(final Class<T> beanClass) {
-		
-		if (beanClass == null) {
-			throw new NullPointerException("beanClass must not be null.");
-		}
+	public Test create() {
 		
 		final IntegrityStrategy integrityStrategy; 
 		
@@ -63,7 +69,7 @@ public final class HashCodeIntegrityTestBuilder extends AbstractTestBuilder {
 			integrityStrategy = new HashCodeIntegrityExcludeStrategy(this.excludedPropertyNames);
 		}
 		
-		return new HashCodeIntegrityTest<T>(beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
+		return new HashCodeIntegrityTest(this.beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
 	}
 
 	@Override

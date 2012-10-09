@@ -24,66 +24,66 @@ public abstract class JUnitBeast <T> {
 	
 	@Test
 	public void testEqualsIntegrity() {
-		new EqualsIntegrityTestBuilder()
+		new EqualsIntegrityTestBuilder(getClazz())
 			.addExcludedPropertyNames(getExcludesForEqualsIntegrityTest())
 			.addIncludedPropertyNames(getIncludesForEqualsIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testEqualsNullSafety() {
-		new EqualsNullSafetyTestBuilder()
+		new EqualsNullSafetyTestBuilder(getClazz())
 			.addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
+			.create()
 		.run();
 	}
 	
 	@Test
 	public void testHashCodeIntegrity() {
-		new HashCodeIntegrityTestBuilder()
+		new HashCodeIntegrityTestBuilder(getClazz())
 			.addExcludedPropertyNames(getExcludesForHashCodeIntegrityTest())
 			.addIncludedPropertyNames(getIncludesForHashCodeIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testHashCodeNullSafety() {
-		new HashCodeNullSafetyTestBuilder()
+		new HashCodeNullSafetyTestBuilder(getClazz())
 			.addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testToStringIntegrity() {
-		new ToStringIntegrityTestBuilder()
+		new ToStringIntegrityTestBuilder(getClazz())
 			.addExcludedPropertyNames(getExcludesForToStringIntegrityTest())
 			.addIncludedPropertyNames(getIncludesForToStringIntegrityTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testToStringNullSafety() {
-		new ToStringNullSafetyTestBuilder()
+		new ToStringNullSafetyTestBuilder(getClazz())
 			.addExcludedPropertyNames(getExcludesForToStringNullSafetyTest())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz())
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testToStringFormat() {
-		new ToStringFormatTestBuilder()
+		new ToStringFormatTestBuilder(getClazz(), getToStringPattern())
 			.addInstanceProviders(getInstanceProviders())
-			.create(getClazz(), getToStringPattern())
+			.create()
 			.run();
 	}
 

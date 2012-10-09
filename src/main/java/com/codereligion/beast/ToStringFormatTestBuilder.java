@@ -48,21 +48,32 @@ public final class ToStringFormatTestBuilder extends AbstractTestBuilder {
 	
 	/**
 	 * TODO
+	 * Constructs a new instance.
+	 *
+	 * @param beanClass
+	 * @param pattern
 	 */
-	@Override
-	public <T> Test create(final Class<T> beanClass) {
-		return create(beanClass, this.pattern);
+	public ToStringFormatTestBuilder(final Class<?> beanClass, final Pattern pattern) {
+		super(beanClass);
+		this.pattern = pattern;
 	}
 	
 	/**
 	 * TODO
+	 * Constructs a new instance.
 	 *
 	 * @param beanClass
-	 * @param pattern
-	 * @return
 	 */
-	public <T> Test create(final Class<T> beanClass, final Pattern pattern) {
-		return new ToStringFormatTest<T>(beanClass, new ObjectFactory(this.instanceProviders), pattern, this.excludedPropertyNames);
+	public ToStringFormatTestBuilder(final Class<?> beanClass) {
+		super(beanClass);
+	}
+	
+	/**
+	 * TODO
+	 */
+	@Override
+	public Test create() {
+		return new ToStringFormatTest(this.beanClass, new ObjectFactory(this.instanceProviders), this.pattern, this.excludedPropertyNames);
 	}
 	
 	@Override

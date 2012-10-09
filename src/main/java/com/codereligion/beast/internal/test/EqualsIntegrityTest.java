@@ -45,7 +45,7 @@ import java.beans.PropertyDescriptor;
  * @see EqualsIntegrityExcludeStrategy
  * @see EqualsIntegrityIncludeStrategy
  */
-public final class EqualsIntegrityTest<T> extends AbstractIntegrityTest<T> {
+public final class EqualsIntegrityTest extends AbstractIntegrityTest {
 
 	/**
 	 * Constructs a new instance of this test for the given {@code beanClass}
@@ -57,7 +57,7 @@ public final class EqualsIntegrityTest<T> extends AbstractIntegrityTest<T> {
 	 * @throws NullPointerException when any of the given parameters are {@code null}
 	 */
     public EqualsIntegrityTest(
-    		final Class<T> beanClass,
+    		final Class<?> beanClass,
     		final ObjectFactory objectFactory,
     		final IntegrityStrategy integrityStrategy) {
     	
@@ -70,7 +70,7 @@ public final class EqualsIntegrityTest<T> extends AbstractIntegrityTest<T> {
 
 	@Override
     public void run() {
-        final T defaultObject = newBeanObject();
+        final Object defaultObject = newBeanObject();
         
         assertFalse(defaultObject.equals(null),
 				"Equals method for instances of %s is equals to null.",
@@ -83,7 +83,7 @@ public final class EqualsIntegrityTest<T> extends AbstractIntegrityTest<T> {
         for (final PropertyDescriptor property : this.settableProperties) {
 
             final String propertyName = property.getName();
-            final T dirtyObject = newBeanObject();
+            final Object dirtyObject = newBeanObject();
             final Class<?> propertyType = property.getPropertyType();
             final Object dirtyValue = this.objectFactory.getDirtyObject(propertyType, propertyName);
 
@@ -118,7 +118,6 @@ public final class EqualsIntegrityTest<T> extends AbstractIntegrityTest<T> {
 		    return false;
 	    }
 	    
-	    @SuppressWarnings("rawtypes")
         final EqualsIntegrityTest other = (EqualsIntegrityTest) obj;
 	    
 	    if (!this.beanClass.equals(other.beanClass)) {

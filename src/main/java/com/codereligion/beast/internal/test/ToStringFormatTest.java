@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class ToStringFormatTest <T> extends AbstractTest<T> {
+public final class ToStringFormatTest extends AbstractTest {
 	
 	/**
 	 * TODO
@@ -58,7 +58,7 @@ public final class ToStringFormatTest <T> extends AbstractTest<T> {
 	 * @param pattern
 	 */
 	public ToStringFormatTest(
-			final Class<T> beanClass,
+			final Class<?> beanClass,
 			final ObjectFactory objectFactory,
 			final Pattern pattern,
 			final Set<String> excludedPropertyNames) {
@@ -84,7 +84,7 @@ public final class ToStringFormatTest <T> extends AbstractTest<T> {
 	
 	@Override
 	public void run() {
-		final T defaultObject = newBeanObject();
+		final Object defaultObject = newBeanObject();
 		final String defaultToStringResult  = defaultObject.toString();
 
 		final Matcher matcher = this.toStringPattern.matcher(defaultToStringResult);
@@ -131,7 +131,6 @@ public final class ToStringFormatTest <T> extends AbstractTest<T> {
 		    return false;
 	    }
 	    
-	    @SuppressWarnings("rawtypes")
         final ToStringFormatTest other = (ToStringFormatTest) obj;
 	    
 	    if (!this.beanClass.equals(other.beanClass)) {

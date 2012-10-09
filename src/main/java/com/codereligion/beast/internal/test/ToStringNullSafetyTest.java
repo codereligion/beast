@@ -33,7 +33,7 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class ToStringNullSafetyTest <T> extends AbstractNullSafetyTest<T> {
+public final class ToStringNullSafetyTest extends AbstractNullSafetyTest {
 	
 	/**
 	 * TODO
@@ -44,7 +44,7 @@ public final class ToStringNullSafetyTest <T> extends AbstractNullSafetyTest<T> 
 	 * @param excludedPropertyNames
 	 */
 	public ToStringNullSafetyTest(
-			final Class<T> beanClass,
+			final Class<?> beanClass,
 			final ObjectFactory objectFactory,
 			final Set<String> excludedPropertyNames) {
 		
@@ -72,7 +72,7 @@ public final class ToStringNullSafetyTest <T> extends AbstractNullSafetyTest<T> 
             	continue;
             }
 			
-			final T dirtyObject = newBeanObject();
+			final Object dirtyObject = newBeanObject();
 			try {
 	            setValue(dirtyObject, property, null);
 	            try {
@@ -107,7 +107,6 @@ public final class ToStringNullSafetyTest <T> extends AbstractNullSafetyTest<T> 
 		    return false;
 	    }
 	    
-	    @SuppressWarnings("rawtypes")
         final ToStringNullSafetyTest other = (ToStringNullSafetyTest) obj;
 	    
 	    if (!this.beanClass.equals(other.beanClass)) {

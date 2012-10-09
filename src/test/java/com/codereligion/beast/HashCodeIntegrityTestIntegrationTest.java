@@ -42,75 +42,75 @@ public class HashCodeIntegrityTestIntegrationTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void testWithNullClass() {
-		new HashCodeIntegrityTestBuilder()
-			.create(null)
+		new HashCodeIntegrityTestBuilder(null)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testValidClass() {
-		new HashCodeIntegrityTestBuilder()
-			.create(ComplexClass.class)
+		new HashCodeIntegrityTestBuilder(ComplexClass.class)
+			.create()
 			.run();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testMissingImplementingClass() {
-		new HashCodeIntegrityTestBuilder()
-			.create(MissingHashCodeImplementation.class)
+		new HashCodeIntegrityTestBuilder(MissingHashCodeImplementation.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithUnsupportedClass() {
-		new HashCodeIntegrityTestBuilder()
-			.create(String.class)
+		new HashCodeIntegrityTestBuilder(String.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = AssertionError.class)
 	public void testWithMissingPropertyInEquals() {
-		new HashCodeIntegrityTestBuilder()
-			.create(MissingPropertyInEquals.class)
+		new HashCodeIntegrityTestBuilder(MissingPropertyInEquals.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = AssertionError.class)
 	public void testWithMissingPropertyInHashCode() {
-		new HashCodeIntegrityTestBuilder()
-			.create(MissingPropertyInHashCode.class)
+		new HashCodeIntegrityTestBuilder(MissingPropertyInHashCode.class)
+			.create()
 			.run();
 	}
 
 	@Test(expected = AssertionError.class)
 	public void testValidClassWithUnnecessaryExclude() {
-		new HashCodeIntegrityTestBuilder()
+		new HashCodeIntegrityTestBuilder(ComplexClass.class)
 			.addExcludedPropertyNames(Sets.newHashSet("anotherComplexObject"))
-			.create(ComplexClass.class)
+			.create()
 			.run();
 	}
 
 	@Test
 	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new HashCodeIntegrityTestBuilder()
+		new HashCodeIntegrityTestBuilder(ExceptionThrowingSetter.class)
 			.addExcludedPropertyNames(Sets.newHashSet("foo"))
-			.create(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithExceptionThrowingSetterForIncludedProperty() {
-		new HashCodeIntegrityTestBuilder()
+		new HashCodeIntegrityTestBuilder(ExceptionThrowingSetter.class)
 			.addIncludedPropertyNames(Sets.newHashSet("foo"))
-			.create(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithExceptionThrowingSetterForNonIncludedProperty() {
-		new HashCodeIntegrityTestBuilder()
+		new HashCodeIntegrityTestBuilder(ExceptionThrowingSetter.class)
 			.addIncludedPropertyNames(Sets.newHashSet("bar"))
-			.create(ExceptionThrowingSetter.class)
+			.create()
 			.run();
 	}
 }

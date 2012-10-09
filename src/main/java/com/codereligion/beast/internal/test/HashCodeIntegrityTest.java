@@ -42,7 +42,7 @@ import java.beans.PropertyDescriptor;
  * @see HashCodeIntegrityExcludeStrategy
  * @see HashCodeIntegrityIncludeStrategy
  */
-public final class HashCodeIntegrityTest <T> extends AbstractIntegrityTest<T> {
+public final class HashCodeIntegrityTest extends AbstractIntegrityTest {
 	
 	
 	/**
@@ -55,7 +55,7 @@ public final class HashCodeIntegrityTest <T> extends AbstractIntegrityTest<T> {
 	 * @throws NullPointerException when any of the given parameters are {@code null}
 	 */
 	public HashCodeIntegrityTest(
-			final Class<T> beanClass,
+			final Class<?> beanClass,
 			final ObjectFactory objectFactory,
 			final IntegrityStrategy integrityStrategy) {
 		
@@ -68,13 +68,13 @@ public final class HashCodeIntegrityTest <T> extends AbstractIntegrityTest<T> {
 
 	@Override
 	public void run() {
-		final T defaultObject = newBeanObject();
+		final Object defaultObject = newBeanObject();
 		
 		for (final PropertyDescriptor property : this.settableProperties) {
 			
 			final String propertyName = property.getName();
 			final Class<?> propertyType = property.getPropertyType();
-			final T dirtyObject = newBeanObject();
+			final Object dirtyObject = newBeanObject();
 			final Object dirtyProperty = this.objectFactory.getDirtyObject(propertyType, propertyName);
 			
 			try {
@@ -109,7 +109,6 @@ public final class HashCodeIntegrityTest <T> extends AbstractIntegrityTest<T> {
 		    return false;
 	    }
 	    
-	    @SuppressWarnings("rawtypes")
         final HashCodeIntegrityTest other = (HashCodeIntegrityTest) obj;
 	    
 	    if (!this.beanClass.equals(other.beanClass)) {

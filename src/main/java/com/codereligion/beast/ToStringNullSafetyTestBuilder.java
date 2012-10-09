@@ -40,9 +40,19 @@ public final class ToStringNullSafetyTestBuilder extends AbstractTestBuilder {
 
 	private Set<String> excludedPropertyNames = new HashSet<String>();
 	
+	/**
+	 * TODO
+	 * Constructs a new instance.
+	 *
+	 * @param beanClass
+	 */
+	public ToStringNullSafetyTestBuilder(final Class<?> beanClass) {
+	    super(beanClass);
+    }
+	
 	@Override
-	public <T> Test create(final Class<T> beanClass) {
-		return new ToStringNullSafetyTest<T>(beanClass, new ObjectFactory(this.instanceProviders), this.excludedPropertyNames);
+	public Test create() {
+		return new ToStringNullSafetyTest(this.beanClass, new ObjectFactory(this.instanceProviders), this.excludedPropertyNames);
 	}
 	
 	@Override

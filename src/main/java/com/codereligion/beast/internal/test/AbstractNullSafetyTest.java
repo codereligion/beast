@@ -30,7 +30,7 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public abstract class AbstractNullSafetyTest<T> extends AbstractTest<T> {
+public abstract class AbstractNullSafetyTest extends AbstractTest {
 	
 	/**
 	 * TODO
@@ -46,7 +46,7 @@ public abstract class AbstractNullSafetyTest<T> extends AbstractTest<T> {
 	 * @param excludedPropertyNames
 	 */
 	public AbstractNullSafetyTest(
-    		final Class<T> beanClass,
+    		final Class<?> beanClass,
     		final ObjectFactory objectFactory,
     		final Set<String> excludedPropertyNames) {
     	

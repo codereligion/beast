@@ -38,7 +38,7 @@ import java.beans.PropertyDescriptor;
  * @see ToStringIntegrityExcludeStrategy
  * @see ToStringIntegrityIncludeStrategy
  */
-public final class ToStringIntegrityTest <T> extends AbstractIntegrityTest<T> {
+public final class ToStringIntegrityTest extends AbstractIntegrityTest {
 
 	/**
 	 * Constructs a new instance of this test for the given {@code beanClass}
@@ -50,7 +50,7 @@ public final class ToStringIntegrityTest <T> extends AbstractIntegrityTest<T> {
 	 * @throws NullPointerException when any of the given parameters are {@code null}
 	 */
 	public ToStringIntegrityTest(
-			final Class<T> beanClass,
+			final Class<?> beanClass,
 			final ObjectFactory objectFactory,
 			final IntegrityStrategy integrityStrategy) {
 		
@@ -63,12 +63,12 @@ public final class ToStringIntegrityTest <T> extends AbstractIntegrityTest<T> {
 
 	@Override
 	public void run() {
-		final T defaultObject = newBeanObject();
+		final Object defaultObject = newBeanObject();
 		
 		for (final PropertyDescriptor property : this.settableProperties) {
 			
 			final String propertyName = property.getName();
-			final T dirtyObject = newBeanObject();
+			final Object dirtyObject = newBeanObject();
 			final Class<?> propertyType = property.getPropertyType();
 			final Object dirtyProperty = this.objectFactory.getDirtyObject(propertyType, propertyName);
 			
@@ -94,7 +94,6 @@ public final class ToStringIntegrityTest <T> extends AbstractIntegrityTest<T> {
 		    return false;
 	    }
 	    
-	    @SuppressWarnings("rawtypes")
         final ToStringIntegrityTest other = (ToStringIntegrityTest) obj;
 	    
 	    if (!this.beanClass.equals(other.beanClass)) {
