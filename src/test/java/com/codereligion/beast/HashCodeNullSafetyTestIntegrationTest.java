@@ -51,8 +51,8 @@ public class HashCodeNullSafetyTestIntegrationTest {
 			.run();
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testMissingImplementingClass() {
+	@Test(expected = AssertionError.class)
+	public void testWithMissingImplemention() {
 		new HashCodeNullSafetyTestBuilder(MissingHashCodeImplementation.class)
 			.create()
 			.run();

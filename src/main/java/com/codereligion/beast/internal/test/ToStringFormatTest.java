@@ -17,22 +17,25 @@
 package com.codereligion.beast.internal.test;
 
 import static com.codereligion.beast.internal.util.Assert.assertTrue;
-
-import java.util.Collections;
-
-import java.util.Set;
-
-import java.beans.PropertyDescriptor;
+import static com.codereligion.beast.internal.util.Assert.fail;
 
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.creation.ObjectMethodNames;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 /**
- * TODO update documentation
- * Tests the toString implementation of a java bean.
+ * Tests the toString implementation of the class under test for the following criteria:
+ * 
+ * <ul>
+ * <li> the toString method must be implemented
+ * <li> the result must comply to the specified {@link Pattern}
+ * </ul>
  * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
@@ -40,7 +43,7 @@ import java.util.regex.Pattern;
 public final class ToStringFormatTest extends AbstractTest {
 	
 	/**
-	 * TODO
+	 * The names of the properties excluded from the test.
 	 */
 	private final Set<String> excludedPropertyNames;
 	
@@ -50,12 +53,14 @@ public final class ToStringFormatTest extends AbstractTest {
 	private Pattern toStringPattern;
 
 	/**
-	 * TODO
-	 * Constructs a new instance.
+	 * Constructs a new instance of this test for the given {@code beanClass}
+	 * using the given {@code objectFactory}, {@code pattern} and {@code excludedPropertyNames}.
 	 *
-	 * @param beanClass
-	 * @param objectFactory
-	 * @param pattern
+	 * @param beanClass the {@link Class} to test
+	 * @param objectFactory the {@link ObjectFactory} to use
+	 * @param pattern the pattern to which to toString result must comply
+	 * @param excludedPropertyNames the names of the properties to exclude from the test
+	 * @throws NullPointerException when any of the given parameters are {@code null}
 	 */
 	public ToStringFormatTest(
 			final Class<?> beanClass,
@@ -84,6 +89,11 @@ public final class ToStringFormatTest extends AbstractTest {
 	
 	@Override
 	public void run() {
+		
+		if (!isMethodImplemented(ObjectMethodNames.TO_STRING)) {
+        	fail("The given class %s does not implement toString.", this.beanClassCanonicalName);
+        }
+		
 		final Object defaultObject = newBeanObject();
 		final String defaultToStringResult  = defaultObject.toString();
 
@@ -97,25 +107,24 @@ public final class ToStringFormatTest extends AbstractTest {
 	}
 
 	@Override
-    protected void handlePropertySetterExcetion(final PropertyDescriptor property, final Throwable e) {
+    public void handleInvocationTargetException(
+    		final PropertyDescriptor property,
+    		final InvocationTargetException exception) {
+		
 		final String propertyName = property.getName();
 	    if (!this.excludedPropertyNames.contains(propertyName)) {
 	    	final String message = String.format("Calling the setter of the property '%s' threw an exception. " +
 												 "The setter call can be avoided by excluding the property from the test.",
 												 propertyName);
-			throw new IllegalArgumentException(message, e);
+			throw new IllegalArgumentException(message, exception);
 	    }
     }
 
 	@Override
     public int hashCode() {
 	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + this.beanClass.hashCode();
+	    int result = super.hashCode();
 	    result = prime * result + this.toStringPattern.hashCode();
-	    result = prime * result + this.beanClassCanonicalName.hashCode();
-	    result = prime * result + this.objectFactory.hashCode();
-	    result = prime * result + this.settableProperties.hashCode();
 	    return result;
     }
 
@@ -131,39 +140,16 @@ public final class ToStringFormatTest extends AbstractTest {
 		    return false;
 	    }
 	    
-        final ToStringFormatTest other = (ToStringFormatTest) obj;
-	    
-	    if (!this.beanClass.equals(other.beanClass)) {
-		    return false;
-	    } 
-	    if (!this.toStringPattern.equals(other.toStringPattern)) {
-		    return false;
-	    } 
-	    if (!this.beanClassCanonicalName.equals(other.beanClassCanonicalName)) {
-	    	return false;
-	    } 
-	    if (!this.objectFactory.equals(other.objectFactory)) {
-		    return false;
-	    } 
-	    if (!this.settableProperties.equals(other.settableProperties)) {
-		    return false;
-	    }
-    	return true;
+    	return super.equals(obj);
     }
 
 	@Override
     public String toString() {
 	    final StringBuilder builder = new StringBuilder();
-	    builder.append("ToStringFormatTest [beanClass=");
-	    builder.append(this.beanClass);
+	    builder.append("ToStringFormatTest [");
+	    builder.append(super.toString());
 	    builder.append(", toStringPattern=");
 	    builder.append(this.toStringPattern);
-	    builder.append(", beanClassCanonicalName=");
-	    builder.append(this.beanClassCanonicalName);
-	    builder.append(", settableProperties=");
-	    builder.append(this.settableProperties);
-	    builder.append(", objectFactory=");
-	    builder.append(this.objectFactory);
 	    builder.append("]");
 	    return builder.toString();
     }

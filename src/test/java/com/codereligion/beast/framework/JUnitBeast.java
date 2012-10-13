@@ -189,7 +189,7 @@ public abstract class JUnitBeast <T> {
 	 * 
 	 * @return
 	 */
-	protected Set<InstanceProvider<?>> getInstanceProviders() {
+	protected Set<InstanceProvider> getInstanceProviders() {
 		return Collections.emptySet();
 	}
 	

@@ -16,39 +16,63 @@
 
 package com.codereligion.beast;
 
+import com.codereligion.beast.internal.builder.AbstractIntegrityTestBuilder;
+
 import com.codereligion.beast.internal.creation.ObjectFactory;
-import com.codereligion.beast.internal.test.AbstractTestBuilder;
 import com.codereligion.beast.internal.test.Test;
 import com.codereligion.beast.internal.test.ToStringIntegrityTest;
 import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
 import com.codereligion.beast.internal.test.strategy.ToStringIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.ToStringIntegrityIncludeStrategy;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
- * TODO document
- * TODO test null check
+ * Builder for the toString integrity test. The resulting test will apply the following criteria
+ * to the class under test:
+ * 
+ * <ul>
+ * <li> the toString method must be implemented
+ * <li> if included properties have been provided
+ * 	<ul>
+ * 		<li> the included properties must be included in the implementation
+ * 		<li> all not included properties must not be included in the implementation
+ * 	</ul>
+ * <li> if excluded properties have been provided
+ * 	<ul>
+ * 		<li> the excluded properties must be excluded from the implementation
+ * 		<li> all not excluded properties must be included in the implementation
+ * 	</ul>
+ * </ul>
+ * 
+ * If neither includes nor excludes have been specified, all public settable properties
+ * are expected to be included in the implementation.
+ * 
+ * <p>
+ * <b>Caution:</b> You can either provide included or excluded properties, not both.
+ * 
+ * <p>
+ * <b>When to use excludes:</b> Use excludes to make sure that no additional properties
+ * can be added to the class under test without either altering the test or extending
+ * the toString implementation. This strategy aims for an accurate and complete toString
+ * implementation in order to cover as much of the class' state variations as possible.
+ * 
+ * <p>
+ * <b>When to use includes:</b> Use includes to make sure that no additional properties
+ * can be added to the toString implementation without altering the test. This strategy
+ * aims for high-performance of the toString implementation, rather than for correctness.
+ * This strategy should only be used, when performance is prioritized to correctness.
+ *
  *
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class ToStringIntegrityTestBuilder extends AbstractTestBuilder {
-
-	/**
-	 * TODO
-	 */
-	private Set<String> excludedPropertyNames = new HashSet<String>();
+public final class ToStringIntegrityTestBuilder extends AbstractIntegrityTestBuilder {
 	
 	/**
-	 * TODO
-	 */
-	private Set<String> includedPropertyNames = new HashSet<String>();
-	
-	/**
-	 * Constructs a new instance.
+	 * Creates a new builder which will create a test for the given {@code beanClass}.
 	 *
-	 * @param beanClass
+	 * @param beanClass the {@link Class} to be tested
+	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	public ToStringIntegrityTestBuilder(final Class<?> beanClass) {
 		super(beanClass);
@@ -69,92 +93,33 @@ public final class ToStringIntegrityTestBuilder extends AbstractTestBuilder {
 	}
 
 	@Override
-	public ToStringIntegrityTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+	public ToStringIntegrityTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
 		return (ToStringIntegrityTestBuilder) super.addInstanceProvider(instanceProvider);
 	}
-	
+
 	@Override
-	public ToStringIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+	public ToStringIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
 		return (ToStringIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 
-	/**
-     * TODO
-     *
-     * @param propertyName
-     * @return
-     */
-    public ToStringIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
-    	
-    	if (propertyName == null) {
-    		throw new NullPointerException("propertyName must not be null.");
-    	}
+	@Override
+	public ToStringIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
+		return (ToStringIntegrityTestBuilder) super.addExcludedPropertyName(propertyName);
+	}
 
-    	if (!this.excludedPropertyNames.isEmpty()) {
-    		throw new IllegalStateException("Adding an excludedPropertyName is not allowed, when includedPropertyNames where already provided.");
-    	}
-    	
-    	this.excludedPropertyNames.add(propertyName);
-    	return this;
-    }
+	@Override
+	public ToStringIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
+		return (ToStringIntegrityTestBuilder) super.addExcludedPropertyNames(propertyNames);
 
-	/**
-     * TODO
-     *
-     * @param propertyNames
-     * @return
-     */
-    public ToStringIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-    	
-    	if (propertyNames == null) {
-    		throw new NullPointerException("propertyNames must not be null.");
-    	}
-    	
-    	if (!this.includedPropertyNames.isEmpty()) {
-    		throw new IllegalStateException("Adding excludedPropertyNames is not allowed, when includedPropertyNames where already provided.");
-    	}
-    	
-    	this.excludedPropertyNames.addAll(propertyNames);
-    	return this;
-    }
-    
-    /**
-     * TODO
-     *
-     * @param propertyName
-     * @return
-     */
-    public ToStringIntegrityTestBuilder addIncludedPropertyName(final String propertyName) {
-    	
-    	if (propertyName == null) {
-    		throw new NullPointerException("propertyName must not be null.");
-    	}
+	}
 
-    	if (!this.includedPropertyNames.isEmpty()) {
-    		throw new IllegalStateException("Adding an includedPropertyName is not allowed, when excludedPropertyNames where already provided.");
-    	}
-    	
-    	this.includedPropertyNames.add(propertyName);
-    	return this;
-    }
-    
-    /**
-     * TODO
-     *
-     * @param propertyNames
-     * @return
-     */
-    public ToStringIntegrityTestBuilder addIncludedPropertyNames(final Set<String> propertyNames) {
-    	
-    	if (propertyNames == null) {
-    		throw new NullPointerException("propertyNames must not be null.");
-    	}
-    	
-    	if (!this.excludedPropertyNames.isEmpty()) {
-    		throw new IllegalStateException("Adding includedPropertyNames is not allowed, when excludedPropertyNames where already provided.");
-    	}
-    	
-    	this.includedPropertyNames.addAll(propertyNames);
-    	return this;
-    }
+	@Override
+	public ToStringIntegrityTestBuilder addIncludedPropertyName(final String propertyName) {
+		return (ToStringIntegrityTestBuilder) super.addIncludedPropertyName(propertyName);
+	}
+
+	@Override
+	public ToStringIntegrityTestBuilder addIncludedPropertyNames(final Set<String> propertyNames) {
+		return (ToStringIntegrityTestBuilder) super.addIncludedPropertyNames(propertyNames);
+	}
 }

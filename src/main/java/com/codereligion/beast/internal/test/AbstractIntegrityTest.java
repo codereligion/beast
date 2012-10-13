@@ -17,6 +17,8 @@
 package com.codereligion.beast.internal.test;
 
 
+import java.lang.reflect.InvocationTargetException;
+
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
 import java.beans.PropertyDescriptor;
@@ -59,19 +61,72 @@ abstract class AbstractIntegrityTest extends AbstractTest {
     }
 	
 	@Override
-	protected void handlePropertySetterExcetion(final PropertyDescriptor property, final Throwable e) {
-		this.integrityStrategy.handlePropertySetterException(property, e);
+	public void handleInvocationTargetException(
+			final PropertyDescriptor property,
+			final InvocationTargetException exception) {
+		this.integrityStrategy.handleInvocationTargetException(property, exception);
 	}
-    
+	
+	/**
+	 * Compares the given object by verifying that:
+	 * 
+	 * <ul>
+	 * <li> it is not {@code null}
+	 * <li> it is an instance of {@link AbstractIntegrityTest}
+	 * <li> the given object has the same {@code beanClass} as this object
+	 * <li> the given object has the same {@code objectFactory} as this object
+	 * <li> the given object has the same {@code integrityStrategy} as this object
+	 * </ul>
+	 * 
+	 * This method should be used by sub-classes to avoid duplication.
+	 */
+	@Override
+    public boolean equals(final Object obj) {
+		if (this == obj) {
+		    return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (!(obj instanceof AbstractIntegrityTest)) {
+		    return false;
+	    }
+	    
+        final AbstractIntegrityTest other = (AbstractIntegrityTest) obj;
+        
+        if (!super.equals(other)) {
+        	return false;
+        }
+	    
+	    if (!this.integrityStrategy.equals(other.integrityStrategy)) {
+	    	return false;
+	    } 
+    	return true;
+    }
+
+	/**
+	 * Generates a hash code based on the unique and visible members of this class.
+	 * This method should be used by sub-classes to avoid duplication.
+	 */
 	@Override
     public int hashCode() {
 	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + this.beanClass.hashCode();
+	    int result = super.hashCode();
 	    result = prime * result + this.integrityStrategy.hashCode();
-	    result = prime * result + this.beanClassCanonicalName.hashCode();
-	    result = prime * result + this.objectFactory.hashCode();
-	    result = prime * result + this.settableProperties.hashCode();
 	    return result;
+    }
+	
+	/**
+	 * Generates a concatenated string which contains key/value pairs of every unique
+	 * and visible member of this class with its according value. This method should be
+	 * used by sub-classes to avoid duplication.
+	 */
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append(super.toString());
+	    builder.append(", integrityStrategy=");
+	    builder.append(this.integrityStrategy);
+	    return builder.toString();
     }
 }

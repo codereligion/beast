@@ -16,142 +16,111 @@
 
 package com.codereligion.beast;
 
+import com.codereligion.beast.internal.builder.AbstractIntegrityTestBuilder;
+
 import com.codereligion.beast.internal.creation.ObjectFactory;
-import com.codereligion.beast.internal.test.AbstractTestBuilder;
 import com.codereligion.beast.internal.test.EqualsIntegrityTest;
 import com.codereligion.beast.internal.test.Test;
 import com.codereligion.beast.internal.test.strategy.EqualsIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.EqualsIntegrityIncludeStrategy;
 import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
-import java.util.HashSet;
 import java.util.Set;
 
-
-
 /**
- * TODO document
- * TODO test null check
- *
+ * Builder for the equals integrity test. The resulting test will apply the following criteria
+ * to the class under test:
+ * 
+ * <ul>
+ * <li> the equals method must be implemented
+ * <li> calling equals with {@code null} must always be false
+ * <li> calling equals on the same instance must always be true
+ * <li> calling on two different instances must be symmetric
+ * <li> if included properties have been provided
+ * 	<ul>
+ * 		<li> the included properties must be included in the implementation
+ * 		<li> all not included properties must not be included in the implementation
+ * 	</ul>
+ * <li> if excluded properties have been provided
+ * 	<ul>
+ * 		<li> the excluded properties must be excluded from the implementation
+ * 		<li> all not excluded properties must be included in the implementation
+ * 	</ul>
+ * </ul>
+ * 
+ * If neither includes nor excludes have been specified, all public settable properties
+ * are expected to be included in the implementation.
+ * 
+ * <p>
+ * <b>Caution:</b> You can either provide included or excluded properties, not both.
+ * 
+ * <p>
+ * <b>When to use excludes:</b> Use excludes to make sure that no additional properties
+ * can be added to the class under test without either altering the test or extending
+ * the equals implementation. This strategy aims for an accurate and complete equals
+ * implementation in order to cover as much of the class' state variations as possible.
+ * 
+ * <p>
+ * <b>When to use includes:</b> Use includes to make sure that no additional properties
+ * can be added to the equals implementation without altering the test. This strategy
+ * aims for high-performance of the equals implementation, rather than for correctness.
+ * This strategy should only be used, when performance is prioritized to correctness.
+ * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class EqualsIntegrityTestBuilder extends AbstractTestBuilder {
-	
-	public EqualsIntegrityTestBuilder(final Class<?> beanClass) {
-	    super(beanClass);
-    }
+public final class EqualsIntegrityTestBuilder extends AbstractIntegrityTestBuilder {
 
 	/**
-	 * TODO
+	 * Creates a new builder which will create a test for the given {@code beanClass}.
+	 *
+	 * @param beanClass the {@link Class} to be tested
+	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
-	private Set<String> excludedPropertyNames = new HashSet<String>();
-	
-	/**
-	 * TODO
-	 */
-	private Set<String> includedPropertyNames = new HashSet<String>();
-	
+	public EqualsIntegrityTestBuilder(final Class<?> beanClass) {
+		super(beanClass);
+	}
+
 	@Override
 	public Test create() {
-		final IntegrityStrategy integrityStrategy; 
-		
+		final IntegrityStrategy integrityStrategy;
+
 		if (!this.includedPropertyNames.isEmpty()) {
 			integrityStrategy = new EqualsIntegrityIncludeStrategy(this.includedPropertyNames);
 		} else {
 			// default strategy
 			integrityStrategy = new EqualsIntegrityExcludeStrategy(this.excludedPropertyNames);
 		}
-		
+
 		return new EqualsIntegrityTest(this.beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
 	}
 
 	@Override
-	public EqualsIntegrityTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+	public EqualsIntegrityTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
 		return (EqualsIntegrityTestBuilder) super.addInstanceProvider(instanceProvider);
 	}
-	
+
 	@Override
-	public EqualsIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+	public EqualsIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
 		return (EqualsIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 
-	/**
-     * TODO
-     *
-     * @param propertyName
-     * @return
-     */
-    public EqualsIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
-    	
-    	if (propertyName == null) {
-    		throw new NullPointerException("propertyName must not be null.");
-    	}
+	@Override
+	public EqualsIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
+		return (EqualsIntegrityTestBuilder) super.addExcludedPropertyName(propertyName);
+	}
 
-    	if (!this.excludedPropertyNames.isEmpty()) {
-    		throw new IllegalStateException("Adding an excludedPropertyName is not allowed, when includedPropertyNames where already provided.");
-    	}
-    	
-    	this.excludedPropertyNames.add(propertyName);
-    	return this;
-    }
+	@Override
+	public EqualsIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
+		return (EqualsIntegrityTestBuilder) super.addExcludedPropertyNames(propertyNames);
+	}
 
-	/**
-     * TODO
-     *
-     * @param propertyNames
-     * @return
-     */
-    public EqualsIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-    	
-    	if (propertyNames == null) {
-    		throw new NullPointerException("propertyNames must not be null.");
-    	}
-    	
-    	if (!this.includedPropertyNames.isEmpty()) {
-    		throw new IllegalStateException("Adding excludedPropertyNames is not allowed, when includedPropertyNames where already provided.");
-    	}
-    	
-    	this.excludedPropertyNames.addAll(propertyNames);
-    	return this;
-    }
-    
-    /**
-     * TODO
-     *
-     * @param propertyName
-     * @return
-     */
-    public EqualsIntegrityTestBuilder addIncludedPropertyName(final String propertyName) {
-    	
-    	if (propertyName == null) {
-    		throw new NullPointerException("propertyName must not be null.");
-    	}
+	@Override
+	public EqualsIntegrityTestBuilder addIncludedPropertyName(final String propertyName) {
+		return (EqualsIntegrityTestBuilder) super.addIncludedPropertyName(propertyName);
+	}
 
-    	if (!this.includedPropertyNames.isEmpty()) {
-    		throw new IllegalStateException("Adding an includedPropertyName is not allowed, when excludedPropertyNames where already provided.");
-    	}
-    	
-    	this.includedPropertyNames.add(propertyName);
-    	return this;
-    }
-    
-    /**
-     * TODO
-     *
-     * @param propertyNames
-     * @return
-     */
-    public EqualsIntegrityTestBuilder addIncludedPropertyNames(final Set<String> propertyNames) {
-    	
-    	if (propertyNames == null) {
-    		throw new NullPointerException("propertyNames must not be null.");
-    	}
-    	
-    	if (!this.excludedPropertyNames.isEmpty()) {
-    		throw new IllegalStateException("Adding includedPropertyNames is not allowed, when excludedPropertyNames where already provided.");
-    	}
-    	
-    	this.includedPropertyNames.addAll(propertyNames);
-    	return this;
-    }
+	@Override
+	public EqualsIntegrityTestBuilder addIncludedPropertyNames(final Set<String> propertyNames) {
+		return (EqualsIntegrityTestBuilder) super.addIncludedPropertyNames(propertyNames);
+	}
 }

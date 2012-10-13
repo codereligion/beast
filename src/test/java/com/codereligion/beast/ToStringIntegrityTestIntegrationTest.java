@@ -53,8 +53,8 @@ public class ToStringIntegrityTestIntegrationTest {
 			.run();
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testMissingImplementingClass() {
+	@Test(expected = AssertionError.class)
+	public void testWithMissingImplemention() {
 		new ToStringIntegrityTestBuilder(MissingToStringImplementation.class)
 			.create()
 			.run();

@@ -17,6 +17,7 @@
 package com.codereligion.beast.internal.test;
 
 import static com.codereligion.beast.internal.util.Assert.assertFalse;
+import static com.codereligion.beast.internal.util.Assert.fail;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -32,9 +33,9 @@ import java.beans.PropertyDescriptor;
  * Tests the hashCode implementation of the class under test for the following criteria:
  * 
  * <ul>
- * <li> the method must be implemented
+ * <li> the hashCode method must be implemented
  * <li> the result of hashCode method of two instances must be equal, if the instances are equal according to their equals implementation
- * <li> calling hashCode on instances with different property values set must behave as specified in the given {@link IntegrityStrategy}
+ * <li> calling hashCode on instances with different property values must behave as specified in the given {@link IntegrityStrategy}
  * </ul>
  *
  * @author Sebastian Gröbler
@@ -60,14 +61,15 @@ public final class HashCodeIntegrityTest extends AbstractIntegrityTest {
 			final IntegrityStrategy integrityStrategy) {
 		
 		super(beanClass, objectFactory, integrityStrategy);
-
-        if (!isMethodImplemented(ObjectMethodNames.HASH_CODE)) {
-        	throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " does not implement hashCode.");
-        }
 	}
 
 	@Override
 	public void run() {
+		
+		if (!isMethodImplemented(ObjectMethodNames.HASH_CODE)) {
+			fail("The given class %s does not implement hashCode.", this.beanClassCanonicalName);
+		}
+
 		final Object defaultObject = newBeanObject();
 		
 		for (final PropertyDescriptor property : this.settableProperties) {
@@ -92,7 +94,7 @@ public final class HashCodeIntegrityTest extends AbstractIntegrityTest {
 	            
 	            this.integrityStrategy.apply(defaultObject, dirtyObject, propertyName);
             } catch (final InvocationTargetException e) {
-            	handlePropertySetterExcetion(property, e);
+            	handleInvocationTargetException(property, e);
             }
 		}
 	}
@@ -108,40 +110,15 @@ public final class HashCodeIntegrityTest extends AbstractIntegrityTest {
 	    if (getClass() != obj.getClass()) {
 		    return false;
 	    }
-	    
-        final HashCodeIntegrityTest other = (HashCodeIntegrityTest) obj;
-	    
-	    if (!this.beanClass.equals(other.beanClass)) {
-		    return false;
-	    } 
-	    if (!this.integrityStrategy.equals(other.integrityStrategy)) {
-	    	return false;
-	    } 
-	    if (!this.beanClassCanonicalName.equals(other.beanClassCanonicalName)) {
-		    return false;
-	    } 
-	    if (!this.objectFactory.equals(other.objectFactory)) {
-		    return false;
-	    } 
-	    if (!this.settableProperties.equals(other.settableProperties)) {
-		    return false;
-	    }
-    	return true;
+
+	    return super.equals(obj);
     }
 
 	@Override
     public String toString() {
 	    final StringBuilder builder = new StringBuilder();
-	    builder.append("HashCodeIntegrityTest [beanClass=");
-	    builder.append(this.beanClass);
-	    builder.append(", integrityStrategy=");
-	    builder.append(this.integrityStrategy);
-	    builder.append(", beanClassCanonicalName=");
-	    builder.append(this.beanClassCanonicalName);
-	    builder.append(", settableProperties=");
-	    builder.append(this.settableProperties);
-	    builder.append(", objectFactory=");
-	    builder.append(this.objectFactory);
+	    builder.append("HashCodeIntegrityTest [");
+	    builder.append(super.toString());
 	    builder.append("]");
 	    return builder.toString();
     }

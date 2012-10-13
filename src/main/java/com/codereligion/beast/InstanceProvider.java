@@ -20,83 +20,78 @@ package com.codereligion.beast;
  * TODO document
  * TODO test
  *
- * @param <T>
  * @author Sebastian Gröbler
  * @author 20.08.2012
  */
-public final class InstanceProvider <T> {
+public final class InstanceProvider {
 	
-	private final T defaultInstance;
-	private final T dirtyInstance;
+	private final Object defaultInstance;
+	private final Object dirtyInstance;
 	private final Class<?> instanceClass;
 	private final String propertyName;
 	
 	/**
 	 * TODO
 	 *
-	 * @param <T>
 	 * @param defaultInstance
 	 * @param dirtyInstance
 	 * @return
 	 */
-	public static <T> InstanceProvider<T> create(final T defaultInstance, final T dirtyInstance) {
-		return new InstanceProvider<T>(defaultInstance, dirtyInstance);
+	public static InstanceProvider create(final Object defaultInstance, final Object dirtyInstance) {
+		return new InstanceProvider(defaultInstance, dirtyInstance);
 	}
 	
 	/**
 	 * TODO
 	 *
-	 * @param <T>
 	 * @param defaultInstance
 	 * @param dirtyInstance
 	 * @param instanceClass
 	 * @return
 	 */
-	public static <T> InstanceProvider<T> create(
-			final T defaultInstance,
-			final T dirtyInstance, 
-			final Class<T> instanceClass) {
+	public static InstanceProvider create(
+			final Object defaultInstance,
+			final Object dirtyInstance, 
+			final Class<?> instanceClass) {
 		
-		return new InstanceProvider<T>(defaultInstance, dirtyInstance, instanceClass);
+		return new InstanceProvider(defaultInstance, dirtyInstance, instanceClass);
 	}
 	
 	/**
 	 * TODO
 	 *
-	 * @param <T>
 	 * @param defaultInstance
 	 * @param dirtyInstance
 	 * @param propertyName
 	 * @return
 	 */
-	public static <T> InstanceProvider<T> create(final T defaultInstance, final T dirtyInstance, final String propertyName) {
-		return new InstanceProvider<T>(defaultInstance, dirtyInstance, propertyName);
+	public static InstanceProvider create(final Object defaultInstance, final Object dirtyInstance, final String propertyName) {
+		return new InstanceProvider(defaultInstance, dirtyInstance, propertyName);
 	}
 	
 	/**
 	 * TODO
 	 *
-	 * @param <T>
 	 * @param defaultInstance
 	 * @param dirtyInstance
 	 * @param instanceClass
 	 * @param propertyName
 	 * @return
 	 */
-	public static <T> InstanceProvider<T> create(
-			final T defaultInstance,
-			final T dirtyInstance,
-			final Class<T> instanceClass,
+	public static InstanceProvider create(
+			final Object defaultInstance,
+			final Object dirtyInstance,
+			final Class<?> instanceClass,
 			final String propertyName) {
-		return new InstanceProvider<T>(defaultInstance, dirtyInstance, instanceClass, propertyName);
+		return new InstanceProvider(defaultInstance, dirtyInstance, instanceClass, propertyName);
 	}
 
 	
-    InstanceProvider(final T defaultInstance, final T dirtyInstance) {
+    InstanceProvider(final Object defaultInstance, final Object dirtyInstance) {
 		this(defaultInstance, dirtyInstance, (String) null);
 	}
 
-    InstanceProvider(final T defaultInstance, final T dirtyInstance, final String propertyName) {
+    InstanceProvider(final Object defaultInstance, final Object dirtyInstance, final String propertyName) {
     	if (defaultInstance == null) {
     		throw new IllegalArgumentException("defaultInstance must not be null.");
     	}
@@ -132,11 +127,11 @@ public final class InstanceProvider <T> {
     	this.propertyName = propertyName;
     }
 
-    InstanceProvider(final T defaultInstance, final T dirtyInstance, final Class<T> instanceClass) {
+    InstanceProvider(final Object defaultInstance, final Object dirtyInstance, final Class<?> instanceClass) {
     	this(defaultInstance, dirtyInstance, instanceClass, null);
     }
     
-    InstanceProvider(final T defaultInstance, final T dirtyInstance, final Class<T> instanceClass, final String propertyName) {
+    InstanceProvider(final Object defaultInstance, final Object dirtyInstance, final Class<?> instanceClass, final String propertyName) {
     	if (defaultInstance == null) {
     		throw new IllegalArgumentException("defaultInstance must not be null.");
     	}
@@ -190,7 +185,7 @@ public final class InstanceProvider <T> {
 	 *
 	 * @return
 	 */
-	public T getDirtyObject() {
+	public Object getDirtyObject() {
 		return this.dirtyInstance;
 	}
 
@@ -199,7 +194,7 @@ public final class InstanceProvider <T> {
 	 *
 	 * @return
 	 */
-	public T getDefaultObject() {
+	public Object getDefaultObject() {
 		return this.defaultInstance;
 	}
 
@@ -208,10 +203,8 @@ public final class InstanceProvider <T> {
 	 *
 	 * @return
 	 */
-	public Class<? extends T> getInstanceClass() {
-		@SuppressWarnings("unchecked")
-		final Class<? extends T> returnValue = (Class<? extends T>) this.instanceClass;
-		return returnValue;
+	public Class<?> getInstanceClass() {
+		return this.instanceClass;
 	}
 	
 	/**
@@ -251,8 +244,7 @@ public final class InstanceProvider <T> {
 	    if (getClass() != obj.getClass())
 		    return false;
 	    
-	    @SuppressWarnings("unchecked")
-        final InstanceProvider<T> other = (InstanceProvider<T>) obj;
+        final InstanceProvider other = (InstanceProvider) obj;
 	    if (!this.instanceClass.equals(other.instanceClass))
 		    return false;
 	    if (this.propertyName == null) {

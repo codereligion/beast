@@ -16,16 +16,15 @@
 
 package com.codereligion.beast.internal.test;
 
-import java.beans.PropertyDescriptor;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Set;
 
 
 /**
- * TODO update documentation
- * Tests the equals implementation of a java bean.
+ * Abstract test which provides the basic functionality for a null-safety test.
  *
  * @author Sebastian Gröbler
  * @since 11.08.2012
@@ -33,17 +32,18 @@ import java.util.Set;
 public abstract class AbstractNullSafetyTest extends AbstractTest {
 	
 	/**
-	 * TODO
+	 * The names of the properties excluded from the test.
 	 */
 	protected final Set<String> excludedPropertyNames;
 
     /**
-     * TODO
-	 * Constructs a new instance.
+	 * Constructs a new instance of this test for the given {@code beanClass}
+	 * using the given {@code objectFactory} and {@code excludedPropertyNames}.
 	 *
-	 * @param beanClass
-	 * @param objectFactory
-	 * @param excludedPropertyNames
+	 * @param beanClass the {@link Class} to test
+	 * @param objectFactory the {@link ObjectFactory} to use
+	 * @param excludedPropertyNames the names of the properties to exclude from the test
+	 * @throws NullPointerException when any of the given parameters are {@code null}
 	 */
 	public AbstractNullSafetyTest(
     		final Class<?> beanClass,
@@ -61,7 +61,7 @@ public abstract class AbstractNullSafetyTest extends AbstractTest {
 	
 
 	@Override
-    protected void handlePropertySetterExcetion(final PropertyDescriptor property, final Throwable e) {
+    public void handleInvocationTargetException(final PropertyDescriptor property, final InvocationTargetException e) {
 
 		final String propertyName = property.getName();
 	    if (!this.excludedPropertyNames.contains(propertyName)) {
@@ -72,15 +72,66 @@ public abstract class AbstractNullSafetyTest extends AbstractTest {
 	    }
     }
 	
+	/**
+	 * Compares the given object by verifying that:
+	 * 
+	 * <ul>
+	 * <li> it is not {@code null}
+	 * <li> it is an instance of {@link AbstractNullSafetyTest}
+	 * <li> the given object has the same {@code beanClass} as this object
+	 * <li> the given object has the same {@code objectFactory} as this object
+	 * <li> the given object has the same {@code excludedPropertyNames} as this object
+	 * </ul>
+	 * 
+	 * This method should be used by sub-classes to avoid duplication.
+	 */
+	@Override
+    public boolean equals(final Object obj) {
+		if (this == obj) {
+		    return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (!(obj instanceof AbstractNullSafetyTest)) {
+		    return false;
+	    }
+	    
+        final AbstractNullSafetyTest other = (AbstractNullSafetyTest) obj;
+        
+        if (!super.equals(other)) {
+        	return false;
+        }
+	    
+	    if (!this.excludedPropertyNames.equals(other.excludedPropertyNames)) {
+	    	return false;
+	    } 
+    	return true;
+    }
+
+	/**
+	 * Generates a hash code based on the unique and visible members of this class.
+	 * This method should be used by sub-classes to avoid duplication.
+	 */
 	@Override
     public int hashCode() {
 	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + this.beanClass.hashCode();
+	    int result = super.hashCode();
 	    result = prime * result + this.excludedPropertyNames.hashCode();
-	    result = prime * result + this.beanClassCanonicalName.hashCode();
-	    result = prime * result + this.objectFactory.hashCode();
-	    result = prime * result + this.settableProperties.hashCode();
 	    return result;
+    }
+	
+	/**
+	 * Generates a concatenated string which contains key/value pairs of every unique
+	 * and visible member of this class with its according value. This method should be
+	 * used by sub-classes to avoid duplication.
+	 */
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append(super.toString());
+	    builder.append(", excludedPropertyNames=");
+	    builder.append(this.excludedPropertyNames);
+	    return builder.toString();
     }
 }

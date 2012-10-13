@@ -18,7 +18,7 @@ package com.codereligion.beast.internal.creation;
 
 /**
  * Enumeration of available property states. Default properties contain
- * values which are equivalent to 0 while dirty properties contain
+ * values which are equivalent to 0 while "dirty" properties contain
  * values which are equivalent to 1 depending on the actual type.
  * 
  * <p>

@@ -17,7 +17,7 @@
 package com.codereligion.beast.internal.creation;
 
 /**
- * TODO
+ * Constant class to store names of methods which are subject to tests of this framework.
  *
  * @author Sebastian Gröbler
  * @since 18.08.2012
@@ -25,7 +25,7 @@ package com.codereligion.beast.internal.creation;
 public final class ObjectMethodNames {
 	
 	/**
-	 *  No public constructor for this utility class.
+	 * No public constructor for this utility class.
 	 */
 	private ObjectMethodNames() {
 		throw new IllegalAccessError("This is an utility class which must not be instantiated.");

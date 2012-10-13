@@ -58,17 +58,17 @@ public final class HashCodeIntegrityIncludeStrategy extends AbstractIntegrityInc
     	
     	final boolean hashCodesAreEqual = defaultObject.hashCode() == dirtyObject.hashCode();
     	final boolean isIncluded = this.propertyNames.contains(propertyName);
-		final boolean isUnintentionallyMissing = !hashCodesAreEqual && !isIncluded;
+		final boolean isMissingInIncludes = !hashCodesAreEqual && !isIncluded;
 		
-		assertFalse(isUnintentionallyMissing,
+		assertFalse(isMissingInIncludes,
 					"The property '%s' is supported by the hashCode implementation, but is not specified " +
 					"as includedProperty. Either add it to the includedProperties, or remove it " +
 					"from the implementation of the hashCode method.",
 					propertyName);
 
-		final boolean isUnnecessarilyIncluded = hashCodesAreEqual && isIncluded;
+		final boolean isMissingInImplementation = hashCodesAreEqual && isIncluded;
     	
-    	assertFalse(isUnnecessarilyIncluded,
+    	assertFalse(isMissingInImplementation,
     			"The property '%s' was specified as includedProperty, but may not be supported by the hash code " +
     			"implementation or the generated hashCode may be to weak to reflect changes in this property. " +
     			"Either remove it from the includedProperties, or add it to the implementation of the hash code method. " +

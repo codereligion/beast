@@ -18,6 +18,7 @@ package com.codereligion.beast.internal.test;
 
 import static com.codereligion.beast.internal.util.Assert.assertFalse;
 import static com.codereligion.beast.internal.util.Assert.assertTrue;
+import static com.codereligion.beast.internal.util.Assert.fail;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -33,11 +34,11 @@ import java.beans.PropertyDescriptor;
  * Tests the equals implementation of the class under test for the following criteria:
  * 
  * <ul>
- * <li> the method must be implemented
+ * <li> the equals method must be implemented
  * <li> calling equals with {@code null} must always be false
  * <li> calling equals on the same instance must always be true
  * <li> calling on two different instances must be symmetric
- * <li> calling equals on instances with different property values set must behave as specified in the given {@link IntegrityStrategy}
+ * <li> calling equals on instances with different property values must behave as specified in the given {@link IntegrityStrategy}
  * </ul>
  *
  * @author Sebastian Gröbler
@@ -62,15 +63,16 @@ public final class EqualsIntegrityTest extends AbstractIntegrityTest {
     		final IntegrityStrategy integrityStrategy) {
     	
 	    super(beanClass, objectFactory, integrityStrategy);
-
-        if (!isMethodImplemented(ObjectMethodNames.EQUALS)) {
-        	throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " does not implement equals.");
-        }
     }
 
 	@Override
     public void run() {
-        final Object defaultObject = newBeanObject();
+		
+		if (!isMethodImplemented(ObjectMethodNames.EQUALS)) {
+			fail("The given class %s does not implement equals.", this.beanClassCanonicalName);
+		}
+
+		final Object defaultObject = newBeanObject();
         
         assertFalse(defaultObject.equals(null),
 				"Equals method for instances of %s is equals to null.",
@@ -101,7 +103,7 @@ public final class EqualsIntegrityTest extends AbstractIntegrityTest {
 	            
 	            this.integrityStrategy.apply(defaultObject, dirtyObject, propertyName);
             } catch (final InvocationTargetException e) {
-            	handlePropertySetterExcetion(property, e);
+            	handleInvocationTargetException(property, e);
             }
         }
     }
@@ -118,39 +120,14 @@ public final class EqualsIntegrityTest extends AbstractIntegrityTest {
 		    return false;
 	    }
 	    
-        final EqualsIntegrityTest other = (EqualsIntegrityTest) obj;
-	    
-	    if (!this.beanClass.equals(other.beanClass)) {
-		    return false;
-	    } 
-	    if (!this.integrityStrategy.equals(other.integrityStrategy)) {
-	    	return false;
-	    } 
-	    if (!this.beanClassCanonicalName.equals(other.beanClassCanonicalName)) {
-		    return false;
-	    } 
-	    if (!this.objectFactory.equals(other.objectFactory)) {
-		    return false;
-	    } 
-	    if (!this.settableProperties.equals(other.settableProperties)) {
-		    return false;
-	    }
-    	return true;
+    	return super.equals(obj);
     }
 
 	@Override
     public String toString() {
 	    final StringBuilder builder = new StringBuilder();
-	    builder.append("EqualsIntegrityTest [beanClass=");
-	    builder.append(this.beanClass);
-	    builder.append(", integrityStrategy=");
-	    builder.append(this.integrityStrategy);
-	    builder.append(", beanClassCanonicalName=");
-	    builder.append(this.beanClassCanonicalName);
-	    builder.append(", settableProperties=");
-	    builder.append(this.settableProperties);
-	    builder.append(", objectFactory=");
-	    builder.append(this.objectFactory);
+	    builder.append("EqualsIntegrityTest [");
+	    builder.append(super.toString());
 	    builder.append("]");
 	    return builder.toString();
     }

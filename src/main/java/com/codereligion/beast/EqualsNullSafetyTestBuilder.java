@@ -16,37 +16,36 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.test.AbstractTestBuilder;
-
+import com.codereligion.beast.internal.builder.AbstractTestBuilder;
 import com.codereligion.beast.internal.creation.ObjectFactory;
-
-import com.codereligion.beast.internal.test.Test;
-
 import com.codereligion.beast.internal.test.EqualsNullSafetyTest;
-
-
-import java.util.HashSet;
-
+import com.codereligion.beast.internal.test.Test;
 import java.util.Set;
 
 
 
 /**
- * TODO document
- * TODO test null check
+ * Builder for the equals null-safety test. The resulting test will apply the following criteria
+ * to the class under test:
+ * 
+ * <ul>
+ * <li> the equals method must be implemented
+ * <li> calling equals for properties with {@code null} values, 
+ * 		which have not been excluded must not throw a {@link NullPointerException}
+ * <li> calling equals for properties with {@code null} values,
+ * 		which have been excluded must throw a {@link NullPointerException}
+ * </ul>
  *
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 public final class EqualsNullSafetyTestBuilder extends AbstractTestBuilder {
 
-	private Set<String> excludedPropertyNames = new HashSet<String>();
-	
 	/**
-	 * TODO
-	 * Constructs a new instance.
+	 * Creates a new builder which will create a test for the given {@code beanClass}.
 	 *
-	 * @param beanClass
+	 * @param beanClass the {@link Class} to be tested
+	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	public EqualsNullSafetyTestBuilder(final Class<?> beanClass) {
 		super(beanClass);
@@ -58,44 +57,22 @@ public final class EqualsNullSafetyTestBuilder extends AbstractTestBuilder {
 	}
 
 	@Override
-	public EqualsNullSafetyTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+	public EqualsNullSafetyTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
 		return (EqualsNullSafetyTestBuilder) super.addInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public EqualsNullSafetyTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+	public EqualsNullSafetyTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
 		return (EqualsNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 
-	/**
-     * TODO
-     *
-     * @param propertyName
-     * @return
-     */
+	@Override
 	public EqualsNullSafetyTestBuilder addExcludedPropertyName(final String propertyName) {
-    	
-    	if (propertyName == null) {
-    		throw new NullPointerException("propertyName must not be null.");
-    	}
-    	
-    	this.excludedPropertyNames.add(propertyName);
-    	return this;
+    	return (EqualsNullSafetyTestBuilder) super.addExcludedPropertyName(propertyName);
     }
 
-	/**
-     * TODO
-     *
-     * @param propertyNames
-     * @return
-     */
+	@Override
 	public EqualsNullSafetyTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-    	
-    	if (propertyNames == null) {
-    		throw new NullPointerException("propertyNames must not be null.");
-    	}
-    	
-    	this.excludedPropertyNames.addAll(propertyNames);
-    	return this;
+    	return (EqualsNullSafetyTestBuilder) super.addExcludedPropertyNames(propertyNames);
     }
 }

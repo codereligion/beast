@@ -52,7 +52,7 @@ import org.junit.Test;
  */
 public class ObjectFactoryWithCustomInstanceProvidersTest {
 
-	private static ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider<?>>emptySet());
+	private static ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider>emptySet());
 	
 	@Test(expected = NullPointerException.class)
 	public void testGetDefaultObjectWithNullClass() {
@@ -61,8 +61,9 @@ public class ObjectFactoryWithCustomInstanceProvidersTest {
 	
 	@Test
 	public void testGetDefaultObject() {
-		final ComplexClass defaultObject = objectFactory.getDefaultObject(ComplexClass.class, null);
+		final Object defaultObject = objectFactory.getDefaultObject(ComplexClass.class, null);
 		assertNotNull(defaultObject);
+		assertTrue(defaultObject instanceof ComplexClass);
 		assertNotNull(defaultObject.toString());
 	}
 	
@@ -88,52 +89,59 @@ public class ObjectFactoryWithCustomInstanceProvidersTest {
 	
 	@Test
 	public void testGetDirtyObjectWithEmptyEnum() {
-		final EmptyEnum emptyEnum = objectFactory.getDirtyObject(EmptyEnum.class, null);
+		final Object emptyEnum = objectFactory.getDirtyObject(EmptyEnum.class, null);
 		assertNull(emptyEnum);
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithOneElementEnum() {
-		final OneElementEnum oneElementEnum = objectFactory.getDirtyObject(OneElementEnum.class, null);
+		final Object oneElementEnum = objectFactory.getDirtyObject(OneElementEnum.class, null);
 		assertNull(oneElementEnum);
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithString() {
-		final String string = objectFactory.getDirtyObject(String.class, null);
+		final Object string = objectFactory.getDirtyObject(String.class, null);
 
 		assertNotNull(string);
+		assertTrue(string instanceof String);
 		assertEquals("1", string);
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithArray() {
-		final Integer[] intArray = objectFactory.getDirtyObject(Integer[].class, null);
+		final Object intArray = objectFactory.getDirtyObject(Integer[].class, null);
 
 		assertNotNull(intArray);
-		assertEquals(1, intArray.length);
-		assertEquals(Integer.valueOf(1), intArray[0]);
+		assertTrue(intArray instanceof Integer[]);
+		assertEquals(1, ((Integer[])intArray).length);
+		assertEquals(Integer.valueOf(1), ((Integer[])intArray)[0]);
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithEnum() {
-		final ComplexClass.Enumeration enumeration = objectFactory.getDirtyObject(ComplexClass.Enumeration.class, null);
+		final Object enumeration = objectFactory.getDirtyObject(ComplexClass.Enumeration.class, null);
 		
 		assertNotNull(enumeration);
-		assertEquals(1, enumeration.ordinal());
+		assertTrue(enumeration instanceof ComplexClass.Enumeration);
+		assertEquals(1, ((Enum<?>)enumeration).ordinal());
 	}
 	
 	@Test
 	public void testGetDirtyObjectWithComplexClass() {
-		final ComplexClass dirtyComplexObject1 = objectFactory.getDirtyObject(ComplexClass.class, null);
+		final Object dirtyComplexObject1 = objectFactory.getDirtyObject(ComplexClass.class, null);
 		
 		assertNotNull(dirtyComplexObject1);
+		assertTrue(dirtyComplexObject1 instanceof ComplexClass);
 		assertEquals(1, dirtyComplexObject1.hashCode());
 		assertEquals("1", dirtyComplexObject1.toString());
 
-		final ComplexClass dirtyComplexObject2 = objectFactory.getDirtyObject(ComplexClass.class, null);
-		final AnotherComplexClass anotherDirtyComplexObject = objectFactory.getDirtyObject(AnotherComplexClass.class, null);
+		final Object dirtyComplexObject2 = objectFactory.getDirtyObject(ComplexClass.class, null);
+		final Object anotherDirtyComplexObject = objectFactory.getDirtyObject(AnotherComplexClass.class, null);
 
+		assertTrue(dirtyComplexObject2 instanceof ComplexClass);
+		assertTrue(anotherDirtyComplexObject instanceof AnotherComplexClass);
+		
 		// test equals
 		assertFalse(dirtyComplexObject1.equals(null));
 		assertFalse(dirtyComplexObject1.equals("foo"));
@@ -145,7 +153,8 @@ public class ObjectFactoryWithCustomInstanceProvidersTest {
 		assertFalse(dirtyComplexObject1.equals(anotherDirtyComplexObject));
 		assertFalse(anotherDirtyComplexObject.equals(dirtyComplexObject1));
 		
-		final ComplexClass defaultObject = objectFactory.getDefaultObject(ComplexClass.class, null);
+		final Object defaultObject = objectFactory.getDefaultObject(ComplexClass.class, null);
+		assertTrue(defaultObject instanceof ComplexClass);
 		assertFalse(defaultObject.equals(dirtyComplexObject1));
 		assertFalse(dirtyComplexObject1.equals(defaultObject));
 	}

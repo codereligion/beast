@@ -18,6 +18,7 @@ package com.codereligion.beast.internal.creation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.codereligion.beast.InstanceProvider;
 
@@ -43,20 +44,20 @@ import org.junit.Test;
  */
 public class ObjectFactoryWithDefaultInstanceProvidersTest {
 
-	@Test
+    @Test
 	public void testWithCustomInstanceProviderOfHashSet() {
 		
 		final Set<Integer> defaultInstance = Sets.newHashSet(Integer.valueOf(21));
 		final Set<Integer> dirtyInstance = Sets.newHashSet(Integer.valueOf(42));
-		final InstanceProvider<?> provider = InstanceProvider.create(defaultInstance, dirtyInstance, Set.class);
-		final Set<InstanceProvider<?>> providers = Sets.<InstanceProvider<?>>newHashSet(provider);
+		final InstanceProvider provider = InstanceProvider.create(defaultInstance, dirtyInstance, Set.class);
+		final Set<InstanceProvider> providers = Sets.<InstanceProvider>newHashSet(provider);
 		
 		final ObjectFactory objectFactory = new ObjectFactory(providers);
 		
-		@SuppressWarnings("unchecked")
-        final Set<Integer> result = objectFactory.getDefaultObject(Set.class, null);
+        final Object result = objectFactory.getDefaultObject(Set.class, null);
 		
 		assertNotNull(result);
-		assertEquals(Integer.valueOf(21), result.iterator().next());
+		assertTrue(result instanceof Set);
+		assertEquals(Integer.valueOf(21), ((Set<?>)result).iterator().next());
 	}
 }

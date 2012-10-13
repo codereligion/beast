@@ -100,13 +100,12 @@ public final class ReflectUtil {
 	}
 
 	/**
-	 * TODO update exception documentation
 	 * This method provides a workaround for the java bug documented here: http://bugs.sun.com/view_bug.do?bug_id=6528714
 	 * 
 	 * @param beanClass the {@link Class} to which the given {@code propertyDescriptor} belongs
 	 * @param propertyDescriptor the {@link PropertyDescriptor} to potentially workaround
 	 * @return either the given {@code propertyDescriptor} or a new one which reflects the underlying property correctly
-	 * @throws IntrospectionException when instantiation of a new {@link PropertyDescriptor} failed
+	 * @throws IllegalArgumentException when instantiation of a new {@link PropertyDescriptor} failed
 	 */
 	private static PropertyDescriptor getGenericTypeAwarePropertyDescriptor (
 			final Class<?> beanClass,
@@ -115,19 +114,19 @@ public final class ReflectUtil {
 		final Method writeMethod = propertyDescriptor.getWriteMethod();
 		final Method readMethod = propertyDescriptor.getReadMethod();
 		
-		// has a non-null write method and its not a bridge, so the bug did not occur
+		// has a write method and it is not a bridge, so the bug did not occur
 		if (writeMethod != null && !writeMethod.isBridge()) {
     		return propertyDescriptor;
 		}
 		
-		// we could not find a write method or it was a bridge
+		// could not find a write method or it was a bridge
 		
 		// the property actually does not provide a setter
 		if (readMethod == null) {
 			return propertyDescriptor;
 		}
 		
-		// we has a read method so we can try to find the appropriate write method
+		// it has a read method so we can try to find the appropriate write method
 		
 		// create a setter name from the given getter name
 		final String propertyName = propertyDescriptor.getName();
@@ -143,7 +142,7 @@ public final class ReflectUtil {
 		}
 		
 		// try to find public, non bridged write method matching the name
-		final Method potentialWriteMethod = getMatchingNonBridgedPublicReadMethod(setterName, beanClass);
+		final Method potentialWriteMethod = getPublicNonBridgedMethod(setterName, beanClass);
 		
 		if (potentialWriteMethod == null) {
 			// did not find a write method so there is actually none
@@ -160,7 +159,7 @@ public final class ReflectUtil {
 			}
 	
 			// yuck, even the bloody read method was wrong, try to get the right one
-			final Method potentialReadMethod = getMatchingNonBridgedPublicReadMethod(getterName, beanClass);
+			final Method potentialReadMethod = getPublicNonBridgedMethod(getterName, beanClass);
 			
 			if (potentialReadMethod != null) {
 				// now we have the write method and the read method, hurrah!!! 
@@ -183,7 +182,7 @@ public final class ReflectUtil {
 	 * @param beanClass the {@link Class} in which the {@link Method} is expected
 	 * @return the matching {@link Method} or {@code null} if it could not be found
 	 */
-	private static Method getMatchingNonBridgedPublicReadMethod(final String methodName, final Class<?> beanClass) {
+	private static Method getPublicNonBridgedMethod(final String methodName, final Class<?> beanClass) {
 		for (final Method method : beanClass.getMethods()) {
 			final boolean isMatchingName = method.getName().equals(methodName);
 			final boolean isNotBridge = !method.isBridge();

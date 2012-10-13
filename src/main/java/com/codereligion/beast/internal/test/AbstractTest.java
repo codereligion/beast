@@ -17,6 +17,8 @@
 package com.codereligion.beast.internal.test;
 
 
+import com.codereligion.beast.internal.test.strategy.InvocationTargetExceptionHandler;
+
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.util.ReflectUtil;
 import java.beans.PropertyDescriptor;
@@ -32,7 +34,7 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-abstract class AbstractTest implements Test {
+abstract class AbstractTest implements Test, InvocationTargetExceptionHandler {
 
 	/**
 	 * The {@link Class} of the bean to be tested.
@@ -96,13 +98,6 @@ abstract class AbstractTest implements Test {
 	}
 	
 	/**
-	 * TODO
-	 *
-	 * @param propertyName
-	 */
-	protected abstract void handlePropertySetterExcetion(PropertyDescriptor property, Throwable e);
-	
-	/**
 	 * Determines if the {@code beanClass} can be instantiated.
 	 *
 	 * <p>
@@ -157,7 +152,7 @@ abstract class AbstractTest implements Test {
 				try {
 					setValue(object, property, value);
 				} catch (final InvocationTargetException e) {
-					handlePropertySetterExcetion(property, e);
+					handleInvocationTargetException(property, e);
 				}
 			}
 
@@ -209,4 +204,67 @@ abstract class AbstractTest implements Test {
 			throw new IllegalStateException("Failed to set '" + value + "' on setter: " + setter + ".", e);
         }
 	}
+
+	/**
+	 * Compares the given object by verifying that:
+	 * 
+	 * <ul>
+	 * <li> it is not {@code null}
+	 * <li> it is an instance of {@link AbstractTest}
+	 * <li> the given object has the same {@code beanClass} as this object
+	 * <li> the given object has the same {@code objectFactory} as this object
+	 * </ul>
+	 * 
+	 * This method should be used by sub-classes to avoid duplication.
+	 */
+	@Override
+    public boolean equals(final Object obj) {
+		if (this == obj) {
+		    return true;
+	    }
+	    if (obj == null) {
+		    return false;
+	    }
+	    if (!(obj instanceof AbstractTest)) {
+		    return false;
+	    }
+	    
+        final AbstractTest other = (AbstractTest) obj;
+	    
+	    if (!this.beanClass.equals(other.beanClass)) {
+		    return false;
+	    } 
+	    if (!this.objectFactory.equals(other.objectFactory)) {
+		    return false;
+	    } 
+    	return true;
+    }
+	
+	/**
+	 * Generates a hash code based on the unique members of this class.
+	 * This method should be used by sub-classes to avoid duplication.
+	 */
+	@Override
+    public int hashCode() {
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + this.beanClass.hashCode();
+	    result = prime * result + this.objectFactory.hashCode();
+	    return result;
+    }
+
+	/**
+	 * Generates a concatenated string which contains key/value pairs of every unique member
+	 * of this class with its according value. This method should be used by sub-classes
+	 * to avoid duplication.
+	 */
+	@Override
+    public String toString() {
+	    final StringBuilder builder = new StringBuilder();
+	    builder.append("beanClass=");
+	    builder.append(this.beanClass);
+	    builder.append(", objectFactory=");
+	    builder.append(this.objectFactory);
+	    return builder.toString();
+    }
 }

@@ -16,10 +16,7 @@
 
 package com.codereligion.beast;
 
-import java.util.HashSet;
-
-import com.codereligion.beast.internal.test.AbstractTestBuilder;
-
+import com.codereligion.beast.internal.builder.AbstractTestBuilder;
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.Test;
 import com.codereligion.beast.internal.test.ToStringFormatTest;
@@ -28,93 +25,78 @@ import java.util.regex.Pattern;
 
 
 /**
- * TODO document
- * TODO test null check
+ * Builder for the toString format test. The resulting test will apply the following criteria
+ * to the class under test:
+ * 
+ * <ul>
+ * <li> the toString method must be implemented
+ * <li> the result must comply to the specified {@link Pattern} or if no pattern has been 
+ * 		specified to the {@link ToStringFormatTestBuilder #DEFAULT_PATTERN}
+ * </ul>
  *
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 public final class ToStringFormatTestBuilder extends AbstractTestBuilder {
 	
-	// TODO extend to be able to cover lists and array and other complex objects as values
-	private static Pattern DEFAULT_PATTERN = Pattern.compile(".+\\{(.+=.+, )*(.+=.+)?\\}");
+	/**
+	 * The default pattern which matches to strings of this structure: 
+	 * 
+	 * <pre>
+	 * 	ClassName [propertyName=value, anotherPropertyName=value]
+	 * </pre>
+	 */
+	public static final Pattern DEFAULT_PATTERN = Pattern.compile(".+\\[(.+=.+, )*(.+=.+)?\\]");
 	
+	/**
+	 * The pattern to be applied.
+	 */
 	private Pattern pattern = DEFAULT_PATTERN;
 	
 	/**
-	 * TODO
-	 */
-	private Set<String> excludedPropertyNames = new HashSet<String>();
-	
-	/**
-	 * TODO
-	 * Constructs a new instance.
+	 * Creates a new builder which will create a test for the given {@code beanClass}.
 	 *
-	 * @param beanClass
-	 * @param pattern
-	 */
-	public ToStringFormatTestBuilder(final Class<?> beanClass, final Pattern pattern) {
-		super(beanClass);
-		this.pattern = pattern;
-	}
-	
-	/**
-	 * TODO
-	 * Constructs a new instance.
-	 *
-	 * @param beanClass
+	 * @param beanClass the {@link Class} to be tested
+	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	public ToStringFormatTestBuilder(final Class<?> beanClass) {
 		super(beanClass);
 	}
 	
 	/**
-	 * TODO
+	 * Creates a new builder which will create a test for the given {@code beanClass}.
+	 *
+	 * @param beanClass the {@link Class} to be tested
+	 * @param pattern the {@link Pattern} to be applied
+	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
+	public ToStringFormatTestBuilder(final Class<?> beanClass, final Pattern pattern) {
+		super(beanClass);
+		this.pattern = pattern;
+	}
+	
 	@Override
 	public Test create() {
 		return new ToStringFormatTest(this.beanClass, new ObjectFactory(this.instanceProviders), this.pattern, this.excludedPropertyNames);
 	}
 	
 	@Override
-	public ToStringFormatTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+	public ToStringFormatTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
 		return (ToStringFormatTestBuilder) super.addInstanceProvider(instanceProvider);
 	}
 	
 	@Override
-	public ToStringFormatTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+	public ToStringFormatTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
 		return (ToStringFormatTestBuilder) super.addInstanceProviders(instanceProviders);
 	}
 
-	/**
-     * TODO
-     *
-     * @param propertyName
-     * @return
-     */
+	@Override
 	public ToStringFormatTestBuilder addExcludedPropertyName(final String propertyName) {
-    	
-    	if (propertyName == null) {
-    		throw new NullPointerException("propertyName must not be null.");
-    	}
-    	
-    	this.excludedPropertyNames.add(propertyName);
-    	return this;
+    	return (ToStringFormatTestBuilder) super.addExcludedPropertyName(propertyName);
     }
 
-	/**
-     * TODO
-     *
-     * @param propertyNames
-     * @return
-     */
+	@Override
 	public ToStringFormatTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-    	
-    	if (propertyNames == null) {
-    		throw new NullPointerException("propertyNames must not be null.");
-    	}
-    	
-    	this.excludedPropertyNames.addAll(propertyNames);
-    	return this;
+    	return (ToStringFormatTestBuilder) super.addExcludedPropertyNames(propertyNames);
     }
 }

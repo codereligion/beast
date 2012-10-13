@@ -54,8 +54,8 @@ public class EqualsNullSafetyTestIntegrationTest {
 			.run();
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testMissingImplementingClass() {
+	@Test(expected = AssertionError.class)
+	public void testWithMissingImplemention() {
 		new EqualsNullSafetyTestBuilder(MissingEqualsImplementation.class)
 			.create()
 			.run();

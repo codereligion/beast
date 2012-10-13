@@ -20,7 +20,6 @@ import com.codereligion.beast.InstanceProvider;
 
 /**
  * Provides default instance providers.
- * TODO maybe add some interface like map, set, list, vector etc. for public api
  *
  * @author sgroebler
  * @since 23.08.2012
@@ -47,50 +46,50 @@ public final class InstanceProviders {
 	/**
 	 * Default instance provider for type {@link Boolean}.
 	 */
-	public static InstanceProvider<Boolean> BOOLEAN = InstanceProvider.create(Boolean.FALSE, Boolean.TRUE);
+	public static InstanceProvider BOOLEAN = InstanceProvider.create(Boolean.FALSE, Boolean.TRUE);
 	
 	/**
 	 * Default instance provider for type {@link BoByteolean}.
 	 */
-	public static InstanceProvider<Byte> BYTE = InstanceProvider.create(Byte.valueOf(ZERO), Byte.valueOf(ONE));
+	public static InstanceProvider BYTE = InstanceProvider.create(Byte.valueOf(ZERO), Byte.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Character}.
 	 */
-	public static InstanceProvider<Character> CHARACTER = InstanceProvider.create(Character.valueOf((char) 0), Character.valueOf((char) 1));
+	public static InstanceProvider CHARACTER = InstanceProvider.create(Character.valueOf((char) 0), Character.valueOf((char) 1));
 	
 	/**
 	 * Default instance provider for type {@link Double}.
 	 */
-	public static InstanceProvider<Double> DOUBLE = InstanceProvider.create(Double.valueOf(ZERO), Double.valueOf(ONE));
+	public static InstanceProvider DOUBLE = InstanceProvider.create(Double.valueOf(ZERO), Double.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Float}.
 	 */
-	public static InstanceProvider<Float> FLOAT = InstanceProvider.create(Float.valueOf(ZERO), Float.valueOf(ONE));
+	public static InstanceProvider FLOAT = InstanceProvider.create(Float.valueOf(ZERO), Float.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Integer}.
 	 */
-	public static InstanceProvider<Integer> INTEGER = InstanceProvider.create(Integer.valueOf(ZERO), Integer.valueOf(ONE));
+	public static InstanceProvider INTEGER = InstanceProvider.create(Integer.valueOf(ZERO), Integer.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Long}.
 	 */
-	public static InstanceProvider<Long> LONG = InstanceProvider.create(Long.valueOf(ZERO), Long.valueOf(ONE));
+	public static InstanceProvider LONG = InstanceProvider.create(Long.valueOf(ZERO), Long.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Object}.
 	 */
-	public static InstanceProvider<Short> OBJECT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
+	public static InstanceProvider OBJECT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Short}.
 	 */
-	public static InstanceProvider<Short> SHORT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
+	public static InstanceProvider SHORT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link String}.
 	 */
-	public static InstanceProvider<String> STRING = InstanceProvider.create(String.valueOf(ZERO), String.valueOf(ONE));
+	public static InstanceProvider STRING = InstanceProvider.create(String.valueOf(ZERO), String.valueOf(ONE));
 }

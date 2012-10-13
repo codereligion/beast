@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.codereligion.beast.internal.test;
+package com.codereligion.beast.internal.builder;
+
+import com.codereligion.beast.internal.test.Test;
 
 import com.codereligion.beast.InstanceProvider;
 import java.util.HashSet;
@@ -28,9 +30,20 @@ import java.util.Set;
  */
 public abstract class AbstractTestBuilder {
 	
-	protected Class<?> beanClass;
-	protected Set<InstanceProvider<?>> instanceProviders = new HashSet<InstanceProvider<?>>();
+	/**
+	 * The class to be tested
+	 */
+	protected final Class<?> beanClass;
 	
+	/**
+	 * The custom instance providers.
+	 */
+	protected Set<InstanceProvider> instanceProviders = new HashSet<InstanceProvider>();
+	
+	/**
+	 * The names of the properties which should be excluded from the test.
+	 */
+	protected Set<String> excludedPropertyNames = new HashSet<String>();
 
 	/**
 	 * Creates the concrete {@link AbstractTestBuilder} for the given {@code beanClass}.
@@ -49,13 +62,21 @@ public abstract class AbstractTestBuilder {
 	}
 	
 	/**
+	 * Creates the concrete {@link Test} for the specified {@code beanClass} applying the
+	 * specified configurations.
+	 *
+	 * @return the instance of the created test
+	 */
+	public abstract Test create();
+	
+	/**
 	 * Adds an {@link InstanceProvider}.
 	 *
 	 * @param instanceProvider the {@link InstanceProvider} to add
 	 * @return a reference of this instance
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
-	protected AbstractTestBuilder addInstanceProvider(final InstanceProvider<?> instanceProvider) {
+	protected AbstractTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
 		
 		if (instanceProvider == null) {
 			throw new NullPointerException("instanceProvider must not be null.");
@@ -72,7 +93,7 @@ public abstract class AbstractTestBuilder {
 	 * @return a reference of this instance
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
-	protected AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider<?>> instanceProviders) {
+	protected AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
 
 		if (instanceProviders == null) {
 			throw new NullPointerException("instanceProviders must not be null.");
@@ -81,12 +102,38 @@ public abstract class AbstractTestBuilder {
 		this.instanceProviders.addAll(instanceProviders);
 		return this;
 	}
-	
+
 	/**
-	 * Creates the concrete {@link Test} for the specified {@code beanClass} applying the
-	 * specified configurations.
-	 *
-	 * @return the instance of the created test
-	 */
-	public abstract Test create();
+     * Adds a name of a property which should be excluded from the test.
+     *
+     * @param propertyName the name of the property
+     * @return a reference of this instance
+     * @throws NullPointerException when the given parameter is {@code null}
+     */
+	public AbstractTestBuilder addExcludedPropertyName(final String propertyName) {
+    	
+    	if (propertyName == null) {
+    		throw new NullPointerException("propertyName must not be null.");
+    	}
+    	
+    	this.excludedPropertyNames.add(propertyName);
+    	return this;
+    }
+
+	/**
+     * Adds names of properties which should be excluded from the test.
+     *
+     * @param propertyNames the names of the properties
+     * @return a reference of this instance
+     * @throws NullPointerException when the given parameter is {@code null}
+     */
+	public AbstractTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
+    	
+    	if (propertyNames == null) {
+    		throw new NullPointerException("propertyNames must not be null.");
+    	}
+    	
+    	this.excludedPropertyNames.addAll(propertyNames);
+    	return this;
+    }
 }

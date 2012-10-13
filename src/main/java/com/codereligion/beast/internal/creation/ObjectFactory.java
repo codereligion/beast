@@ -17,6 +17,8 @@
 package com.codereligion.beast.internal.creation;
 
 
+import java.util.Collections;
+
 import com.codereligion.beast.InstanceProvider;
 import com.codereligion.beast.internal.util.ReflectUtil;
 import java.lang.reflect.Array;
@@ -32,7 +34,6 @@ import net.sf.cglib.proxy.MethodProxy;
 
 
 /**
- * TODO update documentations
  * Factory for creating test objects.
  *
  * @author Sebastian Gröbler
@@ -41,63 +42,84 @@ import net.sf.cglib.proxy.MethodProxy;
 public final class ObjectFactory {
 	
 	/**
-	 * Serves as placeholder for general type mappings which are not specific to a {@code propertyName}.
+	 * Serves as place holder for general type mappings which are not specific to a {@code propertyName}.
 	 */
 	private static final String NO_NAME = "This is not a propertyName.";
 	
 	/**
 	 * Stores a mapping of primitive boxed types to their primitive types.
 	 */
-	private static final Map<Class<?>, Class<?>> BOXED_TO_PRIMITIVE_MAPPING = new HashMap<Class<?>, Class<?>>();
+	private static final Map<Class<?>, Class<?>> BOXED_TO_PRIMITIVE_MAPPING = createBoxedToPrimitiveMapping();
 	
 	/**
 	 * The default instance providers of this factory.
 	 */
-	private static final Set<InstanceProvider<?>> DEFAULT_INSTANCE_PROVIDERS = new HashSet<InstanceProvider<?>>();
+	private static final Set<InstanceProvider> DEFAULT_INSTANCE_PROVIDERS = createDefaultInstanceProviders();
 	
-	static {
+	/**
+	 * Factory to create an unmodifiable map of primitive boxed types to primitive types. 
+	 *
+	 * @return an unmodifiable {@link Map}
+	 */
+	private static Map<Class<?>, Class<?>> createBoxedToPrimitiveMapping() {
+		
+		final Map<Class<?>, Class<?>> map = new HashMap<Class<?>, Class<?>>();
+		
 		// creating the mapping between boxed and primitive types
-		BOXED_TO_PRIMITIVE_MAPPING.put(Byte.class, Byte.TYPE);
-		BOXED_TO_PRIMITIVE_MAPPING.put(Character.class, Character.TYPE);
-		BOXED_TO_PRIMITIVE_MAPPING.put(Boolean.class, Boolean.TYPE);
-		BOXED_TO_PRIMITIVE_MAPPING.put(Short.class, Short.TYPE);
-		BOXED_TO_PRIMITIVE_MAPPING.put(Integer.class, Integer.TYPE);
-		BOXED_TO_PRIMITIVE_MAPPING.put(Long.class, Long.TYPE);
-		BOXED_TO_PRIMITIVE_MAPPING.put(Float.class, Float.TYPE);
-		BOXED_TO_PRIMITIVE_MAPPING.put(Double.class, Double.TYPE);
-
-		// adding default instance providers
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.BOOLEAN);
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.BYTE);
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.CHARACTER);
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.DOUBLE);
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.FLOAT);
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.INTEGER);
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.LONG);
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.OBJECT);
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.SHORT);
-		DEFAULT_INSTANCE_PROVIDERS.add(InstanceProviders.STRING);
+		map.put(Byte.class, Byte.TYPE);
+		map.put(Character.class, Character.TYPE);
+		map.put(Boolean.class, Boolean.TYPE);
+		map.put(Short.class, Short.TYPE);
+		map.put(Integer.class, Integer.TYPE);
+		map.put(Long.class, Long.TYPE);
+		map.put(Float.class, Float.TYPE);
+		map.put(Double.class, Double.TYPE);
+		
+		return Collections.unmodifiableMap(map);
+	}
+	
+	/**
+	 * Factory to create an unmodifiable set of default instance providers.
+	 *
+	 * @return an unmodifiable {@link Set}
+	 */
+	private static Set<InstanceProvider> createDefaultInstanceProviders() {
+		
+		final Set<InstanceProvider> set = new HashSet<InstanceProvider>();
+		
+		set.add(InstanceProviders.BOOLEAN);
+		set.add(InstanceProviders.BYTE);
+		set.add(InstanceProviders.CHARACTER);
+		set.add(InstanceProviders.DOUBLE);
+		set.add(InstanceProviders.FLOAT);
+		set.add(InstanceProviders.INTEGER);
+		set.add(InstanceProviders.LONG);
+		set.add(InstanceProviders.OBJECT);
+		set.add(InstanceProviders.SHORT);
+		set.add(InstanceProviders.STRING);
+		
+		return Collections.unmodifiableSet(set);
 	}
 	
 	/**
 	 * Maps the canonical name of a {@link Class} to a map which maps a property name to an instance provider.
 	 */
-	private final Map<String, Map<String, InstanceProvider<?>>> instanceProviderMap = new HashMap<String, Map<String, InstanceProvider<?>>>();
+	private final Map<String, Map<String, InstanceProvider>> instanceProviderMap = new HashMap<String, Map<String, InstanceProvider>>();
 	
 	/**
 	 * Constructs a new instance.
 	 *
 	 * @param customInstanceProviders
 	 */
-	public ObjectFactory(final Set<InstanceProvider<?>> customInstanceProviders) {
+	public ObjectFactory(final Set<InstanceProvider> customInstanceProviders) {
 		
 		// add default instance providers
-		for (final InstanceProvider<?> instanceProvider : DEFAULT_INSTANCE_PROVIDERS) {
+		for (final InstanceProvider instanceProvider : DEFAULT_INSTANCE_PROVIDERS) {
 			createMapping(instanceProvider);
 		}
 		
 		// add custom instance providers
-		for (final InstanceProvider<?> instanceProvider : customInstanceProviders) {
+		for (final InstanceProvider instanceProvider : customInstanceProviders) {
 			createMapping(instanceProvider);
 		}
 	}
@@ -116,9 +138,9 @@ public final class ObjectFactory {
 	 *  "java.lang.Integer" => InstanceProvider
 	 * </pre>
 	 * 
-	 * @param instanceProvider the {@code InstanceProvider} to add
+	 * @param instanceProvider the {@link InstanceProvider} to add
 	 */
-	private void createMapping(final InstanceProvider<?> instanceProvider) {
+	private void createMapping(final InstanceProvider instanceProvider) {
 		
 		final Class<?> instanceClass = instanceProvider.getInstanceClass();
 
@@ -134,21 +156,34 @@ public final class ObjectFactory {
 	}
 	
 	/**
-	 * TODO document
+	 * Creates a mapping of the given {@code canonicalName} to the given {@code instanceProvider}s
+	 * {@code propertyName} to the actual {@code instanceProvider}. In case the {@code propertyName}
+	 * is {@code null} a default property name is chosen which indicates that given {@code instanceProvider}
+	 * is not specific to a property and can be used for each property of the type the given
+	 * {@code canonicalName} represents.
+	 * 
+	 * <p>
+	 * Example:
+	 * 
+	 * <pre>
+	 * 	MyPropertyClassName => myPropertyName => InstanceProvider
+	 * </pre>
+	 * 
+	 * In case that one of the mappings already exists it will be overridden with the given values.
 	 *
-	 * @param canonicalName
-	 * @param instanceProvider
+	 * @param canonicalName the canonical name of the {@link Class} to be used as the key of the mapping
+	 * @param instanceProvider the {@link InstanceProvider} to be used as the value of the mapping
 	 */
-	private void createMapping(final String canonicalName, final InstanceProvider<?> instanceProvider) {
+	private void createMapping(final String canonicalName, final InstanceProvider instanceProvider) {
 		
-		final Map<String, InstanceProvider<?>> propertyNameToInstanceProvider = this.instanceProviderMap.get(canonicalName);
+		final Map<String, InstanceProvider> propertyNameToInstanceProvider = this.instanceProviderMap.get(canonicalName);
 		
 		if (propertyNameToInstanceProvider == null) {
 			
 			final String propertyName = getPropertyNameOrPlaceholder(instanceProvider);
 			
 			// create new mapping for propertyName to instanceProvider
-			final Map<String, InstanceProvider<?>> newPropertyNameToInstanceProviderMap = new HashMap<String, InstanceProvider<?>>();
+			final Map<String, InstanceProvider> newPropertyNameToInstanceProviderMap = new HashMap<String, InstanceProvider>();
 			
 			// add new entry to mapping
 			newPropertyNameToInstanceProviderMap.put(propertyName, instanceProvider);
@@ -164,12 +199,16 @@ public final class ObjectFactory {
 	}
 	
 	/**
-	 * TODO
+	 * Retrieves the {@code propertyName} from the given {@code instanceProvider}.
+	 * 
+	 * <p>
+	 * In case the {@code propertyName} is {@code null}, this method will return
+	 * {@link ObjectFactory #NO_NAME}. 
 	 *
-	 * @param instanceProvider
-	 * @return
+	 * @param instanceProvider the {@link InstanceProvider} to get the {@code propertyName} from
+	 * @return either the {@code propertyName} or {@link ObjectFactory #NO_NAME}
 	 */
-	private String getPropertyNameOrPlaceholder(final InstanceProvider<?> instanceProvider) {
+	private String getPropertyNameOrPlaceholder(final InstanceProvider instanceProvider) {
 		if (instanceProvider.getPropertyName() == null) {
 			return NO_NAME;
 		}
@@ -177,30 +216,36 @@ public final class ObjectFactory {
 	}
 	
 	/**
-	 * TODO
+	 * Tries to find an {@link InstanceProvider} for the given {@code instanceClass} and the given 
+	 * {@code propertyName}.
+	 * 
+	 * <p>
+	 * In case there is a specific {@link InstanceProvider} for the given {@code propertyName} and
+	 * a general {@link InstanceProvider} for the given {@code instanceClass} the more specific
+	 * will be favored.
 	 *
-	 * @param instanceClass
-	 * @param propertyName
-	 * @return
+	 * @param instanceClass the {@link Class} to get the {@link InstanceProvider} for
+	 * @param propertyName propertyName to get the {@link InstanceProvider} for
+	 * @return a matching {@link InstanceProvider} or {@code null}, if none was found
 	 */
-	private InstanceProvider<?> getInstanceProvider(final Class<?> instanceClass, final String propertyName) {
+	private InstanceProvider getInstanceProvider(final Class<?> instanceClass, final String propertyName) {
 
 		final String canonicalName = instanceClass.getCanonicalName();
-		final Map<String, InstanceProvider<?>> propertyNameToInstanceProvider = this.instanceProviderMap.get(canonicalName);
+		final Map<String, InstanceProvider> propertyNameToInstanceProvider = this.instanceProviderMap.get(canonicalName);
 		
-		final boolean couldNotAnyMappingForInstanceClass = propertyNameToInstanceProvider == null;
-		if (couldNotAnyMappingForInstanceClass) {
+		final boolean couldNotFindAnyMappingForInstanceClass = propertyNameToInstanceProvider == null;
+		if (couldNotFindAnyMappingForInstanceClass) {
 			return null;
 		}
 		
-		final InstanceProvider<?> propertyNameSpecificInstanceProvider = propertyNameToInstanceProvider.get(propertyName);
+		final InstanceProvider propertyNameSpecificInstanceProvider = propertyNameToInstanceProvider.get(propertyName);
 		
 		final boolean foundPropertyNameSpecificInstanceProvider = propertyNameSpecificInstanceProvider != null;
 		if (foundPropertyNameSpecificInstanceProvider) {
 			return propertyNameSpecificInstanceProvider;
 		}
 		
-		final InstanceProvider<?> propertyTypeSpecificInstanceProvider = propertyNameToInstanceProvider.get(NO_NAME);
+		final InstanceProvider propertyTypeSpecificInstanceProvider = propertyNameToInstanceProvider.get(NO_NAME);
 		
 		final boolean foundPropertyTypeSpecificInstanceProvider = propertyTypeSpecificInstanceProvider != null;
 		if (foundPropertyTypeSpecificInstanceProvider) {
@@ -211,101 +256,97 @@ public final class ObjectFactory {
 	}
 
 	/**
-	 * TODO update documentation for propertyName
-	 * Retrieves a "dirty" object.
+	 * Retrieves the "dirty" object from either one of the  default or custom {@link InstanceProvider}s
+	 * for the given {@code beanClass} and {@code propertyName}.
 	 * 
 	 * <p>
-	 * For common java classes the retrieved object will represent an equivalent to 1.
-	 * Proxies will behave on calls to equals, hashCode and toString as if they are of
-	 * value 1.
+	 * In case no {@link InstanceProvider} is available for the given parameters an instance will be
+	 * created which can either be an array, an enumeration or a proxy.
 	 *
 	 * <p>
-	 * If the given {@code beanClass} represents an array type, an array of that type will be
-	 * created and returned. The array contains one element which contains a "dirty" value
-	 * for the array's component type.
-	 *
-	 * <p>
-	 * If the given {@code beanClass} represents an enumeration the returned object represents
-	 * the second value of the enumeration or {@code null} if it does not have a second value.
-	 * The order is defined by the enumeration's natural order, see {@link PropertyState #ordinal()}.
-	 *
-	 * <p>
-	 * If the given {@code beanClass} represents an interface, an abstract class or a regular 
-	 * bean a proxy of that class is created which will not cascade creation of further sub-instances.
-	 * This avoids cycles and out of scope testing of the actual class under test.
-	 *
-	 * @param beanClass the {@link Class} to create the dirty object for
-	 * @return an instance of the given {@code beanClass}
-	 * @throws NullPointerException when the given parameter is {@code null}
-	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
-	 */
-	public <T> T getDirtyObject(final Class<T> beanClass, final String propertyName) {
-		
-		@SuppressWarnings("unchecked")
-		final T object = (T) getObject(beanClass, propertyName, PropertyState.DIRTY);
-		
-		return object;
-	}
-	
-	/**
-	 * TODO update documentation for propertyName
-	 * Retrieves a "default" object.
-	 * 
-	 * <p>
-	 * For common java classes the retrieved object will represent an equivalent to 0.
-	 * Proxies will behave on calls to equals, hashCode and toString as if they are of
-	 * value 0.
-	 *
-	 * <p>
-	 * If the given {@code beanClass} represents an array type, an array of that type will be
-	 * created and returned. The array contains one element which contains a "dirty" value
-	 * for the array's component type.
-	 *
-	 * <p>
-	 * If the given {@code beanClass} represents an enumeration the returned object represents
-	 * the second value of the enumeration or {@code null} if it does not have a second value.
-	 * The order is defined by the enumeration's natural order, see {@link PropertyState #ordinal()}.
-	 *
-	 * <p>
-	 * If the given {@code beanClass} represents an interface, an abstract class or a regular 
-	 * bean a proxy of that class is created which will not cascade creation of further sub-instances.
-	 * This avoids cycles and out of scope testing of the actual class under test.
-	 *
-	 * @param beanClass the {@link Class} to create the dirty object for
-	 * @return an instance of the given {@code beanClass}
-	 * @throws NullPointerException when the given parameter is {@code null}
-	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
-	 */
-	public <T> T getDefaultObject(final Class<T> beanClass, final String propertyName) {
-		
-		@SuppressWarnings("unchecked")
-		final T object = (T) getObject(beanClass, propertyName, PropertyState.DEFAULT);
-		
-		return object;
-	}
-	
-	/**
-	 * TODO update documentation for propertyName
-	 * Returns either a cached instance of a common java class or creates an instance of the
-	 * given {@code beanClass}.
-	 *
-	 * <p>
-	 * If the given {@code beanClass} represents an array type, an array of that type will be
-	 * created and returned. The array contains one element behaving according to the given
+	 * <b>Arrays:</b> If the given {@code beanClass} represents an array type, an array of that type
+	 * will be created and returned. The array contains one element behaving according to the given
 	 * {@code propertyState}.
 	 *
 	 * <p>
-	 * If the given {@code beanClass} represents an enumeration the returned object represents
-	 * a value of that enumeration which is either the first or the second according to the given
-	 * {@link PropertyState #ordinal()}. If the given enumeration has no first or second value,
-	 * {@code null} is returned.
+	 * <b>Enumerations:</b> If the given {@code beanClass} represents an enumeration the returned
+	 * object represents a value of that enumeration which is either the first or the second according
+	 * to the given {@link PropertyState #ordinal()}. If the given enumeration has no first or second
+	 * value, {@code null} is returned.
 	 *
 	 * <p>
-	 * If the given {@code beanClass} represents an interface or a regular bean a proxy of that
-	 * interface or bean is created which will not cascade creation of further sub-instances.
+	 * <b>Proxies:</b> If the given {@code beanClass} represents an interface or a regular bean a proxy
+	 * of that interface or bean is created which will not cascade creation of further sub-instances.
+	 * This avoids cycles and out of scope testing of the actual bean under test.
+	 *
+	 * @param beanClass the {@link Class} to create the dirty object for
+	 * @param propertyName the name of the property for which the object should be retrieved
+	 * @return an instance of the given {@code beanClass}
+	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
+	 */
+	public Object getDirtyObject(final Class<?> beanClass, final String propertyName) {
+		return getObject(beanClass, propertyName, PropertyState.DIRTY);
+	}
+	
+	/**
+	 * Retrieves the "default" object from either one of the  default or custom {@link InstanceProvider}s
+	 * for the given {@code beanClass} and {@code propertyName}.
+	 * 
+	 * <p>
+	 * In case no {@link InstanceProvider} is available for the given parameters an instance will be
+	 * created which can either be an array, an enumeration or a proxy.
+	 *
+	 * <p>
+	 * <b>Arrays:</b> If the given {@code beanClass} represents an array type, an array of that type
+	 * will be created and returned. The array contains one element behaving according to the given
+	 * {@code propertyState}.
+	 *
+	 * <p>
+	 * <b>Enumerations:</b> If the given {@code beanClass} represents an enumeration the returned
+	 * object represents a value of that enumeration which is either the first or the second according
+	 * to the given {@link PropertyState #ordinal()}. If the given enumeration has no first or second
+	 * value, {@code null} is returned.
+	 *
+	 * <p>
+	 * <b>Proxies:</b> If the given {@code beanClass} represents an interface or a regular bean a proxy
+	 * of that interface or bean is created which will not cascade creation of further sub-instances.
+	 * This avoids cycles and out of scope testing of the actual bean under test.
+	 *
+	 * @param beanClass the {@link Class} to create the dirty object for
+	 * @param propertyName the name of the property for which the object should be retrieved
+	 * @return an instance of the given {@code beanClass}
+	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
+	 */
+	public Object getDefaultObject(final Class<?> beanClass, final String propertyName) {
+		return getObject(beanClass, propertyName, PropertyState.DEFAULT);
+	}
+	
+	/**
+	 * Retrieves an object behaving according to the given {@code propertyState} from either one of the 
+	 * default or custom {@link InstanceProvider}s for the given {@code beanClass} and {@code propertyName}.
+	 * 
+	 * <p>
+	 * In case no {@link InstanceProvider} is available for the given parameters an instance will be
+	 * created which can either be an array, an enumeration or a proxy.
+	 *
+	 * <p>
+	 * <b>Arrays:</b> If the given {@code beanClass} represents an array type, an array of that type
+	 * will be created and returned. The array contains one element behaving according to the given
+	 * {@code propertyState}.
+	 *
+	 * <p>
+	 * <b>Enumerations:</b> If the given {@code beanClass} represents an enumeration the returned
+	 * object represents a value of that enumeration which is either the first or the second according
+	 * to the given {@link PropertyState #ordinal()}. If the given enumeration has no first or second
+	 * value, {@code null} is returned.
+	 *
+	 * <p>
+	 * <b>Proxies:</b> If the given {@code beanClass} represents an interface or a regular bean a proxy
+	 * of that interface or bean is created which will not cascade creation of further sub-instances.
 	 * This avoids cycles and out of scope testing of the actual bean under test.
 	 *
 	 * @param beanClass the {@link Class} to create the object for
+	 * @param propertyName the name of the property for which the object should be retrieved
 	 * @param propertyState the {@link PropertyState} which determines how the created object should behave
 	 * @return an object of the given {@code beanClass}
 	 * @throws IllegalArgumentException when no object can be created for the given {@code beanClass}
@@ -319,7 +360,7 @@ public final class ObjectFactory {
 			propertyNameOrFallback = propertyName;
 		}
 		
-		final InstanceProvider<?> provider = getInstanceProvider(beanClass, propertyNameOrFallback);
+		final InstanceProvider provider = getInstanceProvider(beanClass, propertyNameOrFallback);
 
 		if (provider != null) {
 			switch (propertyState) {

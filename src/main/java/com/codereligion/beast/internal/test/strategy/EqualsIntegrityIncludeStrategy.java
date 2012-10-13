@@ -58,17 +58,17 @@ public final class EqualsIntegrityIncludeStrategy extends AbstractIntegrityInclu
         
     	final boolean defaultObjectEqualsDirtyObject = defaultObject.equals(dirtyObject);
         final boolean isIncluded = this.propertyNames.contains(propertyName);
-        final boolean isUnintentionallyMissing = !defaultObjectEqualsDirtyObject && !isIncluded;
+        final boolean isMissingInIncludes = !defaultObjectEqualsDirtyObject && !isIncluded;
         
-        assertFalse(isUnintentionallyMissing, 
+        assertFalse(isMissingInIncludes, 
 				"The property '%s' is supported by the equals implementation, but is not specified " +
 				"as includedProperty. Either add it to the includedProperties, or remove it " +
 				"from the implementation of the equals method.",
 				propertyName);
     	
-    	final boolean isUnnecessarilyIncluded = defaultObjectEqualsDirtyObject && isIncluded;
+    	final boolean isMissingInImplementation = defaultObjectEqualsDirtyObject && isIncluded;
     	
-    	assertFalse(isUnnecessarilyIncluded, 
+    	assertFalse(isMissingInImplementation, 
     			"The property '%s' is not supported by the equals implementation, but was specified as " +
     			"includedProperty. Either remove it from the includedProperties, or add it " +
     			"to the implementation of the equals method.",

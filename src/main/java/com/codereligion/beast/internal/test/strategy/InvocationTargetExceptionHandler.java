@@ -16,23 +16,23 @@
 
 package com.codereligion.beast.internal.test.strategy;
 
+import java.lang.reflect.InvocationTargetException;
+
+import java.beans.PropertyDescriptor;
 
 /**
- * Common interface for an integrity test.
+ * Common interface for a class which handles {@link InvocationTargetException}. 
  *
  * @author Sebastian Gröbler
- * @since 11.08.2012
+ * @since 13.10.2012
  */
-public interface IntegrityStrategy extends InvocationTargetExceptionHandler {
-	
+public interface InvocationTargetExceptionHandler {
+    
     /**
-     * Applies this strategy on the given {@code defaultObject} and {@code dirtyObject} expecting
-     * that the property specified by the given {@code propertyName} has been altered on the given
-     * {@code dirtyObject}
+     * Handles the given {@link InvocationTargetException exception} for the given {@code property}.
      *
-     * @param defaultObject the default object to check against the dirty one
-     * @param dirtyObject the dirty object on which the property was altered
-     * @param propertyName the name of the property which was altered on the {@code dirtyObject} 
+     * @param property the property which caused the given exception
+     * @param exception the {@link InvocationTargetException} to handle for the given {@code property}
      */
-    void apply(Object defaultObject, Object dirtyObject, String propertyName);
+    void handleInvocationTargetException(PropertyDescriptor property, InvocationTargetException exception);
 }

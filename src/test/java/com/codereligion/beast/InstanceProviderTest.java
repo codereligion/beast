@@ -48,39 +48,39 @@ public class InstanceProviderTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithNullDefaultInstance() {
-		new InstanceProvider<String>(null, "foo");
+		new InstanceProvider(null, "foo");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithNullDirtyInstance() {
-		new InstanceProvider<String>("foo", null);
+		new InstanceProvider("foo", null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithEqualDefaultAndDirtyInstances() {
-		new InstanceProvider<String>("foo", "foo");
+		new InstanceProvider("foo", "foo");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithDifferentClasses() {
-		new InstanceProvider<Collection<String>>(Lists.newArrayList("foo"), Sets.newHashSet("bar"));
+		new InstanceProvider(Lists.newArrayList("foo"), Sets.newHashSet("bar"));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithEqualToString() {
-		new InstanceProvider<ConstantToStringResult>(new ConstantToStringResult(0), new ConstantToStringResult(1));
+		new InstanceProvider(new ConstantToStringResult(0), new ConstantToStringResult(1));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithEqualHashCode() {
-		new InstanceProvider<ConstantHashCodeResult>(new ConstantHashCodeResult(0), new ConstantHashCodeResult(1));
+		new InstanceProvider(new ConstantHashCodeResult(0), new ConstantHashCodeResult(1));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithArray() {
 		final Integer[] defaultObject = new Integer[]{Integer.valueOf(21)};
 		final Integer[] dirtyObject = new Integer[]{Integer.valueOf(42)};
-		new InstanceProvider<Integer[]>(defaultObject, dirtyObject);
+		new InstanceProvider(defaultObject, dirtyObject);
 	}
 	
 	/**
@@ -88,8 +88,8 @@ public class InstanceProviderTest {
 	 */
 	@Test
 	public void testWithTwoDifferentGenericHashSets() {
-		final InstanceProvider<HashSet<Integer>> integerHashSetProvider = new InstanceProvider<HashSet<Integer>>(Sets.newHashSet(Integer.valueOf(0)), Sets.newHashSet(Integer.valueOf(1)));
-		final InstanceProvider<HashSet<String>> stringHashSetProvider = new InstanceProvider<HashSet<String>>(Sets.newHashSet("0"), Sets.newHashSet("1"));
+		final InstanceProvider integerHashSetProvider = new InstanceProvider(Sets.newHashSet(Integer.valueOf(0)), Sets.newHashSet(Integer.valueOf(1)));
+		final InstanceProvider stringHashSetProvider = new InstanceProvider(Sets.newHashSet("0"), Sets.newHashSet("1"));
 		
 		assertTrue(integerHashSetProvider.equals(stringHashSetProvider));
 		assertFalse(integerHashSetProvider.getDefaultObject().equals(stringHashSetProvider.getDefaultObject()));

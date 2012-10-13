@@ -17,6 +17,8 @@
 package com.codereligion.beast.internal.test.strategy;
 
 
+import java.lang.reflect.InvocationTargetException;
+
 import java.beans.PropertyDescriptor;
 
 import java.util.Set;
@@ -35,7 +37,7 @@ public abstract class AbstractIntegrityIncludeStrategy extends AbstractIntegrity
     }
 
     @Override
-    public void handlePropertySetterException(final PropertyDescriptor property, final Throwable e) {
+    public void handleInvocationTargetException(final PropertyDescriptor property, final InvocationTargetException e) {
     	final String propertyName = property.getName();
     	if (this.propertyNames.contains(propertyName)) {
     		final String message = String.format("Calling the setter of the property '%s' threw an exception. " +

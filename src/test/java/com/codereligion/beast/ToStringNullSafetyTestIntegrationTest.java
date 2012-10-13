@@ -52,8 +52,8 @@ public class ToStringNullSafetyTestIntegrationTest {
 			.run();
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testMissingImplementingClass() {
+	@Test(expected = AssertionError.class)
+	public void testWithMissingImplemention() {
 		new ToStringNullSafetyTestBuilder(MissingToStringImplementation.class)
 			.create()
 			.run();

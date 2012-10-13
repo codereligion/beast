@@ -95,7 +95,6 @@ public class EqualsIntegrityTestIntegrationTest {
         
         // invalid implementations
         UNSUPPORTED_CLASSES.add(NoDefaultConstructor.class);
-        UNSUPPORTED_CLASSES.add(MissingEqualsImplementation.class);
         UNSUPPORTED_CLASSES.add(PropertyWhichHasNoDefaultConstructor.class);
 	}
 
@@ -104,6 +103,13 @@ public class EqualsIntegrityTestIntegrationTest {
 		new EqualsIntegrityTestBuilder(null)
 			.create()
 			.run();
+	}
+	
+	@Test(expected = AssertionError.class)
+	public void testWithMissingImplementation() {
+		new EqualsIntegrityTestBuilder(MissingEqualsImplementation.class)
+		.create()
+		.run();
 	}
 	
 	@Test

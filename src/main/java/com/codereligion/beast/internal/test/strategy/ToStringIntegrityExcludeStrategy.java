@@ -57,16 +57,16 @@ public final class ToStringIntegrityExcludeStrategy extends AbstractIntegrityExc
 
 		final boolean areEqual = defaultObject.toString().equals(dirtyObject.toString());
 		final boolean isExcluded = this.propertyNames.contains(propertyName);
-		final boolean isUnintentionallyMissing = areEqual && !isExcluded;
+		final boolean isMissingInIncludes = areEqual && !isExcluded;
 		
-		assertFalse(isUnintentionallyMissing,
+		assertFalse(isMissingInIncludes,
 					"The property '%s' is not supported by the toString implementation. If this is " +
 					"intentional add it to the excludedPropertyNames.",
 					propertyName);
 
-		final boolean isUnnecessarilyExcluded = !areEqual && isExcluded;
+		final boolean isMissingInImplementation = !areEqual && isExcluded;
     	
-    	assertFalse(isUnnecessarilyExcluded,
+    	assertFalse(isMissingInImplementation,
     			"The property '%s' is contained in the excludedPropertyNames, but is actually " +
     			"supported by the toString implementation. Either remove it from the " +
     			"excludedPropertyNames or the toString implementation.",
