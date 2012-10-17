@@ -16,7 +16,7 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.builder.AbstractIntegrityTestBuilder;
+import com.codereligion.beast.internal.test.builder.AbstractIntegrityTestBuilder;
 
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.EqualsIntegrityTest;

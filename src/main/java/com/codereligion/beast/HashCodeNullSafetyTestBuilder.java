@@ -16,7 +16,8 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.builder.AbstractTestBuilder;
+import com.codereligion.beast.internal.test.builder.AbstractTestBuilder;
+
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.HashCodeNullSafetyTest;
 import com.codereligion.beast.internal.test.Test;

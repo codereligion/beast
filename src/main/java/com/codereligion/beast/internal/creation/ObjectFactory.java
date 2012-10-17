@@ -102,6 +102,7 @@ public final class ObjectFactory {
 	}
 	
 	/**
+	 * TODO why not use the class instead of the canonicalName for the first key? is this just legacy or has it a reason?
 	 * Maps the canonical name of a {@link Class} to a map which maps a property name to an instance provider.
 	 */
 	private final Map<String, Map<String, InstanceProvider>> instanceProviderMap = new HashMap<String, Map<String, InstanceProvider>>();
@@ -202,17 +203,20 @@ public final class ObjectFactory {
 	 * Retrieves the {@code propertyName} from the given {@code instanceProvider}.
 	 * 
 	 * <p>
-	 * In case the {@code propertyName} is {@code null}, this method will return
-	 * {@link ObjectFactory #NO_NAME}. 
+	 * In case the {@code propertyName} is {@code null}, meaning the given {@code instanceProvider}
+	 * is not property specific, this method will return {@link ObjectFactory #NO_NAME}, which
+	 * serves as a place holder. 
 	 *
 	 * @param instanceProvider the {@link InstanceProvider} to get the {@code propertyName} from
 	 * @return either the {@code propertyName} or {@link ObjectFactory #NO_NAME}
 	 */
 	private String getPropertyNameOrPlaceholder(final InstanceProvider instanceProvider) {
-		if (instanceProvider.getPropertyName() == null) {
-			return NO_NAME;
+		
+		if (instanceProvider.isPropertySpecific()) {
+			return instanceProvider.getPropertyName();
 		}
-		return instanceProvider.getPropertyName();
+		
+		return NO_NAME;
 	}
 	
 	/**
@@ -364,8 +368,8 @@ public final class ObjectFactory {
 
 		if (provider != null) {
 			switch (propertyState) {
-				case DEFAULT: return provider.getDefaultObject();
-				case DIRTY: return provider.getDirtyObject();
+				case DEFAULT: return provider.getDefaultInstance();
+				case DIRTY: return provider.getDirtyInstance();
 				default: throw new IllegalStateException("Unknown propertyState: " + propertyState + ".");
 			}
 		} else if (beanClass.isArray()) {

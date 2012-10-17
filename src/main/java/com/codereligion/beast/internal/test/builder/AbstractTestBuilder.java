@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.codereligion.beast.internal.builder;
+package com.codereligion.beast.internal.test.builder;
 
 import com.codereligion.beast.internal.test.Test;
 
