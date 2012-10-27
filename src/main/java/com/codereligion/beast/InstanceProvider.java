@@ -212,34 +212,7 @@ public final class InstanceProvider {
     		final Object dirtyInstance,
     		final String propertyName) {
     	
-    	if (defaultInstance == null) {
-    		throw new IllegalArgumentException("defaultInstance must not be null.");
-    	}
-    	
-    	if (dirtyInstance == null) {
-    		throw new IllegalArgumentException("dirtyInstance must not be null.");
-    	}
-    	
-    	if (!dirtyInstance.getClass().equals(defaultInstance.getClass())) {
-    		throw new IllegalArgumentException("defaultInstance and dirtyInstance must be instances of the same class.");
-    	}
-    	
-    	if (defaultInstance.getClass().isArray() || defaultInstance.getClass().isArray()) {
-    		throw new IllegalArgumentException("Arrays are not supported for custom instances. " +
-    		"Provide a custom instance for the arrays component type instead.");
-    	}
-    	
-    	if (dirtyInstance.equals(defaultInstance)) {
-    		throw new IllegalArgumentException("defaultInstance and dirtyInstance must not be equal.");
-    	}
-    	
-    	if (dirtyInstance.toString().equals(defaultInstance.toString())) {
-    		throw new IllegalArgumentException("toString result of defaultInstance and dirtyInstance must not be equal.");
-    	}
-    	
-    	if (dirtyInstance.hashCode() == defaultInstance.hashCode()) {
-    		throw new IllegalArgumentException("hashCodes of defaultInstance and dirtyInstance must not be equal.");
-    	}
+    	checkCommonParameters(defaultInstance, dirtyInstance);
     	
     	this.defaultInstance = defaultInstance;
     	this.dirtyInstance = dirtyInstance;
@@ -268,6 +241,37 @@ public final class InstanceProvider {
     		final Class<?> instanceClass,
     		final String propertyName) {
     	
+    	checkCommonParameters(defaultInstance, dirtyInstance);
+    	
+    	if (instanceClass == null) {
+    		throw new NullPointerException("instanceClass must not be null.");
+    	}
+    	
+    	// only one instance needs to be checked, since the both instance must be on the same type
+    	if (!instanceClass.isAssignableFrom(defaultInstance.getClass())) {
+    		throw new IllegalArgumentException("The given instances are not of the same class as the instanceClass.");
+    	}
+    	
+    	this.defaultInstance = defaultInstance;
+    	this.dirtyInstance = dirtyInstance;
+    	this.instanceClass = instanceClass;
+    	this.propertyName = propertyName;
+    }
+    
+    /**
+     * Encapsulates the common parameter checks for the constructors which is based on the given
+     * {@code defaultInstance} and {@code dirtyInstance}.
+     *
+     * @param defaultInstance	the "default" instance to provide
+     * @param dirtyInstance		the "dirty" instance to provide
+     * @throws NullPointerException		when the given {@code defaultInstance}, {@code dirtyInstance}
+     * 									or {@code instanceClass} are {@code null}
+     * @throws IllegalArgumentException when the given {@code defaultInstance} and {@code dirtyInstance}
+     * 									are not of the same class, or the given instances do not differ
+     * 									in their toString, hashCode and equals results, or are array types 
+     */
+    private void checkCommonParameters(final Object defaultInstance, final Object dirtyInstance) {
+
     	if (defaultInstance == null) {
     		throw new NullPointerException("defaultInstance must not be null.");
     	}
@@ -276,23 +280,12 @@ public final class InstanceProvider {
     		throw new NullPointerException("dirtyInstance must not be null.");
     	}
     	
-    	if (instanceClass == null) {
-    		throw new NullPointerException("instanceClass must not be null.");
-    	}
-    	
     	if (!dirtyInstance.getClass().equals(defaultInstance.getClass())) {
     		throw new IllegalArgumentException("defaultInstance and dirtyInstance must be instances of the same class.");
     	}
     	
-    	if (!instanceClass.isAssignableFrom(defaultInstance.getClass())) {
-    		throw new IllegalArgumentException("defaultInstance is not an instance of instanceClass.");
-    	}
-    	
-    	if (!instanceClass.isAssignableFrom(dirtyInstance.getClass())) {
-    		throw new IllegalArgumentException("dirtyInstance is not an instance of instanceClass.");
-    	}
-    	
-    	if (defaultInstance.getClass().isArray() || defaultInstance.getClass().isArray()) {
+    	// only one instance needs to be checked, since the both instance must be on the same type
+    	if (defaultInstance.getClass().isArray()) {
     		throw new IllegalArgumentException("Arrays are not supported for custom instances. " +
     		"Provide a custom instance for the arrays component type instead.");
     	}
@@ -308,11 +301,6 @@ public final class InstanceProvider {
     	if (dirtyInstance.hashCode() == defaultInstance.hashCode()) {
     		throw new IllegalArgumentException("hashCodes of defaultInstance and dirtyInstance must not be equal.");
     	}
-    	
-    	this.defaultInstance = defaultInstance;
-    	this.dirtyInstance = dirtyInstance;
-    	this.instanceClass = instanceClass;
-    	this.propertyName = propertyName;
     }
     	
     /**
@@ -408,7 +396,7 @@ public final class InstanceProvider {
 	@Override
     public String toString() {
 	    final StringBuilder builder = new StringBuilder();
-	    builder.append("CustomInstanceProvider [defaultInstance=");
+	    builder.append("InstanceProvider [defaultInstance=");
 	    builder.append(this.defaultInstance);
 	    builder.append(", dirtyInstance=");
 	    builder.append(this.dirtyInstance);

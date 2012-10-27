@@ -21,10 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.codereligion.beast.InstanceProvider;
-
-import com.codereligion.beast.internal.creation.ObjectFactory;
-
-
 import com.google.common.collect.Sets;
 import java.util.Set;
 import org.junit.Test;

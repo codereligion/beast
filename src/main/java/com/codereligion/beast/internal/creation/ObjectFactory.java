@@ -274,9 +274,8 @@ public final class ObjectFactory {
 	 *
 	 * <p>
 	 * <b>Enumerations:</b> If the given {@code beanClass} represents an enumeration the returned
-	 * object represents a value of that enumeration which is either the first or the second according
-	 * to the given {@link PropertyState #ordinal()}. If the given enumeration has no first or second
-	 * value, {@code null} is returned.
+	 * object represents a value of that enumeration which is either the second according. If the 
+	 * given enumeration has no second value, {@code null} is returned.
 	 *
 	 * <p>
 	 * <b>Proxies:</b> If the given {@code beanClass} represents an interface or a regular bean a proxy
@@ -284,7 +283,8 @@ public final class ObjectFactory {
 	 * This avoids cycles and out of scope testing of the actual bean under test.
 	 *
 	 * @param beanClass the {@link Class} to create the dirty object for
-	 * @param propertyName the name of the property for which the object should be retrieved
+	 * @param propertyName the name of the property for which a specific {@link InstanceProvider} should
+	 * be found, if {@code null} no specific property {@link InstanceProvider} will be retrieved
 	 * @return an instance of the given {@code beanClass}
 	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
 	 */
@@ -307,17 +307,17 @@ public final class ObjectFactory {
 	 *
 	 * <p>
 	 * <b>Enumerations:</b> If the given {@code beanClass} represents an enumeration the returned
-	 * object represents a value of that enumeration which is either the first or the second according
-	 * to the given {@link PropertyState #ordinal()}. If the given enumeration has no first or second
-	 * value, {@code null} is returned.
+	 * object represents a value of that enumeration which is either the first according. If the 
+	 * given enumeration has no first value, {@code null} is returned.
 	 *
 	 * <p>
-	 * <b>Proxies:</b> If the given {@code beanClass} represents an interface or a regular bean a proxy
-	 * of that interface or bean is created which will not cascade creation of further sub-instances.
+	 * <b>Proxies:</b> If the given {@code beanClass} represents an interface or a regular class a proxy
+	 * of that interface or class is created which will not cascade creation of further sub-instances.
 	 * This avoids cycles and out of scope testing of the actual bean under test.
 	 *
 	 * @param beanClass the {@link Class} to create the dirty object for
-	 * @param propertyName the name of the property for which the object should be retrieved
+	 * @param propertyName the name of the property for which a specific {@link InstanceProvider} should
+	 * be found, if {@code null} no specific property {@link InstanceProvider} will be retrieved
 	 * @return an instance of the given {@code beanClass}
 	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
 	 */
@@ -345,12 +345,13 @@ public final class ObjectFactory {
 	 * value, {@code null} is returned.
 	 *
 	 * <p>
-	 * <b>Proxies:</b> If the given {@code beanClass} represents an interface or a regular bean a proxy
-	 * of that interface or bean is created which will not cascade creation of further sub-instances.
+	 * <b>Proxies:</b> If the given {@code beanClass} represents an interface or a regular class a proxy
+	 * of that interface or class is created which will not cascade creation of further sub-instances.
 	 * This avoids cycles and out of scope testing of the actual bean under test.
 	 *
 	 * @param beanClass the {@link Class} to create the object for
-	 * @param propertyName the name of the property for which the object should be retrieved
+	 * @param propertyName the name of the property for which a specific {@link InstanceProvider} should
+	 * be found, if {@code null} no specific property {@link InstanceProvider} will be retrieved
 	 * @param propertyState the {@link PropertyState} which determines how the created object should behave
 	 * @return an object of the given {@code beanClass}
 	 * @throws IllegalArgumentException when no object can be created for the given {@code beanClass}
