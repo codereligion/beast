@@ -17,7 +17,7 @@
 package com.codereligion.beast.object;
 
 /**
- * TODO
+ * test class with a generic getter and setter.
  *
  * @author Sebastian Gröbler
  * @since 19.08.2012

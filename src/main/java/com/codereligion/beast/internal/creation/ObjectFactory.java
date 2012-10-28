@@ -286,6 +286,7 @@ public final class ObjectFactory {
 	 * @param propertyName the name of the property for which a specific {@link InstanceProvider} should
 	 * be found, if {@code null} no specific property {@link InstanceProvider} will be retrieved
 	 * @return an instance of the given {@code beanClass}
+	 * @throws NullPointerException when the given {@code beanClass} is {@code null}
 	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
 	 */
 	public Object getDirtyObject(final Class<?> beanClass, final String propertyName) {
@@ -319,6 +320,7 @@ public final class ObjectFactory {
 	 * @param propertyName the name of the property for which a specific {@link InstanceProvider} should
 	 * be found, if {@code null} no specific property {@link InstanceProvider} will be retrieved
 	 * @return an instance of the given {@code beanClass}
+	 * @throws NullPointerException when the given {@code beanClass} is {@code null}
 	 * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
 	 */
 	public Object getDefaultObject(final Class<?> beanClass, final String propertyName) {

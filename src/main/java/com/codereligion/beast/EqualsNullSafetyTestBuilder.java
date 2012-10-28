@@ -16,11 +16,10 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.test.builder.AbstractTestBuilder;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
+import com.codereligion.beast.internal.test.AbstractNullSafetyTest;
 import com.codereligion.beast.internal.test.EqualsNullSafetyTest;
-import com.codereligion.beast.internal.test.Test;
+import com.codereligion.beast.internal.test.builder.AbstractNullSafetyTestBuilder;
 import java.util.Set;
 
 
@@ -40,7 +39,7 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class EqualsNullSafetyTestBuilder extends AbstractTestBuilder {
+public final class EqualsNullSafetyTestBuilder extends AbstractNullSafetyTestBuilder {
 
 	/**
 	 * Creates a new builder which will create a test for the given {@code beanClass}.
@@ -53,27 +52,10 @@ public final class EqualsNullSafetyTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public Test create() {
-		return new EqualsNullSafetyTest(this.beanClass, new ObjectFactory(this.instanceProviders), this.excludedPropertyNames);
+	protected AbstractNullSafetyTest createTest(
+			final Class<?> beanClass,
+			final ObjectFactory objectFactory,
+			final Set<String> excludedPropertyNames) {
+		return new EqualsNullSafetyTest(beanClass, objectFactory, excludedPropertyNames);
 	}
-
-	@Override
-	public EqualsNullSafetyTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
-		return (EqualsNullSafetyTestBuilder) super.addInstanceProvider(instanceProvider);
-	}
-	
-	@Override
-	public EqualsNullSafetyTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
-		return (EqualsNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
-	}
-
-	@Override
-	public EqualsNullSafetyTestBuilder addExcludedPropertyName(final String propertyName) {
-    	return (EqualsNullSafetyTestBuilder) super.addExcludedPropertyName(propertyName);
-    }
-
-	@Override
-	public EqualsNullSafetyTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-    	return (EqualsNullSafetyTestBuilder) super.addExcludedPropertyNames(propertyNames);
-    }
 }

@@ -19,6 +19,9 @@ package com.codereligion.beast.internal.util;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import com.codereligion.beast.object.MissingDefaultConstructor;
 
 import com.codereligion.beast.internal.util.ReflectUtil;
 
@@ -44,12 +47,12 @@ import org.junit.Test;
 public class ReflectUtilTest {
 	
 	@Test(expected = NullPointerException.class)
-	public void testGetSelectablePropertiesWithNullClass() {
+	public void givenNullClassShouldThrowNpeWhenCallingGetSettableProperties() {
 		ReflectUtil.getSettableProperties(null);
 	}
 
 	@Test
-	public void testGetSelectableProperties() {
+	public void givenValidClassShouldReturnValidPropertieDescriptorsWhenCallingGetSettableProperties() {
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSettableProperties(ComplexClass.class);
 		
 		assertNotNull(properties);
@@ -62,7 +65,7 @@ public class ReflectUtilTest {
 	}
 	
 	@Test
-	public void testIntrospectorBugWithUnboundGenerics() {
+	public void givenUnboundGenericsClassShouldNotCauseIntrospectionBugWhenCallingGetSettableProperties() {
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSettableProperties(User.class);
 		
 		assertNotNull(properties);
@@ -76,7 +79,7 @@ public class ReflectUtilTest {
 	}
 	
 	@Test
-	public void testIntrospectorBugWithBoundGenerics() {
+	public void givenBoundGenericsClassShouldNotCauseIntrospectionBugWhenCallingGetSettableProperties() {
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSettableProperties(RestApi.class);
 		
 		assertNotNull(properties);
@@ -90,7 +93,7 @@ public class ReflectUtilTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testTypeMissmatchBetweenReadAndWriteMethods() {
+	public void givenClassWithTypeMissmatchBetweenGetterAndSetterShouldThrowIaeWhenCallingGetSettableProperties() {
 		final Set<PropertyDescriptor> properties = ReflectUtil.getSettableProperties(TypeMissmatchBetweenReadAndWriteMethods.class);
 		assertNotNull(properties);
 		assertFalse(properties.isEmpty());
@@ -100,5 +103,15 @@ public class ReflectUtilTest {
 		assertEquals(Date.class, property.getPropertyType());
 		assertNotNull(property.getWriteMethod());
 		assertNotNull(property.getReadMethod());
+	}
+	
+	@Test
+	public void givenClassWithoutDefaultConstructorShouldReturnFalseWhenCallingHasDefaultConstructor() {
+		assertFalse(ReflectUtil.hasDefaultConstructor(MissingDefaultConstructor.class));
+	}
+	
+	@Test
+	public void givenClassWithDefaultConstructorShouldReturnWhenCallingHasDefaultConstructor() {
+		assertTrue(ReflectUtil.hasDefaultConstructor(ComplexClass.class));
 	}
 }

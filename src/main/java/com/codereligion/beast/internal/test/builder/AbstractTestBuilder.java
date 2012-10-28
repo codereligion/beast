@@ -16,6 +16,8 @@
 
 package com.codereligion.beast.internal.test.builder;
 
+import com.codereligion.beast.internal.creation.ObjectFactory;
+
 import com.codereligion.beast.internal.test.Test;
 
 import com.codereligion.beast.InstanceProvider;
@@ -48,7 +50,7 @@ public abstract class AbstractTestBuilder {
 	/**
 	 * Creates the concrete {@link AbstractTestBuilder} for the given {@code beanClass}.
 	 *
-	 * @param beanClass the {@link Class} to generate the test for
+	 * @param beanClass the {@link Class} to create the test for
 	 * @return the instance of the created test
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
@@ -68,6 +70,16 @@ public abstract class AbstractTestBuilder {
 	 * @return the instance of the created test
 	 */
 	public abstract Test create();
+
+    /**
+     * Factory method to create an {@link ObjectFactory} for the {@code InstanceProviders}
+     * associated with this class.
+     *
+     * @return a new instance of {@link ObjectFactory}
+     */
+    protected ObjectFactory createObjectFactory() {
+	    return new ObjectFactory(this.instanceProviders);
+    }
 	
 	/**
 	 * Adds an {@link InstanceProvider}.
@@ -76,7 +88,7 @@ public abstract class AbstractTestBuilder {
 	 * @return a reference of this instance
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
-	protected AbstractTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
+    public AbstractTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
 		
 		if (instanceProvider == null) {
 			throw new NullPointerException("instanceProvider must not be null.");
@@ -93,7 +105,7 @@ public abstract class AbstractTestBuilder {
 	 * @return a reference of this instance
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
-	protected AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
+	public AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
 
 		if (instanceProviders == null) {
 			throw new NullPointerException("instanceProviders must not be null.");

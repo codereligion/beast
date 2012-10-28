@@ -17,7 +17,7 @@
 package com.codereligion.beast.object;
 
 /**
- * TODO
+ * Test interface using generics.
  *
  * @author Sebastian Gröbler
  * @since 20.08.2012

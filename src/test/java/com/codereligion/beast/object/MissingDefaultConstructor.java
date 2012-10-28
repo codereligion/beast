@@ -22,12 +22,12 @@ package com.codereligion.beast.object;
  * @author Sebastian Gröbler
  * @since 16.08.2012
  */
-public class NoDefaultConstructor {
+public class MissingDefaultConstructor {
 
 	private final int foo;
 	private boolean bar;
 	
-	public NoDefaultConstructor(final int foo) {
+	public MissingDefaultConstructor(final int foo) {
 		this.foo = foo;
 	}
 	
@@ -60,7 +60,7 @@ public class NoDefaultConstructor {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final NoDefaultConstructor other = (NoDefaultConstructor) obj;
+		final MissingDefaultConstructor other = (MissingDefaultConstructor) obj;
 		if (this.bar != other.bar)
 			return false;
 		if (this.foo != other.foo)

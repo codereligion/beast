@@ -16,11 +16,10 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.test.builder.AbstractTestBuilder;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
-import com.codereligion.beast.internal.test.Test;
+import com.codereligion.beast.internal.test.AbstractNullSafetyTest;
 import com.codereligion.beast.internal.test.ToStringNullSafetyTest;
+import com.codereligion.beast.internal.test.builder.AbstractNullSafetyTestBuilder;
 import java.util.Set;
 
 /**
@@ -38,7 +37,7 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class ToStringNullSafetyTestBuilder extends AbstractTestBuilder {
+public final class ToStringNullSafetyTestBuilder extends AbstractNullSafetyTestBuilder {
 
 	/**
 	 * Creates a new builder which will create a test for the given {@code beanClass}.
@@ -49,29 +48,12 @@ public final class ToStringNullSafetyTestBuilder extends AbstractTestBuilder {
 	public ToStringNullSafetyTestBuilder(final Class<?> beanClass) {
 	    super(beanClass);
     }
-	
-	@Override
-	public Test create() {
-		return new ToStringNullSafetyTest(this.beanClass, new ObjectFactory(this.instanceProviders), this.excludedPropertyNames);
-	}
 
 	@Override
-	public ToStringNullSafetyTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
-		return (ToStringNullSafetyTestBuilder) super.addInstanceProvider(instanceProvider);
+	protected AbstractNullSafetyTest createTest(
+			final Class<?> beanClass,
+			final ObjectFactory objectFactory,
+			final Set<String> excludedPropertyNames) {
+		return new ToStringNullSafetyTest(beanClass, objectFactory, excludedPropertyNames);
 	}
-	
-	@Override
-	public ToStringNullSafetyTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
-		return (ToStringNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
-	}
-
-	@Override
-	public ToStringNullSafetyTestBuilder addExcludedPropertyName(final String propertyName) {
-    	return (ToStringNullSafetyTestBuilder) super.addExcludedPropertyName(propertyName);
-    }
-
-	@Override
-	public ToStringNullSafetyTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-    	return (ToStringNullSafetyTestBuilder) super.addExcludedPropertyNames(propertyNames);
-    }
 }

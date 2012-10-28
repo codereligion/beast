@@ -17,7 +17,8 @@
 package com.codereligion.beast.object;
 
 /**
- * TODO
+ * Test class which always throws an {@link UnsupportedOperationException}
+ * when calling {@link ExceptionThrowingSetter #setFoo(Integer)}
  *
  * @author Sebastian Gröbler
  * @since 19.08.2012

@@ -16,11 +16,10 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.test.builder.AbstractTestBuilder;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
+import com.codereligion.beast.internal.test.AbstractNullSafetyTest;
 import com.codereligion.beast.internal.test.HashCodeNullSafetyTest;
-import com.codereligion.beast.internal.test.Test;
+import com.codereligion.beast.internal.test.builder.AbstractNullSafetyTestBuilder;
 import java.util.Set;
 
 /**
@@ -38,7 +37,7 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-public final class HashCodeNullSafetyTestBuilder extends AbstractTestBuilder {
+public final class HashCodeNullSafetyTestBuilder extends AbstractNullSafetyTestBuilder {
 
 	/**
 	 * Creates a new builder which will create a test for the given {@code beanClass}.
@@ -51,27 +50,10 @@ public final class HashCodeNullSafetyTestBuilder extends AbstractTestBuilder {
 	}
 	
 	@Override
-	public Test create() {
-		return new HashCodeNullSafetyTest(this.beanClass, new ObjectFactory(this.instanceProviders), this.excludedPropertyNames);
+	protected AbstractNullSafetyTest createTest(
+			final Class<?> beanClass,
+			final ObjectFactory objectFactory,
+			final Set<String> excludedPropertyNames) {
+		return new HashCodeNullSafetyTest(beanClass, objectFactory, excludedPropertyNames);
 	}
-
-	@Override
-	public HashCodeNullSafetyTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
-		return (HashCodeNullSafetyTestBuilder) super.addInstanceProvider(instanceProvider);
-	}
-	
-	@Override
-	public HashCodeNullSafetyTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
-		return (HashCodeNullSafetyTestBuilder) super.addInstanceProviders(instanceProviders);
-	}
-
-	@Override
-	public HashCodeNullSafetyTestBuilder addExcludedPropertyName(final String propertyName) {
-    	return (HashCodeNullSafetyTestBuilder) super.addExcludedPropertyName(propertyName);
-    }
-
-	@Override
-	public HashCodeNullSafetyTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-    	return (HashCodeNullSafetyTestBuilder) super.addExcludedPropertyNames(propertyNames);
-    }
 }

@@ -17,7 +17,7 @@
 package com.codereligion.beast.object;
 
 /**
- * TODO
+ * Test class with a missing toString implementation.
  *
  * @author Sebastian Gröbler
  * @since 19.08.2012

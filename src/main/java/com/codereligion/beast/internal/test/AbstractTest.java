@@ -34,7 +34,7 @@ import java.util.Set;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-abstract class AbstractTest implements Test, InvocationTargetExceptionHandler {
+public abstract class AbstractTest implements Test, InvocationTargetExceptionHandler {
 
 	/**
 	 * The {@link Class} of the bean to be tested.

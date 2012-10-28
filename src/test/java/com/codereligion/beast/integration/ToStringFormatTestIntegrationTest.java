@@ -14,69 +14,81 @@
  * limitations under the License.
  */
 
-package com.codereligion.beast;
+package com.codereligion.beast.integration;
 
-import com.codereligion.beast.internal.test.ToStringNullSafetyTest;
+import com.codereligion.beast.EqualsNullSafetyTestBuilder;
+
+import com.codereligion.beast.object.ExceptionThrowingSetter;
+import com.google.common.collect.Sets;
 
 import com.codereligion.beast.object.ComplexClass;
-import com.codereligion.beast.object.ExceptionThrowingSetter;
 import com.codereligion.beast.object.MissingToStringImplementation;
-import com.codereligion.beast.object.MissingNullCheckInToString;
+import com.codereligion.beast.object.WrongFormatInToString;
 
-import com.codereligion.beast.ToStringNullSafetyTestBuilder;
+import com.codereligion.beast.ToStringFormatTestBuilder;
 
 
 
-import com.google.common.collect.Sets;
+import java.util.regex.Pattern;
 import org.junit.Test;
 
 /**
- * Tests {@link ToStringNullSafetyTest}.
+ * Tests {@link ToStringFormatTestBuilder}.
  * 
  * @author Sebastian Gröbler
  * @since 14.08.2012
  */
-public class ToStringNullSafetyTestIntegrationTest {
+public class ToStringFormatTestIntegrationTest {
 
+	private static final Pattern ECLIPSE_TO_STRING_PATTERN = Pattern.compile(".+ \\[(.+=.+, )*(.+=.+)?\\]");
+	
 	@Test(expected = NullPointerException.class)
 	public void testWithNullClass() {
-		new ToStringNullSafetyTestBuilder(null)
+		new ToStringFormatTestBuilder(null, Pattern.compile(".*"))
 			.create()
 			.run();
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void testWithNullPattern() {
+		new ToStringFormatTestBuilder(WrongFormatInToString.class, null)
+			.create()
+			.run();	
 	}
 	
 	@Test
 	public void testValidClass() {
-		new ToStringNullSafetyTestBuilder(ComplexClass.class)
+		new ToStringFormatTestBuilder(ComplexClass.class, ECLIPSE_TO_STRING_PATTERN)
 			.create()
 			.run();
 	}
 	
-	@Test(expected = AssertionError.class)
-	public void testWithMissingImplemention() {
-		new ToStringNullSafetyTestBuilder(MissingToStringImplementation.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = AssertionError.class)
-	public void testWithNullPointerInToString() {
-		new ToStringNullSafetyTestBuilder(MissingNullCheckInToString.class)
+	@Test(expected = IllegalArgumentException.class)
+	public void testMissingImplementingClass() {
+		new ToStringFormatTestBuilder(MissingToStringImplementation.class, ECLIPSE_TO_STRING_PATTERN)
 			.create()
 			.run();
 	}
 
+	@Test(expected = AssertionError.class)
+	public void testWithWrongFormat() {
+		new ToStringFormatTestBuilder(WrongFormatInToString.class, ECLIPSE_TO_STRING_PATTERN)
+			.create()
+			.run();
+	}
+	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testWithExceptionThrowingSetter() {
-		new ToStringNullSafetyTestBuilder(ExceptionThrowingSetter.class)
+		new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class)
 			.create()
 			.run();
 	}
 	
 	@Test
 	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new ToStringNullSafetyTestBuilder(MissingNullCheckInToString.class)
-			.addExcludedPropertyNames(Sets.newHashSet("complexObject"))
+		new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class)
+			.addExcludedPropertyNames(Sets.newHashSet("foo"))
 			.create()
 			.run();
 	}

@@ -10,6 +10,13 @@
 
     <description>Provides utilities for testing java beans.</description>
 
+	<developers>
+		<developer>
+			<id>SierraGolf</id>
+			<name>Sebastian Gröbler</name>
+		</developer>
+	</developers>
+
     <prerequisites>
         <maven>3.0</maven>
     </prerequisites>

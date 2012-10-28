@@ -16,11 +16,11 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.test.builder.AbstractIntegrityTestBuilder;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
+
 import com.codereligion.beast.internal.test.EqualsIntegrityTest;
 import com.codereligion.beast.internal.test.Test;
+import com.codereligion.beast.internal.test.builder.AbstractIntegrityTestBuilder;
 import com.codereligion.beast.internal.test.strategy.EqualsIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.EqualsIntegrityIncludeStrategy;
 import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
@@ -79,48 +79,22 @@ public final class EqualsIntegrityTestBuilder extends AbstractIntegrityTestBuild
 	public EqualsIntegrityTestBuilder(final Class<?> beanClass) {
 		super(beanClass);
 	}
+	
+	@Override
+    protected Test createTest(
+    		final Class<?> beanClass,
+    		final ObjectFactory objectFactory,
+    		final IntegrityStrategy integrityStrategy) {
+	    return new EqualsIntegrityTest(beanClass, objectFactory, integrityStrategy);
+    }
 
 	@Override
-	public Test create() {
-		final IntegrityStrategy integrityStrategy;
-
-		if (!this.includedPropertyNames.isEmpty()) {
-			integrityStrategy = new EqualsIntegrityIncludeStrategy(this.includedPropertyNames);
-		} else {
-			// default strategy
-			integrityStrategy = new EqualsIntegrityExcludeStrategy(this.excludedPropertyNames);
-		}
-
-		return new EqualsIntegrityTest(this.beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
-	}
-
+    protected IntegrityStrategy createIntegrityIncludeStrategy(final Set<String> propertyNames) {
+		return new EqualsIntegrityIncludeStrategy(propertyNames);
+    }
+	
 	@Override
-	public EqualsIntegrityTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
-		return (EqualsIntegrityTestBuilder) super.addInstanceProvider(instanceProvider);
-	}
-
-	@Override
-	public EqualsIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
-		return (EqualsIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
-	}
-
-	@Override
-	public EqualsIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
-		return (EqualsIntegrityTestBuilder) super.addExcludedPropertyName(propertyName);
-	}
-
-	@Override
-	public EqualsIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		return (EqualsIntegrityTestBuilder) super.addExcludedPropertyNames(propertyNames);
-	}
-
-	@Override
-	public EqualsIntegrityTestBuilder addIncludedPropertyName(final String propertyName) {
-		return (EqualsIntegrityTestBuilder) super.addIncludedPropertyName(propertyName);
-	}
-
-	@Override
-	public EqualsIntegrityTestBuilder addIncludedPropertyNames(final Set<String> propertyNames) {
-		return (EqualsIntegrityTestBuilder) super.addIncludedPropertyNames(propertyNames);
+	protected IntegrityStrategy createIntegrityExcludeStrategy(final Set<String> propertyNames) {
+		return new EqualsIntegrityExcludeStrategy(propertyNames);
 	}
 }

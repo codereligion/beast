@@ -16,11 +16,10 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.test.builder.AbstractIntegrityTestBuilder;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.HashCodeIntegrityTest;
 import com.codereligion.beast.internal.test.Test;
+import com.codereligion.beast.internal.test.builder.AbstractIntegrityTestBuilder;
 import com.codereligion.beast.internal.test.strategy.HashCodeIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.HashCodeIntegrityIncludeStrategy;
 import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
@@ -79,49 +78,22 @@ public final class HashCodeIntegrityTestBuilder extends AbstractIntegrityTestBui
 	public HashCodeIntegrityTestBuilder(final Class<?> beanClass) {
 		super(beanClass);
 	}
-	
-	@Override
-	public Test create() {
-		
-		final IntegrityStrategy integrityStrategy; 
-		
-		if (!this.includedPropertyNames.isEmpty()) {
-			integrityStrategy = new HashCodeIntegrityIncludeStrategy(this.includedPropertyNames);
-		} else {
-			// default strategy
-			integrityStrategy = new HashCodeIntegrityExcludeStrategy(this.excludedPropertyNames);
-		}
-		
-		return new HashCodeIntegrityTest(this.beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
-	}
 
 	@Override
-	public HashCodeIntegrityTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
-		return (HashCodeIntegrityTestBuilder) super.addInstanceProvider(instanceProvider);
-	}
+    protected Test createTest(
+			final Class<?> beanClass,
+			final ObjectFactory objectFactory,
+			final IntegrityStrategy integrityStrategy) {
+		return new HashCodeIntegrityTest(beanClass, objectFactory, integrityStrategy);
+    }
 
 	@Override
-	public HashCodeIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
-		return (HashCodeIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
-	}
+    protected IntegrityStrategy createIntegrityIncludeStrategy(final Set<String> propertyNames) {
+	    return new HashCodeIntegrityIncludeStrategy(propertyNames);
+    }
 
 	@Override
-	public HashCodeIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
-		return (HashCodeIntegrityTestBuilder) super.addExcludedPropertyName(propertyName);
-	}
-
-	@Override
-	public HashCodeIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		return (HashCodeIntegrityTestBuilder) super.addExcludedPropertyNames(propertyNames);
-	}
-
-	@Override
-	public HashCodeIntegrityTestBuilder addIncludedPropertyName(final String propertyName) {
-		return (HashCodeIntegrityTestBuilder) super.addIncludedPropertyName(propertyName);
-	}
-
-	@Override
-	public HashCodeIntegrityTestBuilder addIncludedPropertyNames(final Set<String> propertyNames) {
-		return (HashCodeIntegrityTestBuilder) super.addIncludedPropertyNames(propertyNames);
-	}
+    protected IntegrityStrategy createIntegrityExcludeStrategy(final Set<String> propertyNames) {
+	    return new HashCodeIntegrityExcludeStrategy(propertyNames);
+    }
 }

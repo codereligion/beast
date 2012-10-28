@@ -16,12 +16,9 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.test.builder.AbstractTestBuilder;
-
-import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.Test;
 import com.codereligion.beast.internal.test.ToStringFormatTest;
-import java.util.Set;
+import com.codereligion.beast.internal.test.builder.AbstractTestBuilder;
 import java.util.regex.Pattern;
 
 
@@ -72,32 +69,12 @@ public final class ToStringFormatTestBuilder extends AbstractTestBuilder {
 	 * @throws NullPointerException when the given parameter is {@code null}
 	 */
 	public ToStringFormatTestBuilder(final Class<?> beanClass, final Pattern pattern) {
-		super(beanClass);
+		this(beanClass);
 		this.pattern = pattern;
 	}
 	
 	@Override
 	public Test create() {
-		return new ToStringFormatTest(this.beanClass, new ObjectFactory(this.instanceProviders), this.pattern, this.excludedPropertyNames);
+		return new ToStringFormatTest(this.beanClass, createObjectFactory(), this.pattern, this.excludedPropertyNames);
 	}
-	
-	@Override
-	public ToStringFormatTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
-		return (ToStringFormatTestBuilder) super.addInstanceProvider(instanceProvider);
-	}
-	
-	@Override
-	public ToStringFormatTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
-		return (ToStringFormatTestBuilder) super.addInstanceProviders(instanceProviders);
-	}
-
-	@Override
-	public ToStringFormatTestBuilder addExcludedPropertyName(final String propertyName) {
-    	return (ToStringFormatTestBuilder) super.addExcludedPropertyName(propertyName);
-    }
-
-	@Override
-	public ToStringFormatTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-    	return (ToStringFormatTestBuilder) super.addExcludedPropertyNames(propertyNames);
-    }
 }

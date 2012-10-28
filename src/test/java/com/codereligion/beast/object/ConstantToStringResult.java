@@ -17,7 +17,7 @@
 package com.codereligion.beast.object;
 
 /**
- * TODO
+ * Test class with a constant toString result.
  *
  * @author Sebastian Gröbler
  * @since 20.08.2012

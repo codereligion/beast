@@ -16,11 +16,10 @@
 
 package com.codereligion.beast;
 
-import com.codereligion.beast.internal.test.builder.AbstractIntegrityTestBuilder;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.Test;
 import com.codereligion.beast.internal.test.ToStringIntegrityTest;
+import com.codereligion.beast.internal.test.builder.AbstractIntegrityTestBuilder;
 import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
 import com.codereligion.beast.internal.test.strategy.ToStringIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.ToStringIntegrityIncludeStrategy;
@@ -79,47 +78,20 @@ public final class ToStringIntegrityTestBuilder extends AbstractIntegrityTestBui
 	}
 	
 	@Override
-	public Test create() {
-		final IntegrityStrategy integrityStrategy; 
-		
-		if (!this.includedPropertyNames.isEmpty()) {
-			integrityStrategy = new ToStringIntegrityIncludeStrategy(this.includedPropertyNames);
-		} else {
-			// default strategy
-			integrityStrategy = new ToStringIntegrityExcludeStrategy(this.excludedPropertyNames);
-		}
-		
-		return new ToStringIntegrityTest(this.beanClass, new ObjectFactory(this.instanceProviders), integrityStrategy);
-	}
+	protected Test createTest(
+			final Class<?> beanClass,
+			final ObjectFactory objectFactory,
+			final IntegrityStrategy integrityStrategy) {
+		return new ToStringIntegrityTest(beanClass, objectFactory, integrityStrategy);
+    }
 
 	@Override
-	public ToStringIntegrityTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
-		return (ToStringIntegrityTestBuilder) super.addInstanceProvider(instanceProvider);
-	}
+    protected IntegrityStrategy createIntegrityIncludeStrategy(final Set<String> propertyNames) {
+	    return new ToStringIntegrityIncludeStrategy(propertyNames);
+    }
 
 	@Override
-	public ToStringIntegrityTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
-		return (ToStringIntegrityTestBuilder) super.addInstanceProviders(instanceProviders);
-	}
-
-	@Override
-	public ToStringIntegrityTestBuilder addExcludedPropertyName(final String propertyName) {
-		return (ToStringIntegrityTestBuilder) super.addExcludedPropertyName(propertyName);
-	}
-
-	@Override
-	public ToStringIntegrityTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-		return (ToStringIntegrityTestBuilder) super.addExcludedPropertyNames(propertyNames);
-
-	}
-
-	@Override
-	public ToStringIntegrityTestBuilder addIncludedPropertyName(final String propertyName) {
-		return (ToStringIntegrityTestBuilder) super.addIncludedPropertyName(propertyName);
-	}
-
-	@Override
-	public ToStringIntegrityTestBuilder addIncludedPropertyNames(final Set<String> propertyNames) {
-		return (ToStringIntegrityTestBuilder) super.addIncludedPropertyNames(propertyNames);
-	}
+    protected IntegrityStrategy createIntegrityExcludeStrategy(final Set<String> propertyNames) {
+	    return new ToStringIntegrityExcludeStrategy(propertyNames);
+    }
 }

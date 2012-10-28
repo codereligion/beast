@@ -25,17 +25,17 @@ package com.codereligion.beast.object;
 public class PropertyWhichHasNoDefaultConstructor {
 
 	private String foo;
-	private NoDefaultConstructor bar;
+	private MissingDefaultConstructor bar;
 	public String getFoo() {
 		return this.foo;
 	}
 	public void setFoo(final String foo) {
 		this.foo = foo;
 	}
-	public NoDefaultConstructor getBar() {
+	public MissingDefaultConstructor getBar() {
 		return this.bar;
 	}
-	public void setBar(final NoDefaultConstructor bar) {
+	public void setBar(final MissingDefaultConstructor bar) {
 		this.bar = bar;
 	}
 	@Override

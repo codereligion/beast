@@ -30,7 +30,7 @@ import java.beans.PropertyDescriptor;
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
-abstract class AbstractIntegrityTest extends AbstractTest {
+public abstract class AbstractIntegrityTest extends AbstractTest {
 	
 	/**
 	 * The integrity strategy to be applied by this test.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.codereligion.beast;
+package com.codereligion.beast.integration;
 
 import static org.junit.Assert.fail;
 
@@ -30,7 +30,7 @@ import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.GenericGetterAndSetter;
 import com.codereligion.beast.object.MissingEqualsImplementation;
 import com.codereligion.beast.object.MissingPropertyInEquals;
-import com.codereligion.beast.object.NoDefaultConstructor;
+import com.codereligion.beast.object.MissingDefaultConstructor;
 import com.codereligion.beast.object.NonReflexiveEqualsClass;
 import com.codereligion.beast.object.NonSymmetricEqualsClass;
 import com.codereligion.beast.object.PropertyWhichHasNoDefaultConstructor;
@@ -48,6 +48,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.junit.Test;
 
 /**
+ * TODO review
  * Tests {@link EqualsIntegrityTest}.
  * 
  * @author Sebastian Gröbler
@@ -55,9 +56,6 @@ import org.junit.Test;
  */
 public class EqualsIntegrityTestIntegrationTest {
 	
-    /**
-     * TODO
-     */
     private static final Set<Class<?>> UNSUPPORTED_CLASSES = new HashSet<Class<?>>();
 
 	static {
@@ -94,7 +92,7 @@ public class EqualsIntegrityTestIntegrationTest {
         UNSUPPORTED_CLASSES.add(AbstractClass.class);
         
         // invalid implementations
-        UNSUPPORTED_CLASSES.add(NoDefaultConstructor.class);
+        UNSUPPORTED_CLASSES.add(MissingDefaultConstructor.class);
         UNSUPPORTED_CLASSES.add(PropertyWhichHasNoDefaultConstructor.class);
 	}
 

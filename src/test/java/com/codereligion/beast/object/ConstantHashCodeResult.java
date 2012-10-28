@@ -17,7 +17,7 @@
 package com.codereligion.beast.object;
 
 /**
- * TODO
+ * Test class with a constant hashCode.
  *
  * @author Sebastian Gröbler
  * @since 20.08.2012

@@ -17,7 +17,7 @@
 package com.codereligion.beast.object;
 
 /**
- * TODO
+ * Test class with asymmetric getters and setters.
  *
  * @author Sebastian Gröbler
  * @since 19.08.2012

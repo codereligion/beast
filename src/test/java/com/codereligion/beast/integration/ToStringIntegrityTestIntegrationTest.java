@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.codereligion.beast;
+package com.codereligion.beast.integration;
 
 import com.codereligion.beast.object.ExceptionThrowingSetter;
 
