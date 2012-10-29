@@ -85,12 +85,7 @@ public final class ToStringIntegrityIncludeStrategy extends AbstractIntegrityInc
 	    if (getClass() != obj.getClass()) {
 		    return false;
 	    }
-	    
-	    final ToStringIntegrityIncludeStrategy other = (ToStringIntegrityIncludeStrategy) obj;
-	    if (!this.propertyNames.equals(other.propertyNames)) {
-		    return false;
-		}
-	    return true;
+	    return super.equals(obj);
     }
 
 	@Override

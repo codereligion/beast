@@ -206,4 +206,6 @@ public class ObjectFactoryDirtyTest extends AbstractObjectFactoryTest {
 		assertTrue(object instanceof Set);
 		assertEquals(instanceProvider.getDirtyInstance().toString(), object.toString());
 	}
+	
+	
 }

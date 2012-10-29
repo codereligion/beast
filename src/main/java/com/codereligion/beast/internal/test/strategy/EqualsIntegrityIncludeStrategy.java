@@ -87,11 +87,7 @@ public final class EqualsIntegrityIncludeStrategy extends AbstractIntegrityInclu
 		    return false;
 	    }
 	    
-	    final EqualsIntegrityIncludeStrategy other = (EqualsIntegrityIncludeStrategy) obj;
-	    if (!this.propertyNames.equals(other.propertyNames)) {
-	    	return false;
-	    }
-	    return true;
+	    return super.equals(obj);
     }
 
 	@Override

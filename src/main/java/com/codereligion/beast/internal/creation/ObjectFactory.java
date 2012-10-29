@@ -499,14 +499,7 @@ public final class ObjectFactory {
 					return this.propertyStateFlagAsString;
 				}
 				
-				try {
-					return methodProxy.invokeSuper(thisObject, args);
-				} catch (final NoSuchMethodError e) {
-					throw new IllegalArgumentException(
-							"The method under test is internally calling method '" + method.getName() + "' for " +
-						    "property of type " + beanClass.getCanonicalName() + ". " + 
-						    "This method is not proxied. Provide a CustomInstanceProvider for that class.");
-				}
+				return methodProxy.invokeSuper(thisObject, args);
 			}
 		});
         return (T) enhancer.create();

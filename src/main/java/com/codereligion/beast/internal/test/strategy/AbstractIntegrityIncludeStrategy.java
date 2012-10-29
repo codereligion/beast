@@ -32,18 +32,33 @@ import java.util.Set;
  */
 public abstract class AbstractIntegrityIncludeStrategy extends AbstractIntegrityStrategy {
 
-    public AbstractIntegrityIncludeStrategy(Set<String> propertyNames) {
+    /**
+     * Constructs an instance with the given {@code propertyNames} to be included.
+     *
+     * @param propertyNames the names of the properties which should be included
+     * @throws NullPointerException when the given parameter is {@code null}
+     */
+    public AbstractIntegrityIncludeStrategy(final Set<String> propertyNames) {
 	    super(propertyNames);
     }
 
     @Override
-    public void handleInvocationTargetException(final PropertyDescriptor property, final InvocationTargetException e) {
+    public void handleInvocationTargetException(final PropertyDescriptor property, final InvocationTargetException exception) {
+    	
+    	if (property == null) {
+	        throw new NullPointerException("property must not be null.");
+        }
+    	
+    	if (exception == null) {
+	        throw new NullPointerException("exception must not be null.");
+        }
+    	
     	final String propertyName = property.getName();
     	if (this.propertyNames.contains(propertyName)) {
     		final String message = String.format("Calling the setter of the property '%s' threw an exception. " +
 												 "The setter call can be avoided by removing the property from the includes.",
 												 propertyName);
-    		throw new IllegalArgumentException(message, e);
+    		throw new IllegalArgumentException(message, exception);
     	}
     }
 }

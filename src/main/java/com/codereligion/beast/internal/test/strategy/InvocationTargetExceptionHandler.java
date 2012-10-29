@@ -33,6 +33,7 @@ public interface InvocationTargetExceptionHandler {
      *
      * @param property the property which caused the given exception
      * @param exception the {@link InvocationTargetException} to handle for the given {@code property}
+     * @throws NullPointerException when any of the given parameters are {@code null}
      */
     void handleInvocationTargetException(PropertyDescriptor property, InvocationTargetException exception);
 }

@@ -30,12 +30,13 @@ import java.util.Set;
  * and alike properties.
  * 
  * <p>
- * This strategy will throw an {@link AssertionError} if it finds a property which has not been included by the user
- * and is included in the hashCode implementation.
+ * This strategy will throw an {@link AssertionError}, if the given {@code propertyName} was not in the includes,
+ * but for which the {@code defaultObject} and {@code dirtyObject} have different hashCode results.
  * 
  * <p>
- * Furthermore it will throw an {@link AssertionError} if it finds a property which has been included by the user
- * but is excluded in the hashCode implementation, thus has been included unnecessarily .
+ * Furthermore it will throw an {@link AssertionError}, if the given {@code propertyName} was in the includes,
+ * but for which the {@code defaultObject} and {@code dirtyObject} have the same hashCode result. Thus
+ * the include was unnecessary.
  * 
  * @author Sebastian Gröbler
  * @since 11.08.2012
@@ -88,11 +89,7 @@ public final class HashCodeIntegrityIncludeStrategy extends AbstractIntegrityInc
 		    return false;
 	    }
 	    
-	    final HashCodeIntegrityIncludeStrategy other = (HashCodeIntegrityIncludeStrategy) obj;
-	    if (!this.propertyNames.equals(other.propertyNames)) {
-	    	return false;
-	    }
-	    return true;
+	    return super.equals(obj);
     }
 
 	@Override

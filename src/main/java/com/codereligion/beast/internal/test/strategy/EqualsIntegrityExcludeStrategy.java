@@ -83,12 +83,7 @@ public final class EqualsIntegrityExcludeStrategy extends AbstractIntegrityExclu
 	    if (getClass() != obj.getClass()) {
 		    return false;
 	    }
-	    
-	    final EqualsIntegrityExcludeStrategy other = (EqualsIntegrityExcludeStrategy) obj;
-	    if (!this.propertyNames.equals(other.propertyNames)) {
-		    return false;
-	    }
-	    return true;
+	    return super.equals(obj);
     }
 
 	@Override

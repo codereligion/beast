@@ -55,4 +55,42 @@ public abstract class AbstractIntegrityStrategy implements IntegrityStrategy {
     public int hashCode() {
 	    return this.propertyNames.hashCode();
     }
+    
+	/**
+	 * Abstract implementation of equals, which does not check if:
+	 * 
+	 * <ul>
+	 * <li> the given {@code obj} equals {@code this}
+	 * <li> the given {@code obj} is {@code null}
+	 * <li> the given {@code obj} is an instance of concrete class
+	 * </ul>
+	 * 
+	 * These checks need to be implemented by the concrete class. The concrete
+	 * implementation should prohibit mixed type comparison with equals by using
+	 * {@code getClass()} instead of {@code instanceOf}.
+	 * 
+	 * <p>
+	 * Example implementation:
+	 * <pre>
+	 * if (this == obj) {
+	 * 	return true;
+	 * }
+	 * if (obj == null) {
+	 * 	return false;
+	 * }
+	 * if (getClass() != obj.getClass()) {
+	 * 	return false;
+	 * }
+	 * return super.equals(obj);
+	 * </pre>
+	 */
+	@Override
+    public boolean equals(final Object obj) {
+	    
+	    final AbstractIntegrityStrategy other = (AbstractIntegrityStrategy) obj;
+	    if (!this.propertyNames.equals(other.propertyNames)) {
+	    	return false;
+	    }
+	    return true;
+    }
 }

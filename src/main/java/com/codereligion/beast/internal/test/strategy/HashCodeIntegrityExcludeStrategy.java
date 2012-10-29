@@ -85,12 +85,7 @@ public final class HashCodeIntegrityExcludeStrategy extends AbstractIntegrityExc
 	    if (getClass() != obj.getClass()) {
 		    return false;
 	    }
-	    
-	    final HashCodeIntegrityExcludeStrategy other = (HashCodeIntegrityExcludeStrategy) obj;
-	    if (!this.propertyNames.equals(other.propertyNames)) {
-		    return false;
-	    }
-	    return true;
+	    return super.equals(obj);
     }
 
 	@Override
