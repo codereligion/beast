@@ -16,11 +16,8 @@
 
 package com.codereligion.beast.internal.test;
 
-
-
-
 /**
- * Common interface for a test which extends {@link Runnable} to
+ * Common interface for a test. This class extends {@link Runnable} to
  * fit it into the testing context, while at the same time providing 
  * the ability to use it in through the {@link Runnable} interface
  * e.g. for multi-threaded execution.

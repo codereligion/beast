@@ -57,37 +57,29 @@ public abstract class AbstractIntegrityStrategy implements IntegrityStrategy {
     }
     
 	/**
-	 * Abstract implementation of equals, which does not check if:
+	 * Compares the given object with this instance.
+	 * This method will return true if:
 	 * 
 	 * <ul>
-	 * <li> the given {@code obj} equals {@code this}
-	 * <li> the given {@code obj} is {@code null}
-	 * <li> the given {@code obj} is an instance of concrete class
+	 * <li> the given object is not {@code null}
+	 * <li> is an instance of {@link AbstractIntegrityStrategy}
+	 * <li> is of the same concrete type defined by {@link AbstractIntegrityStrategy #getType()}
+	 * <li> has the same {@code propertyNames} 
 	 * </ul>
-	 * 
-	 * These checks need to be implemented by the concrete class. The concrete
-	 * implementation should prohibit mixed type comparison with equals by using
-	 * {@code getClass()} instead of {@code instanceOf}.
-	 * 
-	 * <p>
-	 * Example implementation:
-	 * <pre>
-	 * if (this == obj) {
-	 * 	return true;
-	 * }
-	 * if (obj == null) {
-	 * 	return false;
-	 * }
-	 * if (getClass() != obj.getClass()) {
-	 * 	return false;
-	 * }
-	 * return super.equals(obj);
-	 * </pre>
 	 */
 	@Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
 	    
+		if (!(obj instanceof AbstractIntegrityStrategy)) {
+			return false;
+		}
+		
 	    final AbstractIntegrityStrategy other = (AbstractIntegrityStrategy) obj;
+	    
+	    if (other.getClass() != this.getClass()) {
+	    	return false;
+	    }
+	    
 	    if (!this.propertyNames.equals(other.propertyNames)) {
 	    	return false;
 	    }

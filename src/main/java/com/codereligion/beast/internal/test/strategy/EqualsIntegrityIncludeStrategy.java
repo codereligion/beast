@@ -76,21 +76,6 @@ public final class EqualsIntegrityIncludeStrategy extends AbstractIntegrityInclu
     }
 
 	@Override
-    public boolean equals(final Object obj) {
-		if (this == obj) {
-		    return true;
-	    }
-	    if (obj == null) {
-		    return false;
-	    }
-	    if (getClass() != obj.getClass()) {
-		    return false;
-	    }
-	    
-	    return super.equals(obj);
-    }
-
-	@Override
     public String toString() {
 	    final StringBuilder builder = new StringBuilder();
 	    builder.append("EqualsIntegrityIncludeStrategy [propertyNames=");
