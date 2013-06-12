@@ -66,7 +66,7 @@ public final class HashCodeNullSafetyTest extends AbstractNullSafetyTest {
 			fail("The given class %s does not implement hashCode.", this.beanClassCanonicalName);
 		}
 
-		for (final PropertyDescriptor property : this.settableProperties) {
+		for (final PropertyDescriptor property : this.writeableProperties) {
 			
 			final Class<?> propertyType = property.getPropertyType();
 			

@@ -17,10 +17,9 @@
 package com.codereligion.beast.internal.test;
 
 
-import com.codereligion.beast.internal.test.strategy.InvocationTargetExceptionHandler;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
-import com.codereligion.beast.internal.util.ReflectUtil;
+import com.codereligion.beast.internal.test.strategy.InvocationTargetExceptionHandler;
+import com.codereligion.reflect.Reflector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -47,9 +46,9 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
 	protected final String beanClassCanonicalName;
 	
 	/**
-	 * All public settable property of the {@link Class} to be tested.
+	 * All public writeable property of the {@link Class} to be tested.
 	 */
-	protected final Set<PropertyDescriptor> settableProperties;
+	protected final Set<PropertyDescriptor> writeableProperties;
 	
 	/**
 	 * The {@link ObjectFactory} used to create dirty and default properties.
@@ -85,14 +84,14 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
 			throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " is not supported for testing.");
 		}
 		
-		this.settableProperties = ReflectUtil.getSettableProperties(beanClass);
+		this.writeableProperties = Reflector.getWriteableProperties(beanClass);
 
-		final boolean hasNoSettableProperties = this.settableProperties.isEmpty();
+		final boolean hasNoWriteableProperties = this.writeableProperties.isEmpty();
 		
-		if (hasNoSettableProperties) {
+		if (hasNoWriteableProperties) {
 			throw new IllegalArgumentException(String.format(
 					"The given class %s does not provide any public setters, only properties " +
-					"which are settable through public setters can be verified to be included in " +
+					"which are writeable through public setters can be verified to be included in " +
 					"the to be tested method.", this.beanClassCanonicalName));
 		}
 	}
@@ -122,7 +121,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
 			   !this.beanClass.isEnum() &&
 			   !this.beanClass.isInterface() &&
 			   !Modifier.isAbstract(this.beanClass.getModifiers()) &&
-			   ReflectUtil.hasDefaultConstructor(this.beanClass);
+			   Reflector.hasDefaultConstructor(this.beanClass);
 	}
 
 	/**
@@ -144,7 +143,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
 		try {
 			final Object object = this.beanClass.newInstance();
 			
-			for (final PropertyDescriptor property : this.settableProperties) {
+			for (final PropertyDescriptor property : this.writeableProperties) {
 				final String propertyName = property.getName();
 				final Class<?> propertyType = property.getPropertyType();
 				final Object value = this.objectFactory.getDefaultObject(propertyType, propertyName);

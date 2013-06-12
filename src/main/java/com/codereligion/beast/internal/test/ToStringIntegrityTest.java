@@ -67,7 +67,7 @@ public final class ToStringIntegrityTest extends AbstractIntegrityTest {
 
 		final Object defaultObject = newBeanObject();
 		
-		for (final PropertyDescriptor property : this.settableProperties) {
+		for (final PropertyDescriptor property : this.writeableProperties) {
 			
 			final String propertyName = property.getName();
 			final Object dirtyObject = newBeanObject();

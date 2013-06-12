@@ -46,7 +46,7 @@ import java.util.Set;
  * 	</ul>
  * </ul>
  * 
- * If neither includes nor excludes have been specified, all public settable properties
+ * If neither includes nor excludes have been specified, all public writeable properties
  * are expected to be included in the implementation.
  * 
  * <p>

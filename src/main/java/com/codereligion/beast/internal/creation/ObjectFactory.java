@@ -17,13 +17,12 @@
 package com.codereligion.beast.internal.creation;
 
 
-import java.util.Collections;
-
 import com.codereligion.beast.InstanceProvider;
-import com.codereligion.beast.internal.util.ReflectUtil;
+import com.codereligion.reflect.Reflector;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -237,8 +236,7 @@ public final class ObjectFactory {
 		final String canonicalName = instanceClass.getCanonicalName();
 		final Map<String, InstanceProvider> propertyNameToInstanceProvider = this.instanceProviderMap.get(canonicalName);
 		
-		final boolean couldNotFindAnyMappingForInstanceClass = propertyNameToInstanceProvider == null;
-		if (couldNotFindAnyMappingForInstanceClass) {
+		if (propertyNameToInstanceProvider == null) {
 			return null;
 		}
 		
@@ -448,7 +446,7 @@ public final class ObjectFactory {
 		
 		final boolean isConcreteClass = !beanClass.isInterface() && !Modifier.isAbstract(beanClass.getModifiers());
 		
-		if (isConcreteClass && !ReflectUtil.hasDefaultConstructor(beanClass)) {
+		if (isConcreteClass && !Reflector.hasDefaultConstructor(beanClass)) {
 			throw new IllegalArgumentException(
 					"Can not create proxy for property class " + beanClass.getCanonicalName() +
 					" because of missing default constructor. Either provide a default constructor " +

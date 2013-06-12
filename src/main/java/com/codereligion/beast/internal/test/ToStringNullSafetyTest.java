@@ -66,7 +66,7 @@ public final class ToStringNullSafetyTest extends AbstractNullSafetyTest {
         	fail("The given class %s does not implement toString.", this.beanClassCanonicalName);
         }
 		
-		for (final PropertyDescriptor property : this.settableProperties) {
+		for (final PropertyDescriptor property : this.writeableProperties) {
 			
 			final Class<?> propertyType = property.getPropertyType();
 			

@@ -82,7 +82,7 @@ public final class EqualsIntegrityTest extends AbstractIntegrityTest {
         		"Equals method for instances of %s is not reflexive.",
         		this.beanClassCanonicalName);
 
-        for (final PropertyDescriptor property : this.settableProperties) {
+        for (final PropertyDescriptor property : this.writeableProperties) {
 
             final String propertyName = property.getName();
             final Object dirtyObject = newBeanObject();

@@ -66,7 +66,7 @@ public final class EqualsNullSafetyTest extends AbstractNullSafetyTest {
     	}
 
     	final Object defaultObject = newBeanObject();
-        for (final PropertyDescriptor property : this.settableProperties) {
+        for (final PropertyDescriptor property : this.writeableProperties) {
 
             final Class<?> propertyType = property.getPropertyType();
             final String propertyName = property.getName();
