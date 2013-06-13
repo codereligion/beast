@@ -67,6 +67,22 @@
 						<exclude>.gitignore</exclude>
 					</excludes>
 				</configuration>
+				<executions>
+                    <execution>
+                        <id>format</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
 			</plugin>
 
 			<!-- to assure that maven compile the project with the desired version -->
@@ -118,4 +134,14 @@
 			<version>${reflect.version}</version>
 		</dependency>
 	</dependencies>
+	
+	<repositories>
+		<repository>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<id>codereligion-snapshots</id>
+			<url>https://raw.github.com/codereligion/mvn-repository/master/snapshots</url>
+		</repository>
+	</repositories>
 </project>
