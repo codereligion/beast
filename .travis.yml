@@ -1,0 +1,6 @@
+language: java
+notifications:
+  email:
+    on_failure: change
+jdk:
+  - oraclejdk7
