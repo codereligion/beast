@@ -19,14 +19,13 @@ import static com.codereligion.beast.internal.util.Assert.assertFalse;
 import static com.codereligion.beast.internal.util.Assert.assertTrue;
 import static com.codereligion.beast.internal.util.Assert.fail;
 
-import java.lang.reflect.InvocationTargetException;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.creation.ObjectMethodNames;
 import com.codereligion.beast.internal.test.strategy.EqualsIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.EqualsIntegrityIncludeStrategy;
 import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 
 
 /**

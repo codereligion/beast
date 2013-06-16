@@ -16,7 +16,6 @@
 package com.codereligion.beast.internal.test;
 
 import static com.codereligion.beast.internal.util.Assert.fail;
-import java.lang.reflect.InvocationTargetException;
 
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.creation.ObjectMethodNames;
@@ -24,6 +23,7 @@ import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
 import com.codereligion.beast.internal.test.strategy.ToStringIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.ToStringIntegrityIncludeStrategy;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Tests the toString implementation of the class under test for the following criteria:

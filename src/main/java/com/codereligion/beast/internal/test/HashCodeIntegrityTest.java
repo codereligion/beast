@@ -18,14 +18,13 @@ package com.codereligion.beast.internal.test;
 import static com.codereligion.beast.internal.util.Assert.assertFalse;
 import static com.codereligion.beast.internal.util.Assert.fail;
 
-import java.lang.reflect.InvocationTargetException;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.creation.ObjectMethodNames;
 import com.codereligion.beast.internal.test.strategy.HashCodeIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.HashCodeIntegrityIncludeStrategy;
 import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 
 
 /**

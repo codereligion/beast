@@ -16,9 +16,10 @@
 package com.codereligion.beast.internal.test;
 
 
+import com.codereligion.reflect.Reflector;
+
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.strategy.InvocationTargetExceptionHandler;
-import com.codereligion.reflect.Reflector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

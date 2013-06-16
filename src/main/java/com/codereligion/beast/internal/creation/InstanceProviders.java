@@ -45,50 +45,50 @@ public final class InstanceProviders {
 	/**
 	 * Default instance provider for type {@link Boolean}.
 	 */
-	public static InstanceProvider BOOLEAN = InstanceProvider.create(Boolean.FALSE, Boolean.TRUE);
+	public static final InstanceProvider BOOLEAN = InstanceProvider.create(Boolean.FALSE, Boolean.TRUE);
 	
 	/**
 	 * Default instance provider for type {@link BoByteolean}.
 	 */
-	public static InstanceProvider BYTE = InstanceProvider.create(Byte.valueOf(ZERO), Byte.valueOf(ONE));
+	public static final InstanceProvider BYTE = InstanceProvider.create(Byte.valueOf(ZERO), Byte.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Character}.
 	 */
-	public static InstanceProvider CHARACTER = InstanceProvider.create(Character.valueOf((char) 0), Character.valueOf((char) 1));
+	public static final InstanceProvider CHARACTER = InstanceProvider.create(Character.valueOf((char) 0), Character.valueOf((char) 1));
 	
 	/**
 	 * Default instance provider for type {@link Double}.
 	 */
-	public static InstanceProvider DOUBLE = InstanceProvider.create(Double.valueOf(ZERO), Double.valueOf(ONE));
+	public static final InstanceProvider DOUBLE = InstanceProvider.create(Double.valueOf(ZERO), Double.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Float}.
 	 */
-	public static InstanceProvider FLOAT = InstanceProvider.create(Float.valueOf(ZERO), Float.valueOf(ONE));
+	public static final InstanceProvider FLOAT = InstanceProvider.create(Float.valueOf(ZERO), Float.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Integer}.
 	 */
-	public static InstanceProvider INTEGER = InstanceProvider.create(Integer.valueOf(ZERO), Integer.valueOf(ONE));
+	public static final InstanceProvider INTEGER = InstanceProvider.create(Integer.valueOf(ZERO), Integer.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Long}.
 	 */
-	public static InstanceProvider LONG = InstanceProvider.create(Long.valueOf(ZERO), Long.valueOf(ONE));
+	public static final InstanceProvider LONG = InstanceProvider.create(Long.valueOf(ZERO), Long.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Object}.
 	 */
-	public static InstanceProvider OBJECT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
+	public static final InstanceProvider OBJECT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link Short}.
 	 */
-	public static InstanceProvider SHORT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
+	public static final InstanceProvider SHORT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
 	
 	/**
 	 * Default instance provider for type {@link String}.
 	 */
-	public static InstanceProvider STRING = InstanceProvider.create(String.valueOf(ZERO), String.valueOf(ONE));
+	public static final InstanceProvider STRING = InstanceProvider.create(String.valueOf(ZERO), String.valueOf(ONE));
 }

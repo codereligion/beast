@@ -16,8 +16,9 @@
 package com.codereligion.beast.internal.creation;
 
 
-import com.codereligion.beast.InstanceProvider;
 import com.codereligion.reflect.Reflector;
+
+import com.codereligion.beast.InstanceProvider;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
