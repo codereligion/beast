@@ -31,7 +31,6 @@ public final class Assert {
 		throw new IllegalAccessError("This is a static utility class which must not be instantiated.");
 	}
 
-
     /**
      * Convenience method to throw a formatted {@link AssertionError} with the given {@code message}
      * and {@code messageArgs}.

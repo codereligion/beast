@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 /**
- * This package contains internal classes which are not part of the public API.
- * Usage of any of these classes is explicitly not recommended. Any class in
- * this package may be changed or removed without notice and without a deprecation
- * period.
+ * This package contains miscellaneous classes used in the tests. 
  */
 @javax.annotation.ParametersAreNonnullByDefault
-package com.codereligion.beast.internal;
+package com.codereligion.beast.internal.util;

@@ -1,14 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.codereligion</groupId>
 	<artifactId>codereligion-beast</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 
 	<name>Beast</name>
-
 	<description>Provides utilities for testing java beans.</description>
+	<url>https://github.com/codereligion/diff</url>
 
 	<developers>
 		<developer>
@@ -16,6 +22,20 @@
 			<name>Sebastian Gröbler</name>
 		</developer>
 	</developers>
+
+	<scm>
+		<url>scm:git:ssh://git@github.com:codereligion/beast.git</url>
+		<connection>scm:git:ssh://git@github.com:codereligion/beast.git</connection>
+		<developerConnection>scm:git:git@github.com:codereligion/beast.git</developerConnection>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<prerequisites>
 		<maven>3.0</maven>
@@ -25,16 +45,19 @@
 		<!-- basic maven properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<compiler.plugin.version>3.1</compiler.plugin.version>
-		<release.plugin.version>2.4</release.plugin.version>
+		<animal.sniffer.plugin.version>1.9</animal.sniffer.plugin.version>
 		<surefire.plugin.version>2.12.2</surefire.plugin.version>
 		<license.plugin.version>1.9.0</license.plugin.version>
+		<javadoc.plugin.version>2.9</javadoc.plugin.version>
+		<release.plugin.version>2.4</release.plugin.version>
 
 		<!-- dependency versions -->
 		<reflect.version>0.1.0-SNAPSHOT</reflect.version>
+		<cglib.version>2.2.2</cglib.version>
+		<guava.version>14.0.1</guava.version>
+		<jsr305.version>2.0.1</jsr305.version>
 		<junit.version>4.11</junit.version>
 		<hamcrest.version>1.3</hamcrest.version>
-		<diffutils.version>1.2</diffutils.version>
-		<guava.version>11.0.1</guava.version>
 
 		<!-- code coverage properties -->
 		<jacoco.version>0.6.2.201302030002</jacoco.version>
@@ -43,17 +66,18 @@
 
 	<build>
 		<plugins>
-			
-			<!-- to assure that maven compile the project with the desired version -->
+
+			<!-- compilation -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${compiler.plugin.version}</version>
 				<configuration>
-					<!-- try build for the currently set java specification version, e.g. 1.6 -->
+					<!-- try build for the currently set java specification version, e.g. 
+						1.6 -->
 					<source>${java.specification.version}</source>
 					<target>${java.specification.version}</target>
-					
+
 					<!-- check for warnings, fail and show if there are any -->
 					<showWarnings>true</showWarnings>
 					<compilerArgs>
@@ -64,6 +88,7 @@
 				</configuration>
 			</plugin>
 
+			<!-- code coverage -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -85,13 +110,67 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
+			<!-- testing -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire.plugin.version}</version>
 			</plugin>
-			
+
+			<!-- check whether the code is compatible with java versions 1.5, 1.6 
+				and 1.7 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>animal-sniffer-maven-plugin</artifactId>
+				<version>${animal.sniffer.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>check-java15</id>
+						<phase>test</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<signature>
+								<groupId>org.codehaus.mojo.signature</groupId>
+								<artifactId>java15</artifactId>
+								<version>1.0</version>
+							</signature>
+						</configuration>
+					</execution>
+					<execution>
+						<id>check-java16</id>
+						<phase>test</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<signature>
+								<groupId>org.codehaus.mojo.signature</groupId>
+								<artifactId>java16</artifactId>
+								<version>1.1</version>
+							</signature>
+						</configuration>
+					</execution>
+					<execution>
+						<id>check-java17</id>
+						<phase>test</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<signature>
+								<groupId>org.codehaus.mojo.signature</groupId>
+								<artifactId>java17</artifactId>
+								<version>1.0</version>
+							</signature>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- licensing -->
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
@@ -107,68 +186,94 @@
 					</excludes>
 				</configuration>
 				<executions>
-                    <execution>
-                        <id>format</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>check</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
+					<execution>
+						<id>format</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>check</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
+			<!-- java doc -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${javadoc.plugin.version}</version>
+				<configuration>
+					<excludePackageNames>com.codereligion.beast.internal</excludePackageNames>
+				</configuration>
+			</plugin>
+
+			<!-- releasing -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>${release.plugin.version}</version>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 
 	<dependencies>
 	
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
-			<scope>compile</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
-			<scope>test</scope>
-		</dependency>
-		
+		<!-- |||||||||||||||||||| -->
+		<!-- compile dependencies -->
+		<!-- |||||||||||||||||||| -->
+
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>11.0.1</version>
+			<version>${guava.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.codereligion</groupId>
 			<artifactId>codereligion-reflect</artifactId>
 			<version>${reflect.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${cglib.version}</version>
+		</dependency>
+
+		<!-- ||||||||||||||||| -->
+		<!-- test dependencies -->
+		<!-- ||||||||||||||||| -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-integration</artifactId>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
 	</dependencies>
-	
+
 	<repositories>
 		<repository>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
-			<id>codereligion-snapshots</id>
-			<url>https://raw.github.com/codereligion/mvn-repository/master/snapshots</url>
+			<id>sona-type-snapshots</id>
+			<url>https://oss.sonatype.org/content/groups/public</url>
 		</repository>
 	</repositories>
+	
 </project>
