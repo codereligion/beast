@@ -10,5 +10,5 @@ notifications:
 jdk:
   - openjdk6
 install: mvn -DskipTests=true -e install
-script: mvn -e -Dskip.code.coverage=false verify
+script: mvn -e -Dskip.code.coverage=false -Dmaven.javadoc.skip=true -Dsource.skip=true verify
 after_success: mvn sonar:sonar -Dsonar.sourceEncoding=UTF-8 -Dsonar.core.codeCoveragePlugin=jacoco -Dsonar.dynamicAnalysis=reuseReports -Dsonar.host.url=http://sonar.codereligion.com -Dsonar.jdbc.url=$SONAR_DB_URL -Dsonar.jdbc.username=$SONAR_DB_USER -Dsonar.jdbc.password=$SONAR_DB_PASSWORD
