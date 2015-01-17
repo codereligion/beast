@@ -1,3 +1,5 @@
+*work in progress*
+
 # Beast
 
 The name of the project comes from BEAn teSTing. It provides facilities to test basic bean functionalities like the toString, equals and hashCode implementation.
