@@ -16,9 +16,8 @@
 package com.codereligion.beast.internal.creation;
 
 
-import com.codereligion.reflect.Reflector;
-
 import com.codereligion.beast.InstanceProvider;
+import com.codereligion.cherry.reflect.BeanIntrospections;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -446,7 +445,7 @@ public final class ObjectFactory {
 		
 		final boolean isConcreteClass = !beanClass.isInterface() && !Modifier.isAbstract(beanClass.getModifiers());
 		
-		if (isConcreteClass && !Reflector.hasDefaultConstructor(beanClass)) {
+		if (isConcreteClass && !BeanIntrospections.hasDefaultConstructor(beanClass)) {
 			throw new IllegalArgumentException(
 					"Can not create proxy for property class " + beanClass.getCanonicalName() +
 					" because of missing default constructor. Either provide a default constructor " +

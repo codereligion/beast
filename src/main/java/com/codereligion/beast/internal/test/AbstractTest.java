@@ -16,10 +16,9 @@
 package com.codereligion.beast.internal.test;
 
 
-import com.codereligion.reflect.Reflector;
-
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.strategy.InvocationTargetExceptionHandler;
+import com.codereligion.cherry.reflect.BeanIntrospections;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -84,7 +83,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
 			throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " is not supported for testing.");
 		}
 		
-		this.writeableProperties = Reflector.getWriteableProperties(beanClass);
+		this.writeableProperties = BeanIntrospections.getWriteableProperties(beanClass);
 
 		final boolean hasNoWriteableProperties = this.writeableProperties.isEmpty();
 		
@@ -121,7 +120,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
 			   !this.beanClass.isEnum() &&
 			   !this.beanClass.isInterface() &&
 			   !Modifier.isAbstract(this.beanClass.getModifiers()) &&
-			   Reflector.hasDefaultConstructor(this.beanClass);
+               BeanIntrospections.hasDefaultConstructor(this.beanClass);
 	}
 
 	/**
@@ -181,10 +180,10 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
 	}
 	
 	/**
+     * TODO update
 	 * Sets the given {@code value} with the given {@code setter} to the given {@code object}.
 	 * 
 	 * @param object the object to set the value on
-	 * @param setter the {@link Method} to set the given {@code value} with
 	 * @param value the value to be set
 	 * @throws IllegalStateException when the setter is not accessible or the {@code value} can not be set
 	 * @throws InvocationTargetException when the setter threw an exception
