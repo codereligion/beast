@@ -17,7 +17,6 @@ package com.codereligion.beast.internal.test.strategy;
 
 
 import java.util.Collections;
-
 import java.util.Set;
 
 
@@ -28,60 +27,54 @@ import java.util.Set;
  * @since 11.08.2012
  */
 public abstract class AbstractIntegrityStrategy implements IntegrityStrategy {
-	
-	/**
-	 * Names of properties to be handled specifically in the concrete strategy.
-	 */
-	protected final Set<String> propertyNames;
 
     /**
-     * Constructs an instance with the given {@code propertyNames} to be handled
-     * specifically according to the concrete implementation of this class.
+     * Names of properties to be handled specifically in the concrete strategy.
+     */
+    protected final Set<String> propertyNames;
+
+    /**
+     * Constructs an instance with the given {@code propertyNames} to be handled specifically according to the concrete implementation of this class.
      *
      * @param propertyNames the names of the properties which should be excluded
      * @throws NullPointerException when the given parameter is {@code null}
      */
     public AbstractIntegrityStrategy(final Set<String> propertyNames) {
-    	
-    	if (propertyNames == null) {
-    		throw new NullPointerException("propertyNames must not be null.");
-    	}
-    	
-    	this.propertyNames = Collections.unmodifiableSet(propertyNames);
+
+        if (propertyNames == null) {
+            throw new NullPointerException("propertyNames must not be null.");
+        }
+
+        this.propertyNames = Collections.unmodifiableSet(propertyNames);
     }
-    
+
     @Override
     public int hashCode() {
-	    return this.propertyNames.hashCode();
+        return this.propertyNames.hashCode();
     }
-    
-	/**
-	 * Compares the given object with this instance.
-	 * This method will return true if:
-	 * 
-	 * <ul>
-	 * <li> the given object is not {@code null}
-	 * <li> is an instance of {@link AbstractIntegrityStrategy}
-	 * <li> is of the same concrete type defined by {@link AbstractIntegrityStrategy #getType()}
-	 * <li> has the same {@code propertyNames} 
-	 * </ul>
-	 */
-	@Override
+
+    /**
+     * Compares the given object with this instance. This method will return true if:
+     * <p/>
+     * <ul> <li> the given object is not {@code null} <li> is an instance of {@link AbstractIntegrityStrategy} <li> is of the same concrete type defined by
+     * {@link AbstractIntegrityStrategy #getType()} <li> has the same {@code propertyNames} </ul>
+     */
+    @Override
     public final boolean equals(final Object obj) {
-	    
-		if (!(obj instanceof AbstractIntegrityStrategy)) {
-			return false;
-		}
-		
-	    final AbstractIntegrityStrategy other = (AbstractIntegrityStrategy) obj;
-	    
-	    if (other.getClass() != this.getClass()) {
-	    	return false;
-	    }
-	    
-	    if (!this.propertyNames.equals(other.propertyNames)) {
-	    	return false;
-	    }
-	    return true;
+
+        if (!(obj instanceof AbstractIntegrityStrategy)) {
+            return false;
+        }
+
+        final AbstractIntegrityStrategy other = (AbstractIntegrityStrategy) obj;
+
+        if (other.getClass() != this.getClass()) {
+            return false;
+        }
+
+        if (!this.propertyNames.equals(other.propertyNames)) {
+            return false;
+        }
+        return true;
     }
 }

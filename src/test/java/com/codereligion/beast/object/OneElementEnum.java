@@ -22,5 +22,5 @@ package com.codereligion.beast.object;
  * @since 16.08.2012
  */
 public enum OneElementEnum {
-	ONE_ELEMENT
+    ONE_ELEMENT
 }

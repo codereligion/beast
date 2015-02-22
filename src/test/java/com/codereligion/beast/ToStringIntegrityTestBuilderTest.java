@@ -22,9 +22,9 @@ import com.codereligion.beast.internal.test.builder.AbstractIntegrityTestBuilder
 import com.codereligion.beast.internal.test.builder.AbstractIntegrityTestBuilderTest;
 import com.codereligion.beast.internal.test.strategy.AbstractIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.AbstractIntegrityIncludeStrategy;
+import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
 import com.codereligion.beast.internal.test.strategy.ToStringIntegrityExcludeStrategy;
 import com.codereligion.beast.internal.test.strategy.ToStringIntegrityIncludeStrategy;
-import com.codereligion.beast.internal.test.strategy.IntegrityStrategy;
 import com.codereligion.beast.object.ComplexClass;
 import java.util.Set;
 
@@ -36,31 +36,28 @@ import java.util.Set;
  */
 public class ToStringIntegrityTestBuilderTest extends AbstractIntegrityTestBuilderTest {
 
-	@Override
+    @Override
     public AbstractIntegrityTestBuilder createBuilder(final Class<?> beanClass) {
-	    return new ToStringIntegrityTestBuilder(beanClass);
+        return new ToStringIntegrityTestBuilder(beanClass);
     }
 
-	@Override
-    public AbstractIntegrityTest createTest(
-    		final Class<?> beanClass,
-    		final ObjectFactory objectFactory,
-    		final IntegrityStrategy integrityStrategy) {
-	    return new ToStringIntegrityTest(beanClass, objectFactory, integrityStrategy);
+    @Override
+    public AbstractIntegrityTest createTest(final Class<?> beanClass, final ObjectFactory objectFactory, final IntegrityStrategy integrityStrategy) {
+        return new ToStringIntegrityTest(beanClass, objectFactory, integrityStrategy);
     }
-	
-	@Override
-	public Class<?> getBeanClass() {
-		return ComplexClass.class;
-	}
 
-	@Override
+    @Override
+    public Class<?> getBeanClass() {
+        return ComplexClass.class;
+    }
+
+    @Override
     public AbstractIntegrityIncludeStrategy createIntegrityIncludeStrategy(final Set<String> propertyNames) {
-	    return new ToStringIntegrityIncludeStrategy(propertyNames);
+        return new ToStringIntegrityIncludeStrategy(propertyNames);
     }
 
-	@Override
+    @Override
     public AbstractIntegrityExcludeStrategy createIntegrityExcludeStrategy(final Set<String> propertyNames) {
-		return new ToStringIntegrityExcludeStrategy(propertyNames);
+        return new ToStringIntegrityExcludeStrategy(propertyNames);
     }
 }

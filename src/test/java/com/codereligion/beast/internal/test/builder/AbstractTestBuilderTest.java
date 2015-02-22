@@ -24,56 +24,56 @@ import org.junit.Test;
  * @since 28.10.2012
  */
 public abstract class AbstractTestBuilderTest {
-	
-	/**
-	 * Abstract method to retrieve the to be tested bean class.
-	 *
-	 * @return the bean class to test
-	 */
-	protected abstract Class<?> getBeanClass();
-	
-	/**
-	 * Abstract factory method to create the test builder for the given {@code beanClass}.
-	 *
-	 * @return a new instance of {@link AbstractTestBuilder}
-	 */
-	protected abstract AbstractTestBuilder createBuilder(Class<?> beanClass); 
-	
-	/**
-	 * Factory method to create a test builder.
-	 *
-	 * @return a new instance of {@link AbstractTestBuilder}
-	 */
-	protected AbstractTestBuilder createBuilder() {
-		return createBuilder(getBeanClass());
-	}
 
-	@Test(expected = NullPointerException.class)
-	public void givenNullClassShouldThrowNpeWhenCallingTheConstructor() {
-		createBuilder(null);
-	}
-	
-	@Test(expected = NullPointerException.class)
-	public void givenNullPropertyNameShouldThrowNpeWhenCallingAddExcludedPropertyName() {
-		final AbstractTestBuilder builder = createBuilder();
-		builder.addExcludedPropertyName(null);
-	}
-	
-	@Test(expected = NullPointerException.class)
-	public void givenNullPropertyNamesShouldThrowNpeWhenCallingAddExcludedPropertyNames() {
-		final AbstractTestBuilder builder = createBuilder();
-		builder.addExcludedPropertyNames(null);
-	}
-	
-	@Test(expected = NullPointerException.class)
-	public void givenNullInstanceProviderShouldThrowNpeWhenCallingAddInstanceProvider() {
-		final AbstractTestBuilder builder = createBuilder();
-		builder.addInstanceProvider(null);
-	}
-	
-	@Test(expected = NullPointerException.class)
-	public void givenNullInstanceProvidersShouldThrowNpeWhenCallingAddInstanceProviders() {
-		final AbstractTestBuilder builder = createBuilder();
-		builder.addInstanceProviders(null);
-	}
+    /**
+     * Abstract method to retrieve the to be tested bean class.
+     *
+     * @return the bean class to test
+     */
+    protected abstract Class<?> getBeanClass();
+
+    /**
+     * Abstract factory method to create the test builder for the given {@code beanClass}.
+     *
+     * @return a new instance of {@link AbstractTestBuilder}
+     */
+    protected abstract AbstractTestBuilder createBuilder(Class<?> beanClass);
+
+    /**
+     * Factory method to create a test builder.
+     *
+     * @return a new instance of {@link AbstractTestBuilder}
+     */
+    protected AbstractTestBuilder createBuilder() {
+        return createBuilder(getBeanClass());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void givenNullClassShouldThrowNpeWhenCallingTheConstructor() {
+        createBuilder(null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void givenNullPropertyNameShouldThrowNpeWhenCallingAddExcludedPropertyName() {
+        final AbstractTestBuilder builder = createBuilder();
+        builder.addExcludedPropertyName(null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void givenNullPropertyNamesShouldThrowNpeWhenCallingAddExcludedPropertyNames() {
+        final AbstractTestBuilder builder = createBuilder();
+        builder.addExcludedPropertyNames(null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void givenNullInstanceProviderShouldThrowNpeWhenCallingAddInstanceProvider() {
+        final AbstractTestBuilder builder = createBuilder();
+        builder.addInstanceProvider(null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void givenNullInstanceProvidersShouldThrowNpeWhenCallingAddInstanceProviders() {
+        final AbstractTestBuilder builder = createBuilder();
+        builder.addInstanceProviders(null);
+    }
 }

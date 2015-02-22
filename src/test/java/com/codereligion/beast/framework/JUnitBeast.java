@@ -29,124 +29,114 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 /**
- * TODo maybe extend documentation, if this class should be shown as an example in the wiki.
- * Example implementation of the "beast" for JUnit.
- * 
+ * TODo maybe extend documentation, if this class should be shown as an example in the wiki. Example implementation of the "beast" for JUnit.
+ *
  * @author sgroebler
  * @since 11.08.2012
  */
-public abstract class JUnitBeast <T> {
-	
-	@Test
-	public void testEqualsIntegrity() {
-		new EqualsIntegrityTestBuilder(getClazz())
-			.addExcludedPropertyNames(getExcludesForEqualsIntegrityTest())
-			.addIncludedPropertyNames(getIncludesForEqualsIntegrityTest())
-			.addInstanceProviders(getInstanceProviders())
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testEqualsNullSafety() {
-		new EqualsNullSafetyTestBuilder(getClazz())
-			.addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
-			.addInstanceProviders(getInstanceProviders())
-			.create()
-		.run();
-	}
-	
-	@Test
-	public void testHashCodeIntegrity() {
-		new HashCodeIntegrityTestBuilder(getClazz())
-			.addExcludedPropertyNames(getExcludesForHashCodeIntegrityTest())
-			.addIncludedPropertyNames(getIncludesForHashCodeIntegrityTest())
-			.addInstanceProviders(getInstanceProviders())
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testHashCodeNullSafety() {
-		new HashCodeNullSafetyTestBuilder(getClazz())
-			.addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
-			.addInstanceProviders(getInstanceProviders())
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testToStringIntegrity() {
-		new ToStringIntegrityTestBuilder(getClazz())
-			.addExcludedPropertyNames(getExcludesForToStringIntegrityTest())
-			.addIncludedPropertyNames(getIncludesForToStringIntegrityTest())
-			.addInstanceProviders(getInstanceProviders())
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testToStringNullSafety() {
-		new ToStringNullSafetyTestBuilder(getClazz())
-			.addExcludedPropertyNames(getExcludesForToStringNullSafetyTest())
-			.addInstanceProviders(getInstanceProviders())
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testToStringFormat() {
-		new ToStringFormatTestBuilder(getClazz(), getToStringPattern())
-			.addInstanceProviders(getInstanceProviders())
-			.create()
-			.run();
-	}
+public abstract class JUnitBeast<T> {
 
-	protected abstract Class<T> getClazz();
-	
-	protected Set<String> getExcludesForHashCodeIntegrityTest() {
-		return Collections.emptySet();
-	}
-	
-	protected Set<String> getIncludesForHashCodeIntegrityTest() {
-		return Collections.emptySet();
-	}
-	
-	protected Set<String> getExcludesForEqualsIntegrityTest() {
-		return Collections.emptySet();
-	}
-	
-	protected Set<String> getIncludesForEqualsIntegrityTest() {
-		return Collections.emptySet();
-	}
-	
-	protected Set<String> getExcludesForToStringIntegrityTest() {
-		return Collections.emptySet();
-	}
-	
-	protected Set<String> getIncludesForToStringIntegrityTest() {
-		return Collections.emptySet();
-	}
-	
-	protected Set<String> getExcludesForHashCodeNullSafetyTest() {
-		return Collections.emptySet();
-	}
+    @Test
+    public void testEqualsIntegrity() {
+        new EqualsIntegrityTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForEqualsIntegrityTest())
+                                                  .addIncludedPropertyNames(getIncludesForEqualsIntegrityTest())
+                                                  .addInstanceProviders(getInstanceProviders())
+                                                  .create()
+                                                  .run();
+    }
 
-	protected Set<String> getExcludesForEqualsNullSafetyTest() {
-		return Collections.emptySet();
-	}
-	
-	protected Set<String> getExcludesForToStringNullSafetyTest() {
-		return Collections.emptySet();
-	}
-	
-	protected Set<InstanceProvider> getInstanceProviders() {
-		return Collections.emptySet();
-	}
-	
-	protected Pattern getToStringPattern() {
-		// TODO does not reflect nested toString calls, e.g. for collections etc.
+    @Test
+    public void testEqualsNullSafety() {
+        new EqualsNullSafetyTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
+                                                   .addInstanceProviders(getInstanceProviders())
+                                                   .create()
+                                                   .run();
+    }
+
+    @Test
+    public void testHashCodeIntegrity() {
+        new HashCodeIntegrityTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForHashCodeIntegrityTest())
+                                                    .addIncludedPropertyNames(getIncludesForHashCodeIntegrityTest())
+                                                    .addInstanceProviders(getInstanceProviders())
+                                                    .create()
+                                                    .run();
+    }
+
+    @Test
+    public void testHashCodeNullSafety() {
+        new HashCodeNullSafetyTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
+                                                     .addInstanceProviders(getInstanceProviders())
+                                                     .create()
+                                                     .run();
+    }
+
+    @Test
+    public void testToStringIntegrity() {
+        new ToStringIntegrityTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForToStringIntegrityTest())
+                                                    .addIncludedPropertyNames(getIncludesForToStringIntegrityTest())
+                                                    .addInstanceProviders(getInstanceProviders())
+                                                    .create()
+                                                    .run();
+    }
+
+    @Test
+    public void testToStringNullSafety() {
+        new ToStringNullSafetyTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForToStringNullSafetyTest())
+                                                     .addInstanceProviders(getInstanceProviders())
+                                                     .create()
+                                                     .run();
+    }
+
+    @Test
+    public void testToStringFormat() {
+        new ToStringFormatTestBuilder(getClazz(), getToStringPattern()).addInstanceProviders(getInstanceProviders()).create().run();
+    }
+
+    protected abstract Class<T> getClazz();
+
+    protected Set<String> getExcludesForHashCodeIntegrityTest() {
+        return Collections.emptySet();
+    }
+
+    protected Set<String> getIncludesForHashCodeIntegrityTest() {
+        return Collections.emptySet();
+    }
+
+    protected Set<String> getExcludesForEqualsIntegrityTest() {
+        return Collections.emptySet();
+    }
+
+    protected Set<String> getIncludesForEqualsIntegrityTest() {
+        return Collections.emptySet();
+    }
+
+    protected Set<String> getExcludesForToStringIntegrityTest() {
+        return Collections.emptySet();
+    }
+
+    protected Set<String> getIncludesForToStringIntegrityTest() {
+        return Collections.emptySet();
+    }
+
+    protected Set<String> getExcludesForHashCodeNullSafetyTest() {
+        return Collections.emptySet();
+    }
+
+    protected Set<String> getExcludesForEqualsNullSafetyTest() {
+        return Collections.emptySet();
+    }
+
+    protected Set<String> getExcludesForToStringNullSafetyTest() {
+        return Collections.emptySet();
+    }
+
+    protected Set<InstanceProvider> getInstanceProviders() {
+        return Collections.emptySet();
+    }
+
+    protected Pattern getToStringPattern() {
+        // TODO does not reflect nested toString calls, e.g. for collections etc.
 //		return Pattern.compile(".+\\{(.+=.+, )*(.+=.+)?\\}");
-		return Pattern.compile(".*");
-	}
+        return Pattern.compile(".*");
+    }
 }

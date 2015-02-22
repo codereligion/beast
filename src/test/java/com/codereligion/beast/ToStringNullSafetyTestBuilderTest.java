@@ -31,21 +31,18 @@ import java.util.Set;
  */
 public class ToStringNullSafetyTestBuilderTest extends AbstractNullSafetyTestBuilderTest {
 
-	@Override
+    @Override
     public AbstractNullSafetyTestBuilder createBuilder(final Class<?> beanClass) {
-	    return new ToStringNullSafetyTestBuilder(beanClass);
+        return new ToStringNullSafetyTestBuilder(beanClass);
     }
 
-	@Override
-	public Class<?> getBeanClass() {
-		return ComplexClass.class;
-	}
+    @Override
+    public Class<?> getBeanClass() {
+        return ComplexClass.class;
+    }
 
-	@Override
-    public AbstractNullSafetyTest createTest(
-    		final Class<?> beanClass,
-    		final ObjectFactory objectFactory,
-            final Set<String> excludedPropertyNames) {
-	    return new ToStringNullSafetyTest(beanClass, objectFactory, excludedPropertyNames);
+    @Override
+    public AbstractNullSafetyTest createTest(final Class<?> beanClass, final ObjectFactory objectFactory, final Set<String> excludedPropertyNames) {
+        return new ToStringNullSafetyTest(beanClass, objectFactory, excludedPropertyNames);
     }
 }

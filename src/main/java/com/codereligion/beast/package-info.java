@@ -16,5 +16,4 @@
 /**
  * This package contains classes to test Java bean method like, hashCode, equals and toString.
  */
-@javax.annotation.ParametersAreNonnullByDefault
-package com.codereligion.beast;
+@javax.annotation.ParametersAreNonnullByDefault package com.codereligion.beast;

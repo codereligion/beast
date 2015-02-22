@@ -24,9 +24,9 @@ import java.util.Set;
  * @since 29.10.2012
  */
 public class ToStringIntegrityIncludeStrategyTest extends AbstractIntegrityIncludeStrategyTest {
-	
-	@Override
+
+    @Override
     public AbstractIntegrityIncludeStrategy createIntegrityStrategy(final Set<String> propertyNames) {
-	    return new ToStringIntegrityIncludeStrategy(propertyNames);
+        return new ToStringIntegrityIncludeStrategy(propertyNames);
     }
 }

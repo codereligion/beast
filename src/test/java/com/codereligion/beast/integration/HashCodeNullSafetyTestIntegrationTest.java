@@ -15,67 +15,50 @@
  */
 package com.codereligion.beast.integration;
 
+import com.codereligion.beast.HashCodeNullSafetyTestBuilder;
 import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.ExceptionThrowingSetter;
 import com.codereligion.beast.object.MissingHashCodeImplementation;
 import com.codereligion.beast.object.MissingNullCheckInHashCode;
-
-import com.codereligion.beast.HashCodeNullSafetyTestBuilder;
-
-
-
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
 import org.junit.Test;
 
 /**
  * Tests {@link HashCode}.
- * 
+ *
  * @author Sebastian Gröbler
  * @since 14.08.2012
  */
 public class HashCodeNullSafetyTestIntegrationTest {
-	
-	@Test(expected = NullPointerException.class)
-	public void testWithNullClass() {
-		new HashCodeNullSafetyTestBuilder(null)
-			.create()
-			.run();
-	}
 
-	@Test
-	public void testValidClass() {
-		new HashCodeNullSafetyTestBuilder(ComplexClass.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = AssertionError.class)
-	public void testWithMissingImplemention() {
-		new HashCodeNullSafetyTestBuilder(MissingHashCodeImplementation.class)
-			.create()
-			.run();
-	}
+    @Test(expected = NullPointerException.class)
+    public void testWithNullClass() {
+        new HashCodeNullSafetyTestBuilder(null).create().run();
+    }
 
-	@Test(expected = AssertionError.class)
-	public void testWithNullPointerInHashCode() {
-		new HashCodeNullSafetyTestBuilder(MissingNullCheckInHashCode.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testWithExceptionThrowingSetter() {
-		new HashCodeNullSafetyTestBuilder(ExceptionThrowingSetter.class)
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new HashCodeNullSafetyTestBuilder(MissingNullCheckInHashCode.class)
-			.addExcludedPropertyNames(Sets.newHashSet("complexObject"))
-			.create()
-			.run();
-	}
+    @Test
+    public void testValidClass() {
+        new HashCodeNullSafetyTestBuilder(ComplexClass.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testWithMissingImplemention() {
+        new HashCodeNullSafetyTestBuilder(MissingHashCodeImplementation.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testWithNullPointerInHashCode() {
+        new HashCodeNullSafetyTestBuilder(MissingNullCheckInHashCode.class).create().run();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithExceptionThrowingSetter() {
+        new HashCodeNullSafetyTestBuilder(ExceptionThrowingSetter.class).create().run();
+    }
+
+    @Test
+    public void testWithExceptionThrowingSetterForExcludedProperty() {
+        new HashCodeNullSafetyTestBuilder(MissingNullCheckInHashCode.class).addExcludedPropertyNames(Sets.newHashSet("complexObject")).create().run();
+    }
 }

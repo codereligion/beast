@@ -16,68 +16,63 @@
 package com.codereligion.beast.internal.test.strategy;
 
 
-import static com.codereligion.beast.internal.util.Assert.assertFalse;
-
 import java.util.Set;
+import static com.codereligion.beast.internal.util.Assert.assertFalse;
 
 
 /**
- * Tests the integrity of the toString implementation by using an exclude strategy. This means the user can provide
- * excluded properties which must not be included in the toString implementation. This approach is specifically
- * useful when the class under test has properties of which the majority must be considered in the 
- * toString implementation. 
- * 
- * <p>
- * This strategy will throw an {@link AssertionError} if it finds a property which has not been excluded by the user
- * and is not included in the toString implementation.
- * 
- * <p>
- * Furthermore it will throw an {@link AssertionError} if it finds a property which has been excluded by the user
- * but is included in the toString implementation, thus has been excluded unnecessarily .
- * 
+ * Tests the integrity of the toString implementation by using an exclude strategy. This means the user can provide excluded properties which must not be
+ * included in the toString implementation. This approach is specifically useful when the class under test has properties of which the majority must be
+ * considered in the toString implementation.
+ * <p/>
+ * <p/>
+ * This strategy will throw an {@link AssertionError} if it finds a property which has not been excluded by the user and is not included in the toString
+ * implementation.
+ * <p/>
+ * <p/>
+ * Furthermore it will throw an {@link AssertionError} if it finds a property which has been excluded by the user but is included in the toString
+ * implementation, thus has been excluded unnecessarily .
+ *
  * @author Sebastian Gröbler
- * @since 11.08.2012
  * @see ToStringIntegrityIncludeStrategy
+ * @since 11.08.2012
  */
 public final class ToStringIntegrityExcludeStrategy extends AbstractIntegrityExcludeStrategy {
-	
-	/**
+
+    /**
      * Constructs an instance with the given {@code propertyNames} to be excluded.
      *
      * @param propertyNames the names of the properties which should be excluded
      * @throws NullPointerException when the given parameter is {@code null}
      */
     public ToStringIntegrityExcludeStrategy(final Set<String> propertyNames) {
-    	super(propertyNames);
+        super(propertyNames);
     }
 
     @Override
     public void apply(final Object defaultObject, final Object dirtyObject, final String propertyName) {
 
-		final boolean areEqual = defaultObject.toString().equals(dirtyObject.toString());
-		final boolean isExcluded = this.propertyNames.contains(propertyName);
-		final boolean isMissingInIncludes = areEqual && !isExcluded;
-		
-		assertFalse(isMissingInIncludes,
-					"The property '%s' is not supported by the toString implementation. If this is " +
-					"intentional add it to the excludedPropertyNames.",
-					propertyName);
+        final boolean areEqual = defaultObject.toString().equals(dirtyObject.toString());
+        final boolean isExcluded = this.propertyNames.contains(propertyName);
+        final boolean isMissingInIncludes = areEqual && !isExcluded;
 
-		final boolean isMissingInImplementation = !areEqual && isExcluded;
-    	
-    	assertFalse(isMissingInImplementation,
-    			"The property '%s' is contained in the excludedPropertyNames, but is actually " +
-    			"supported by the toString implementation. Either remove it from the " +
-    			"excludedPropertyNames or the toString implementation.",
-    			propertyName);
+        assertFalse(isMissingInIncludes,
+                    "The property '%s' is not supported by the toString implementation. If this is " + "intentional add it to the excludedPropertyNames.",
+                    propertyName);
+
+        final boolean isMissingInImplementation = !areEqual && isExcluded;
+
+        assertFalse(isMissingInImplementation, "The property '%s' is contained in the excludedPropertyNames, but is actually " +
+                                               "supported by the toString implementation. Either remove it from the " +
+                                               "excludedPropertyNames or the toString implementation.", propertyName);
     }
 
-	@Override
+    @Override
     public String toString() {
-	    final StringBuilder builder = new StringBuilder();
-	    builder.append("ToStringIntegrityExcludeStrategy [propertyNames=");
-	    builder.append(this.propertyNames);
-	    builder.append("]");
-	    return builder.toString();
+        final StringBuilder builder = new StringBuilder();
+        builder.append("ToStringIntegrityExcludeStrategy [propertyNames=");
+        builder.append(this.propertyNames);
+        builder.append("]");
+        return builder.toString();
     }
 }

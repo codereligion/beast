@@ -24,9 +24,9 @@ import java.util.Set;
  * @since 29.10.2012
  */
 public class ToStringIntegrityExcludeStrategyTest extends AbstractIntegrityExcludeStrategyTest {
-	
-	@Override
+
+    @Override
     public AbstractIntegrityExcludeStrategy createIntegrityStrategy(final Set<String> propertyNames) {
-	    return new ToStringIntegrityExcludeStrategy(propertyNames);
+        return new ToStringIntegrityExcludeStrategy(propertyNames);
     }
 }

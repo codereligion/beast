@@ -15,108 +15,75 @@
  */
 package com.codereligion.beast.integration;
 
-import com.codereligion.beast.object.ExceptionThrowingSetter;
-
+import com.codereligion.beast.ToStringIntegrityTestBuilder;
 import com.codereligion.beast.internal.test.ToStringIntegrityTest;
-
 import com.codereligion.beast.object.ComplexClass;
+import com.codereligion.beast.object.ExceptionThrowingSetter;
 import com.codereligion.beast.object.MissingPropertyInToString;
 import com.codereligion.beast.object.MissingToStringImplementation;
-
-import com.codereligion.beast.ToStringIntegrityTestBuilder;
-
-
-
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
 /**
  * Tests {@link ToStringIntegrityTest}.
- * 
+ *
  * @author Sebastian Gröbler
  * @since 14.08.2012
  */
 public class ToStringIntegrityTestIntegrationTest {
-	
-	@Test(expected = NullPointerException.class)
-	public void testWithNullClass() {
-		new ToStringIntegrityTestBuilder(null)
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testValidClass() {
-		new ToStringIntegrityTestBuilder(ComplexClass.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = AssertionError.class)
-	public void testWithMissingImplemention() {
-		new ToStringIntegrityTestBuilder(MissingToStringImplementation.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testWithUnsupportedClass() {
-		new ToStringIntegrityTestBuilder(String.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = AssertionError.class)
-	public void testWithMissingPropertyInToString() {
-		new ToStringIntegrityTestBuilder(MissingPropertyInToString.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = AssertionError.class)
-	public void testValidClassWithUnnecessaryExclude() {
-		new ToStringIntegrityTestBuilder(ComplexClass.class)
-			.addExcludedPropertyNames(Sets.newHashSet("anotherComplexObject"))
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testWithMissingPropertyInToStringWithExcludes() {
-		new ToStringIntegrityTestBuilder(MissingPropertyInToString.class)
-			.addExcludedPropertyNames(Sets.newHashSet("bar"))
-			.create()
-			.run();
-	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testWithExceptionThrowingSetter() {
-		new ToStringIntegrityTestBuilder(ExceptionThrowingSetter.class)
-			.create()
-			.run();
-	}
+    @Test(expected = NullPointerException.class)
+    public void testWithNullClass() {
+        new ToStringIntegrityTestBuilder(null).create().run();
+    }
 
-	@Test
-	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new ToStringIntegrityTestBuilder(ExceptionThrowingSetter.class)
-			.addExcludedPropertyNames(Sets.newHashSet("foo"))
-			.create()
-			.run();
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testWithExceptionThrowingSetterForIncludedProperty() {
-		new ToStringIntegrityTestBuilder(ExceptionThrowingSetter.class)
-			.addIncludedPropertyNames(Sets.newHashSet("foo"))
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testWithExceptionThrowingSetterForNonIncludedProperty() {
-		new ToStringIntegrityTestBuilder(ExceptionThrowingSetter.class)
-			.addIncludedPropertyNames(Sets.newHashSet("bar"))
-			.create()
-			.run();
-	}
+    @Test
+    public void testValidClass() {
+        new ToStringIntegrityTestBuilder(ComplexClass.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testWithMissingImplemention() {
+        new ToStringIntegrityTestBuilder(MissingToStringImplementation.class).create().run();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithUnsupportedClass() {
+        new ToStringIntegrityTestBuilder(String.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testWithMissingPropertyInToString() {
+        new ToStringIntegrityTestBuilder(MissingPropertyInToString.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testValidClassWithUnnecessaryExclude() {
+        new ToStringIntegrityTestBuilder(ComplexClass.class).addExcludedPropertyNames(Sets.newHashSet("anotherComplexObject")).create().run();
+    }
+
+    @Test
+    public void testWithMissingPropertyInToStringWithExcludes() {
+        new ToStringIntegrityTestBuilder(MissingPropertyInToString.class).addExcludedPropertyNames(Sets.newHashSet("bar")).create().run();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithExceptionThrowingSetter() {
+        new ToStringIntegrityTestBuilder(ExceptionThrowingSetter.class).create().run();
+    }
+
+    @Test
+    public void testWithExceptionThrowingSetterForExcludedProperty() {
+        new ToStringIntegrityTestBuilder(ExceptionThrowingSetter.class).addExcludedPropertyNames(Sets.newHashSet("foo")).create().run();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithExceptionThrowingSetterForIncludedProperty() {
+        new ToStringIntegrityTestBuilder(ExceptionThrowingSetter.class).addIncludedPropertyNames(Sets.newHashSet("foo")).create().run();
+    }
+
+    @Test
+    public void testWithExceptionThrowingSetterForNonIncludedProperty() {
+        new ToStringIntegrityTestBuilder(ExceptionThrowingSetter.class).addIncludedPropertyNames(Sets.newHashSet("bar")).create().run();
+    }
 }

@@ -15,10 +15,6 @@
  */
 package com.codereligion.beast.internal.creation;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import com.codereligion.beast.InstanceProvider;
 import com.codereligion.beast.object.AbstractClass;
 import com.codereligion.beast.object.ComplexClass;
@@ -28,83 +24,82 @@ import com.codereligion.beast.object.MissingDefaultConstructor;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests helper methods of the {@link ObjectFactory}.
- * 
- * TODO extend test with custom intance providers
- * - overriding: object, string, boxed and unboxed primitive types
- * - adding: additional providers custom providers
- * - test with enums
- * - test with arrays
- * - test with propertyNames
+ * <p/>
+ * TODO extend test with custom intance providers - overriding: object, string, boxed and unboxed primitive types - adding: additional providers custom
+ * providers - test with enums - test with arrays - test with propertyNames
  *
  * @author Sebastian Gröbler
  * @since 18.08.2012
  */
 public abstract class AbstractObjectFactoryTest {
-	
-	/**
-	 * TODO
-	 *
-	 * @param beanClass
-	 * @param propertyName
-	 * @return
-	 */
-	public abstract Object getObject(Class<?> beanClass, String propertyName);
-	
-	/**
-	 * TODO
-	 *
-	 * @param providers
-	 * @param beanClass
-	 * @param propertyName
-	 * @return
-	 */
-	public abstract Object getObject(Set<InstanceProvider> instanceProviders, Class<?> beanClass, String propertyName);
 
-	@Test(expected = NullPointerException.class)
-	public void givenNullClassShouldThrowNpe() {
-		getObject(null, null);
-	}
+    /**
+     * TODO
+     *
+     * @param beanClass
+     * @param propertyName
+     * @return
+     */
+    public abstract Object getObject(Class<?> beanClass, String propertyName);
 
-	@Test(expected = IllegalArgumentException.class)
-	public void giveClassWithOutDefaultConstructorShouldThrowIae() {
-		getObject(MissingDefaultConstructor.class, null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void givenFinalClassShouldThrowIae() {
-		getObject(FinalClass.class, null);
-	}
-	
-	@Test
-	public void givenValidClassShouldReturnValidDefaultInstanceOfThatClass() {
-		final Object object = getObject(ComplexClass.class, null);
-		assertNotNull(object);
-		assertTrue(object instanceof ComplexClass);
-		assertNotNull(object.toString());
-	}
-	
-	@Test
-	public void givenAbstractClassShouldReturnProxy() {
-		final Object object = getObject(AbstractClass.class, null);
-		assertNotNull(object);
-		assertTrue(object instanceof AbstractClass);
-		assertNotNull(object.toString());
-	}
-	
-	@Test
-	public void givenInterfaceShouldReturnProxy() {
-		final Object object = getObject(List.class, null);
-		assertNotNull(object);
-		assertTrue(object instanceof List);
-		assertNotNull(object.toString());
-	}
-	
-	@Test
-	public void givenEmptyEnumShouldReturnNull() {
-		final Object emptyEnum = getObject(EmptyEnum.class, null);
-		assertNull(emptyEnum);
-	}
+    /**
+     * TODO
+     *
+     * @param providers
+     * @param beanClass
+     * @param propertyName
+     * @return
+     */
+    public abstract Object getObject(Set<InstanceProvider> instanceProviders, Class<?> beanClass, String propertyName);
+
+    @Test(expected = NullPointerException.class)
+    public void givenNullClassShouldThrowNpe() {
+        getObject(null, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void giveClassWithOutDefaultConstructorShouldThrowIae() {
+        getObject(MissingDefaultConstructor.class, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void givenFinalClassShouldThrowIae() {
+        getObject(FinalClass.class, null);
+    }
+
+    @Test
+    public void givenValidClassShouldReturnValidDefaultInstanceOfThatClass() {
+        final Object object = getObject(ComplexClass.class, null);
+        assertNotNull(object);
+        assertTrue(object instanceof ComplexClass);
+        assertNotNull(object.toString());
+    }
+
+    @Test
+    public void givenAbstractClassShouldReturnProxy() {
+        final Object object = getObject(AbstractClass.class, null);
+        assertNotNull(object);
+        assertTrue(object instanceof AbstractClass);
+        assertNotNull(object.toString());
+    }
+
+    @Test
+    public void givenInterfaceShouldReturnProxy() {
+        final Object object = getObject(List.class, null);
+        assertNotNull(object);
+        assertTrue(object instanceof List);
+        assertNotNull(object.toString());
+    }
+
+    @Test
+    public void givenEmptyEnumShouldReturnNull() {
+        final Object emptyEnum = getObject(EmptyEnum.class, null);
+        assertNull(emptyEnum);
+    }
 }

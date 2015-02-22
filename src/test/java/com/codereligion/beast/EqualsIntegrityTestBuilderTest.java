@@ -36,31 +36,28 @@ import java.util.Set;
  */
 public class EqualsIntegrityTestBuilderTest extends AbstractIntegrityTestBuilderTest {
 
-	@Override
+    @Override
     public AbstractIntegrityTestBuilder createBuilder(final Class<?> beanClass) {
-	    return new EqualsIntegrityTestBuilder(beanClass);
+        return new EqualsIntegrityTestBuilder(beanClass);
     }
 
-	@Override
-    public AbstractIntegrityTest createTest(
-    		final Class<?> beanClass,
-    		final ObjectFactory objectFactory,
-    		final IntegrityStrategy integrityStrategy) {
-	    return new EqualsIntegrityTest(beanClass, objectFactory, integrityStrategy);
+    @Override
+    public AbstractIntegrityTest createTest(final Class<?> beanClass, final ObjectFactory objectFactory, final IntegrityStrategy integrityStrategy) {
+        return new EqualsIntegrityTest(beanClass, objectFactory, integrityStrategy);
     }
-	
-	@Override
-	public Class<?> getBeanClass() {
-		return ComplexClass.class;
-	}
 
-	@Override
+    @Override
+    public Class<?> getBeanClass() {
+        return ComplexClass.class;
+    }
+
+    @Override
     public AbstractIntegrityIncludeStrategy createIntegrityIncludeStrategy(final Set<String> propertyNames) {
-	    return new EqualsIntegrityIncludeStrategy(propertyNames);
+        return new EqualsIntegrityIncludeStrategy(propertyNames);
     }
 
-	@Override
+    @Override
     public AbstractIntegrityExcludeStrategy createIntegrityExcludeStrategy(final Set<String> propertyNames) {
-		return new EqualsIntegrityExcludeStrategy(propertyNames);
+        return new EqualsIntegrityExcludeStrategy(propertyNames);
     }
 }

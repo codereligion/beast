@@ -36,31 +36,28 @@ import java.util.Set;
  */
 public class HashCodeIntegrityTestBuilderTest extends AbstractIntegrityTestBuilderTest {
 
-	@Override
+    @Override
     public AbstractIntegrityTestBuilder createBuilder(final Class<?> beanClass) {
-	    return new HashCodeIntegrityTestBuilder(beanClass);
+        return new HashCodeIntegrityTestBuilder(beanClass);
     }
 
-	@Override
-    public AbstractIntegrityTest createTest(
-    		final Class<?> beanClass,
-    		final ObjectFactory objectFactory,
-    		final IntegrityStrategy integrityStrategy) {
-	    return new HashCodeIntegrityTest(beanClass, objectFactory, integrityStrategy);
+    @Override
+    public AbstractIntegrityTest createTest(final Class<?> beanClass, final ObjectFactory objectFactory, final IntegrityStrategy integrityStrategy) {
+        return new HashCodeIntegrityTest(beanClass, objectFactory, integrityStrategy);
     }
-	
-	@Override
-	public Class<?> getBeanClass() {
-		return ComplexClass.class;
-	}
 
-	@Override
+    @Override
+    public Class<?> getBeanClass() {
+        return ComplexClass.class;
+    }
+
+    @Override
     public AbstractIntegrityIncludeStrategy createIntegrityIncludeStrategy(final Set<String> propertyNames) {
-	    return new HashCodeIntegrityIncludeStrategy(propertyNames);
+        return new HashCodeIntegrityIncludeStrategy(propertyNames);
     }
 
-	@Override
+    @Override
     public AbstractIntegrityExcludeStrategy createIntegrityExcludeStrategy(final Set<String> propertyNames) {
-		return new HashCodeIntegrityExcludeStrategy(propertyNames);
+        return new HashCodeIntegrityExcludeStrategy(propertyNames);
     }
 }

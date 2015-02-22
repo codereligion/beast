@@ -16,5 +16,4 @@
 /**
  * This package contains classes used to create objects that are used to set state to the classes under test.
  */
-@javax.annotation.ParametersAreNonnullByDefault
-package com.codereligion.beast.internal.creation;
+@javax.annotation.ParametersAreNonnullByDefault package com.codereligion.beast.internal.creation;

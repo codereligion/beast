@@ -15,68 +15,50 @@
  */
 package com.codereligion.beast.integration;
 
+import com.codereligion.beast.ToStringNullSafetyTestBuilder;
 import com.codereligion.beast.internal.test.ToStringNullSafetyTest;
-
 import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.ExceptionThrowingSetter;
-import com.codereligion.beast.object.MissingToStringImplementation;
 import com.codereligion.beast.object.MissingNullCheckInToString;
-
-import com.codereligion.beast.ToStringNullSafetyTestBuilder;
-
-
-
+import com.codereligion.beast.object.MissingToStringImplementation;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
 /**
  * Tests {@link ToStringNullSafetyTest}.
- * 
+ *
  * @author Sebastian Gröbler
  * @since 14.08.2012
  */
 public class ToStringNullSafetyTestIntegrationTest {
 
-	@Test(expected = NullPointerException.class)
-	public void testWithNullClass() {
-		new ToStringNullSafetyTestBuilder(null)
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testValidClass() {
-		new ToStringNullSafetyTestBuilder(ComplexClass.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = AssertionError.class)
-	public void testWithMissingImplemention() {
-		new ToStringNullSafetyTestBuilder(MissingToStringImplementation.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = AssertionError.class)
-	public void testWithNullPointerInToString() {
-		new ToStringNullSafetyTestBuilder(MissingNullCheckInToString.class)
-			.create()
-			.run();
-	}
+    @Test(expected = NullPointerException.class)
+    public void testWithNullClass() {
+        new ToStringNullSafetyTestBuilder(null).create().run();
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testWithExceptionThrowingSetter() {
-		new ToStringNullSafetyTestBuilder(ExceptionThrowingSetter.class)
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new ToStringNullSafetyTestBuilder(MissingNullCheckInToString.class)
-			.addExcludedPropertyNames(Sets.newHashSet("complexObject"))
-			.create()
-			.run();
-	}
+    @Test
+    public void testValidClass() {
+        new ToStringNullSafetyTestBuilder(ComplexClass.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testWithMissingImplemention() {
+        new ToStringNullSafetyTestBuilder(MissingToStringImplementation.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testWithNullPointerInToString() {
+        new ToStringNullSafetyTestBuilder(MissingNullCheckInToString.class).create().run();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithExceptionThrowingSetter() {
+        new ToStringNullSafetyTestBuilder(ExceptionThrowingSetter.class).create().run();
+    }
+
+    @Test
+    public void testWithExceptionThrowingSetterForExcludedProperty() {
+        new ToStringNullSafetyTestBuilder(MissingNullCheckInToString.class).addExcludedPropertyNames(Sets.newHashSet("complexObject")).create().run();
+    }
 }

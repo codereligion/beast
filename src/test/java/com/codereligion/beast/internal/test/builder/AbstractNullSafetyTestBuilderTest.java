@@ -15,8 +15,6 @@
  */
 package com.codereligion.beast.internal.test.builder;
 
-import static org.junit.Assert.assertEquals;
-
 import com.codereligion.beast.InstanceProvider;
 import com.codereligion.beast.internal.creation.ObjectFactory;
 import com.codereligion.beast.internal.test.AbstractTest;
@@ -25,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Set;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Abstract implementation which provides basic tests for a null-safety test builder.
@@ -34,68 +33,65 @@ import org.junit.Test;
  */
 public abstract class AbstractNullSafetyTestBuilderTest extends AbstractTestBuilderTest {
 
-	/**
-	 * Abstract factory to create a {@link AbstractTest} for the given parameters.
-	 *
-	 * @param beanClass the {@link Class} to test
-	 * @param objectFactory the {@link ObjectFactory} to use
-	 * @param integrityStrategy the {@link IntegrityStrategy} to use
-	 * @return a new instance of {@link AbstractTest}
-	 * @throws NullPointerException when any of the given parameters are {@code null}
-	 */
-	protected abstract AbstractTest createTest(
-			Class<?> beanClass,
-    		ObjectFactory objectFactory,
-    		Set<String> excludedPropertyNames);
+    /**
+     * Abstract factory to create a {@link AbstractTest} for the given parameters.
+     *
+     * @param beanClass         the {@link Class} to test
+     * @param objectFactory     the {@link ObjectFactory} to use
+     * @param integrityStrategy the {@link IntegrityStrategy} to use
+     * @return a new instance of {@link AbstractTest}
+     * @throws NullPointerException when any of the given parameters are {@code null}
+     */
+    protected abstract AbstractTest createTest(Class<?> beanClass, ObjectFactory objectFactory, Set<String> excludedPropertyNames);
 
-	@Test
-	public void givenInstanceProviderShouldBePassedThroughTheObjectFactoryToTheTest() {
-		final InstanceProvider instanceProvider = InstanceProvider.create(BigDecimal.ONE, BigDecimal.TEN);
-		final ObjectFactory objectFactory = new ObjectFactory(Collections.singleton(instanceProvider));
-		final Set<String> excludedPropertyNames = Collections.emptySet();
-		
-		final AbstractTest expected = createTest(getBeanClass(), objectFactory, excludedPropertyNames);
-		final AbstractTestBuilder builder = createBuilder();
-		builder.addInstanceProvider(instanceProvider);
-		
-		assertEquals(expected, builder.create());
-	}
-	
-	@Test
-	public void givenInstanceProvidersShouldBePassedThroughTheObjectFactoryToTheTest() {
-		final Set<InstanceProvider> instanceProviders = Collections.singleton(InstanceProvider.create(BigDecimal.ONE, BigDecimal.TEN));
-		final ObjectFactory objectFactory = new ObjectFactory(instanceProviders);
-		final Set<String> excludedPropertyNames = Collections.emptySet();
-		
-		final AbstractTest expected = createTest(getBeanClass(), objectFactory, excludedPropertyNames);
-		final AbstractTestBuilder builder = createBuilder();
-		builder.addInstanceProviders(instanceProviders);
-		
-		assertEquals(expected, builder.create());
-	}
-	
-	@Test
-	public void givenExcludedPropertyNameShouldBePassedThroughToTheTest() {
-		final ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider>emptySet());
-		final String excludedPropertyName = "propertyName";
-		final Set<String> excludedPropertyNames = Collections.singleton(excludedPropertyName);
-		
-		final AbstractTest expected = createTest(getBeanClass(), objectFactory, excludedPropertyNames);
-		final AbstractTestBuilder builder = createBuilder();
-		builder.addExcludedPropertyName(excludedPropertyName);
-		
-		assertEquals(expected, builder.create());
-	}
-	
-	@Test
-	public void givenExcludedPropertyNamesShouldBePassedThroughToTheTest() {
-		final ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider>emptySet());
-		final Set<String> excludedPropertyNames = Collections.singleton("propertyName");
-		
-		final AbstractTest expected = createTest(getBeanClass(), objectFactory, excludedPropertyNames);
-		final AbstractTestBuilder builder = createBuilder();
-		builder.addExcludedPropertyNames(excludedPropertyNames);
-		
-		assertEquals(expected, builder.create());
-	}
+    @Test
+    public void givenInstanceProviderShouldBePassedThroughTheObjectFactoryToTheTest() {
+        final InstanceProvider instanceProvider = InstanceProvider.create(BigDecimal.ONE, BigDecimal.TEN);
+        final ObjectFactory objectFactory = new ObjectFactory(Collections.singleton(instanceProvider));
+        final Set<String> excludedPropertyNames = Collections.emptySet();
+
+        final AbstractTest expected = createTest(getBeanClass(), objectFactory, excludedPropertyNames);
+        final AbstractTestBuilder builder = createBuilder();
+        builder.addInstanceProvider(instanceProvider);
+
+        assertEquals(expected, builder.create());
+    }
+
+    @Test
+    public void givenInstanceProvidersShouldBePassedThroughTheObjectFactoryToTheTest() {
+        final Set<InstanceProvider> instanceProviders = Collections.singleton(InstanceProvider.create(BigDecimal.ONE, BigDecimal.TEN));
+        final ObjectFactory objectFactory = new ObjectFactory(instanceProviders);
+        final Set<String> excludedPropertyNames = Collections.emptySet();
+
+        final AbstractTest expected = createTest(getBeanClass(), objectFactory, excludedPropertyNames);
+        final AbstractTestBuilder builder = createBuilder();
+        builder.addInstanceProviders(instanceProviders);
+
+        assertEquals(expected, builder.create());
+    }
+
+    @Test
+    public void givenExcludedPropertyNameShouldBePassedThroughToTheTest() {
+        final ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider>emptySet());
+        final String excludedPropertyName = "propertyName";
+        final Set<String> excludedPropertyNames = Collections.singleton(excludedPropertyName);
+
+        final AbstractTest expected = createTest(getBeanClass(), objectFactory, excludedPropertyNames);
+        final AbstractTestBuilder builder = createBuilder();
+        builder.addExcludedPropertyName(excludedPropertyName);
+
+        assertEquals(expected, builder.create());
+    }
+
+    @Test
+    public void givenExcludedPropertyNamesShouldBePassedThroughToTheTest() {
+        final ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider>emptySet());
+        final Set<String> excludedPropertyNames = Collections.singleton("propertyName");
+
+        final AbstractTest expected = createTest(getBeanClass(), objectFactory, excludedPropertyNames);
+        final AbstractTestBuilder builder = createBuilder();
+        builder.addExcludedPropertyNames(excludedPropertyNames);
+
+        assertEquals(expected, builder.create());
+    }
 }

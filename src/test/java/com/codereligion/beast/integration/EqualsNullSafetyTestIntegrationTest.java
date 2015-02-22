@@ -15,85 +15,61 @@
  */
 package com.codereligion.beast.integration;
 
-import com.codereligion.beast.object.MissingNullCheckForThisInEquals;
-
+import com.codereligion.beast.EqualsNullSafetyTestBuilder;
 import com.codereligion.beast.internal.test.EqualsNullSafetyTest;
-
 import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.ExceptionThrowingSetter;
 import com.codereligion.beast.object.MissingEqualsImplementation;
 import com.codereligion.beast.object.MissingNullCheckForGivenInEquals;
-
-import com.codereligion.beast.EqualsNullSafetyTestBuilder;
-
-
-
+import com.codereligion.beast.object.MissingNullCheckForThisInEquals;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
 /**
  * Tests {@link EqualsNullSafetyTest}.
- * 
+ *
  * @author Sebastian Gröbler
  * @since 14.08.2012
  */
 public class EqualsNullSafetyTestIntegrationTest {
-	
-	@Test(expected = NullPointerException.class)
-	public void testWithNullClass() {
-		new EqualsNullSafetyTestBuilder(null)
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testValidClass() {
-		new EqualsNullSafetyTestBuilder(ComplexClass.class)
-			.create()
-			.run();
-	}
 
-	@Test(expected = AssertionError.class)
-	public void testWithMissingImplemention() {
-		new EqualsNullSafetyTestBuilder(MissingEqualsImplementation.class)
-			.create()
-			.run();
-	}
+    @Test(expected = NullPointerException.class)
+    public void testWithNullClass() {
+        new EqualsNullSafetyTestBuilder(null).create().run();
+    }
 
-	@Test(expected = AssertionError.class)
-	public void testNullPointerOnGivenInEquals() {
-		new EqualsNullSafetyTestBuilder(MissingNullCheckForGivenInEquals.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = AssertionError.class)
-	public void testNullPointerOnThisInEquals() {
-		new EqualsNullSafetyTestBuilder(MissingNullCheckForThisInEquals.class)
-			.create()
-			.run();
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testWithExceptionThrowingSetter() {
-		new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class)
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testWithExceptionThrowingSetterWithExcludes() {
-		new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class)
-			.addExcludedPropertyNames(Sets.newHashSet("foo"))
-			.create()
-			.run();
-	}
-	
-	@Test
-	public void testWithExceptionThrowingSetterForExcludedProperty() {
-		new EqualsNullSafetyTestBuilder(MissingNullCheckForGivenInEquals.class)
-			.addExcludedPropertyNames(Sets.newHashSet("complexObject"))
-			.create()
-			.run();
-	}
+    @Test
+    public void testValidClass() {
+        new EqualsNullSafetyTestBuilder(ComplexClass.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testWithMissingImplemention() {
+        new EqualsNullSafetyTestBuilder(MissingEqualsImplementation.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testNullPointerOnGivenInEquals() {
+        new EqualsNullSafetyTestBuilder(MissingNullCheckForGivenInEquals.class).create().run();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testNullPointerOnThisInEquals() {
+        new EqualsNullSafetyTestBuilder(MissingNullCheckForThisInEquals.class).create().run();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testWithExceptionThrowingSetter() {
+        new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class).create().run();
+    }
+
+    @Test
+    public void testWithExceptionThrowingSetterWithExcludes() {
+        new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class).addExcludedPropertyNames(Sets.newHashSet("foo")).create().run();
+    }
+
+    @Test
+    public void testWithExceptionThrowingSetterForExcludedProperty() {
+        new EqualsNullSafetyTestBuilder(MissingNullCheckForGivenInEquals.class).addExcludedPropertyNames(Sets.newHashSet("complexObject")).create().run();
+    }
 }

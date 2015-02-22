@@ -18,13 +18,13 @@ package com.codereligion.beast.object;
 /**
  * Test interface with a generic getter and setter.
  *
+ * @param <T>
  * @author Sebastian Gröbler
  * @since 19.08.2012
- * @param <T>
  */
-public interface GenericGetterAndSetterInterface <T> {
-	
-	T getId();
-	
-	void setId(final T id);
+public interface GenericGetterAndSetterInterface<T> {
+
+    T getId();
+
+    void setId(final T id);
 }

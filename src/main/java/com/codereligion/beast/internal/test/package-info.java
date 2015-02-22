@@ -16,5 +16,4 @@
 /**
  * This package contains the actual test classes.
  */
-@javax.annotation.ParametersAreNonnullByDefault
-package com.codereligion.beast.internal.test;
+@javax.annotation.ParametersAreNonnullByDefault package com.codereligion.beast.internal.test;

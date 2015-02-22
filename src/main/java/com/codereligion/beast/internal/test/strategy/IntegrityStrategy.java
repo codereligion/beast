@@ -23,15 +23,14 @@ package com.codereligion.beast.internal.test.strategy;
  * @since 11.08.2012
  */
 public interface IntegrityStrategy extends InvocationTargetExceptionHandler {
-	
+
     /**
-     * Applies this strategy on the given {@code defaultObject} and {@code dirtyObject} expecting
-     * that the property specified by the given {@code propertyName} has been altered on the given
-     * {@code dirtyObject}
+     * Applies this strategy on the given {@code defaultObject} and {@code dirtyObject} expecting that the property specified by the given {@code propertyName}
+     * has been altered on the given {@code dirtyObject}
      *
      * @param defaultObject the default object to check against the dirty one
-     * @param dirtyObject the dirty object on which the property was altered
-     * @param propertyName the name of the property which was altered on the {@code dirtyObject} 
+     * @param dirtyObject   the dirty object on which the property was altered
+     * @param propertyName  the name of the property which was altered on the {@code dirtyObject}
      */
     void apply(Object defaultObject, Object dirtyObject, String propertyName);
 }

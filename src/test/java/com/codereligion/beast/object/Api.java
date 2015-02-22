@@ -18,12 +18,13 @@ package com.codereligion.beast.object;
 /**
  * Test interface using generics.
  *
+ * @param <T>
  * @author Sebastian Gröbler
  * @since 20.08.2012
- * @param <T>
  */
-public interface Api <T extends User> {
+public interface Api<T extends User> {
 
-	T getUser();
-	void setUser(T user);
+    T getUser();
+
+    void setUser(T user);
 }

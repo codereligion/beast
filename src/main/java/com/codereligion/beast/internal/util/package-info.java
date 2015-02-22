@@ -16,5 +16,4 @@
 /**
  * This package contains miscellaneous classes used in the tests. 
  */
-@javax.annotation.ParametersAreNonnullByDefault
-package com.codereligion.beast.internal.util;
+@javax.annotation.ParametersAreNonnullByDefault package com.codereligion.beast.internal.util;

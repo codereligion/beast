@@ -24,71 +24,71 @@ import com.codereligion.beast.InstanceProvider;
  * @since 23.08.2012
  */
 public final class InstanceProviders {
-	
-	/**
-	 * Forbids construction of instances of this class.
-	 */
-	private InstanceProviders() {
-		throw new IllegalAccessError("This class must not be instantiated.");
-	}
-	
-	/**
-	 * Constant for a "dirty" value.
-	 */
-	private static final String ONE = "1";
-	
-	/**
-	 * Constant for a "default" value.
-	 */
-	private static final String ZERO = "0";
-	
-	/**
-	 * Default instance provider for type {@link Boolean}.
-	 */
-	public static final InstanceProvider BOOLEAN = InstanceProvider.create(Boolean.FALSE, Boolean.TRUE);
-	
-	/**
-	 * Default instance provider for type {@link BoByteolean}.
-	 */
-	public static final InstanceProvider BYTE = InstanceProvider.create(Byte.valueOf(ZERO), Byte.valueOf(ONE));
-	
-	/**
-	 * Default instance provider for type {@link Character}.
-	 */
-	public static final InstanceProvider CHARACTER = InstanceProvider.create(Character.valueOf((char) 0), Character.valueOf((char) 1));
-	
-	/**
-	 * Default instance provider for type {@link Double}.
-	 */
-	public static final InstanceProvider DOUBLE = InstanceProvider.create(Double.valueOf(ZERO), Double.valueOf(ONE));
-	
-	/**
-	 * Default instance provider for type {@link Float}.
-	 */
-	public static final InstanceProvider FLOAT = InstanceProvider.create(Float.valueOf(ZERO), Float.valueOf(ONE));
-	
-	/**
-	 * Default instance provider for type {@link Integer}.
-	 */
-	public static final InstanceProvider INTEGER = InstanceProvider.create(Integer.valueOf(ZERO), Integer.valueOf(ONE));
-	
-	/**
-	 * Default instance provider for type {@link Long}.
-	 */
-	public static final InstanceProvider LONG = InstanceProvider.create(Long.valueOf(ZERO), Long.valueOf(ONE));
-	
-	/**
-	 * Default instance provider for type {@link Object}.
-	 */
-	public static final InstanceProvider OBJECT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
-	
-	/**
-	 * Default instance provider for type {@link Short}.
-	 */
-	public static final InstanceProvider SHORT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
-	
-	/**
-	 * Default instance provider for type {@link String}.
-	 */
-	public static final InstanceProvider STRING = InstanceProvider.create(String.valueOf(ZERO), String.valueOf(ONE));
+
+    /**
+     * Forbids construction of instances of this class.
+     */
+    private InstanceProviders() {
+        throw new IllegalAccessError("This class must not be instantiated.");
+    }
+
+    /**
+     * Constant for a "dirty" value.
+     */
+    private static final String ONE = "1";
+
+    /**
+     * Constant for a "default" value.
+     */
+    private static final String ZERO = "0";
+
+    /**
+     * Default instance provider for type {@link Boolean}.
+     */
+    public static final InstanceProvider BOOLEAN = InstanceProvider.create(Boolean.FALSE, Boolean.TRUE);
+
+    /**
+     * Default instance provider for type {@link BoByteolean}.
+     */
+    public static final InstanceProvider BYTE = InstanceProvider.create(Byte.valueOf(ZERO), Byte.valueOf(ONE));
+
+    /**
+     * Default instance provider for type {@link Character}.
+     */
+    public static final InstanceProvider CHARACTER = InstanceProvider.create(Character.valueOf((char) 0), Character.valueOf((char) 1));
+
+    /**
+     * Default instance provider for type {@link Double}.
+     */
+    public static final InstanceProvider DOUBLE = InstanceProvider.create(Double.valueOf(ZERO), Double.valueOf(ONE));
+
+    /**
+     * Default instance provider for type {@link Float}.
+     */
+    public static final InstanceProvider FLOAT = InstanceProvider.create(Float.valueOf(ZERO), Float.valueOf(ONE));
+
+    /**
+     * Default instance provider for type {@link Integer}.
+     */
+    public static final InstanceProvider INTEGER = InstanceProvider.create(Integer.valueOf(ZERO), Integer.valueOf(ONE));
+
+    /**
+     * Default instance provider for type {@link Long}.
+     */
+    public static final InstanceProvider LONG = InstanceProvider.create(Long.valueOf(ZERO), Long.valueOf(ONE));
+
+    /**
+     * Default instance provider for type {@link Object}.
+     */
+    public static final InstanceProvider OBJECT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
+
+    /**
+     * Default instance provider for type {@link Short}.
+     */
+    public static final InstanceProvider SHORT = InstanceProvider.create(Short.valueOf(ZERO), Short.valueOf(ONE));
+
+    /**
+     * Default instance provider for type {@link String}.
+     */
+    public static final InstanceProvider STRING = InstanceProvider.create(String.valueOf(ZERO), String.valueOf(ONE));
 }

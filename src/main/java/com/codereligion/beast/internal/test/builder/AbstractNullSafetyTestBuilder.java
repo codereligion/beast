@@ -21,7 +21,6 @@ import com.codereligion.beast.internal.test.Test;
 import java.util.Set;
 
 
-
 /**
  * Abstract implementation which provides basic functionalities for a null-safety test builder.
  *
@@ -30,32 +29,29 @@ import java.util.Set;
  */
 public abstract class AbstractNullSafetyTestBuilder extends AbstractTestBuilder {
 
-	/**
-	 * Creates a new builder which will create a test for the given {@code beanClass}.
-	 *
-	 * @param beanClass the {@link Class} to be tested
-	 * @throws NullPointerException when the given parameter is {@code null}
-	 */
-	public AbstractNullSafetyTestBuilder(final Class<?> beanClass) {
-		super(beanClass);
-	}
-	
-	@Override
-	public Test create() {
-		return createTest(this.beanClass, createObjectFactory(), this.excludedPropertyNames);
-	}
-	
-	/**
-	 * Abstract factory method to create a new null-safety test for the given parameters.
-	 *
-	 * @param beanClass the {@link Class} to test
-	 * @param objectFactory the {@link ObjectFactory} to use
-	 * @param excludedPropertyNames the names of the properties to exclude from the test
-	 * @return the instance of the test
-	 * @throws NullPointerException when any of the given parameters are {@code null}
-	 */
-	protected abstract AbstractNullSafetyTest createTest(
-			Class<?> beanClass, 
-			ObjectFactory objectFactory, 
-			Set<String> excludedPropertyNames);
+    /**
+     * Creates a new builder which will create a test for the given {@code beanClass}.
+     *
+     * @param beanClass the {@link Class} to be tested
+     * @throws NullPointerException when the given parameter is {@code null}
+     */
+    public AbstractNullSafetyTestBuilder(final Class<?> beanClass) {
+        super(beanClass);
+    }
+
+    @Override
+    public Test create() {
+        return createTest(this.beanClass, createObjectFactory(), this.excludedPropertyNames);
+    }
+
+    /**
+     * Abstract factory method to create a new null-safety test for the given parameters.
+     *
+     * @param beanClass             the {@link Class} to test
+     * @param objectFactory         the {@link ObjectFactory} to use
+     * @param excludedPropertyNames the names of the properties to exclude from the test
+     * @return the instance of the test
+     * @throws NullPointerException when any of the given parameters are {@code null}
+     */
+    protected abstract AbstractNullSafetyTest createTest(Class<?> beanClass, ObjectFactory objectFactory, Set<String> excludedPropertyNames);
 }

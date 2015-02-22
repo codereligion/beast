@@ -16,5 +16,4 @@
 /**
  * This package contains testing strategies.
  */
-@javax.annotation.ParametersAreNonnullByDefault
-package com.codereligion.beast.internal.test.strategy;
+@javax.annotation.ParametersAreNonnullByDefault package com.codereligion.beast.internal.test.strategy;

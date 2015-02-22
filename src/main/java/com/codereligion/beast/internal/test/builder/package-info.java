@@ -16,5 +16,4 @@
 /**
  * This package contains abstract testing builders.
  */
-@javax.annotation.ParametersAreNonnullByDefault
-package com.codereligion.beast.internal.test.builder;
+@javax.annotation.ParametersAreNonnullByDefault package com.codereligion.beast.internal.test.builder;

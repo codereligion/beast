@@ -16,10 +16,8 @@
 package com.codereligion.beast.internal.test.strategy;
 
 
-import java.lang.reflect.InvocationTargetException;
-
 import java.beans.PropertyDescriptor;
-
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 
@@ -32,26 +30,25 @@ import java.util.Set;
 public abstract class AbstractIntegrityExcludeStrategy extends AbstractIntegrityStrategy {
 
     public AbstractIntegrityExcludeStrategy(Set<String> propertyNames) {
-	    super(propertyNames);
+        super(propertyNames);
     }
 
     @Override
     public void handleInvocationTargetException(final PropertyDescriptor property, final InvocationTargetException exception) {
 
-    	if (property == null) {
-	        throw new NullPointerException("property must not be null.");
+        if (property == null) {
+            throw new NullPointerException("property must not be null.");
         }
-    	
-    	if (exception == null) {
-	        throw new NullPointerException("exception must not be null.");
+
+        if (exception == null) {
+            throw new NullPointerException("exception must not be null.");
         }
-    	
-    	final String propertyName = property.getName();
-    	if (!this.propertyNames.contains(propertyName)) {
-    		final String message = String.format("Calling the setter of the property '%s' threw an exception. " +
-					 							 "The setter call can be avoided by excluding the property from the test.",
-												 propertyName);
-    		throw new IllegalArgumentException(message, exception);
-    	}
+
+        final String propertyName = property.getName();
+        if (!this.propertyNames.contains(propertyName)) {
+            final String message = String.format("Calling the setter of the property '%s' threw an exception. " +
+                                                 "The setter call can be avoided by excluding the property from the test.", propertyName);
+            throw new IllegalArgumentException(message, exception);
+        }
     }
 }

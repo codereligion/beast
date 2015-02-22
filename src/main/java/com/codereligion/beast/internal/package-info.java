@@ -19,5 +19,4 @@
  * this package may be changed or removed without notice and without a deprecation
  * period.
  */
-@javax.annotation.ParametersAreNonnullByDefault
-package com.codereligion.beast.internal;
+@javax.annotation.ParametersAreNonnullByDefault package com.codereligion.beast.internal;

@@ -22,5 +22,5 @@ package com.codereligion.beast.object;
  * @since 16.08.2012
  */
 public enum EmptyEnum {
-	// this is empty
+    // this is empty
 }

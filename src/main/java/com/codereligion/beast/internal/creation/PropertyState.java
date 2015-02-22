@@ -16,13 +16,12 @@
 package com.codereligion.beast.internal.creation;
 
 /**
- * Enumeration of available property states. Default properties contain
- * values which are equivalent to 0 while "dirty" properties contain
- * values which are equivalent to 1 depending on the actual type.
- * 
- * <p>
+ * Enumeration of available property states. Default properties contain values which are equivalent to 0 while "dirty" properties contain values which are
+ * equivalent to 1 depending on the actual type.
+ * <p/>
+ * <p/>
  * Dirty Example:
- * 
+ * <p/>
  * <pre>
  * public class Foo {
  * 	private boolean foo = true;
@@ -30,10 +29,10 @@ package com.codereligion.beast.internal.creation;
  * 	private double baz = 1d;
  * }
  * </pre>
- * 
- * <p>
+ * <p/>
+ * <p/>
  * Default Example:
- * 
+ * <p/>
  * <pre>
  * public class Foo {
  * 	private boolean foo = false;
@@ -41,19 +40,19 @@ package com.codereligion.beast.internal.creation;
  * 	private double baz = 0d;
  * }
  * </pre>
- * 
+ *
  * @author Sebastian Gröbler
  * @since 13.08.2012
  */
 enum PropertyState {
 
-	/**
-	 * Relates to values equivalent to 0.
-	 */
-	DEFAULT,
-	
-	/**
-	 * Relates to values equivalent to 1.
-	 */
-	DIRTY;
+    /**
+     * Relates to values equivalent to 0.
+     */
+    DEFAULT,
+
+    /**
+     * Relates to values equivalent to 1.
+     */
+    DIRTY;
 }

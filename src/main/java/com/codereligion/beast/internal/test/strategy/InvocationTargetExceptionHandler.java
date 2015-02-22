@@ -15,22 +15,21 @@
  */
 package com.codereligion.beast.internal.test.strategy;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 
-import java.beans.PropertyDescriptor;
-
 /**
- * Common interface for a class which handles {@link InvocationTargetException}. 
+ * Common interface for a class which handles {@link InvocationTargetException}.
  *
  * @author Sebastian Gröbler
  * @since 13.10.2012
  */
 public interface InvocationTargetExceptionHandler {
-    
+
     /**
      * Handles the given {@link InvocationTargetException exception} for the given {@code property}.
      *
-     * @param property the property which caused the given exception
+     * @param property  the property which caused the given exception
      * @param exception the {@link InvocationTargetException} to handle for the given {@code property}
      * @throws NullPointerException when any of the given parameters are {@code null}
      */

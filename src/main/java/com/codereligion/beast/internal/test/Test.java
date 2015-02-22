@@ -16,14 +16,12 @@
 package com.codereligion.beast.internal.test;
 
 /**
- * Common interface for a test. This class extends {@link Runnable} to
- * fit it into the testing context, while at the same time providing 
- * the ability to use it in through the {@link Runnable} interface
- * e.g. for multi-threaded execution.
- * 
+ * Common interface for a test. This class extends {@link Runnable} to fit it into the testing context, while at the same time providing the ability to use it
+ * in through the {@link Runnable} interface e.g. for multi-threaded execution.
+ *
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 public interface Test extends Runnable {
-	// no other methods than the inherited ones 
+    // no other methods than the inherited ones
 }

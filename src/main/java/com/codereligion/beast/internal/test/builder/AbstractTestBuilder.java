@@ -15,136 +15,132 @@
  */
 package com.codereligion.beast.internal.test.builder;
 
-import com.codereligion.beast.internal.creation.ObjectFactory;
-
-import com.codereligion.beast.internal.test.Test;
-
 import com.codereligion.beast.InstanceProvider;
+import com.codereligion.beast.internal.creation.ObjectFactory;
+import com.codereligion.beast.internal.test.Test;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Abstract implementation which provides basic functionalities for a test builder.
- * 
+ *
  * @author Sebastian Gröbler
  * @since 11.08.2012
  */
 public abstract class AbstractTestBuilder {
-	
-	/**
-	 * The class to be tested
-	 */
-	protected final Class<?> beanClass;
-	
-	/**
-	 * The custom instance providers.
-	 */
-	protected Set<InstanceProvider> instanceProviders = new HashSet<InstanceProvider>();
-	
-	/**
-	 * The names of the properties which should be excluded from the test.
-	 */
-	protected Set<String> excludedPropertyNames = new HashSet<String>();
-
-	/**
-	 * Creates the concrete {@link AbstractTestBuilder} for the given {@code beanClass}.
-	 *
-	 * @param beanClass the {@link Class} to create the test for
-	 * @return the instance of the created test
-	 * @throws NullPointerException when the given parameter is {@code null}
-	 */
-	public AbstractTestBuilder(final Class<?> beanClass) {
-		
-		if (beanClass == null) {
-            throw new NullPointerException("beanClass must not be null.");
-        }
-		
-		this.beanClass = beanClass;
-	}
-	
-	/**
-	 * Creates the concrete {@link Test} for the specified {@code beanClass} applying the
-	 * specified configurations.
-	 *
-	 * @return the instance of the created test
-	 */
-	public abstract Test create();
 
     /**
-     * Factory method to create an {@link ObjectFactory} for the {@code InstanceProviders}
-     * associated with this class.
+     * The class to be tested
+     */
+    protected final Class<?> beanClass;
+
+    /**
+     * The custom instance providers.
+     */
+    protected Set<InstanceProvider> instanceProviders = new HashSet<InstanceProvider>();
+
+    /**
+     * The names of the properties which should be excluded from the test.
+     */
+    protected Set<String> excludedPropertyNames = new HashSet<String>();
+
+    /**
+     * Creates the concrete {@link AbstractTestBuilder} for the given {@code beanClass}.
+     *
+     * @param beanClass the {@link Class} to create the test for
+     * @return the instance of the created test
+     * @throws NullPointerException when the given parameter is {@code null}
+     */
+    public AbstractTestBuilder(final Class<?> beanClass) {
+
+        if (beanClass == null) {
+            throw new NullPointerException("beanClass must not be null.");
+        }
+
+        this.beanClass = beanClass;
+    }
+
+    /**
+     * Creates the concrete {@link Test} for the specified {@code beanClass} applying the specified configurations.
+     *
+     * @return the instance of the created test
+     */
+    public abstract Test create();
+
+    /**
+     * Factory method to create an {@link ObjectFactory} for the {@code InstanceProviders} associated with this class.
      *
      * @return a new instance of {@link ObjectFactory}
      */
     protected ObjectFactory createObjectFactory() {
-	    return new ObjectFactory(this.instanceProviders);
+        return new ObjectFactory(this.instanceProviders);
     }
-	
-	/**
-	 * Adds an {@link InstanceProvider}.
-	 *
-	 * @param instanceProvider the {@link InstanceProvider} to add
-	 * @return a reference of this instance
-	 * @throws NullPointerException when the given parameter is {@code null}
-	 */
+
+    /**
+     * Adds an {@link InstanceProvider}.
+     *
+     * @param instanceProvider the {@link InstanceProvider} to add
+     * @return a reference of this instance
+     * @throws NullPointerException when the given parameter is {@code null}
+     */
     public AbstractTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
-		
-		if (instanceProvider == null) {
-			throw new NullPointerException("instanceProvider must not be null.");
-		}
-		
-		this.instanceProviders.add(instanceProvider);
-		return this;
-	}
-	
-	/**
-	 * Adds a {@link Set} of {@link InstanceProvider}s.
-	 *
-	 * @param instanceProviders a {@link Set} of {@link InstanceProvider}s
-	 * @return a reference of this instance
-	 * @throws NullPointerException when the given parameter is {@code null}
-	 */
-	public AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
 
-		if (instanceProviders == null) {
-			throw new NullPointerException("instanceProviders must not be null.");
-		}
-		
-		this.instanceProviders.addAll(instanceProviders);
-		return this;
-	}
+        if (instanceProvider == null) {
+            throw new NullPointerException("instanceProvider must not be null.");
+        }
 
-	/**
+        this.instanceProviders.add(instanceProvider);
+        return this;
+    }
+
+    /**
+     * Adds a {@link Set} of {@link InstanceProvider}s.
+     *
+     * @param instanceProviders a {@link Set} of {@link InstanceProvider}s
+     * @return a reference of this instance
+     * @throws NullPointerException when the given parameter is {@code null}
+     */
+    public AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
+
+        if (instanceProviders == null) {
+            throw new NullPointerException("instanceProviders must not be null.");
+        }
+
+        this.instanceProviders.addAll(instanceProviders);
+        return this;
+    }
+
+    /**
      * Adds a name of a property which should be excluded from the test.
      *
      * @param propertyName the name of the property
      * @return a reference of this instance
      * @throws NullPointerException when the given parameter is {@code null}
      */
-	public AbstractTestBuilder addExcludedPropertyName(final String propertyName) {
-    	
-    	if (propertyName == null) {
-    		throw new NullPointerException("propertyName must not be null.");
-    	}
-    	
-    	this.excludedPropertyNames.add(propertyName);
-    	return this;
+    public AbstractTestBuilder addExcludedPropertyName(final String propertyName) {
+
+        if (propertyName == null) {
+            throw new NullPointerException("propertyName must not be null.");
+        }
+
+        this.excludedPropertyNames.add(propertyName);
+        return this;
     }
 
-	/**
+    /**
      * Adds names of properties which should be excluded from the test.
      *
      * @param propertyNames the names of the properties
      * @return a reference of this instance
      * @throws NullPointerException when the given parameter is {@code null}
      */
-	public AbstractTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
-    	
-    	if (propertyNames == null) {
-    		throw new NullPointerException("propertyNames must not be null.");
-    	}
-    	
-    	this.excludedPropertyNames.addAll(propertyNames);
-    	return this;
+    public AbstractTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
+
+        if (propertyNames == null) {
+            throw new NullPointerException("propertyNames must not be null.");
+        }
+
+        this.excludedPropertyNames.addAll(propertyNames);
+        return this;
     }
 }
