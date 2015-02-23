@@ -48,14 +48,14 @@ public final class InstanceProviders {
     public static final InstanceProvider BOOLEAN = InstanceProvider.create(Boolean.FALSE, Boolean.TRUE);
 
     /**
-     * Default instance provider for type {@link BoByteolean}.
+     * Default instance provider for type {@link Byte}.
      */
     public static final InstanceProvider BYTE = InstanceProvider.create(Byte.valueOf(ZERO), Byte.valueOf(ONE));
 
     /**
      * Default instance provider for type {@link Character}.
      */
-    public static final InstanceProvider CHARACTER = InstanceProvider.create(Character.valueOf((char) 0), Character.valueOf((char) 1));
+    public static final InstanceProvider CHARACTER = InstanceProvider.create((char) 0, (char) 1);
 
     /**
      * Default instance provider for type {@link Double}.

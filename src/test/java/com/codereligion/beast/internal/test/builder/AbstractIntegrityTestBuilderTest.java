@@ -29,6 +29,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * TODO update documentation
  * Abstract implementation which provides basic tests for an integrity test builder.
  *
  * @author Sebastian Gröbler

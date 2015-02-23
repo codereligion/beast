@@ -100,8 +100,8 @@ public final class ObjectFactory {
     }
 
     /**
-     * TODO why not use the class instead of the canonicalName for the first key? is this just legacy or has it a reason? Maps the canonical name of a {@link
-     * Class} to a map which maps a property name to an instance provider.
+     * TODO why not use the class instead of the canonicalName for the first key? is this just legacy or has it a reason?
+     * Maps the canonical name of a {@link Class} to a map which maps a property name to an instance provider.
      */
     private final Map<String, Map<String, InstanceProvider>> instanceProviderMap = new HashMap<String, Map<String, InstanceProvider>>();
 
@@ -250,7 +250,8 @@ public final class ObjectFactory {
     }
 
     /**
-     * Retrieves the "dirty" object from either one of the  default or custom {@link InstanceProvider}s for the given {@code beanClass} and {@code
+     * TODO update doc
+     * Retrieves the "dirty" object from either one of the default or custom {@link InstanceProvider}s for the given {@code beanClass} and {@code
      * propertyName}.
      * <p/>
      * <p/>
@@ -281,6 +282,7 @@ public final class ObjectFactory {
     }
 
     /**
+     * TODO update doc
      * Retrieves the "default" object from either one of the  default or custom {@link InstanceProvider}s for the given {@code beanClass} and {@code
      * propertyName}.
      * <p/>
@@ -439,7 +441,7 @@ public final class ObjectFactory {
         enhancer.setSuperclass(beanClass);
         enhancer.setCallback(new MethodInterceptor() {
 
-            private final Integer propertyStateFlagAsInteger = Integer.valueOf(propertyState.ordinal());
+            private final Integer propertyStateFlagAsInteger = propertyState.ordinal();
             private final String propertyStateFlagAsString = String.valueOf(propertyState.ordinal());
 
             @Override

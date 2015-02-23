@@ -31,7 +31,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests helper methods of the {@link ObjectFactory}.
  * <p/>
- * TODO extend test with custom intance providers - overriding: object, string, boxed and unboxed primitive types - adding: additional providers custom
+ * TODO extend test with custom instance providers - overriding: object, string, boxed and unboxed primitive types - adding: additional providers custom
  * providers - test with enums - test with arrays - test with propertyNames
  *
  * @author Sebastian Gröbler

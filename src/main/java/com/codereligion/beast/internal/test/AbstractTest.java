@@ -184,7 +184,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
             setter.invoke(object, value);
         } catch (final IllegalAccessException e) {
             // this should never happen
-            throw new IllegalStateException("The method " + setter + " is inaccessable, thus can not be used to set test values.", e);
+            throw new IllegalStateException("The method " + setter + " is inaccessible, thus can not be used to set test values.", e);
         } catch (final IllegalArgumentException e) {
             // this should never happen
             throw new IllegalStateException("Failed to set '" + value + "' on setter: " + setter + ".", e);

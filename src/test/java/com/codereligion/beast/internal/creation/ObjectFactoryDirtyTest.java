@@ -90,7 +90,7 @@ public class ObjectFactoryDirtyTest extends AbstractObjectFactoryTest {
         final Set<BigDecimal> defaultInstance = Sets.newHashSet(BigDecimal.ONE);
         final Set<BigDecimal> dirtyInstance = Sets.newHashSet(BigDecimal.TEN);
         final InstanceProvider provider = InstanceProvider.create(defaultInstance, dirtyInstance, Set.class);
-        final Set<InstanceProvider> providers = Sets.<InstanceProvider>newHashSet(provider);
+        final Set<InstanceProvider> providers = Sets.newHashSet(provider);
 
         final Object result = getObject(providers, Set.class, null);
 

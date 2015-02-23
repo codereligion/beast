@@ -54,5 +54,5 @@ enum PropertyState {
     /**
      * Relates to values equivalent to 1.
      */
-    DIRTY;
+    DIRTY
 }
