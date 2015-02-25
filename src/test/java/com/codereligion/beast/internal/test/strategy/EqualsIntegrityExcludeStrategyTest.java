@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * Tests {@link EqualsIntegrityIncludeStrategy}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 29.10.2012
  */
 public class EqualsIntegrityExcludeStrategyTest extends AbstractIntegrityExcludeStrategyTest {

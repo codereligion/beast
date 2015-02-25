@@ -19,7 +19,7 @@ package com.codereligion.beast.internal.util;
 /**
  * Utility class for handling and throwing of {@link AssertionError}s.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.09.2012
  */
 public final class Assert {

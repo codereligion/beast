@@ -34,7 +34,7 @@ import static com.codereligion.beast.internal.util.Assert.fail;
  * always be true <li> calling on two different instances must be symmetric <li> calling equals on instances with different property values must behave as
  * specified in the given {@link IntegrityStrategy} </ul>
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @see EqualsIntegrityExcludeStrategy
  * @see EqualsIntegrityIncludeStrategy
  * @since 11.08.2012

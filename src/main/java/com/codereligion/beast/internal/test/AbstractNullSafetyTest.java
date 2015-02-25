@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * Abstract test which provides the basic functionality for a null-safety test.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public abstract class AbstractNullSafetyTest extends AbstractTest {

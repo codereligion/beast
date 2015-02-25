@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
  * TODO update documentation
  * Abstract implementation which provides basic tests for an integrity test builder.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 28.10.2012
  */
 public abstract class AbstractIntegrityTestBuilderTest extends AbstractTestBuilderTest {

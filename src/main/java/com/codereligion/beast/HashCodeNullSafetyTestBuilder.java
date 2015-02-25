@@ -28,7 +28,7 @@ import java.util.Set;
  * a {@link NullPointerException} <li> calling hashCode for properties with {@code null} values, which have been excluded must throw a {@link
  * NullPointerException} </ul>
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public final class HashCodeNullSafetyTestBuilder extends AbstractNullSafetyTestBuilder {

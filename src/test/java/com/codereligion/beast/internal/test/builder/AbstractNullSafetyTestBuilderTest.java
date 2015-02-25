@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Abstract implementation which provides basic tests for a null-safety test builder.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 28.10.2012
  */
 public abstract class AbstractNullSafetyTestBuilderTest extends AbstractTestBuilderTest {

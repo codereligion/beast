@@ -46,7 +46,7 @@ import java.util.Set;
  * This strategy aims for high-performance of the toString implementation, rather than for correctness. This strategy should only be used, when performance is
  * prioritized to correctness.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public final class ToStringIntegrityTestBuilder extends AbstractIntegrityTestBuilder {

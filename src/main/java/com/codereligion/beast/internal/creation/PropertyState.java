@@ -41,7 +41,7 @@ package com.codereligion.beast.internal.creation;
  * }
  * </pre>
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 13.08.2012
  */
 enum PropertyState {

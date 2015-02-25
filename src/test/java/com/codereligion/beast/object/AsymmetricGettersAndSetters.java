@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * Test class with asymmetric getters and setters.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 19.08.2012
  */
 public class AsymmetricGettersAndSetters {

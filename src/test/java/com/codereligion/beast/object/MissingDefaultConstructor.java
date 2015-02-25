@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * Test class without a default constructor.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 16.08.2012
  */
 public class MissingDefaultConstructor {

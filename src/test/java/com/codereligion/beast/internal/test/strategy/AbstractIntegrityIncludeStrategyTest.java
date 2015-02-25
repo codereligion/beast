@@ -28,7 +28,7 @@ import static org.junit.Assert.assertFalse;
 /**
  * Abstract implementation which provides basic tests for an integrity include strategies.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 29.10.2012
  */
 public abstract class AbstractIntegrityIncludeStrategyTest extends AbstractIntegrityStrategyTest {

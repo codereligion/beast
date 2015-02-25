@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * Tests {@link ToStringIntegrityTestBuilder}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 28.10.2012
  */
 public class ToStringIntegrityTestBuilderTest extends AbstractIntegrityTestBuilderTest {

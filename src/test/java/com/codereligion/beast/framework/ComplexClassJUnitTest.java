@@ -20,7 +20,7 @@ import com.codereligion.beast.object.ComplexClass;
 /**
  * Tests {@link ComplexClass} with the JUnit implementation.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 15.08.2012
  */
 public class ComplexClassJUnitTest extends JUnitBeast<ComplexClass> {

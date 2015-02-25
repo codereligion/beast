@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests {@link ToStringFormatTestBuilder}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 28.10.2012
  */
 public class ToStringFormatTestBuilderTest extends AbstractTestBuilderTest {

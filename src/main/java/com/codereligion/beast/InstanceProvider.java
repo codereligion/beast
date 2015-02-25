@@ -28,7 +28,7 @@ package com.codereligion.beast;
  * TODO re-evaluate that TODO what about nested arrays? Custom instance providers for arrays are not supported, because array initialization is handled by the
  * framework. However you can provide a custom instance provider for the component type of the array and the framework will do the rest.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @author 20.08.2012
  */
 public final class InstanceProvider {

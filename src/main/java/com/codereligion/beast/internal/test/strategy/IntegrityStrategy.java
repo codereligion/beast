@@ -19,7 +19,7 @@ package com.codereligion.beast.internal.test.strategy;
 /**
  * Common interface for an integrity test.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public interface IntegrityStrategy extends InvocationTargetExceptionHandler {

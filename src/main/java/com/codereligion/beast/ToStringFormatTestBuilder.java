@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  * <ul> <li> the toString method must be implemented <li> the result must comply to the specified {@link Pattern} or if no pattern has been specified to the
  * {@link ToStringFormatTestBuilder #DEFAULT_PATTERN} </ul>
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public final class ToStringFormatTestBuilder extends AbstractTestBuilder {

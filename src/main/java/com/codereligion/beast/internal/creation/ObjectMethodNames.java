@@ -18,7 +18,7 @@ package com.codereligion.beast.internal.creation;
 /**
  * Constant class to store names of methods which are subject to tests of this framework.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 18.08.2012
  */
 public final class ObjectMethodNames {

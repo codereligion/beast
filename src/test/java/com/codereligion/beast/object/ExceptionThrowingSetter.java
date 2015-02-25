@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * Test class which always throws an {@link UnsupportedOperationException} when calling {@link ExceptionThrowingSetter #setFoo(Integer)}
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 19.08.2012
  */
 public class ExceptionThrowingSetter {

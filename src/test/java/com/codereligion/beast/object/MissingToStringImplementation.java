@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * Test class with a missing toString implementation.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 19.08.2012
  */
 public class MissingToStringImplementation {

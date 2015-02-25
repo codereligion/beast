@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests {@link InstanceProvider}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 20.08.2012
  */
 public class InstanceProviderTest {

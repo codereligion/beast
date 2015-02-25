@@ -20,7 +20,7 @@ import com.codereligion.beast.InstanceProvider;
 /**
  * Provides default instance providers.
  *
- * @author sgroebler
+ * @author Sebastian Gr&ouml;bler
  * @since 23.08.2012
  */
 public final class InstanceProviders {

@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Common interface for a class which handles {@link InvocationTargetException}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 13.10.2012
  */
 public interface InvocationTargetExceptionHandler {

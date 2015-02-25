@@ -30,7 +30,7 @@ import static com.codereligion.beast.internal.util.Assert.fail;
  * <ul> <li> the toString method must be implemented <li> calling toString on instances with different property values must behave as specified in the given
  * {@link IntegrityStrategy} </ul>
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @see ToStringIntegrityExcludeStrategy
  * @see ToStringIntegrityIncludeStrategy
  * @since 11.08.2012

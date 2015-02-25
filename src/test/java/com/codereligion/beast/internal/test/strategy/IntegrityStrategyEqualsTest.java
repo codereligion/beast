@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
  * Tests that all {@link AbstractIntegrityStrategy} implementations stick to equals contract. Despite the official java documented contract it should be
  * enforced that no mixed type comparison should be possible.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 30.10.2012
  */
 public class IntegrityStrategyEqualsTest {

@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * test class with a generic getter and setter.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 19.08.2012
  */
 public class GenericGetterAndSetter implements GenericGetterAndSetterInterface<Integer> {

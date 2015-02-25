@@ -32,7 +32,7 @@ import static com.codereligion.beast.internal.util.Assert.assertFalse;
  * Furthermore it will throw an {@link AssertionError} if it finds a property which has been excluded by the user but is included in the equals implementation,
  * thus has been excluded unnecessarily .
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @see EqualsIntegrityIncludeStrategy
  * @since 11.08.2012
  */

@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * Test class for java introspector bug.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 12.08.2012
  */
 public class ApiUser extends User {

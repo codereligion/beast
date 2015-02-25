@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
  * TODO extend test with custom instance providers - overriding: object, string, boxed and unboxed primitive types - adding: additional providers custom
  * providers - test with enums - test with arrays - test with propertyNames
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 18.08.2012
  */
 public abstract class AbstractObjectFactoryTest {

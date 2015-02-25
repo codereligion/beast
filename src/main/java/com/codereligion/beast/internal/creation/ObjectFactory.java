@@ -34,7 +34,7 @@ import net.sf.cglib.proxy.MethodProxy;
 /**
  * Factory for creating test objects.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public final class ObjectFactory {

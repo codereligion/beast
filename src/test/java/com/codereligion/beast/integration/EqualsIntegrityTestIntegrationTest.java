@@ -43,7 +43,7 @@ import static org.junit.Assert.fail;
 /**
  * TODO review Tests {@link EqualsIntegrityTest}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 14.08.2012
  */
 public class EqualsIntegrityTestIntegrationTest {

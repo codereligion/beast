@@ -32,7 +32,7 @@ import static com.codereligion.beast.internal.util.Assert.fail;
  * <p/>
  * <ul> <li> the toString method must be implemented <li> the result must comply to the specified {@link Pattern} </ul>
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public final class ToStringFormatTest extends AbstractTest {

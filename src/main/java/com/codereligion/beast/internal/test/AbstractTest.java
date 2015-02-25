@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * Abstract test which provides the basic functionality for a test.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public abstract class AbstractTest implements Test, InvocationTargetExceptionHandler {

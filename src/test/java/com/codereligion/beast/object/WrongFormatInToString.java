@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * Test class with wrong format in toString implementation.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 16.08.2012
  */
 public class WrongFormatInToString {

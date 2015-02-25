@@ -25,7 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Abstract test which provides the basic functionality for an integrity test.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public abstract class AbstractIntegrityTest extends AbstractTest {

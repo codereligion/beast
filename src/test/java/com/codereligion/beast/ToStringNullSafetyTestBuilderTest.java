@@ -26,7 +26,7 @@ import java.util.Set;
 /**
  * Tests {@link ToStringNullSafetyTestBuilder}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 28.10.2012
  */
 public class ToStringNullSafetyTestBuilderTest extends AbstractNullSafetyTestBuilderTest {

@@ -20,7 +20,7 @@ import java.util.Date;
 /**
  * Tests colliding read and write methods with same naming but different types.
  *
- * @author sgroebler
+ * @author Sebastian Gr&ouml;bler
  * @since 21.08.2012
  */
 public class TypeMissmatchBetweenReadAndWriteMethods {

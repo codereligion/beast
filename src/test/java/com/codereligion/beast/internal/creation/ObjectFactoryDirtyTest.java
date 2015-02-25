@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests {@link ObjectFactory #getDefaultObject(Class, String)}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 18.08.2012
  */
 public class ObjectFactoryDirtyTest extends AbstractObjectFactoryTest {

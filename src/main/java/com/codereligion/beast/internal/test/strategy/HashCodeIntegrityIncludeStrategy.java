@@ -33,7 +33,7 @@ import static com.codereligion.beast.internal.util.Assert.assertFalse;
  * Furthermore it will throw an {@link AssertionError}, if the given {@code propertyName} was in the includes, but for which the {@code defaultObject} and
  * {@code dirtyObject} have the same hashCode result. Thus the include was unnecessary.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @see HashCodeIntegrityExcludeStrategy
  * @since 11.08.2012
  */

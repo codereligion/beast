@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * Test abstract class.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 12.08.2012
  */
 public abstract class AbstractClass {

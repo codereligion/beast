@@ -33,7 +33,7 @@ import static com.codereligion.beast.internal.util.Assert.fail;
  * their equals implementation <li> calling hashCode on instances with different property values must behave as specified in the given {@link IntegrityStrategy}
  * </ul>
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @see HashCodeIntegrityExcludeStrategy
  * @see HashCodeIntegrityIncludeStrategy
  * @since 11.08.2012

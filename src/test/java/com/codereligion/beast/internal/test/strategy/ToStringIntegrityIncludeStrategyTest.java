@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * Tests {@link ToStringIntegrityIncludeStrategy}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 29.10.2012
  */
 public class ToStringIntegrityIncludeStrategyTest extends AbstractIntegrityIncludeStrategyTest {

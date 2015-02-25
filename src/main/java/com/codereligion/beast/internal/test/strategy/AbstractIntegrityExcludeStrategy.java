@@ -24,7 +24,7 @@ import java.util.Set;
 /**
  * Abstract implementation which provides basic functionalities for an exclude based integrity test.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public abstract class AbstractIntegrityExcludeStrategy extends AbstractIntegrityStrategy {

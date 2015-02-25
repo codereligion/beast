@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * Test class with a constant hashCode.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 20.08.2012
  */
 public class ConstantHashCodeResult {

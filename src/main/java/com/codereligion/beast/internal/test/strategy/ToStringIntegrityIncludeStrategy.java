@@ -33,7 +33,7 @@ import static com.codereligion.beast.internal.util.Assert.assertFalse;
  * Furthermore it will throw an {@link AssertionError} if it finds a property which has been included by the user but is excluded in the toString
  * implementation, thus has been included unnecessarily .
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @see ToStringIntegrityExcludeStrategy
  * @since 11.08.2012
  */

@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * Abstract implementation which provides basic functionalities for an integrity test.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public abstract class AbstractIntegrityStrategy implements IntegrityStrategy {

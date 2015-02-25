@@ -18,7 +18,7 @@ package com.codereligion.beast.object;
 /**
  * Test final class.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 12.08.2012
  */
 public final class FinalClass {

@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * Abstract implementation which provides basic functionalities for an integration test builder.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public abstract class AbstractIntegrityTestBuilder extends AbstractTestBuilder {

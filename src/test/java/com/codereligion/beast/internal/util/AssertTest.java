@@ -25,7 +25,7 @@ import static org.junit.Assert.fail;
 /**
  * Tests {@link Assert}.
  *
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.09.2012
  */
 public class AssertTest {

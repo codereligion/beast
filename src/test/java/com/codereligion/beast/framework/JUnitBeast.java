@@ -31,7 +31,7 @@ import org.junit.Test;
 /**
  * TODo maybe extend documentation, if this class should be shown as an example in the wiki. Example implementation of the "beast" for JUnit.
  *
- * @author sgroebler
+ * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
  */
 public abstract class JUnitBeast<T> {

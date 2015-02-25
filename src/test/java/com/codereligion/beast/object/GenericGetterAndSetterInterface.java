@@ -19,7 +19,7 @@ package com.codereligion.beast.object;
  * Test interface with a generic getter and setter.
  *
  * @param <T>
- * @author Sebastian Gröbler
+ * @author Sebastian Gr&ouml;bler
  * @since 19.08.2012
  */
 public interface GenericGetterAndSetterInterface<T> {
