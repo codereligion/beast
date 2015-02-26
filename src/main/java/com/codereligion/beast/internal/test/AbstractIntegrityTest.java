@@ -47,8 +47,8 @@ public abstract class AbstractIntegrityTest extends AbstractTest {
 
         super(beanClass, objectFactory);
 
-        if (objectFactory == null) {
-            throw new NullPointerException("objectFactory must not be null.");
+        if (integrityStrategy == null) {
+            throw new NullPointerException("integrityStrategy must not be null.");
         }
 
         this.integrityStrategy = integrityStrategy;
