@@ -100,15 +100,14 @@ public final class ObjectFactory {
     }
 
     /**
-     * TODO why not use the class instead of the canonicalName for the first key? is this just legacy or has it a reason?
-     * Maps the canonical name of a {@link Class} to a map which maps a property name to an instance provider.
+     * Maps a {@link Class} to a map of property name to an instance provider.
      */
-    private final Map<String, Map<String, InstanceProvider>> instanceProviderMap = new HashMap<String, Map<String, InstanceProvider>>();
+    private final Map<Class<?>, Map<String, InstanceProvider>> instanceProviderMap = new HashMap<Class<?>, Map<String, InstanceProvider>>();
 
     /**
      * Constructs a new instance.
      *
-     * @param customInstanceProviders
+     * @param customInstanceProviders the {@link InstanceProvider InstanceProviders} to add
      */
     public ObjectFactory(final Set<InstanceProvider> customInstanceProviders) {
 
@@ -125,7 +124,7 @@ public final class ObjectFactory {
 
     /**
      * Adds the given {@code instanceProvider} to the {@code instanceProviderMap}. If the given {@code instanceProvider} is providing for a boxed primitive type
-     * the provider will be added twice. Once for the boxed type's canonical name and once for it's primitive type's canonical name.
+     * the provider will be added twice. Once for the boxed type and once for it's primitive type.
      * <p/>
      * <p/>
      * Example for Integer:
@@ -142,36 +141,36 @@ public final class ObjectFactory {
         final Class<?> instanceClass = instanceProvider.getInstanceClass();
 
         // add mapping for the given instanceClass to its instanceProvider
-        createMapping(instanceClass.getCanonicalName(), instanceProvider);
+        createMapping(instanceClass, instanceProvider);
 
         final Class<?> primitiveInstanceClass = BOXED_TO_PRIMITIVE_MAPPING.get(instanceClass);
 
         if (primitiveInstanceClass != null) {
             // add also a mapping for the primitive type to this instanceProvider
-            createMapping(primitiveInstanceClass.getCanonicalName(), instanceProvider);
+            createMapping(primitiveInstanceClass, instanceProvider);
         }
     }
 
     /**
-     * Creates a mapping of the given {@code canonicalName} to the given {@code instanceProvider}s {@code propertyName} to the actual {@code instanceProvider}.
-     * In case the {@code propertyName} is {@code null} a default property name is chosen which indicates that given {@code instanceProvider} is not specific to
-     * a property and can be used for each property of the type the given {@code canonicalName} represents.
+     * Creates a mapping of the given {@code type} to the given {@code instanceProvider}s {@code propertyName} to the actual {@code instanceProvider}. In case
+     * the {@code propertyName} is {@code null} a default property name is chosen which indicates that given {@code instanceProvider} is not specific to a
+     * property and can be used for each property of the type the given {@code canonicalName} represents.
      * <p/>
      * <p/>
      * Example:
      * <p/>
      * <pre>
-     * 	MyPropertyClassName => myPropertyName => InstanceProvider
+     * 	MyPropertyClass => myPropertyName => InstanceProvider
      * </pre>
      * <p/>
      * In case that one of the mappings already exists it will be overridden with the given values.
      *
-     * @param canonicalName    the canonical name of the {@link Class} to be used as the key of the mapping
+     * @param type             the {@link Class} to be used as the key of the mapping
      * @param instanceProvider the {@link InstanceProvider} to be used as the value of the mapping
      */
-    private void createMapping(final String canonicalName, final InstanceProvider instanceProvider) {
+    private void createMapping(final Class<?> type, final InstanceProvider instanceProvider) {
 
-        final Map<String, InstanceProvider> propertyNameToInstanceProvider = this.instanceProviderMap.get(canonicalName);
+        final Map<String, InstanceProvider> propertyNameToInstanceProvider = this.instanceProviderMap.get(type);
 
         if (propertyNameToInstanceProvider == null) {
 
@@ -184,7 +183,7 @@ public final class ObjectFactory {
             newPropertyNameToInstanceProviderMap.put(propertyName, instanceProvider);
 
             // add new mapping for the instance class' canonicalName to it's map of propertyName to instanceProvider
-            this.instanceProviderMap.put(canonicalName, newPropertyNameToInstanceProviderMap);
+            this.instanceProviderMap.put(type, newPropertyNameToInstanceProviderMap);
         } else {
             final String propertyName = getPropertyNameOrPlaceholder(instanceProvider);
 
@@ -213,46 +212,8 @@ public final class ObjectFactory {
     }
 
     /**
-     * Tries to find an {@link InstanceProvider} for the given {@code instanceClass} and the given {@code propertyName}.
-     * <p/>
-     * <p/>
-     * In case there is a specific {@link InstanceProvider} for the given {@code propertyName} and a general {@link InstanceProvider} for the given {@code
-     * instanceClass} the more specific will be favored.
-     *
-     * @param instanceClass the {@link Class} to get the {@link InstanceProvider} for
-     * @param propertyName  propertyName to get the {@link InstanceProvider} for
-     * @return a matching {@link InstanceProvider} or {@code null}, if none was found
-     */
-    private InstanceProvider getInstanceProvider(final Class<?> instanceClass, final String propertyName) {
-
-        final String canonicalName = instanceClass.getCanonicalName();
-        final Map<String, InstanceProvider> propertyNameToInstanceProvider = this.instanceProviderMap.get(canonicalName);
-
-        if (propertyNameToInstanceProvider == null) {
-            return null;
-        }
-
-        final InstanceProvider propertyNameSpecificInstanceProvider = propertyNameToInstanceProvider.get(propertyName);
-
-        final boolean foundPropertyNameSpecificInstanceProvider = propertyNameSpecificInstanceProvider != null;
-        if (foundPropertyNameSpecificInstanceProvider) {
-            return propertyNameSpecificInstanceProvider;
-        }
-
-        final InstanceProvider propertyTypeSpecificInstanceProvider = propertyNameToInstanceProvider.get(NO_NAME);
-
-        final boolean foundPropertyTypeSpecificInstanceProvider = propertyTypeSpecificInstanceProvider != null;
-        if (foundPropertyTypeSpecificInstanceProvider) {
-            return propertyTypeSpecificInstanceProvider;
-        }
-
-        throw new IllegalStateException("There is an empty mapping for class: " + canonicalName);
-    }
-
-    /**
-     * TODO update doc
-     * Retrieves the "dirty" object from either one of the default or custom {@link InstanceProvider}s for the given {@code beanClass} and {@code
-     * propertyName}.
+     * Retrieves the "dirty" object from either one of the default or custom {@link InstanceProvider InstanceProviders} for the given {@code beanClass} and
+     * {@code propertyName}.
      * <p/>
      * <p/>
      * In case no {@link InstanceProvider} is available for the given parameters an instance will be created which can either be an array, an enumeration or a
@@ -282,9 +243,8 @@ public final class ObjectFactory {
     }
 
     /**
-     * TODO update doc
-     * Retrieves the "default" object from either one of the  default or custom {@link InstanceProvider}s for the given {@code beanClass} and {@code
-     * propertyName}.
+     * TODO update doc Retrieves the "default" object from either one of the  default or custom {@link InstanceProvider}s for the given {@code beanClass} and
+     * {@code propertyName}.
      * <p/>
      * <p/>
      * In case no {@link InstanceProvider} is available for the given parameters an instance will be created which can either be an array, an enumeration or a
@@ -314,8 +274,8 @@ public final class ObjectFactory {
     }
 
     /**
-     * Retrieves an object behaving according to the given {@code propertyState} from either one of the default or custom {@link InstanceProvider}s for the
-     * given {@code beanClass} and {@code propertyName}.
+     * Retrieves an object behaving according to the given {@code propertyState} from either one of the default or custom {@link InstanceProvider
+     * InstanceProviders} for the given {@code beanClass} and {@code propertyName}.
      * <p/>
      * <p/>
      * In case no {@link InstanceProvider} is available for the given parameters an instance will be created which can either be an array, an enumeration or a
@@ -343,14 +303,7 @@ public final class ObjectFactory {
      */
     private Object getObject(final Class<?> beanClass, final String propertyName, final PropertyState propertyState) {
 
-        final String propertyNameOrFallback;
-        if (propertyName == null) {
-            propertyNameOrFallback = NO_NAME;
-        } else {
-            propertyNameOrFallback = propertyName;
-        }
-
-        final InstanceProvider provider = getInstanceProvider(beanClass, propertyNameOrFallback);
+        final InstanceProvider provider = getInstanceProvider(beanClass, propertyName);
 
         if (provider != null) {
             switch (propertyState) {
@@ -372,6 +325,42 @@ public final class ObjectFactory {
     }
 
     /**
+     * Tries to find an {@link InstanceProvider} for the given {@code type} and the given {@code propertyName}.
+     * <p/>
+     * <p/>
+     * In case there is a specific {@link InstanceProvider} for the given {@code propertyName} and a general {@link InstanceProvider} for the given {@code type}
+     * the more specific will be favored.
+     *
+     * @param type         the {@link Class} to get the {@link InstanceProvider} for
+     * @param propertyName propertyName to get the {@link InstanceProvider} for
+     * @return a matching {@link InstanceProvider} or {@code null}, if none was found
+     */
+    private InstanceProvider getInstanceProvider(final Class<?> type, final String propertyName) {
+
+        final Map<String, InstanceProvider> propertyNameToInstanceProvider = this.instanceProviderMap.get(type);
+
+        if (propertyNameToInstanceProvider == null) {
+            return null;
+        }
+
+        final InstanceProvider propertyNameSpecificInstanceProvider = propertyNameToInstanceProvider.get(propertyName);
+
+        final boolean foundPropertyNameSpecificInstanceProvider = propertyNameSpecificInstanceProvider != null;
+        if (foundPropertyNameSpecificInstanceProvider) {
+            return propertyNameSpecificInstanceProvider;
+        }
+
+        final InstanceProvider propertyTypeSpecificInstanceProvider = propertyNameToInstanceProvider.get(NO_NAME);
+
+        final boolean foundPropertyTypeSpecificInstanceProvider = propertyTypeSpecificInstanceProvider != null;
+        if (foundPropertyTypeSpecificInstanceProvider) {
+            return propertyTypeSpecificInstanceProvider;
+        }
+
+        throw new IllegalStateException("There is an empty mapping for class: " + type);
+    }
+
+    /**
      * Retrieves an enumeration value from the given {@code enumClass}. The given {@code propertyState} defines which one to take. It either returns the first
      * or the second declared value. If there is no first or second value this method return {@code null}.
      *
@@ -382,6 +371,7 @@ public final class ObjectFactory {
     private static Object getEnumValue(final Class<?> enumClass, final PropertyState propertyState) {
         final Object[] enums = enumClass.getEnumConstants();
 
+        // TODO is this even possible and if so how would the test behave for this property? it can not create dirty AND clean object!
         final boolean isEmptyEnum = enums.length == 0;
         if (isEmptyEnum) {
             return null;
