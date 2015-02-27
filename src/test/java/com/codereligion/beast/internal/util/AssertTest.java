@@ -15,11 +15,14 @@
  */
 package com.codereligion.beast.internal.util;
 
+import com.codereligion.beast.internal.creation.ObjectMethodNames;
 import org.junit.Test;
 import static com.codereligion.beast.internal.util.Assert.assertFalse;
 import static com.codereligion.beast.internal.util.Assert.assertTrue;
 import static com.codereligion.beast.internal.util.Assert.fail;
+import static com.codereligion.matcher.IsNotInstantiatable.isNotInstantiatable;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 /**
@@ -29,6 +32,11 @@ import static org.junit.Assert.fail;
  * @since 11.09.2012
  */
 public class AssertTest {
+
+    @Test
+    public void isNotPublicInstantiatable() throws Exception {
+        assertThat(Assert.class, isNotInstantiatable());
+    }
 
     @Test(expected = AssertionError.class)
     public void givenTrueShouldThrowAnAssertionErrorWhenCallingAssertFalse() {

@@ -44,9 +44,4 @@ public final class ObjectMethodNames {
      * Constant for the name of the {@link Object #equals(Object)} method.
      */
     public static final String EQUALS = "equals";
-
-    /**
-     * Constant for the name of the {@link Object #clone()} method.
-     */
-    public static final String CLONE = "clone";
 }
