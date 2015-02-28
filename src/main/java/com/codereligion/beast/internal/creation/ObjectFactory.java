@@ -243,7 +243,7 @@ public final class ObjectFactory {
     }
 
     /**
-     * TODO update doc Retrieves the "default" object from either one of the  default or custom {@link InstanceProvider}s for the given {@code beanClass} and
+     * Retrieves the "default" object from either one of the default or custom {@link InstanceProvider}s for the given {@code beanClass} and
      * {@code propertyName}.
      * <p/>
      * <p/>
@@ -263,8 +263,7 @@ public final class ObjectFactory {
      * cascade creation of further sub-instances. This avoids cycles and out of scope testing of the actual bean under test.
      *
      * @param beanClass    the {@link Class} to create the dirty object for
-     * @param propertyName the name of the property for which a specific {@link InstanceProvider} should be found, if {@code null} no specific property {@link
-     *                     InstanceProvider} will be retrieved
+     * @param propertyName the name of the property for which a specific {@link InstanceProvider} should be found
      * @return an instance of the given {@code beanClass}
      * @throws NullPointerException     when the given {@code beanClass} is {@code null}
      * @throws IllegalArgumentException when no dirty object can be created for the given {@code beanClass}
@@ -295,8 +294,7 @@ public final class ObjectFactory {
      * cascade creation of further sub-instances. This avoids cycles and out of scope testing of the actual bean under test.
      *
      * @param beanClass     the {@link Class} to create the object for
-     * @param propertyName  the name of the property for which a specific {@link InstanceProvider} should be found, if {@code null} no specific property {@link
-     *                      InstanceProvider} will be retrieved
+     * @param propertyName  the name of the property for which a specific {@link InstanceProvider} should be found
      * @param propertyState the {@link PropertyState} which determines how the created object should behave
      * @return an object of the given {@code beanClass}
      * @throws IllegalArgumentException when no object can be created for the given {@code beanClass}
@@ -357,6 +355,7 @@ public final class ObjectFactory {
             return propertyTypeSpecificInstanceProvider;
         }
 
+        // TODO test
         throw new IllegalStateException("There is an empty mapping for class: " + type);
     }
 
