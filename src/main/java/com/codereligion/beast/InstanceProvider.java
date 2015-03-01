@@ -322,17 +322,31 @@ public final class InstanceProvider {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
         final InstanceProvider other = (InstanceProvider) obj;
-        if (!this.instanceClass.equals(other.instanceClass)) return false;
+        if (!this.instanceClass.equals(other.instanceClass)) {
+            return false;
+        }
+
         if (this.propertyName == null) {
             if (other.propertyName != null) return false;
-        } else if (!this.propertyName.equals(other.propertyName)) return false;
+        } else if (!this.propertyName.equals(other.propertyName)) {
+            return false;
+        }
+
         return true;
     }
+
+
 
     @Override
     public String toString() {

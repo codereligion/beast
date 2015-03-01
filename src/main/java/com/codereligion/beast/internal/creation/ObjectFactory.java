@@ -304,14 +304,7 @@ public final class ObjectFactory {
         final InstanceProvider provider = getInstanceProvider(beanClass, propertyName);
 
         if (provider != null) {
-            switch (propertyState) {
-                case DEFAULT:
-                    return provider.getDefaultInstance();
-                case DIRTY:
-                    return provider.getDirtyInstance();
-                default:
-                    throw new IllegalStateException("Unknown propertyState: " + propertyState + ".");
-            }
+            return getObjectFromInstanceProvider(provider, propertyState);
         } else if (beanClass.isArray()) {
             return createArray(beanClass.getComponentType(), propertyState);
         } else if (beanClass.isEnum()) {
@@ -319,6 +312,24 @@ public final class ObjectFactory {
         } else {
             // interfaces, abstract classes and concrete classes
             return createProxy(beanClass, propertyState);
+        }
+    }
+
+    /**
+     * TODO
+     *
+     * @param propertyState
+     * @param provider
+     * @return
+     */
+    private Object getObjectFromInstanceProvider(final InstanceProvider provider, final PropertyState propertyState) {
+        switch (propertyState) {
+            case DEFAULT:
+                return provider.getDefaultInstance();
+            case DIRTY:
+                return provider.getDirtyInstance();
+            default:
+                throw new IllegalStateException("Unknown propertyState: " + propertyState + ".");
         }
     }
 
@@ -397,6 +408,7 @@ public final class ObjectFactory {
     }
 
     /**
+     * TODO extract to a proxy factory
      * Creates a proxy for the given {@code beanClass} which will intercept the method calls of equals, hashCode and toString in order to return an specific
      * result according to the given {@code propertyState}.
      *
@@ -408,6 +420,7 @@ public final class ObjectFactory {
     @SuppressWarnings("unchecked")
     private static <T> T createProxy(final Class<T> beanClass, final PropertyState propertyState) {
 
+        // TODO move those IAE to the AbstractTest and make them ISE here
         if (Modifier.isFinal(beanClass.getModifiers())) {
             throw new IllegalArgumentException("Can not create proxy for final class " + beanClass.getCanonicalName() + ".");
         }
