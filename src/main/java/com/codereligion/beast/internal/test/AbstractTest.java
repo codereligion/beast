@@ -17,6 +17,7 @@ package com.codereligion.beast.internal.test;
 
 
 import com.codereligion.beast.internal.creation.ObjectFactory;
+import com.codereligion.beast.internal.creation.PropertyState;
 import com.codereligion.beast.internal.test.strategy.InvocationTargetExceptionHandler;
 import com.codereligion.cherry.reflect.BeanIntrospections;
 import java.beans.PropertyDescriptor;
@@ -77,7 +78,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
 
         this.objectFactory = objectFactory;
 
-        if (!isTestable()) {
+        if (!canBeInstantiated()) {
             throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " is not supported for testing.");
         }
 
@@ -90,6 +91,8 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
                                                              "which are writeable through public setters can be verified to be included in " +
                                                              "the to be tested method.", this.beanClassCanonicalName));
         }
+
+        checkProperties(writeableProperties);
     }
 
     /**
@@ -101,9 +104,9 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
      * <ul> <li> provide a zero parameter constructor <li> must not be a primitive <li> must not be an annotation <li> must not be an array <li> must not be an
      * enumeration <li> must not be an interface <li> must not be an abstract class </ul>
      *
-     * @return true if the {@code beanClass} is testable by this test
+     * @return true if the {@code beanClass} is instantiatable by this test
      */
-    private boolean isTestable() {
+    private boolean canBeInstantiated() {
         return !this.beanClass.isPrimitive() &&
                !this.beanClass.isAnnotation() &&
                !this.beanClass.isArray() &&
@@ -111,6 +114,23 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
                !this.beanClass.isInterface() &&
                !Modifier.isAbstract(this.beanClass.getModifiers()) &&
                BeanIntrospections.hasDefaultConstructor(this.beanClass);
+    }
+
+    /**
+     * Checks if all properties can be mutated to have a non-null dirty and default value.
+     *
+     * @throws java.lang.IllegalArgumentException when the properties can not be mutated
+     */
+    private void checkProperties(final Set<PropertyDescriptor> properties) {
+
+        for (final PropertyDescriptor property : properties) {
+
+            final Class<?> propertyType = property.getPropertyType();
+            final boolean isEnum = propertyType.isEnum();
+            if  (isEnum && propertyType.getEnumConstants().length < PropertyState.values().length) {
+                throw new IllegalArgumentException("Can not mutate field: " + property.getName() + ". The enum must hold at least two values.");
+            }
+        }
     }
 
     /**

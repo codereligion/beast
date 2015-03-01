@@ -44,7 +44,7 @@ package com.codereligion.beast.internal.creation;
  * @author Sebastian Gr&ouml;bler
  * @since 13.08.2012
  */
-enum PropertyState {
+public enum PropertyState {
 
     /**
      * Relates to values equivalent to 0.

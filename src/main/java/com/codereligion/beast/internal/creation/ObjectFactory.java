@@ -370,18 +370,12 @@ public final class ObjectFactory {
     private static Object getEnumValue(final Class<?> enumClass, final PropertyState propertyState) {
         final Object[] enums = enumClass.getEnumConstants();
 
-        // TODO is this even possible and if so how would the test behave for this property? it can not create dirty AND clean object!
-        final boolean isEmptyEnum = enums.length == 0;
-        if (isEmptyEnum) {
-            return null;
-        }
-
-        final boolean indexIsInBounds = propertyState.ordinal() <= enums.length - 1;
+        final boolean indexIsInBounds = propertyState.ordinal() < enums.length;
         if (indexIsInBounds) {
             return enums[propertyState.ordinal()];
         }
 
-        return null;
+        throw new IllegalStateException("Can not get " + propertyState + " value for enum: " + enumClass);
     }
 
     /**

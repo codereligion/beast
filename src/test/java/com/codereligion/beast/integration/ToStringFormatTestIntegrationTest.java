@@ -15,15 +15,19 @@
  */
 package com.codereligion.beast.integration;
 
-import com.codereligion.beast.EqualsNullSafetyTestBuilder;
+import com.codereligion.beast.EqualsIntegrityTestBuilder;
 import com.codereligion.beast.ToStringFormatTestBuilder;
+import com.codereligion.beast.object.ClassWithEmptyEnumProperty;
+import com.codereligion.beast.object.ClassWithOneElementEnumProperty;
 import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.ExceptionThrowingSetter;
 import com.codereligion.beast.object.MissingToStringImplementation;
 import com.codereligion.beast.object.WrongFormatInToString;
 import com.google.common.collect.Sets;
 import java.util.regex.Pattern;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Tests {@link ToStringFormatTestBuilder}.
@@ -34,6 +38,9 @@ import org.junit.Test;
 public class ToStringFormatTestIntegrationTest {
 
     private static final Pattern ECLIPSE_TO_STRING_PATTERN = Pattern.compile(".+ \\[(.+=.+, )*(.+=.+)?\\]");
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test(expected = NullPointerException.class)
     public void testWithNullClass() {
@@ -63,11 +70,29 @@ public class ToStringFormatTestIntegrationTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testWithExceptionThrowingSetter() {
-        new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class).create().run();
+        new ToStringFormatTestBuilder(ExceptionThrowingSetter.class).create().run();
     }
 
     @Test
     public void testWithExceptionThrowingSetterForExcludedProperty() {
-        new EqualsNullSafetyTestBuilder(ExceptionThrowingSetter.class).addExcludedPropertyNames(Sets.newHashSet("foo")).create().run();
+        new ToStringFormatTestBuilder(ExceptionThrowingSetter.class).addExcludedPropertyNames(Sets.newHashSet("foo")).create().run();
+    }
+
+    @Test
+    public void emptyEnumCausesIllegalArgumentException() {
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Can not mutate field: emptyEnum. The enum must hold at least two values.");
+
+        new EqualsIntegrityTestBuilder(ClassWithEmptyEnumProperty.class).create().run();
+    }
+
+    @Test
+    public void oneElementEnumCausesIllegalArgumentException() {
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Can not mutate field: oneElementEnum. The enum must hold at least two values.");
+
+        new EqualsIntegrityTestBuilder(ClassWithOneElementEnumProperty.class).create().run();
     }
 }

@@ -19,6 +19,8 @@ import com.codereligion.beast.EqualsIntegrityTestBuilder;
 import com.codereligion.beast.internal.test.EqualsIntegrityTest;
 import com.codereligion.beast.object.AbstractClass;
 import com.codereligion.beast.object.AsymmetricGettersAndSetters;
+import com.codereligion.beast.object.ClassWithEmptyEnumProperty;
+import com.codereligion.beast.object.ClassWithOneElementEnumProperty;
 import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.ExceptionThrowingSetter;
 import com.codereligion.beast.object.GenericGetterAndSetter;
@@ -28,7 +30,6 @@ import com.codereligion.beast.object.MissingPropertyInEquals;
 import com.codereligion.beast.object.NonReflexiveEqualsClass;
 import com.codereligion.beast.object.NonSymmetricEqualsClass;
 import com.codereligion.beast.object.PropertyWhichHasNoDefaultConstructor;
-import com.google.common.collect.Sets;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashSet;
@@ -37,7 +38,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import static org.junit.Assert.fail;
 
 /**
@@ -87,6 +90,9 @@ public class EqualsIntegrityTestIntegrationTest {
         UNSUPPORTED_CLASSES.add(MissingDefaultConstructor.class);
         UNSUPPORTED_CLASSES.add(PropertyWhichHasNoDefaultConstructor.class);
     }
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test(expected = NullPointerException.class)
     public void testWithNullClass() {
@@ -158,16 +164,34 @@ public class EqualsIntegrityTestIntegrationTest {
 
     @Test
     public void testWithExceptionThrowingSetterForExcludedProperty() {
-        new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class).addExcludedPropertyNames(Sets.newHashSet("foo")).create().run();
+        new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class).addExcludedPropertyName("foo").create().run();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testWithExceptionThrowingSetterForIncludedProperty() {
-        new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class).addIncludedPropertyNames(Sets.newHashSet("foo")).create().run();
+        new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class).addIncludedPropertyName("foo").create().run();
     }
 
     @Test
     public void testWithExceptionThrowingSetterForNonIncludedProperty() {
-        new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class).addIncludedPropertyNames(Sets.newHashSet("bar")).create().run();
+        new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class).addIncludedPropertyName("bar").create().run();
+    }
+
+    @Test
+    public void emptyEnumCausesIllegalArgumentException() {
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Can not mutate field: emptyEnum. The enum must hold at least two values.");
+
+        new EqualsIntegrityTestBuilder(ClassWithEmptyEnumProperty.class).create().run();
+    }
+
+    @Test
+    public void oneElementEnumCausesIllegalArgumentException() {
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Can not mutate field: oneElementEnum. The enum must hold at least two values.");
+
+        new EqualsIntegrityTestBuilder(ClassWithOneElementEnumProperty.class).create().run();
     }
 }

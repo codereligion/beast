@@ -50,7 +50,6 @@ public final class EqualsIntegrityTest extends AbstractIntegrityTest {
      * @throws NullPointerException when any of the given parameters are {@code null}
      */
     public EqualsIntegrityTest(final Class<?> beanClass, final ObjectFactory objectFactory, final IntegrityStrategy integrityStrategy) {
-
         super(beanClass, objectFactory, integrityStrategy);
     }
 

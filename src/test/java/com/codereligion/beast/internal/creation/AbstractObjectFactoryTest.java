@@ -18,14 +18,12 @@ package com.codereligion.beast.internal.creation;
 import com.codereligion.beast.InstanceProvider;
 import com.codereligion.beast.object.AbstractClass;
 import com.codereligion.beast.object.ComplexClass;
-import com.codereligion.beast.object.EmptyEnum;
 import com.codereligion.beast.object.FinalClass;
 import com.codereligion.beast.object.MissingDefaultConstructor;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -51,7 +49,7 @@ public abstract class AbstractObjectFactoryTest {
     /**
      * TODO
      *
-     * @param providers
+     * @param instanceProviders
      * @param beanClass
      * @param propertyName
      * @return
@@ -95,11 +93,5 @@ public abstract class AbstractObjectFactoryTest {
         assertNotNull(object);
         assertTrue(object instanceof List);
         assertNotNull(object.toString());
-    }
-
-    @Test
-    public void givenEmptyEnumShouldReturnNull() {
-        final Object emptyEnum = getObject(EmptyEnum.class, null);
-        assertNull(emptyEnum);
     }
 }

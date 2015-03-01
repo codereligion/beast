@@ -15,14 +15,19 @@
  */
 package com.codereligion.beast.integration;
 
+import com.codereligion.beast.EqualsIntegrityTestBuilder;
 import com.codereligion.beast.HashCodeNullSafetyTestBuilder;
+import com.codereligion.beast.object.ClassWithEmptyEnumProperty;
+import com.codereligion.beast.object.ClassWithOneElementEnumProperty;
 import com.codereligion.beast.object.ComplexClass;
 import com.codereligion.beast.object.ExceptionThrowingSetter;
 import com.codereligion.beast.object.MissingHashCodeImplementation;
 import com.codereligion.beast.object.MissingNullCheckInHashCode;
 import com.google.common.collect.Sets;
 import com.google.common.hash.HashCode;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Tests {@link HashCode}.
@@ -31,6 +36,9 @@ import org.junit.Test;
  * @since 14.08.2012
  */
 public class HashCodeNullSafetyTestIntegrationTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test(expected = NullPointerException.class)
     public void testWithNullClass() {
@@ -43,7 +51,7 @@ public class HashCodeNullSafetyTestIntegrationTest {
     }
 
     @Test(expected = AssertionError.class)
-    public void testWithMissingImplemention() {
+    public void testWithMissingImplementation() {
         new HashCodeNullSafetyTestBuilder(MissingHashCodeImplementation.class).create().run();
     }
 
@@ -60,5 +68,23 @@ public class HashCodeNullSafetyTestIntegrationTest {
     @Test
     public void testWithExceptionThrowingSetterForExcludedProperty() {
         new HashCodeNullSafetyTestBuilder(MissingNullCheckInHashCode.class).addExcludedPropertyNames(Sets.newHashSet("complexObject")).create().run();
+    }
+
+    @Test
+    public void emptyEnumCausesIllegalArgumentException() {
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Can not mutate field: emptyEnum. The enum must hold at least two values.");
+
+        new EqualsIntegrityTestBuilder(ClassWithEmptyEnumProperty.class).create().run();
+    }
+
+    @Test
+    public void oneElementEnumCausesIllegalArgumentException() {
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Can not mutate field: oneElementEnum. The enum must hold at least two values.");
+
+        new EqualsIntegrityTestBuilder(ClassWithOneElementEnumProperty.class).create().run();
     }
 }

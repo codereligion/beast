@@ -18,16 +18,18 @@ package com.codereligion.beast.internal.creation;
 import com.codereligion.beast.InstanceProvider;
 import com.codereligion.beast.object.AnotherComplexClass;
 import com.codereligion.beast.object.ComplexClass;
+import com.codereligion.beast.object.EmptyEnum;
 import com.codereligion.beast.object.OneElementEnum;
 import com.google.common.collect.Sets;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Set;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -37,6 +39,9 @@ import static org.junit.Assert.assertTrue;
  * @since 18.08.2012
  */
 public class ObjectFactoryDirtyTest extends AbstractObjectFactoryTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Override
     public Object getObject(final Class<?> beanClass, final String propertyName) {
@@ -48,12 +53,6 @@ public class ObjectFactoryDirtyTest extends AbstractObjectFactoryTest {
     public Object getObject(final Set<InstanceProvider> instanceProviders, final Class<?> beanClass, final String propertyName) {
         final ObjectFactory objectFactory = new ObjectFactory(instanceProviders);
         return objectFactory.getDirtyObject(beanClass, propertyName);
-    }
-
-    @Test
-    public void givenOneElementEnumShouldReturnNull() {
-        final Object oneElementEnum = getObject(OneElementEnum.class, null);
-        assertNull(oneElementEnum);
     }
 
     @Test
@@ -203,5 +202,21 @@ public class ObjectFactoryDirtyTest extends AbstractObjectFactoryTest {
         assertEquals(instanceProvider.getDirtyInstance().toString(), object.toString());
     }
 
+    @Test
+    public void emptyEnumCausesIllegalStateException() {
 
+        expectedException.expect(IllegalStateException.class);
+        expectedException.expectMessage("Can not get DIRTY value for enum: class com.codereligion.beast.object.EmptyEnum");
+
+        getObject(EmptyEnum.class, null);
+    }
+
+    @Test
+    public void oneElementEnumCausesIllegalStateException() {
+
+        expectedException.expect(IllegalStateException.class);
+        expectedException.expectMessage("Can not get DIRTY value for enum: class com.codereligion.beast.object.OneElementEnum");
+
+        getObject(OneElementEnum.class, null);
+    }
 }
