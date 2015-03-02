@@ -295,10 +295,10 @@ public final class ObjectFactory {
      */
     private Object getObject(final Class<?> beanClass, final String propertyName, final PropertyState propertyState) {
 
-        final InstanceProvider provider = getInstanceProvider(beanClass, propertyName);
+        final InstanceProvider instanceProvider = getInstanceProvider(beanClass, propertyName);
 
-        if (provider != null) {
-            return getObjectFromInstanceProvider(provider, propertyState);
+        if (instanceProvider != null) {
+            return getObjectFromInstanceProvider(instanceProvider, propertyState);
         } else if (beanClass.isArray()) {
             return createArray(beanClass.getComponentType(), propertyState);
         } else if (beanClass.isEnum()) {
@@ -310,18 +310,18 @@ public final class ObjectFactory {
     }
 
     /**
-     * TODO
+     * Retrieves an object for the specified {@code propertyState} from the given {@code instanceProvider}.
      *
-     * @param propertyState
-     * @param provider
-     * @return
+     * @param propertyState the the property state to get the object for
+     * @param instanceProvider the instance provider to get the object from
+     * @return either a default or dirty object
      */
-    private Object getObjectFromInstanceProvider(final InstanceProvider provider, final PropertyState propertyState) {
+    private Object getObjectFromInstanceProvider(final InstanceProvider instanceProvider, final PropertyState propertyState) {
         switch (propertyState) {
             case DEFAULT:
-                return provider.getDefaultInstance();
+                return instanceProvider.getDefaultInstance();
             case DIRTY:
-                return provider.getDirtyInstance();
+                return instanceProvider.getDirtyInstance();
             default:
                 throw new IllegalStateException("Unknown propertyState: " + propertyState + ".");
         }
