@@ -17,18 +17,12 @@ package com.codereligion.beast.internal.creation;
 
 
 import com.codereligion.beast.InstanceProvider;
-import com.codereligion.cherry.reflect.BeanIntrospections;
 import java.lang.reflect.Array;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
 
 
 /**
@@ -311,7 +305,7 @@ public final class ObjectFactory {
             return getEnumValue(beanClass, propertyState);
         } else {
             // interfaces, abstract classes and concrete classes
-            return createProxy(beanClass, propertyState);
+            return ProxyFactory.createProxy(beanClass, propertyState);
         }
     }
 
@@ -405,78 +399,6 @@ public final class ObjectFactory {
         final Object array = Array.newInstance(arrayClass, 1);
         Array.set(array, 0, value);
         return array;
-    }
-
-    /**
-     * TODO extract to a proxy factory
-     * Creates a proxy for the given {@code beanClass} which will intercept the method calls of equals, hashCode and toString in order to return an specific
-     * result according to the given {@code propertyState}.
-     *
-     * @param beanClass     the {@link Class} to create the proxy for
-     * @param propertyState the {@link PropertyState} which determines the behavior of the proxy
-     * @return the created proxy
-     * @throws IllegalArgumentException when the given {@code beanClass} is {@code final}
-     */
-    @SuppressWarnings("unchecked")
-    private static <T> T createProxy(final Class<T> beanClass, final PropertyState propertyState) {
-
-        // TODO move those IAE to the AbstractTest and make them ISE here
-        if (Modifier.isFinal(beanClass.getModifiers())) {
-            throw new IllegalArgumentException("Can not create proxy for final class " + beanClass.getCanonicalName() + ".");
-        }
-
-        final boolean isConcreteClass = !beanClass.isInterface() && !Modifier.isAbstract(beanClass.getModifiers());
-
-        if (isConcreteClass && !BeanIntrospections.hasDefaultConstructor(beanClass)) {
-            throw new IllegalArgumentException("Can not create proxy for property class " + beanClass.getCanonicalName() +
-                                               " because of missing default constructor. Either provide a default constructor " +
-                                               "or add a CustomInstanceProvider for that class.");
-        }
-
-        final Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(beanClass);
-        enhancer.setCallback(new MethodInterceptor() {
-
-            private final Integer propertyStateFlagAsInteger = propertyState.ordinal();
-            private final String propertyStateFlagAsString = String.valueOf(propertyState.ordinal());
-
-            @Override
-            public Object intercept(final Object thisObject, final Method method, final Object[] args, final MethodProxy methodProxy) throws Throwable {
-
-                if (method.getName().equals(ObjectMethodNames.EQUALS)) {
-
-                    final Object thatObject = args[0];
-
-                    if (thatObject == null) {
-                        return Boolean.FALSE;
-                    }
-
-                    if (thisObject == thatObject) {
-                        return Boolean.TRUE;
-                    }
-
-                    final Class<?> thisSuperClass = thisObject.getClass().getSuperclass();
-                    final Class<?> thatSuperClass = thatObject.getClass().getSuperclass();
-
-                    if (!thisSuperClass.equals(thatSuperClass)) {
-                        return Boolean.FALSE;
-                    }
-
-                    if (thisObject.hashCode() == thatObject.hashCode()) {
-                        return Boolean.TRUE;
-                    }
-
-                    return Boolean.FALSE;
-                } else if (method.getName().equals(ObjectMethodNames.HASH_CODE)) {
-                    return this.propertyStateFlagAsInteger;
-                } else if (method.getName().equals(ObjectMethodNames.TO_STRING)) {
-                    return this.propertyStateFlagAsString;
-                }
-
-                return methodProxy.invokeSuper(thisObject, args);
-            }
-        });
-        return (T) enhancer.create();
     }
 
     @Override
