@@ -341,26 +341,22 @@ public final class ObjectFactory {
     private InstanceProvider getInstanceProvider(final Class<?> type, final String propertyName) {
 
         final Map<String, InstanceProvider> propertyNameToInstanceProvider = this.instanceProviderMap.get(type);
-
         if (propertyNameToInstanceProvider == null) {
             return null;
         }
 
         final InstanceProvider propertyNameSpecificInstanceProvider = propertyNameToInstanceProvider.get(propertyName);
-
         final boolean foundPropertyNameSpecificInstanceProvider = propertyNameSpecificInstanceProvider != null;
         if (foundPropertyNameSpecificInstanceProvider) {
             return propertyNameSpecificInstanceProvider;
         }
 
         final InstanceProvider propertyTypeSpecificInstanceProvider = propertyNameToInstanceProvider.get(NO_NAME);
-
         final boolean foundPropertyTypeSpecificInstanceProvider = propertyTypeSpecificInstanceProvider != null;
         if (foundPropertyTypeSpecificInstanceProvider) {
             return propertyTypeSpecificInstanceProvider;
         }
 
-        // TODO test
         throw new IllegalStateException("There is an empty mapping for class: " + type);
     }
 
