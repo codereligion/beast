@@ -18,11 +18,15 @@ package com.codereligion.beast.internal.creation;
 import com.codereligion.beast.InstanceProvider;
 import com.codereligion.beast.object.AbstractClass;
 import com.codereligion.beast.object.ComplexClass;
+import com.codereligion.beast.object.EmptyEnum;
 import com.codereligion.beast.object.FinalClass;
 import com.codereligion.beast.object.MissingDefaultConstructor;
+import com.codereligion.beast.object.OneElementEnum;
 import java.util.List;
 import java.util.Set;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -36,6 +40,9 @@ import static org.junit.Assert.assertTrue;
  * @since 18.08.2012
  */
 public abstract class AbstractObjectFactoryTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     /**
      * TODO
@@ -93,5 +100,23 @@ public abstract class AbstractObjectFactoryTest {
         assertNotNull(object);
         assertTrue(object instanceof List);
         assertNotNull(object.toString());
+    }
+
+    @Test
+    public void emptyEnumCausesIllegalArgumentException() {
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Can not mutate field of type: class com.codereligion.beast.object.EmptyEnum. The enum must hold at least two values");
+
+        getObject(EmptyEnum.class, null);
+    }
+
+    @Test
+    public void oneElementEnumCausesIllegalArgumentException() {
+
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Can not mutate field of type: class com.codereligion.beast.object.OneElementEnum. The enum must hold at least two values");
+
+        getObject(OneElementEnum.class, null);
     }
 }

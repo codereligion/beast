@@ -37,12 +37,11 @@ class ProxyFactory {
      * @param beanClass     the {@link Class} to create the proxy for
      * @param propertyState the {@link PropertyState} which determines the behavior of the proxy
      * @return the created proxy
-     * @throws IllegalArgumentException when the given {@code beanClass} is {@code final}
+     * @throws IllegalArgumentException when the given {@code beanClass} can not be instantiated
      */
     @SuppressWarnings("unchecked")
     static <T> T createProxy(final Class<T> beanClass, final PropertyState propertyState) {
 
-        // TODO move those IAE to the AbstractTest and make them ISE here
         if (Modifier.isFinal(beanClass.getModifiers())) {
             throw new IllegalArgumentException("Can not create proxy for final class " + beanClass.getCanonicalName() + ".");
         }

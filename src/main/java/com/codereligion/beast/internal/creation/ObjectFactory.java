@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 
 /**
@@ -293,7 +294,7 @@ public final class ObjectFactory {
      * @return an object of the given {@code beanClass}
      * @throws IllegalArgumentException when no object can be created for the given {@code beanClass}
      */
-    private Object getObject(final Class<?> beanClass, final String propertyName, final PropertyState propertyState) {
+    private Object getObject(final Class<?> beanClass, @Nullable final String propertyName, final PropertyState propertyState) {
 
         final InstanceProvider instanceProvider = getInstanceProvider(beanClass, propertyName);
 
@@ -361,25 +362,6 @@ public final class ObjectFactory {
     }
 
     /**
-     * Retrieves an enumeration value from the given {@code enumClass}. The given {@code propertyState} defines which one to take. It either returns the first
-     * or the second declared value. If there is no first or second value this method return {@code null}.
-     *
-     * @param enumClass     the {@link Class} to get the enumeration value for
-     * @param propertyState the {@link PropertyState} which determines which enumeration value is taken
-     * @return an enumeration value of the given {@code enumClass} or {@code null} if the enumeration was empty
-     */
-    private static Object getEnumValue(final Class<?> enumClass, final PropertyState propertyState) {
-        final Object[] enums = enumClass.getEnumConstants();
-
-        final boolean indexIsInBounds = propertyState.ordinal() < enums.length;
-        if (indexIsInBounds) {
-            return enums[propertyState.ordinal()];
-        }
-
-        throw new IllegalStateException("Can not get " + propertyState + " value for enum: " + enumClass);
-    }
-
-    /**
      * Creates an array of the given {@code arrayClass}. For example if the given {@code arrayClass} is a {@link Byte} (short: B) it will create an {@link Byte}
      * array (short: [B).
      *
@@ -395,6 +377,25 @@ public final class ObjectFactory {
         final Object array = Array.newInstance(arrayClass, 1);
         Array.set(array, 0, value);
         return array;
+    }
+
+    /**
+     * Retrieves an enumeration value from the given {@code enumClass}. The given {@code propertyState} defines which one to take. It either returns the first
+     * or the second declared value. If there is no first or second value this method return {@code null}.
+     *
+     * @param enumClass     the {@link Class} to get the enumeration value for
+     * @param propertyState the {@link PropertyState} which determines which enumeration value is taken
+     * @return an enumeration value of the given {@code enumClass} or {@code null} if the enumeration was empty
+     */
+    private static Object getEnumValue(final Class<?> enumClass, final PropertyState propertyState) {
+        final Object[] enums = enumClass.getEnumConstants();
+
+        final boolean isIndexOutOfBounds = PropertyState.values().length > enums.length;
+        if (isIndexOutOfBounds) {
+            throw new IllegalArgumentException("Can not mutate field of type: " + enumClass + ". The enum must hold at least two values.");
+        }
+
+        return enums[propertyState.ordinal()];
     }
 
     @Override

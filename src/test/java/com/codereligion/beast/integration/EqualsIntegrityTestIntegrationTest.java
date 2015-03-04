@@ -181,7 +181,7 @@ public class EqualsIntegrityTestIntegrationTest {
     public void emptyEnumCausesIllegalArgumentException() {
 
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Can not mutate field: emptyEnum. The enum must hold at least two values.");
+        expectedException.expectMessage("Can not mutate field of type: class com.codereligion.beast.object.EmptyEnum. The enum must hold at least two values.");
 
         new EqualsIntegrityTestBuilder(ClassWithEmptyEnumProperty.class).create().run();
     }
@@ -190,7 +190,7 @@ public class EqualsIntegrityTestIntegrationTest {
     public void oneElementEnumCausesIllegalArgumentException() {
 
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Can not mutate field: oneElementEnum. The enum must hold at least two values.");
+        expectedException.expectMessage("Can not mutate field of type: class com.codereligion.beast.object.OneElementEnum. The enum must hold at least two values.");
 
         new EqualsIntegrityTestBuilder(ClassWithOneElementEnumProperty.class).create().run();
     }
