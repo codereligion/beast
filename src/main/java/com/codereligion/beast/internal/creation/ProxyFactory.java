@@ -37,19 +37,19 @@ class ProxyFactory {
      * @param beanClass     the {@link Class} to create the proxy for
      * @param propertyState the {@link PropertyState} which determines the behavior of the proxy
      * @return the created proxy
-     * @throws IllegalArgumentException when the given {@code beanClass} can not be instantiated
+     * @throws IllegalArgumentException when the given {@code beanClass} cannot be instantiated
      */
     @SuppressWarnings("unchecked")
     static <T> T createProxy(final Class<T> beanClass, final PropertyState propertyState) {
 
         if (Modifier.isFinal(beanClass.getModifiers())) {
-            throw new IllegalArgumentException("Can not create proxy for final class " + beanClass.getCanonicalName() + ".");
+            throw new IllegalArgumentException("Cannot create proxy for final class " + beanClass.getCanonicalName() + ".");
         }
 
         final boolean isConcreteClass = !beanClass.isInterface() && !Modifier.isAbstract(beanClass.getModifiers());
 
         if (isConcreteClass && !BeanIntrospections.hasDefaultConstructor(beanClass)) {
-            throw new IllegalArgumentException("Can not create proxy for property class " + beanClass.getCanonicalName() +
+            throw new IllegalArgumentException("Cannot create proxy for property class " + beanClass.getCanonicalName() +
                                                " because of missing default constructor. Either provide a default constructor " +
                                                "or add a CustomInstanceProvider for that class.");
         }

@@ -106,7 +106,7 @@ public abstract class AbstractObjectFactoryTest {
     public void emptyEnumCausesIllegalArgumentException() {
 
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Can not mutate field of type: class com.codereligion.beast.object.EmptyEnum. The enum must hold at least two values");
+        expectedException.expectMessage("Cannot mutate field of type: class com.codereligion.beast.object.EmptyEnum. The enum must hold at least two values");
 
         getObject(EmptyEnum.class, null);
     }
@@ -115,7 +115,7 @@ public abstract class AbstractObjectFactoryTest {
     public void oneElementEnumCausesIllegalArgumentException() {
 
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Can not mutate field of type: class com.codereligion.beast.object.OneElementEnum. The enum must hold at least two values");
+        expectedException.expectMessage("Cannot mutate field of type: class com.codereligion.beast.object.OneElementEnum. The enum must hold at least two values");
 
         getObject(OneElementEnum.class, null);
     }

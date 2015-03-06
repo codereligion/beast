@@ -392,7 +392,7 @@ public final class ObjectFactory {
 
         final boolean isIndexOutOfBounds = PropertyState.values().length > enums.length;
         if (isIndexOutOfBounds) {
-            throw new IllegalArgumentException("Can not mutate field of type: " + enumClass + ". The enum must hold at least two values.");
+            throw new IllegalArgumentException("Cannot mutate field of type: " + enumClass + ". The enum must hold at least two values.");
         }
 
         return enums[propertyState.ordinal()];

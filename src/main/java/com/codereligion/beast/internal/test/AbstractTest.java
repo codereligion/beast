@@ -60,7 +60,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
      * @param beanClass     the {@link Class} to test
      * @param objectFactory the {@link ObjectFactory} to use for creation of property instances
      * @throws NullPointerException     when any of the given parameters are {@code null}
-     * @throws IllegalArgumentException when the given {@code beanClass} can not be tested
+     * @throws IllegalArgumentException when the given {@code beanClass} cannot be tested
      */
     protected AbstractTest(final Class<?> beanClass, final ObjectFactory objectFactory) {
 
@@ -125,7 +125,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
      * </pre>
      *
      * @return an instance of the {@code beanClass}
-     * @throws IllegalArgumentException when the given {@code beanClass} can not be instantiated
+     * @throws IllegalArgumentException when the given {@code beanClass} cannot be instantiated
      */
     protected Object newBeanObject() {
         try {
@@ -173,7 +173,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
      *
      * @param object the object to set the value on
      * @param value  the value to be set
-     * @throws IllegalStateException     when the setter is not accessible or the {@code value} can not be set
+     * @throws IllegalStateException     when the setter is not accessible or the {@code value} cannot be set
      * @throws InvocationTargetException when the setter threw an exception
      */
     protected void setValue(final Object object, final PropertyDescriptor property, final Object value) throws InvocationTargetException {
@@ -184,7 +184,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
             setter.invoke(object, value);
         } catch (final IllegalAccessException e) {
             // this should never happen
-            throw new IllegalStateException("The method " + setter + " is inaccessible, thus can not be used to set test values.", e);
+            throw new IllegalStateException("The method " + setter + " is inaccessible, thus cannot be used to set test values.", e);
         } catch (final IllegalArgumentException e) {
             // this should never happen
             throw new IllegalStateException("Failed to set '" + value + "' on setter: " + setter + ".", e);
