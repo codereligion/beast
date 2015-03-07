@@ -15,7 +15,10 @@
  */
 package com.codereligion.beast;
 
+import com.google.common.base.Optional;
+
 /**
+ * TODO review documentation towards non specified propertyName
  * Use this class to construct custom instance providers which the test can use to set "default" and "dirty" values in order to define state on the object of
  * the class under test. Instance providers can be used to provide instances for classes of which the instantiation may not be supported or may not be
  * possible.
@@ -56,7 +59,7 @@ public final class InstanceProvider {
      * The name of the property this instance provider should provider for. May be {@code null}, which indicates that this instance provider is not specific to
      * a property.
      */
-    private final String propertyName;
+    private final Optional<String> propertyName;
 
     /**
      * Creates a new {@link InstanceProvider} for the given {@code defaultInstance} and {@code dirtyInstance}.
@@ -74,7 +77,7 @@ public final class InstanceProvider {
      *                                  not differ in their toString, hashCode and equals results, or are array types
      */
     public static InstanceProvider create(final Object defaultInstance, final Object dirtyInstance) {
-        return new InstanceProvider(defaultInstance, dirtyInstance, null);
+        return new InstanceProvider(defaultInstance, dirtyInstance, Optional.<String>absent());
     }
 
     /**
@@ -100,7 +103,7 @@ public final class InstanceProvider {
             throw new NullPointerException("propertyName must not be null.");
         }
 
-        return new InstanceProvider(defaultInstance, dirtyInstance, propertyName);
+        return new InstanceProvider(defaultInstance, dirtyInstance, Optional.of(propertyName));
     }
 
     /**
@@ -124,8 +127,7 @@ public final class InstanceProvider {
      *                                  array types
      */
     public static InstanceProvider create(final Object defaultInstance, final Object dirtyInstance, final Class<?> instanceClass) {
-
-        return new InstanceProvider(defaultInstance, dirtyInstance, instanceClass, null);
+        return new InstanceProvider(defaultInstance, dirtyInstance, instanceClass, Optional.<String>absent());
     }
 
     /**
@@ -156,7 +158,7 @@ public final class InstanceProvider {
             throw new NullPointerException("propertyName must not be null.");
         }
 
-        return new InstanceProvider(defaultInstance, dirtyInstance, instanceClass, propertyName);
+        return new InstanceProvider(defaultInstance, dirtyInstance, instanceClass, Optional.of(propertyName));
     }
 
     /**
@@ -170,14 +172,8 @@ public final class InstanceProvider {
      * @throws IllegalArgumentException when the given {@code defaultInstance} and {@code dirtyInstance} are not of the same class, or the given instances do
      *                                  not differ in their toString, hashCode and equals results, or are array types
      */
-    private InstanceProvider(final Object defaultInstance, final Object dirtyInstance, final String propertyName) {
-
-        checkCommonParameters(defaultInstance, dirtyInstance);
-
-        this.defaultInstance = defaultInstance;
-        this.dirtyInstance = dirtyInstance;
-        this.instanceClass = defaultInstance.getClass();
-        this.propertyName = propertyName;
+    private InstanceProvider(final Object defaultInstance, final Object dirtyInstance, final Optional<String> propertyName) {
+        this(defaultInstance, dirtyInstance, defaultInstance.getClass(), propertyName);
     }
 
     /**
@@ -193,7 +189,7 @@ public final class InstanceProvider {
      *                                  given {@code instanceClass}, or the given instances do not differ in their toString, hashCode and equals results, or are
      *                                  array types
      */
-    private InstanceProvider(final Object defaultInstance, final Object dirtyInstance, final Class<?> instanceClass, final String propertyName) {
+    private InstanceProvider(final Object defaultInstance, final Object dirtyInstance, final Class<?> instanceClass, final Optional<String> propertyName) {
 
         checkCommonParameters(defaultInstance, dirtyInstance);
 
@@ -273,7 +269,7 @@ public final class InstanceProvider {
     }
 
     /**
-     * The {@link Class} which is the type of the specified {@code defaultInstance} and {@code dirtyInstnace}.
+     * The {@link Class} which is the type of the specified {@code defaultInstance} and {@code dirtyInstance}.
      *
      * @return a {@link Class} object
      */
@@ -282,14 +278,14 @@ public final class InstanceProvider {
     }
 
     /**
-     * The name of the property to which this instance provider should provide. This may be {@code null}, which indicates that this instance provider is not
-     * specific to a propertyName.
+     * The name of the property for which this instance provider should provide.
      *
-     * @return
+     * @return the property name
+     * @throws IllegalStateException when there is no {@code propertyName} for this instance provider.
      * @see {@link InstanceProvider #isPropertySpecific}
      */
     public String getPropertyName() {
-        return this.propertyName;
+        return this.propertyName.get();
     }
 
     /**
@@ -300,7 +296,7 @@ public final class InstanceProvider {
      * @see {@link InstanceProvider #getPropertyName}
      */
     public boolean isPropertySpecific() {
-        return this.propertyName != null;
+        return this.propertyName.isPresent();
     }
 
     /**
@@ -312,7 +308,7 @@ public final class InstanceProvider {
         final int prime = 31;
         int result = 1;
         result = prime * result + this.instanceClass.hashCode();
-        result = prime * result + ((this.propertyName == null) ? 0 : this.propertyName.hashCode());
+        result = prime * result + this.propertyName.hashCode();
         return result;
     }
 
@@ -337,9 +333,7 @@ public final class InstanceProvider {
             return false;
         }
 
-        if (this.propertyName == null) {
-            if (other.propertyName != null) return false;
-        } else if (!this.propertyName.equals(other.propertyName)) {
+        if (!this.propertyName.equals(other.propertyName)) {
             return false;
         }
 

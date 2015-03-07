@@ -24,7 +24,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -83,7 +82,6 @@ public class InstanceProviderTest {
         assertEquals(String.class, provider.getInstanceClass());
         assertEquals(defaultInstance, provider.getDefaultInstance());
         assertEquals(dirtyInstance, provider.getDirtyInstance());
-        assertNull(provider.getPropertyName());
     }
 
     @Test(expected = NullPointerException.class)
@@ -201,7 +199,6 @@ public class InstanceProviderTest {
         assertEquals(String.class, provider.getInstanceClass());
         assertEquals(defaultInstance, provider.getDefaultInstance());
         assertEquals(dirtyInstance, provider.getDirtyInstance());
-        assertNull(provider.getPropertyName());
     }
 
     @Test(expected = NullPointerException.class)
@@ -467,7 +464,7 @@ public class InstanceProviderTest {
                                 "defaultInstance=" + defaultInstance +
                                 ", dirtyInstance=" + dirtyInstance +
                                 ", instanceClass=" + instanceClass +
-                                ", propertyName=" + propertyName + "]";
+                                ", propertyName=Optional.of(" + propertyName + ")]";
 
         assertEquals(expected, instanceProvider.toString());
     }

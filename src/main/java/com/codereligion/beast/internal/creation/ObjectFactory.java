@@ -17,6 +17,7 @@ package com.codereligion.beast.internal.creation;
 
 
 import com.codereligion.beast.InstanceProvider;
+import com.google.common.base.Optional;
 import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.HashMap;
@@ -296,10 +297,10 @@ public final class ObjectFactory {
      */
     private Object getObject(final Class<?> beanClass, @Nullable final String propertyName, final PropertyState propertyState) {
 
-        final InstanceProvider instanceProvider = getInstanceProvider(beanClass, propertyName);
+        final Optional<InstanceProvider> instanceProvider = getInstanceProvider(beanClass, propertyName);
 
-        if (instanceProvider != null) {
-            return getObjectFromInstanceProvider(instanceProvider, propertyState);
+        if (instanceProvider.isPresent()) {
+            return getObjectFromInstanceProvider(instanceProvider.get(), propertyState);
         } else if (beanClass.isArray()) {
             return createArray(beanClass.getComponentType(), propertyState);
         } else if (beanClass.isEnum()) {
@@ -337,25 +338,25 @@ public final class ObjectFactory {
      *
      * @param type         the {@link Class} to get the {@link InstanceProvider} for
      * @param propertyName propertyName to get the {@link InstanceProvider} for
-     * @return a matching {@link InstanceProvider} or {@code null}, if none was found
+     * @return an {@link com.google.common.base.Optional} of a matching {@link InstanceProvider}
      */
-    private InstanceProvider getInstanceProvider(final Class<?> type, final String propertyName) {
+    private Optional<InstanceProvider> getInstanceProvider(final Class<?> type, final String propertyName) {
 
         final Map<String, InstanceProvider> propertyNameToInstanceProvider = this.instanceProviderMap.get(type);
         if (propertyNameToInstanceProvider == null) {
-            return null;
+            return Optional.absent();
         }
 
         final InstanceProvider propertyNameSpecificInstanceProvider = propertyNameToInstanceProvider.get(propertyName);
         final boolean foundPropertyNameSpecificInstanceProvider = propertyNameSpecificInstanceProvider != null;
         if (foundPropertyNameSpecificInstanceProvider) {
-            return propertyNameSpecificInstanceProvider;
+            return Optional.of(propertyNameSpecificInstanceProvider);
         }
 
         final InstanceProvider propertyTypeSpecificInstanceProvider = propertyNameToInstanceProvider.get(NO_NAME);
         final boolean foundPropertyTypeSpecificInstanceProvider = propertyTypeSpecificInstanceProvider != null;
         if (foundPropertyTypeSpecificInstanceProvider) {
-            return propertyTypeSpecificInstanceProvider;
+            return Optional.of(propertyTypeSpecificInstanceProvider);
         }
 
         throw new IllegalStateException("There is an empty mapping for class: " + type);
