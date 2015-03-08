@@ -72,7 +72,7 @@ public final class ToStringFormatTest extends AbstractTest {
         this.excludedPropertyNames = Collections.unmodifiableSet(excludedPropertyNames);
 
         if (!isMethodImplemented(ObjectMethodNames.TO_STRING)) {
-            throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " does not implement toString.");
+            throw new IllegalArgumentException("The given class: " + this.beanClassCanonicalName + " does not implement toString.");
         }
 
         this.toStringPattern = pattern;

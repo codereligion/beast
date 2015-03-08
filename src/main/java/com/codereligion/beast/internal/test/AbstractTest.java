@@ -78,7 +78,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
         this.objectFactory = objectFactory;
 
         if (!canBeInstantiated()) {
-            throw new IllegalArgumentException("The given class " + this.beanClassCanonicalName + " is not supported for testing.");
+            throw new IllegalArgumentException("The given class: " + this.beanClassCanonicalName + " is not supported for testing.");
         }
 
         this.writeableProperties = BeanIntrospections.getWriteableProperties(beanClass);
@@ -86,7 +86,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
         final boolean hasNoWriteableProperties = this.writeableProperties.isEmpty();
 
         if (hasNoWriteableProperties) {
-            throw new IllegalArgumentException(String.format("The given class %s does not provide any public setters, only properties " +
+            throw new IllegalArgumentException(String.format("The given class: %s does not provide any public setters, only properties " +
                                                              "which are writeable through public setters can be verified to be included in " +
                                                              "the to be tested method.", this.beanClassCanonicalName));
         }
@@ -145,9 +145,9 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
 
             return object;
         } catch (final IllegalAccessException e) {
-            throw new IllegalArgumentException("Could not find a public default constructor for class " + this.beanClassCanonicalName, e);
+            throw new IllegalArgumentException("Could not find a public default constructor for class: " + this.beanClassCanonicalName, e);
         } catch (final InstantiationException e) {
-            throw new IllegalArgumentException("Could not instantiate object of class " + this.beanClassCanonicalName, e);
+            throw new IllegalArgumentException("Could not instantiate object of class: " + this.beanClassCanonicalName, e);
         }
     }
 
@@ -184,10 +184,10 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
             setter.invoke(object, value);
         } catch (final IllegalAccessException e) {
             // this should never happen
-            throw new IllegalStateException("The method " + setter + " is inaccessible, thus cannot be used to set test values.", e);
+            throw new IllegalStateException("The method: " + setter + " is inaccessible, thus cannot be used to set test values.", e);
         } catch (final IllegalArgumentException e) {
             // this should never happen
-            throw new IllegalStateException("Failed to set '" + value + "' on setter: " + setter + ".", e);
+            throw new IllegalStateException("Failed to set: '" + value + "' on setter: " + setter + ".", e);
         }
     }
 
