@@ -36,7 +36,7 @@ public final class ToStringFormatTestBuilder extends AbstractTestBuilder {
      * The default pattern which matches to strings of this structure:
      * <p/>
      * <pre>
-     * 	ClassName [propertyName=value, anotherPropertyName=value]
+     * ClassName [propertyName=value, anotherPropertyName=value]
      * </pre>
      */
     public static final Pattern DEFAULT_PATTERN = Pattern.compile(".+\\[(.+=.+, )*(.+=.+)?\\]");

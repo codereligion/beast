@@ -15,7 +15,6 @@
  */
 package com.codereligion.beast.internal.util;
 
-import com.codereligion.beast.internal.creation.ObjectMethodNames;
 import org.junit.Test;
 import static com.codereligion.beast.internal.util.Assert.assertFalse;
 import static com.codereligion.beast.internal.util.Assert.assertTrue;

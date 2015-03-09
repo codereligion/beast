@@ -156,7 +156,7 @@ public final class ObjectFactory {
      * Example:
      * <p/>
      * <pre>
-     * 	MyPropertyClass => myPropertyName => InstanceProvider
+     * MyPropertyClass => myPropertyName => InstanceProvider
      * </pre>
      * <p/>
      * In case that one of the mappings already exists it will be overridden with the given values.
@@ -239,8 +239,8 @@ public final class ObjectFactory {
     }
 
     /**
-     * Retrieves the "default" object from either one of the default or custom {@link InstanceProvider}s for the given {@code beanClass} and
-     * {@code propertyName}.
+     * Retrieves the "default" object from either one of the default or custom {@link InstanceProvider}s for the given {@code beanClass} and {@code
+     * propertyName}.
      * <p/>
      * <p/>
      * In case no {@link InstanceProvider} is available for the given parameters an instance will be created which can either be an array, an enumeration or a
@@ -314,7 +314,7 @@ public final class ObjectFactory {
     /**
      * Retrieves an object for the specified {@code propertyState} from the given {@code instanceProvider}.
      *
-     * @param propertyState the the property state to get the object for
+     * @param propertyState    the the property state to get the object for
      * @param instanceProvider the instance provider to get the object from
      * @return either a default or dirty object
      */

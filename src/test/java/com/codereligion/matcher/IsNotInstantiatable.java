@@ -23,53 +23,52 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 /**
- * Expects the given {@link Class} to not provide a public constructor. This
- * class is particularly useful to cover otherwise dead code of private
- * constructors in static utility methods
- * 
+ * Expects the given {@link Class} to not provide a public constructor. This class is particularly useful to cover otherwise dead code of private constructors
+ * in static utility methods
+ *
  * @author Sebastian Gröbler
  * @since 19.06.2013
  */
 public final class IsNotInstantiatable extends TypeSafeMatcher<Class<?>> {
-	
-	/**
-	 * @return a new instance of
-	 */
-	public static Matcher<Class<?>> isNotInstantiatable() {
-		return new IsNotInstantiatable();
-	}
 
-	@Override
-	public void describeTo(final Description description) {
-		description.appendText("That the given class is not instantiatable.");
-	}
+    /**
+     * @return a new instance of
+     */
+    public static Matcher<Class<?>> isNotInstantiatable() {
+        return new IsNotInstantiatable();
+    }
 
-	@Override
-	protected void describeMismatchSafely(final Class<?> item, final Description mismatchDescription) {
-		mismatchDescription.appendText("It has a non private constructor.");
-	}
+    @Override
+    public void describeTo(final Description description) {
+        description.appendText("That the given class is not instantiatable.");
+    }
 
-	@Override
-	protected boolean matchesSafely(Class<?> item) {
+    @Override
+    protected void describeMismatchSafely(final Class<?> item, final Description mismatchDescription) {
+        mismatchDescription.appendText("It has a non private constructor.");
+    }
 
-		try {
-			final Constructor<?> constructor = item.getDeclaredConstructor();
-			if (constructor.isAccessible() || !Modifier.isPrivate(constructor.getModifiers())) {
-				return false;
-			}
+    @Override
+    protected boolean matchesSafely(Class<?> item) {
 
-			constructor.setAccessible(true);
-			constructor.newInstance();
-		} catch (NoSuchMethodException e) {
-			return false;
-		} catch (InstantiationException e) {
-			return true;
-		} catch (InvocationTargetException e) {
-			return true;
-		} catch (IllegalAccessException e) {
-			return true;
-		}
+        try {
+            final Constructor<?> constructor = item.getDeclaredConstructor();
+            if (constructor.isAccessible() || !Modifier.isPrivate(constructor.getModifiers())) {
+                return false;
+            }
 
-		return true;
-	}
+            constructor.setAccessible(true);
+            constructor.newInstance();
+        } catch (NoSuchMethodException e) {
+            return false;
+        } catch (InstantiationException e) {
+            return true;
+        } catch (InvocationTargetException e) {
+            return true;
+        } catch (IllegalAccessException e) {
+            return true;
+        }
+
+        return true;
+    }
 }

@@ -94,7 +94,8 @@ public class EqualsNullSafetyTestIntegrationTest {
     public void oneElementEnumCausesIllegalArgumentException() {
 
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Cannot mutate field of type: class com.codereligion.beast.object.OneElementEnum. The enum must hold at least two values.");
+        expectedException.expectMessage(
+                "Cannot mutate field of type: class com.codereligion.beast.object.OneElementEnum. The enum must hold at least two values.");
 
         new EqualsIntegrityTestBuilder(ClassWithOneElementEnumProperty.class).create().run();
     }

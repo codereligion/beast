@@ -97,12 +97,12 @@ public final class ToStringNullSafetyTest extends AbstractNullSafetyTest {
             }
 
 
-            // TODO should this not better be in another test
-//			final boolean areEqualWithNulls = defaultToStringResult.equals(dirtyToString);
-//			assertFalse(areEqualWithNulls,
-//					"If the property '%s' is null the toString result should differ from " +
-//					"a toString result of an instance where this property is not null.",
-//					propertyName);
+//            // TODO should this not better be in another test
+//            final boolean areEqualWithNulls = defaultToStringResult.equals(dirtyToString);
+//            assertFalse(areEqualWithNulls,
+//                        "If the property '%s' is null the toString result should differ from " +
+//                        "a toString result of an instance where this property is not null.",
+//                        propertyName);
         }
     }
 

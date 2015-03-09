@@ -17,7 +17,7 @@ package com.codereligion.beast.internal.creation;
 
 import org.junit.Test;
 import static com.codereligion.matcher.IsNotInstantiatable.isNotInstantiatable;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class InstanceProvidersTest {
 

@@ -77,13 +77,13 @@ public class MissingPropertyInEquals {
         if (this.bar != other.bar) {
             return false;
         }
-//		if (complexObject == null) {
-//			if (other.complexObject != null) {
-//				return false;
-//			}
-//		} else if (!complexObject.equals(other.complexObject)) {
-//			return false;
-//		}
+//        if (complexObject == null) {
+//            if (other.complexObject != null) {
+//                return false;
+//            }
+//        } else if (!complexObject.equals(other.complexObject)) {
+//            return false;
+//        }
         if (this.foo != other.foo) {
             return false;
         }

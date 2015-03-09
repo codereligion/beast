@@ -117,9 +117,9 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
      * <p/>
      * <pre>
      * public class Foo {
-     * 	private boolean foo = false;
-     * 	private int bar = 0;
-     * 	private double baz = 0d;
+     *    private boolean foo = false;
+     *    private int bar = 0;
+     *    private double baz = 0d;
      * }
      * </pre>
      *

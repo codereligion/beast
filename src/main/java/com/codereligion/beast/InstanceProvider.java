@@ -18,10 +18,9 @@ package com.codereligion.beast;
 import com.google.common.base.Optional;
 
 /**
- * TODO review documentation towards non specified propertyName
- * Use this class to construct custom instance providers which the test can use to set "default" and "dirty" values in order to define state on the object of
- * the class under test. Instance providers can be used to provide instances for classes of which the instantiation may not be supported or may not be
- * possible.
+ * TODO review documentation towards non specified propertyName Use this class to construct custom instance providers which the test can use to set "default"
+ * and "dirty" values in order to define state on the object of the class under test. Instance providers can be used to provide instances for classes of which
+ * the instantiation may not be supported or may not be possible.
  * <p/>
  * <p/>
  * An instance provider can be specific to a concrete class, an interface or abstract class and it can be constructed so that it is only applied for a specific
@@ -339,7 +338,6 @@ public final class InstanceProvider {
 
         return true;
     }
-
 
 
     @Override

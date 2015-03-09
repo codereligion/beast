@@ -207,7 +207,8 @@ public class EqualsIntegrityTestIntegrationTest {
 
         // expect
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage(is("Calling the setter of the property 'foo' threw an exception. The setter call can be avoided by excluding the property from the test."));
+        expectedException.expectMessage(is(
+                "Calling the setter of the property 'foo' threw an exception. The setter call can be avoided by excluding the property from the test."));
 
         // when
         new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class).create().run();
@@ -223,7 +224,8 @@ public class EqualsIntegrityTestIntegrationTest {
 
         // expect
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage(is("Calling the setter of the property 'foo' threw an exception. The setter call can be avoided by removing the property from the includedPropertyNames."));
+        expectedException.expectMessage(is(
+                "Calling the setter of the property 'foo' threw an exception. The setter call can be avoided by removing the property from the includedPropertyNames."));
 
         //
         new EqualsIntegrityTestBuilder(ExceptionThrowingSetter.class).addIncludedPropertyName("foo").create().run();

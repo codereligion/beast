@@ -24,9 +24,9 @@ package com.codereligion.beast.internal.creation;
  * <p/>
  * <pre>
  * public class Foo {
- * 	private boolean foo = true;
- * 	private int bar = 1;
- * 	private double baz = 1d;
+ *    private boolean foo = true;
+ *    private int bar = 1;
+ *    private double baz = 1d;
  * }
  * </pre>
  * <p/>
@@ -35,9 +35,9 @@ package com.codereligion.beast.internal.creation;
  * <p/>
  * <pre>
  * public class Foo {
- * 	private boolean foo = false;
- * 	private int bar = 0;
- * 	private double baz = 0d;
+ *    private boolean foo = false;
+ *    private int bar = 0;
+ *    private double baz = 0d;
  * }
  * </pre>
  *
