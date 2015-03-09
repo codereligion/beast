@@ -56,14 +56,14 @@ public final class EqualsIntegrityExcludeStrategy extends AbstractIntegrityExclu
         final boolean isUnintentionallyMissing = defaultObjectEqualsDirtyObject && !isExcluded;
 
         assertFalse(isUnintentionallyMissing,
-                    "The property '%s' is not supported by the equals method. If this is intentional add it to the propertyNames.",
+                    "The property '%s' is not supported by the equals method. If this is intentional add it to the excludedPropertyNames.",
                     propertyName);
 
         final boolean isUnnecessarilyExcluded = !defaultObjectEqualsDirtyObject && isExcluded;
 
         assertFalse(isUnnecessarilyExcluded, "The property '%s' is contained the excludedPropertyNames, but is actually " +
                                              "supported by the equals implementation. Either remove it from the " +
-                                             "propertyNames or the equals implementation.", propertyName);
+                                             "excludedPropertyNames or the equals implementation.", propertyName);
     }
 
 

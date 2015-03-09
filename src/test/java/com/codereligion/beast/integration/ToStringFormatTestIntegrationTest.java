@@ -42,12 +42,12 @@ public class ToStringFormatTestIntegrationTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testWithNullClass() {
         new ToStringFormatTestBuilder(null, Pattern.compile(".*")).create().run();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testWithNullPattern() {
         new ToStringFormatTestBuilder(WrongFormatInToString.class, null).create().run();
     }

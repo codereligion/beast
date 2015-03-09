@@ -41,7 +41,7 @@ public class EqualsNullSafetyTestIntegrationTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testWithNullClass() {
         new EqualsNullSafetyTestBuilder(null).create().run();
     }

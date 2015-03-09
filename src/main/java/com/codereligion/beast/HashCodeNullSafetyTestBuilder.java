@@ -37,7 +37,7 @@ public final class HashCodeNullSafetyTestBuilder extends AbstractNullSafetyTestB
      * Creates a new builder which will create a test for the given {@code beanClass}.
      *
      * @param beanClass the {@link Class} to be tested
-     * @throws NullPointerException when the given parameter is {@code null}
+     * @throws IllegalArgumentException when the given parameter is {@code null}
      */
     public HashCodeNullSafetyTestBuilder(final Class<?> beanClass) {
         super(beanClass);

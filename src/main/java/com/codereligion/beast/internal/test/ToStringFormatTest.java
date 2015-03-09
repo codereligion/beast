@@ -55,18 +55,18 @@ public final class ToStringFormatTest extends AbstractTest {
      * @param objectFactory         the {@link ObjectFactory} to use
      * @param pattern               the pattern to which to toString result must comply
      * @param excludedPropertyNames the names of the properties to exclude from the test
-     * @throws NullPointerException when any of the given parameters are {@code null}
+     * @throws IllegalArgumentException when any of the given parameters are {@code null} or when the given {@code beanClass} cannot be tested
      */
     public ToStringFormatTest(final Class<?> beanClass, final ObjectFactory objectFactory, final Pattern pattern, final Set<String> excludedPropertyNames) {
 
         super(beanClass, objectFactory);
 
         if (pattern == null) {
-            throw new NullPointerException("pattern must not be null.");
+            throw new IllegalArgumentException("pattern must not be null.");
         }
 
         if (excludedPropertyNames == null) {
-            throw new NullPointerException("excludedPropertyNames must not be null.");
+            throw new IllegalArgumentException("excludedPropertyNames must not be null.");
         }
 
         this.excludedPropertyNames = Collections.unmodifiableSet(excludedPropertyNames);

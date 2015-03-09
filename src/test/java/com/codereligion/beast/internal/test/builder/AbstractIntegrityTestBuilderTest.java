@@ -67,16 +67,6 @@ public abstract class AbstractIntegrityTestBuilderTest extends AbstractTestBuild
     protected abstract AbstractIntegrityIncludeStrategy createIntegrityIncludeStrategy(Set<String> propertyNames);
 
     /**
-     * Abstract factory method to create a new include based {@link IntegrityStrategy} with no included property names.
-     *
-     * @param propertyNames the names of the properties to include
-     * @return a new instance of {@link IntegrityStrategy}
-     */
-    protected AbstractIntegrityIncludeStrategy createIntegrityIncludeStrategy() {
-        return createIntegrityIncludeStrategy(Collections.<String>emptySet());
-    }
-
-    /**
      * Abstract factory method to create a new exclude based {@link IntegrityStrategy} for the given {@code propertyNames}.
      *
      * @param propertyNames the names of the properties to exclude
@@ -88,7 +78,6 @@ public abstract class AbstractIntegrityTestBuilderTest extends AbstractTestBuild
     /**
      * Abstract factory method to create a new exclude based {@link IntegrityStrategy} with no excluded property names.
      *
-     * @param propertyNames the names of the properties to exclude
      * @return a new instance of the {@link IntegrityStrategy}
      */
     protected AbstractIntegrityExcludeStrategy createIntegrityExcludeStrategy() {

@@ -26,6 +26,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * TODO review documentation
  * Abstract implementation which provides basic tests for a null-safety test builder.
  *
  * @author Sebastian Gr&ouml;bler

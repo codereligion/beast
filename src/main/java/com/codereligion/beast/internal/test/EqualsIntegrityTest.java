@@ -47,7 +47,7 @@ public final class EqualsIntegrityTest extends AbstractIntegrityTest {
      * @param beanClass         the {@link Class} to test
      * @param objectFactory     the {@link ObjectFactory} to use
      * @param integrityStrategy the {@link IntegrityStrategy} to use
-     * @throws NullPointerException when any of the given parameters are {@code null}
+     * @throws IllegalArgumentException when any of the given parameters are {@code null} or when the given {@code beanClass} cannot be tested
      */
     public EqualsIntegrityTest(final Class<?> beanClass, final ObjectFactory objectFactory, final IntegrityStrategy integrityStrategy) {
         super(beanClass, objectFactory, integrityStrategy);
@@ -57,14 +57,14 @@ public final class EqualsIntegrityTest extends AbstractIntegrityTest {
     public void run() {
 
         if (!isMethodImplemented(ObjectMethodNames.EQUALS)) {
-            fail("The given class %s does not implement equals.", this.beanClassCanonicalName);
+            fail("%s does not implement equals.", this.beanClassCanonicalName);
         }
 
         final Object defaultObject = newBeanObject();
 
-        assertFalse(defaultObject.equals(null), "Equals method for instances of %s is equals to null.", this.beanClassCanonicalName);
+        assertFalse(defaultObject.equals(null), "The equals implementation of %s returns true when comparing with null.", this.beanClassCanonicalName);
 
-        assertTrue(defaultObject.equals(defaultObject), "Equals method for instances of %s is not reflexive.", this.beanClassCanonicalName);
+        assertTrue(defaultObject.equals(defaultObject), "The equals implementation of %s is not reflexive.", this.beanClassCanonicalName);
 
         for (final PropertyDescriptor property : this.writeableProperties) {
 
@@ -80,7 +80,7 @@ public final class EqualsIntegrityTest extends AbstractIntegrityTest {
                 final boolean dirtyObjectEqualsDefaultObject = dirtyObject.equals(defaultObject);
                 final boolean isNotSymmetric = defaultObjectEqualsDirtyObject != dirtyObjectEqualsDefaultObject;
 
-                assertFalse(isNotSymmetric, "Equals method for instances of %s is not symmetric for property '%s'.", this.beanClassCanonicalName, propertyName);
+                assertFalse(isNotSymmetric, "The equals implementation of %s is not symmetric for property '%s'.", this.beanClassCanonicalName, propertyName);
 
                 this.integrityStrategy.apply(defaultObject, dirtyObject, propertyName);
             } catch (final InvocationTargetException e) {

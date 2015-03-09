@@ -48,7 +48,7 @@ public abstract class AbstractTestBuilderTest {
         return createBuilder(getBeanClass());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void givenNullClassShouldThrowNpeWhenCallingTheConstructor() {
         createBuilder(null);
     }

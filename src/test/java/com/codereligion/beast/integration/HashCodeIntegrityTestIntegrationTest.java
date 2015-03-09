@@ -41,7 +41,7 @@ public class HashCodeIntegrityTestIntegrationTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testWithNullClass() {
         new HashCodeIntegrityTestBuilder(null).create().run();
     }

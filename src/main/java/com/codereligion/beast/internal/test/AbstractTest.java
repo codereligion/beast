@@ -59,26 +59,25 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
      *
      * @param beanClass     the {@link Class} to test
      * @param objectFactory the {@link ObjectFactory} to use for creation of property instances
-     * @throws NullPointerException     when any of the given parameters are {@code null}
-     * @throws IllegalArgumentException when the given {@code beanClass} cannot be tested
+     * @throws IllegalArgumentException when any of the given parameters are {@code null} or when the given {@code beanClass} cannot be tested
      */
     protected AbstractTest(final Class<?> beanClass, final ObjectFactory objectFactory) {
 
         if (beanClass == null) {
-            throw new NullPointerException("beanClass must not be null.");
+            throw new IllegalArgumentException("beanClass must not be null.");
         }
 
         this.beanClass = beanClass;
         this.beanClassCanonicalName = beanClass.getCanonicalName();
 
         if (objectFactory == null) {
-            throw new NullPointerException("objectFactory must not be null.");
+            throw new IllegalArgumentException("objectFactory must not be null.");
         }
 
         this.objectFactory = objectFactory;
 
         if (!canBeInstantiated()) {
-            throw new IllegalArgumentException("The given class: " + this.beanClassCanonicalName + " is not supported for testing.");
+            throw new IllegalArgumentException(this.beanClassCanonicalName + " is not supported for testing.");
         }
 
         this.writeableProperties = BeanIntrospections.getWriteableProperties(beanClass);
@@ -86,7 +85,7 @@ public abstract class AbstractTest implements Test, InvocationTargetExceptionHan
         final boolean hasNoWriteableProperties = this.writeableProperties.isEmpty();
 
         if (hasNoWriteableProperties) {
-            throw new IllegalArgumentException(String.format("The given class: %s does not provide any public setters, only properties " +
+            throw new IllegalArgumentException(String.format("%s does not provide any public setters, only properties " +
                                                              "which are writeable through public setters can be verified to be included in " +
                                                              "the to be tested method.", this.beanClassCanonicalName));
         }

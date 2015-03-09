@@ -53,7 +53,7 @@ public abstract class AbstractIntegrityIncludeStrategy extends AbstractIntegrity
         final String propertyName = property.getName();
         if (this.propertyNames.contains(propertyName)) {
             final String message = String.format("Calling the setter of the property '%s' threw an exception. " +
-                                                 "The setter call can be avoided by removing the property from the includes.", propertyName);
+                                                 "The setter call can be avoided by removing the property from the includedPropertyNames.", propertyName);
             throw new IllegalArgumentException(message, exception);
         }
     }

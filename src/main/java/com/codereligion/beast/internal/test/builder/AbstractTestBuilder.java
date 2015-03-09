@@ -49,12 +49,12 @@ public abstract class AbstractTestBuilder {
      *
      * @param beanClass the {@link Class} to create the test for
      * @return the instance of the created test
-     * @throws NullPointerException when the given parameter is {@code null}
+     * @throws IllegalArgumentException when the given parameter is {@code null}
      */
     public AbstractTestBuilder(final Class<?> beanClass) {
 
         if (beanClass == null) {
-            throw new NullPointerException("beanClass must not be null.");
+            throw new IllegalArgumentException("beanClass must not be null.");
         }
 
         this.beanClass = beanClass;

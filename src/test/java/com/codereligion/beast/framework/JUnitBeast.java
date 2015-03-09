@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 /**
- * TODo maybe extend documentation, if this class should be shown as an example in the wiki. Example implementation of the "beast" for JUnit.
+ * Base class for JUnit based tests.
  *
  * @author Sebastian Gr&ouml;bler
  * @since 11.08.2012
@@ -37,7 +37,7 @@ import org.junit.Test;
 public abstract class JUnitBeast<T> {
 
     @Test
-    public void testEqualsIntegrity() {
+    public void ensuresEqualsIntegrity() {
         new EqualsIntegrityTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForEqualsIntegrityTest())
                                                   .addIncludedPropertyNames(getIncludesForEqualsIntegrityTest())
                                                   .addInstanceProviders(getInstanceProviders())
@@ -46,7 +46,7 @@ public abstract class JUnitBeast<T> {
     }
 
     @Test
-    public void testEqualsNullSafety() {
+    public void ensuresEqualsNullSafety() {
         new EqualsNullSafetyTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
                                                    .addInstanceProviders(getInstanceProviders())
                                                    .create()
@@ -54,7 +54,7 @@ public abstract class JUnitBeast<T> {
     }
 
     @Test
-    public void testHashCodeIntegrity() {
+    public void ensuresHashCodeIntegrity() {
         new HashCodeIntegrityTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForHashCodeIntegrityTest())
                                                     .addIncludedPropertyNames(getIncludesForHashCodeIntegrityTest())
                                                     .addInstanceProviders(getInstanceProviders())
@@ -63,15 +63,15 @@ public abstract class JUnitBeast<T> {
     }
 
     @Test
-    public void testHashCodeNullSafety() {
-        new HashCodeNullSafetyTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForEqualsNullSafetyTest())
+    public void ensuresHashCodeNullSafety() {
+        new HashCodeNullSafetyTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForHashCodeNullSafetyTest())
                                                      .addInstanceProviders(getInstanceProviders())
                                                      .create()
                                                      .run();
     }
 
     @Test
-    public void testToStringIntegrity() {
+    public void ensuresToStringIntegrity() {
         new ToStringIntegrityTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForToStringIntegrityTest())
                                                     .addIncludedPropertyNames(getIncludesForToStringIntegrityTest())
                                                     .addInstanceProviders(getInstanceProviders())
@@ -80,7 +80,7 @@ public abstract class JUnitBeast<T> {
     }
 
     @Test
-    public void testToStringNullSafety() {
+    public void ensuresToStringNullSafety() {
         new ToStringNullSafetyTestBuilder(getClazz()).addExcludedPropertyNames(getExcludesForToStringNullSafetyTest())
                                                      .addInstanceProviders(getInstanceProviders())
                                                      .create()
@@ -88,7 +88,7 @@ public abstract class JUnitBeast<T> {
     }
 
     @Test
-    public void testToStringFormat() {
+    public void ensuresToStringFormat() {
         new ToStringFormatTestBuilder(getClazz(), getToStringPattern()).addInstanceProviders(getInstanceProviders()).create().run();
     }
 
@@ -136,7 +136,6 @@ public abstract class JUnitBeast<T> {
 
     protected Pattern getToStringPattern() {
         // TODO does not reflect nested toString calls, e.g. for collections etc.
-//		return Pattern.compile(".+\\{(.+=.+, )*(.+=.+)?\\}");
         return Pattern.compile(".*");
     }
 }

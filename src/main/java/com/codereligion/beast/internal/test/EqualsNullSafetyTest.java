@@ -41,10 +41,9 @@ public final class EqualsNullSafetyTest extends AbstractNullSafetyTest {
      * @param beanClass             the {@link Class} to test
      * @param objectFactory         the {@link ObjectFactory} to use
      * @param excludedPropertyNames the names of the properties to exclude from the test
-     * @throws NullPointerException when any of the given parameters are {@code null}
+     * @throws IllegalArgumentException when any of the given parameters are {@code null} or when the given {@code beanClass} cannot be tested
      */
     public EqualsNullSafetyTest(final Class<?> beanClass, final ObjectFactory objectFactory, final Set<String> excludedPropertyNames) {
-
         super(beanClass, objectFactory, excludedPropertyNames);
     }
 

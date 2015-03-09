@@ -43,10 +43,9 @@ public final class ToStringIntegrityTest extends AbstractIntegrityTest {
      * @param beanClass         the {@link Class} to test
      * @param objectFactory     the {@link ObjectFactory} to use
      * @param integrityStrategy the {@link IntegrityStrategy} to use
-     * @throws NullPointerException when any of the given parameters are {@code null}
+     * @throws IllegalArgumentException when any of the given parameters are {@code null} or when the given {@code beanClass} cannot be tested
      */
     public ToStringIntegrityTest(final Class<?> beanClass, final ObjectFactory objectFactory, final IntegrityStrategy integrityStrategy) {
-
         super(beanClass, objectFactory, integrityStrategy);
     }
 

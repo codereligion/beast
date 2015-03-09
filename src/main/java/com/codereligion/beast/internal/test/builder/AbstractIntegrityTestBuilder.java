@@ -40,7 +40,7 @@ public abstract class AbstractIntegrityTestBuilder extends AbstractTestBuilder {
      *
      * @param beanClass the {@link Class} to generate the test for
      * @return the instance of the created test
-     * @throws NullPointerException when the given parameter is {@code null}
+     * @throws IllegalArgumentException when the given parameter is {@code null}
      */
     public AbstractIntegrityTestBuilder(final Class<?> beanClass) {
         super(beanClass);
