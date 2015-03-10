@@ -39,7 +39,6 @@ public abstract class AbstractIntegrityTestBuilder extends AbstractTestBuilder {
      * Creates the concrete {@link AbstractIntegrityTestBuilder} for the given {@code beanClass}.
      *
      * @param beanClass the {@link Class} to generate the test for
-     * @return the instance of the created test
      * @throws IllegalArgumentException when the given parameter is {@code null}
      */
     public AbstractIntegrityTestBuilder(final Class<?> beanClass) {
@@ -58,7 +57,7 @@ public abstract class AbstractIntegrityTestBuilder extends AbstractTestBuilder {
      * @param objectFactory     the {@link ObjectFactory} to use
      * @param integrityStrategy the {@link IntegrityStrategy} to use
      * @return a new instance of {@link Test}
-     * @throws NullPointerException when any of the given parameters are {@code null}
+     * @throws IllegalArgumentException when any of the given parameters are {@code null}
      */
     protected abstract Test createTest(Class<?> beanClass, ObjectFactory objectFactory, IntegrityStrategy integrityStrategy);
 

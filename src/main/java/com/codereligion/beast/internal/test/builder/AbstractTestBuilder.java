@@ -48,7 +48,6 @@ public abstract class AbstractTestBuilder {
      * Creates the concrete {@link AbstractTestBuilder} for the given {@code beanClass}.
      *
      * @param beanClass the {@link Class} to create the test for
-     * @return the instance of the created test
      * @throws IllegalArgumentException when the given parameter is {@code null}
      */
     public AbstractTestBuilder(final Class<?> beanClass) {

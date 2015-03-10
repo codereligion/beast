@@ -51,7 +51,7 @@ public abstract class AbstractNullSafetyTestBuilder extends AbstractTestBuilder 
      * @param objectFactory         the {@link ObjectFactory} to use
      * @param excludedPropertyNames the names of the properties to exclude from the test
      * @return the instance of the test
-     * @throws NullPointerException when any of the given parameters are {@code null}
+     * @throws IllegalArgumentException when any of the given parameters are {@code null}
      */
     protected abstract AbstractNullSafetyTest createTest(Class<?> beanClass, ObjectFactory objectFactory, Set<String> excludedPropertyNames);
 }
