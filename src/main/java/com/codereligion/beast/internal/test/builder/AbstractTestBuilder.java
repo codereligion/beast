@@ -80,12 +80,12 @@ public abstract class AbstractTestBuilder {
      *
      * @param instanceProvider the {@link InstanceProvider} to add
      * @return a reference of this instance
-     * @throws NullPointerException when the given parameter is {@code null}
+     * @throws IllegalArgumentException when the given parameter is {@code null}
      */
     public AbstractTestBuilder addInstanceProvider(final InstanceProvider instanceProvider) {
 
         if (instanceProvider == null) {
-            throw new NullPointerException("instanceProvider must not be null.");
+            throw new IllegalArgumentException("instanceProvider must not be null.");
         }
 
         this.instanceProviders.add(instanceProvider);
@@ -97,12 +97,12 @@ public abstract class AbstractTestBuilder {
      *
      * @param instanceProviders a {@link Set} of {@link InstanceProvider}s
      * @return a reference of this instance
-     * @throws NullPointerException when the given parameter is {@code null}
+     * @throws IllegalArgumentException when the given parameter is {@code null}
      */
     public AbstractTestBuilder addInstanceProviders(final Set<InstanceProvider> instanceProviders) {
 
         if (instanceProviders == null) {
-            throw new NullPointerException("instanceProviders must not be null.");
+            throw new IllegalArgumentException("instanceProviders must not be null.");
         }
 
         this.instanceProviders.addAll(instanceProviders);
@@ -114,12 +114,12 @@ public abstract class AbstractTestBuilder {
      *
      * @param propertyName the name of the property
      * @return a reference of this instance
-     * @throws NullPointerException when the given parameter is {@code null}
+     * @throws IllegalArgumentException when the given parameter is {@code null}
      */
     public AbstractTestBuilder addExcludedPropertyName(final String propertyName) {
 
         if (propertyName == null) {
-            throw new NullPointerException("propertyName must not be null.");
+            throw new IllegalArgumentException("propertyName must not be null.");
         }
 
         this.excludedPropertyNames.add(propertyName);
@@ -131,12 +131,12 @@ public abstract class AbstractTestBuilder {
      *
      * @param propertyNames the names of the properties
      * @return a reference of this instance
-     * @throws NullPointerException when the given parameter is {@code null}
+     * @throws IllegalArgumentException when the given parameter is {@code null}
      */
     public AbstractTestBuilder addExcludedPropertyNames(final Set<String> propertyNames) {
 
         if (propertyNames == null) {
-            throw new NullPointerException("propertyNames must not be null.");
+            throw new IllegalArgumentException("propertyNames must not be null.");
         }
 
         this.excludedPropertyNames.addAll(propertyNames);

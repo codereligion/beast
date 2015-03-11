@@ -146,13 +146,13 @@ public abstract class AbstractIntegrityTestBuilderTest extends AbstractTestBuild
         assertEquals(expected, builder.create());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void givenNullPropertyNameShouldThrowNpeWhenCallingAddIncludedPropertyName() {
         final AbstractIntegrityTestBuilder builder = createBuilder();
         builder.addIncludedPropertyName(null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void givenNullPropertyNamesShouldThrowNpeWhenCallingAddIncludedPropertyNames() {
         final AbstractIntegrityTestBuilder builder = createBuilder();
         builder.addIncludedPropertyNames(null);

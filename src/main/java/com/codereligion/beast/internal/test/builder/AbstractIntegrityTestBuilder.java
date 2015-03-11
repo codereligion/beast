@@ -100,13 +100,13 @@ public abstract class AbstractIntegrityTestBuilder extends AbstractTestBuilder {
      *
      * @param propertyName the name of the property
      * @return a reference of this instance
-     * @throws NullPointerException  when the given parameter is {@code null}
-     * @throws IllegalStateException when {@code excludedPropertyNames} have already been specified
+     * @throws IllegalArgumentException when the given parameter is {@code null}
+     * @throws IllegalStateException    when {@code excludedPropertyNames} have already been specified
      */
     public AbstractIntegrityTestBuilder addIncludedPropertyName(final String propertyName) {
 
         if (propertyName == null) {
-            throw new NullPointerException("propertyName must not be null.");
+            throw new IllegalArgumentException("propertyName must not be null.");
         }
 
         if (!this.excludedPropertyNames.isEmpty()) {
@@ -122,13 +122,13 @@ public abstract class AbstractIntegrityTestBuilder extends AbstractTestBuilder {
      *
      * @param propertyNames the names of the properties
      * @return a reference of this instance
-     * @throws NullPointerException  when the given parameter is {@code null}
-     * @throws IllegalStateException when {@code excludedPropertyNames} have already been specified
+     * @throws IllegalArgumentException when the given parameter is {@code null}
+     * @throws IllegalStateException    when {@code excludedPropertyNames} have already been specified
      */
     public AbstractIntegrityTestBuilder addIncludedPropertyNames(final Set<String> propertyNames) {
 
         if (propertyNames == null) {
-            throw new NullPointerException("propertyNames must not be null.");
+            throw new IllegalArgumentException("propertyNames must not be null.");
         }
 
         if (!this.excludedPropertyNames.isEmpty()) {

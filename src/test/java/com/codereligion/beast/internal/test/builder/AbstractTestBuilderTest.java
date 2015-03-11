@@ -53,25 +53,25 @@ public abstract class AbstractTestBuilderTest {
         createBuilder(null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void givenNullPropertyNameShouldThrowNpeWhenCallingAddExcludedPropertyName() {
         final AbstractTestBuilder builder = createBuilder();
         builder.addExcludedPropertyName(null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void givenNullPropertyNamesShouldThrowNpeWhenCallingAddExcludedPropertyNames() {
         final AbstractTestBuilder builder = createBuilder();
         builder.addExcludedPropertyNames(null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void givenNullInstanceProviderShouldThrowNpeWhenCallingAddInstanceProvider() {
         final AbstractTestBuilder builder = createBuilder();
         builder.addInstanceProvider(null);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void givenNullInstanceProvidersShouldThrowNpeWhenCallingAddInstanceProviders() {
         final AbstractTestBuilder builder = createBuilder();
         builder.addInstanceProviders(null);
