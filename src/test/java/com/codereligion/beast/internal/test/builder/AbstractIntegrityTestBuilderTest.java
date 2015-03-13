@@ -84,7 +84,7 @@ public abstract class AbstractIntegrityTestBuilderTest extends AbstractTestBuild
     }
 
     @Test
-    public void givenNoIncludesAndNoExcludesShouldResultInTakingExcludeStrategyAsDefaultWhenCallingCreateIntegrityStrategy() {
+    public void noIncludesAndNoExcludesResultsInTakingExcludeStrategyAsDefaultWhenCallingCreateIntegrityStrategy() {
         final ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider>emptySet());
         final IntegrityStrategy integrityStrategy = createIntegrityExcludeStrategy();
 
@@ -95,7 +95,7 @@ public abstract class AbstractIntegrityTestBuilderTest extends AbstractTestBuild
     }
 
     @Test
-    public void givenIncludedPropertyNamesShouldResultInTakingIncludeStrategyWhenCallingCreateIntegrityStrategy() {
+    public void providingIncludedPropertyNamesResultsInTakingIncludeStrategyWhenCallingCreateIntegrityStrategy() {
         final ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider>emptySet());
         final Set<String> propertyNames = Collections.singleton("propertyName");
         final IntegrityStrategy integrityStrategy = createIntegrityIncludeStrategy(propertyNames);
@@ -108,7 +108,7 @@ public abstract class AbstractIntegrityTestBuilderTest extends AbstractTestBuild
     }
 
     @Test
-    public void givenExcludedPropertyNamesShouldResultInTakingExcludeStrategyWhenCallingCreateIntegrityStrategy() {
+    public void providingExcludedPropertyNamesResultsInTakingExcludeStrategyWhenCallingCreateIntegrityStrategy() {
         final ObjectFactory objectFactory = new ObjectFactory(Collections.<InstanceProvider>emptySet());
         final Set<String> propertyNames = Collections.singleton("propertyName");
         final IntegrityStrategy integrityStrategy = createIntegrityExcludeStrategy(propertyNames);
